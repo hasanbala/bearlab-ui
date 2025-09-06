@@ -1,0 +1,28 @@
+{
+  "name": "@bearlab/hooks",
+  "version": "1.0.0",
+  "description": "Bearlab UI Hooks - Custom React hooks for better UX and performance",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "PACKAGE_NAME=hooks cd ../../ rollup -c tools/rollup.config.component.js",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "custom-hooks",
+    "ui",
+    "bearlab"
+  ],
+  "author": "bearlab",
+  "license": "MIT"
+}

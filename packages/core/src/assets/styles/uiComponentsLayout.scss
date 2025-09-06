@@ -1,0 +1,12 @@
+@use "./variables.scss";
+
+@mixin error {
+  border-color: variables.$red-70 !important;
+  box-shadow: 0 0 0 3px variables.$red-80 !important;
+
+  &:focus {
+    outline: none;
+    border-color: variables.$red-70 !important;
+    box-shadow: 0 0 0 3px variables.$red-80 !important;
+  }
+}

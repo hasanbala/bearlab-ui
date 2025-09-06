@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "module": "esnext",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@bearlab/core": ["./packages/core/src"],
+      "@bearlab/view-error": ["./packages/view-error/src"],
+      "@bearlab/button": ["./packages/button/src"],
+      "@bearlab/badge": ["./packages/badge/src"],
+      "@bearlab/textarea": ["./packages/textarea/src"],
+      "@bearlab/hooks": ["./packages/hooks/src"]
+    }
+  },
+  "include": ["packages/*/src/**/*"],
+  "exclude": ["node_modules", "**/dist", "**/*.test.ts", "**/*.test.tsx"]
+}

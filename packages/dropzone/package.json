@@ -1,0 +1,33 @@
+{
+  "name": "@bearlab/dropzone",
+  "version": "1.0.0",
+  "description": "Bearlab UI Dropzone Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "PACKAGE_NAME=dropzone cd ../../ rollup -c tools/rollup.config.component.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bearlab/core": "^1.0.0",
+    "@bearlab/button": "^1.0.0",
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "dropzone",
+    "component",
+    "bearlab"
+  ],
+  "author": "bearlab",
+  "license": "MIT"
+}

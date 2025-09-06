@@ -1,0 +1,6 @@
+@use "../../assets/styles/variables.scss";
+
+@mixin privatePageLayout {
+  display: grid; // TODO X
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}

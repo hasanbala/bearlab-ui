@@ -1,0 +1,80 @@
+@use "../../core/src/assets/styles/variables.scss";
+@use "../../core/src/assets/styles/uiComponentsLayout.scss" as
+  uiComponentsLayout;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .label {
+    color: variables.$gray-610;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+
+  .textareaWrapper {
+    position: relative;
+
+    textarea {
+      width: 100%;
+      border-radius: 8px;
+      outline: none;
+      resize: none;
+      border: 1px solid variables.$gray-630;
+      appearance: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      background-color: transparent;
+      color: variables.$black-330;
+      box-shadow: 0 1px 2px 0 variables.$black-30;
+
+      &::placeholder {
+        color: variables.$blue-190;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: variables.$blue-50;
+        box-shadow: 0 0 0 3px variables.$blue-60;
+      }
+    }
+
+    .error {
+      @include uiComponentsLayout.error;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .container {
+  .label {
+    color: variables.$gray-600;
+  }
+
+  .textareaWrapper {
+    textarea {
+      background-color: variables.$black-320;
+      color: variables.$gray-10;
+      border: 1px solid variables.$gray-590;
+
+      &::placeholder {
+        color: variables.$gray-30;
+      }
+
+      &:focus {
+        border-color: variables.$blue-70;
+      }
+    }
+  }
+}

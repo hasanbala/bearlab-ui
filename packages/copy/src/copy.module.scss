@@ -1,0 +1,40 @@
+@use "../../core/src/assets/styles/variables.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  button {
+    width: fit-content;
+  }
+
+  .text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 14px;
+    padding: 0px 12px;
+    color: variables.$black-330;
+    box-shadow: 0 1px 2px 0 variables.$black-30;
+    border: 1px solid variables.$gray-630;
+    height: 44px;
+    border-radius: 8px;
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+html[data-theme="dark"] .container {
+  .text {
+    background-color: variables.$black-320;
+    color: variables.$gray-10;
+    border: 1px solid variables.$gray-590;
+  }
+}

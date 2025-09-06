@@ -1,0 +1,57 @@
+@use "./variables.scss";
+
+@mixin publicPageLayoutLight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 0%;
+  width: 100%;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+
+  form {
+    & > div {
+      margin-bottom: 25px;
+    }
+  }
+
+  .navigation {
+    margin-top: 20px;
+
+    p {
+      font-size: 14px;
+      text-align: center;
+      color: variables.$gray-70;
+
+      span {
+        color: variables.$blue-20;
+        cursor: pointer;
+
+        &:hover {
+          color: variables.$blue-130;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navigation {
+      p {
+        text-align: left;
+      }
+    }
+  }
+}
+
+@mixin publicPageLayoutDark {
+  .navigation {
+    p {
+      color: variables.$gray-60;
+
+      span {
+        color: variables.$blue-260;
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": "independent",
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "conventionalCommits": false,
+      "message": "chore(release): publish",
+      "access": "public"
+    }
+  },
+  "packages": ["packages/*"]
+}

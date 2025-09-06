@@ -1,0 +1,39 @@
+{
+  "name": "@bearlab/core",
+  "version": "1.0.0",
+  "description": "Bearlab UI Core - Icons, themes and shared components",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist",
+    "src/assets"
+  ],
+  "scripts": {
+    "build": "cd ../../ && rollup -c tools/rollup.config.core.js",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "icons",
+    "bearlab"
+  ],
+  "author": "bearlab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bearlab/ui-components.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/bearlab/ui-components#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

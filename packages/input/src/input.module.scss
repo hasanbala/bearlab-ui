@@ -1,0 +1,213 @@
+@use "../../core/src/assets/styles/variables.scss";
+@use "../../core/src/assets/styles/uiComponentsLayout.scss" as
+  uiComponentsLayout;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .label {
+    color: variables.$gray-610;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+
+  .inputWrapper {
+    position: relative;
+
+    input {
+      width: 100%;
+      height: 44px;
+      border-radius: 8px;
+      border: 1px solid variables.$gray-630;
+      appearance: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      background-color: transparent;
+      color: variables.$black-330;
+      box-shadow: 0 1px 2px 0 variables.$black-30;
+
+      &::placeholder {
+        color: variables.$blue-190;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: variables.$blue-50;
+        box-shadow: 0 0 0 3px variables.$blue-60;
+      }
+    }
+
+    .error {
+      @include uiComponentsLayout.error;
+
+      ~ .beforeIcon {
+        border-right-color: variables.$red-70;
+      }
+
+      ~ .afterIcon {
+        border-left-color: variables.$red-70;
+      }
+    }
+  }
+
+  .existSearchInput {
+    padding-right: 50px !important;
+  }
+
+  .existPasswordInput {
+    padding-right: 50px !important;
+
+    & ~ .password {
+      right: 20px;
+    }
+  }
+
+  .existCopyInput {
+    padding-right: 70px !important;
+
+    & ~ .password {
+      right: 24px !important;
+    }
+  }
+
+  .password {
+    position: absolute;
+    right: 24px;
+    top: 11px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0px !important;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .searchIcon {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: 20px;
+    top: 13px;
+    cursor: pointer;
+  }
+
+  .withIcon {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    height: 44px;
+    width: 52px;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .beforeIcon {
+    left: 0;
+    border-right: 1px solid variables.$gray-570;
+    padding: 0px 1px 0px 3px;
+
+    ~ input {
+      padding-left: 60px;
+    }
+  }
+
+  .afterIcon {
+    right: 0;
+    border-left: 1px solid variables.$gray-570;
+    padding: 0px 2px;
+
+    ~ input {
+      padding-right: 60px;
+    }
+  }
+
+  .copy {
+    cursor: pointer;
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .container {
+  .label {
+    color: variables.$gray-600;
+  }
+
+  .inputWrapper {
+    input {
+      background-color: variables.$black-320;
+      color: variables.$gray-10;
+      border: 1px solid variables.$gray-590;
+
+      &::placeholder {
+        color: variables.$gray-30;
+      }
+
+      &:focus {
+        border-color: variables.$blue-70;
+      }
+    }
+  }
+
+  .withIcon {
+    color: variables.$gray-600;
+  }
+
+  .beforeIcon {
+    border-right-color: variables.$gray-590;
+  }
+
+  .afterIcon {
+    border-left-color: variables.$gray-590;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    .label {
+      svg {
+        display: none;
+      }
+
+      .title {
+        label {
+          margin-bottom: 4px;
+        }
+
+        .popover {
+          visibility: hidden !important;
+          opacity: 0 !important;
+        }
+
+        .popoverMobile {
+          display: block;
+        }
+      }
+    }
+  }
+}

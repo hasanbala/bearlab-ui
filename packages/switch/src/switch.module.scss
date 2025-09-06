@@ -1,0 +1,114 @@
+@use "../../../assets/styles/variables.scss";
+
+.container {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: variables.$gray-590;
+
+  &:hover {
+    .popover {
+      display: block;
+    }
+  }
+
+  .switchWrapper {
+    position: relative;
+
+    input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .slider {
+      display: flex;
+      align-items: center;
+      width: 40px;
+      height: 20px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      position: relative;
+
+      .toggle {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+      }
+
+      .toggleActive {
+        transform: translateX(21px);
+        background-color: variables.$white;
+      }
+
+      .toggleInactive {
+        transform: translateX(1px);
+        background-color: variables.$white;
+      }
+    }
+
+    .checked {
+      background-color: variables.$blue-20;
+      border: 1px solid variables.$blue-20;
+    }
+
+    .unchecked {
+      background-color: variables.$gray-630;
+      border: 1px solid variables.$gray-630;
+    }
+
+    .sliderDisabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .popover {
+      left: -14px;
+    }
+  }
+
+  .label {
+    font-size: 14px;
+    color: variables.$gray-610;
+    font-weight: 600;
+    width: max-content;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .container {
+  color: variables.$gray-60;
+
+  .switchWrapper {
+    .unchecked {
+      background-color: variables.$gray-590;
+      border-color: variables.$gray-590;
+    }
+  }
+
+  .label {
+    color: variables.$gray-600;
+  }
+}

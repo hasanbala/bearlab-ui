@@ -1,0 +1,16 @@
+@use "../../core//src/assets/styles/variables.scss";
+
+.container {
+  position: absolute;
+  display: none;
+  background-color: variables.$white;
+  border-radius: 8px;
+  padding: 12px;
+  color: variables.$gray-610;
+  z-index: variables.$z-index-component-popover;
+  font-weight: 500;
+  font-size: 13px;
+  box-shadow: variables.$box-shadow-200;
+  width: max-content;
+  top: -45px;
+}

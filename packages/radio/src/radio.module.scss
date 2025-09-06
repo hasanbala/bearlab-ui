@@ -1,0 +1,120 @@
+@use "../../core/src/assets/styles/variables.scss";
+
+.container {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: variables.$gray-590;
+
+  &:hover {
+    .popover {
+      display: block;
+    }
+  }
+
+  .label {
+    color: variables.$gray-610;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: fit-content;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+
+  .radioWrapper {
+    input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .checkedWrapper {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1.25px solid;
+
+      .innerDot {
+        width: 8px;
+        height: 8px;
+        border-radius: 9999px;
+        background-color: variables.$white;
+      }
+
+      .visible {
+        display: block;
+      }
+
+      .hidden {
+        display: none;
+      }
+    }
+
+    .checked {
+      border-color: variables.$blue-20;
+      background-color: variables.$blue-20;
+    }
+
+    .unchecked {
+      background-color: transparent;
+      border-color: variables.$gray-630;
+    }
+
+    .checkedDisabled {
+      background-color: variables.$gray-580;
+      border-color: variables.$gray-570;
+    }
+  }
+}
+
+.radioGroup {
+  display: flex;
+  gap: 10px;
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .container {
+  .label {
+    color: variables.$gray-600;
+  }
+
+  ~ .disabled {
+    color: variables.$gray-70;
+  }
+
+  .radioWrapper {
+    .unchecked {
+      border-color: variables.$gray-590;
+    }
+
+    .checkedDisabled {
+      background-color: variables.$gray-590;
+      border-color: variables.$gray-590;
+    }
+  }
+}

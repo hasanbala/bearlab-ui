@@ -1,0 +1,114 @@
+@use "../../core/src/assets/styles/variables.scss";
+
+.container {
+  .content {
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    background-color: variables.$gray-50;
+    transition: all 150ms ease;
+    border: 1px dashed variables.$gray-630;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      border-color: variables.$blue-90 !important;
+    }
+
+    input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 9999px;
+      background-color: variables.$gray-80;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      .title {
+        color: variables.$black-10;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .subTitle {
+        color: variables.$gray-610;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .link {
+        text-decoration: underline !important;
+        color: variables.$blue-20;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .dragging {
+    background-color: variables.$gray-590;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+
+    .addedItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      gap: 10px;
+    }
+  }
+
+  .disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    pointer-events: none;
+  }
+}
+
+html[data-theme="dark"] .container {
+  .content {
+    background-color: variables.$black-340;
+    border-color: variables.$gray-610;
+
+    .icon {
+      background-color: variables.$black-10;
+    }
+
+    .description {
+      .title {
+        color: var(--theme-color);
+      }
+
+      .subTitle {
+        color: variables.$blue-190;
+      }
+    }
+  }
+}

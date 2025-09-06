@@ -1,0 +1,134 @@
+@use "../../core/src/assets/styles/variables.scss";
+@use "../../core/src/assets/styles/uiComponentsLayout.scss" as
+  uiComponentsLayout;
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    color: variables.$gray-610;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+
+  .selectWrapper {
+    position: relative;
+
+    .select {
+      height: 44px;
+      width: 100%;
+      appearance: none;
+      border-radius: 8px;
+      border: 1px solid variables.$gray-630;
+      background-color: transparent;
+      padding-left: 16px;
+      padding-right: 44px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 14px;
+      box-shadow: 0 1px 2px 0 variables.$black-50;
+      color: inherit;
+
+      &::placeholder {
+        color: variables.$gray-60;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: variables.$blue-50;
+        box-shadow: 0 0 0 3px variables.$blue-60;
+      }
+
+      .firstOption {
+        color: variables.$gray-590;
+      }
+
+      .otherOptions {
+        color: variables.$gray-590;
+      }
+    }
+
+    .activeSelected {
+      color: variables.$black-330;
+    }
+
+    .passiveSelected {
+      color: variables.$gray-60;
+    }
+
+    .chevronIcon {
+      position: absolute;
+      transform: translateY(-50%);
+      pointer-events: none;
+      right: 12px;
+      top: 50%;
+
+      svg {
+        color: variables.$gray-560;
+      }
+    }
+
+    .error {
+      @include uiComponentsLayout.error;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+
+  select {
+    cursor: not-allowed;
+  }
+}
+
+html[data-theme="dark"] .container {
+  .selectWrapper {
+    .chevronIcon {
+      svg {
+        color: variables.$gray-60;
+      }
+    }
+
+    .select {
+      border-color: variables.$gray-590;
+      background-color: variables.$black-320;
+      color: variables.$gray-10;
+
+      &::placeholder {
+        color: variables.$gray-30;
+      }
+
+      &:focus {
+        border-color: variables.$blue-70;
+        background-color: variables.$black-60;
+      }
+
+      .firstOption {
+        background-color: variables.$black-320;
+        color: variables.$gray-60;
+      }
+
+      .otherOptions {
+        background-color: variables.$black-320;
+        color: variables.$gray-60;
+      }
+    }
+
+    .activeSelected {
+      color: variables.$gray-10;
+    }
+  }
+
+  .label {
+    color: variables.$gray-600;
+  }
+}

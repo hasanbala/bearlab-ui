@@ -1,0 +1,105 @@
+@use "../../core/src/assets/styles/variables.scss";
+@use "../../core/src/assets/styles/uiComponentsLayout.scss" as
+  uiComponentsLayout;
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    color: variables.$gray-610;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+
+    span {
+      color: variables.$red-110;
+    }
+  }
+
+  .inputWrapper {
+    position: relative;
+
+    input {
+      height: 44px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid variables.$gray-630;
+      background-color: transparent;
+      font-size: 14px;
+      color: variables.$gray-40;
+      box-shadow: 0 1px 2px 0 variables.$black-30;
+      transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+      cursor: pointer;
+
+      &::placeholder {
+        color: variables.$blue-190;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: variables.$blue-50;
+        box-shadow: 0 0 0 3px variables.$blue-60;
+      }
+
+      &::file-selector-button {
+        margin-right: 20px;
+        cursor: pointer;
+        border-collapse: collapse;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        border: 0;
+        border-right: 1px solid variables.$gray-570;
+        background-color: variables.$gray-50;
+        padding: 13px 12px 13px 14px;
+        font: inherit;
+        font-feature-settings: inherit;
+        font-variation-settings: inherit;
+        letter-spacing: inherit;
+        font-size: 14px;
+        color: variables.$gray-590;
+
+        &:hover {
+          background-color: variables.$gray-580;
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 3px variables.$blue-80;
+        }
+      }
+    }
+
+    .error {
+      @include uiComponentsLayout.error;
+    }
+  }
+}
+
+html[data-theme="dark"] .container {
+  .label {
+    color: variables.$gray-600;
+  }
+
+  .inputWrapper {
+    input {
+      border: 1px solid variables.$gray-590;
+      background-color: variables.$black-320;
+      color: variables.$gray-60;
+
+      &::placeholder {
+        color: variables.$gray-60;
+      }
+
+      &::file-selector-button {
+        border-right: 1px solid variables.$black-330;
+        background-color: variables.$black-40;
+        color: variables.$gray-60;
+
+        &:hover {
+          background-color: variables.$black-20;
+        }
+      }
+    }
+  }
+}

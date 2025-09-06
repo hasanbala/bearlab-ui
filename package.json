@@ -1,0 +1,57 @@
+{
+  "name": "@bearlab/ui-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bearlab UI Component Library Workspace",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "lerna": "^8.2.3",
+    "rollup": "^4.49.0",
+    "rollup-plugin-dts": "^6.2.3",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.91.0",
+    "typescript": "^5.9.2"
+  },
+  "scripts": {
+    "bootstrap": "npm install",
+    "install:all": "npm install && npm run build:core",
+    "build": "lerna run build --stream",
+    "build:all": "npm run build:core && npm run build",
+    "build:core": "lerna run build --scope=@bearlab/core",
+    "build:button": "lerna run build --scope=@bearlab/button",
+    "build:badge": "lerna run build --scope=@bearlab/badge",
+    "build:checkbox": "lerna run build --scope=@bearlab/checkbox",
+    "build:copy": "lerna run build --scope=@bearlab/copy",
+    "build:dropdown": "lerna run build --scope=@bearlab/dropdown",
+    "build:dropzone": "lerna run build --scope=@bearlab/dropzone",
+    "build:file-input": "lerna run build --scope=@bearlab/file-input",
+    "build:go-back": "lerna run build --scope=@bearlab/go-back",
+    "build:input": "lerna run build --scope=@bearlab/input",
+    "build:loading": "lerna run build --scope=@bearlab/loading",
+    "build:otp-form": "lerna run build --scope=@bearlab/otp-form",
+    "build:radio": "lerna run build --scope=@bearlab/radio",
+    "build:select": "lerna run build --scope=@bearlab/select",
+    "build:skeleton": "lerna run build --scope=@bearlab/skeleton",
+    "build:switch": "lerna run build --scope=@bearlab/switch",
+    "build:table": "lerna run build --scope=@bearlab/table",
+    "build:textarea": "lerna run build --scope=@bearlab/textarea",
+    "build:view-card": "lerna run build --scope=@bearlab/view-card",
+    "build:view-error": "lerna run build --scope=@bearlab/view-error",
+    "clean": "lerna run clean",
+    "version": "lerna version",
+    "test": "lerna run test",
+    "publish": "lerna publish",
+    "publish:all": "./publish.sh"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
