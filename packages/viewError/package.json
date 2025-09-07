@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "PACKAGE_NAME=viewError cd ../../ rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ PACKAGE_NAME=viewError rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {

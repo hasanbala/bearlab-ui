@@ -22,6 +22,8 @@
   "scripts": {
     "bootstrap": "npm install",
     "install:all": "npm install && npm run build:core",
+    "clean": "lerna run clean",
+    "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
     "build": "lerna run build --stream",
     "build:all": "npm run build:core && npm run build",
     "build:core": "lerna run build --scope=@bearlab/core",
@@ -44,11 +46,17 @@
     "build:textarea": "lerna run build --scope=@bearlab/textarea",
     "build:view-card": "lerna run build --scope=@bearlab/view-card",
     "build:view-error": "lerna run build --scope=@bearlab/view-error",
-    "clean": "lerna run clean",
     "release": "lerna publish",
-    "version": "lerna version",
+    "version": "lerna version --conventional-commits --create-release github",
+    "version:patch": "lerna version patch --conventional-commits",
+    "version:minor": "lerna version minor --conventional-commits",
+    "version:major": "lerna version major --conventional-commits",
+    "publish:ci": "lerna publish from-git --yes",
+    "publish:all": "npm run build:all && ./scripts/publish.sh",
+    "publish:changed": "npm run build:all && lerna publish --conventional-commits",
     "test": "lerna run test",
-    "publish:all": "./publish.sh"
+    "lint": "lerna run lint",
+    "format": "lerna run format"
   },
   "engines": {
     "node": ">=16.0.0",

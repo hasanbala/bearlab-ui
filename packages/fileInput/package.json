@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "PACKAGE_NAME=fileInput cd ../../ rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ PACKAGE_NAME=fileInput rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {

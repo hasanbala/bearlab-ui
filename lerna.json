@@ -3,9 +3,30 @@
   "npmClient": "npm",
   "command": {
     "publish": {
-      "conventionalCommits": false,
-      "message": "chore(release): publish",
-      "access": "public"
+      "conventionalCommits": true,
+      "message": "chore(release): publish packages",
+      "access": "public",
+      "registry": "https://registry.npmjs.org/",
+      "ignoreChanges": [
+        "**/*.md",
+        "**/test/**",
+        "**/tests/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/stories/**",
+        "**/*.stories.*"
+      ]
+    },
+    "version": {
+      "allowBranch": ["main", "master", "release/*"],
+      "conventionalCommits": true,
+      "message": "chore(release): version packages",
+      "push": true,
+      "createRelease": "github"
+    },
+    "bootstrap": {
+      "hoist": false,
+      "npmClientArgs": ["--no-package-lock"]
     }
   },
   "packages": ["packages/*"]

@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "PACKAGE_NAME=badge cd ../../ rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ PACKAGE_NAME=badge rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {

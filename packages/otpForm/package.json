@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "PACKAGE_NAME=otpForm cd ../../ rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ PACKAGE_NAME=otpForm rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {

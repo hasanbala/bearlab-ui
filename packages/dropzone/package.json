@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "PACKAGE_NAME=dropzone cd ../../ rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ PACKAGE_NAME=dropzone rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
