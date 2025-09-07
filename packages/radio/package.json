@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ PACKAGE_NAME=radio rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=radio rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
