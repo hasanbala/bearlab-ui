@@ -45,9 +45,9 @@
     "build:view-card": "lerna run build --scope=@bearlab/view-card",
     "build:view-error": "lerna run build --scope=@bearlab/view-error",
     "clean": "lerna run clean",
+    "release": "lerna publish",
     "version": "lerna version",
     "test": "lerna run test",
-    "publish": "lerna publish",
     "publish:all": "./publish.sh"
   },
   "engines": {
