@@ -189,3 +189,4 @@ Scriptlerinize execute permission vermeniz gerekiyor: chmod +x scripts/\*.sh
 
 Hangi paketlerin local'de version'u var ama npm'de yok kontrol et: npx lerna exec --scope=@bearlab/hooks -- npm view . version
 Hooks paketinin local version'unu kontrol et: cat packages/hooks/package.json | grep version
+hooks paketinin version'u artmış ama aslında npm'de publish edilmemiş. Bu durumda from-package kullanmanız gerekiyor.: npx lerna publish from-package --yes
