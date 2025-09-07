@@ -51,7 +51,6 @@
     "build:view-card": "lerna run build --scope=@bearlab/view-card",
     "build:view-error": "lerna run build --scope=@bearlab/view-error",
     "release": "lerna publish",
-    "version": "lerna version --conventional-commits --create-release github",
     "version:patch": "lerna version patch --conventional-commits",
     "version:minor": "lerna version minor --conventional-commits",
     "version:major": "lerna version major --conventional-commits",
