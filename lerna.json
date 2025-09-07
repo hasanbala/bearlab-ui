@@ -21,8 +21,7 @@
       "allowBranch": ["main", "master", "release/*"],
       "conventionalCommits": true,
       "message": "chore(release): version packages",
-      "push": true,
-      "createRelease": "github"
+      "push": true
     },
     "bootstrap": {
       "hoist": false,
