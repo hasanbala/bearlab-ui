@@ -25,14 +25,14 @@
     "icons",
     "bearlab"
   ],
-  "author": "bearlab",
+  "author": "hasanbala",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bearlab/ui-components.git",
+    "url": "https://github.com/hasanbala/ui-components.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/bearlab/ui-components#readme",
+  "homepage": "https://github.com/hasanbala/ui-components#readme",
   "publishConfig": {
     "access": "public"
   }

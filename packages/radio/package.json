@@ -28,6 +28,15 @@
     "component",
     "bearlab"
   ],
-  "author": "bearlab",
-  "license": "MIT"
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/ui-components.git",
+    "directory": "packages/radio"
+  },
+  "homepage": "https://github.com/hasanbala/ui-components#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
