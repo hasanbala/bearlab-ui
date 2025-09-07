@@ -73,6 +73,7 @@ declare -a packages=(
     "dropzone"
     "file-input"
     "go-back"
+    "hooks"
     "input"
     "loading"
     "otp-form"

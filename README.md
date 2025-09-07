@@ -185,4 +185,7 @@ npm run publish:ci      # CI/CD ortamı için tasarlanmış, manuel kullanım i�
 
 💡 **İpucu:** Geliştirme sırasında `npm run build:all` komutunu kullanarak tüm paketlerinizin düzgün build olduğunu kontrol edin. Publish etmeden önce mutlaka test edin!
 
-chmod +x scripts/\*.sh
+Scriptlerinize execute permission vermeniz gerekiyor: chmod +x scripts/\*.sh
+
+Hangi paketlerin local'de version'u var ama npm'de yok kontrol et: npx lerna exec --scope=@bearlab/hooks -- npm view . version
+Hooks paketinin local version'unu kontrol et: cat packages/hooks/package.json | grep version

@@ -39,6 +39,7 @@
     "build:dropzone": "lerna run build --scope=@bearlab/dropzone",
     "build:file-input": "lerna run build --scope=@bearlab/file-input",
     "build:go-back": "lerna run build --scope=@bearlab/go-back",
+    "build:hooks": "lerna run build --scope=@bearlab/hooks",
     "build:input": "lerna run build --scope=@bearlab/input",
     "build:loading": "lerna run build --scope=@bearlab/loading",
     "build:otp-form": "lerna run build --scope=@bearlab/otp-form",
