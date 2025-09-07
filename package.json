@@ -54,6 +54,7 @@
     "publish:ci": "lerna publish from-git --yes",
     "publish:all": "npm run build:all && ./scripts/publish.sh",
     "publish:changed": "npm run build:all && lerna publish --conventional-commits",
+    "publish:quick": "npm run build:all && ./scripts/quick-publish.sh -v patch",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "format": "lerna run format"
