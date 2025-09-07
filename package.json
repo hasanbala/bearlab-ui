@@ -22,11 +22,15 @@
   "scripts": {
     "bootstrap": "npm install",
     "install:all": "npm install && npm run build:core",
-    "clean": "lerna run clean",
+    "clean": "lerna run clean --parallel",
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
     "build": "lerna run build --stream",
     "build:all": "npm run build:core && npm run build",
     "build:core": "lerna run build --scope=@bearlab/core",
+    "build:components": "lerna run build --ignore=@bearlab/core --stream",
+    "build:clean": "./scripts/build.sh --clean",
+    "build:parallel": "./scripts/build.sh --parallel",
+    "build:selective": "./scripts/build.sh",
     "build:button": "lerna run build --scope=@bearlab/button",
     "build:badge": "lerna run build --scope=@bearlab/badge",
     "build:checkbox": "lerna run build --scope=@bearlab/checkbox",
@@ -55,9 +59,9 @@
     "publish:all": "npm run build:all && ./scripts/publish.sh",
     "publish:changed": "npm run build:all && lerna publish --conventional-commits",
     "publish:quick": "npm run build:all && ./scripts/quick-publish.sh -v patch",
-    "test": "lerna run test",
-    "lint": "lerna run lint",
-    "format": "lerna run format"
+    "test": "lerna run test --parallel",
+    "lint": "lerna run lint --parallel",
+    "format": "lerna run format --parallel"
   },
   "engines": {
     "node": ">=16.0.0",
