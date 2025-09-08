@@ -24,6 +24,8 @@ export { EyesOpen } from "./shared";
 export { IconLoading } from "./shared";
 export { IconEmpty } from "./shared";
 export { IconError2 } from "./shared";
+export { IconDocument } from "./shared";
+export { IconLoading2 } from "./shared";
 
 // Constants & Types
 export * from "./constants/permissions";
