@@ -21,7 +21,6 @@ export { IconDisabled } from "./shared";
 export { IconUpload } from "./shared";
 export { EyesClose } from "./shared";
 export { EyesOpen } from "./shared";
-export { SearchIcon } from "./shared";
 export { IconLoading } from "./shared";
 export { IconEmpty } from "./shared";
 export { IconError2 } from "./shared";

@@ -5,7 +5,7 @@ import {
   EyesOpen,
   IconCopy,
   IconTick,
-  SearchIcon,
+  IconSearch,
 } from "@bearlab/core";
 import { ViewError } from "@bearlab/view-error";
 import styles from "./input.module.scss";
@@ -121,7 +121,7 @@ export const Input = (props: Props) => {
           </div>
         )}
         {isExistSearch && (
-          <SearchIcon className={styles.searchIcon} onClick={onClick} />
+          <IconSearch className={styles.searchIcon} onClick={onClick} />
         )}
         {error && <ViewError label={error} />}
       </div>
