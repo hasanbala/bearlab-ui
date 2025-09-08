@@ -11,7 +11,7 @@
     width: 24px;
     overflow: hidden;
     position: relative;
-    z-index: variables.$z-index-loading;
+    z-index: 10003;
     animation: spin 1s linear infinite;
     -webkit-animation: 1s spin linear infinite;
 

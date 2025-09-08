@@ -7,7 +7,7 @@
   border-radius: 8px;
   padding: 12px;
   color: variables.$gray-610;
-  z-index: variables.$z-index-component-popover;
+  z-index: 9999;
   font-weight: 500;
   font-size: 13px;
   box-shadow: variables.$box-shadow-200;

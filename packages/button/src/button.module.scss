@@ -50,7 +50,7 @@
     width: 20px;
     overflow: hidden;
     position: relative;
-    z-index: variables.$z-index-progress;
+    z-index: 2;
 
     svg {
       animation: spin 1s linear infinite;

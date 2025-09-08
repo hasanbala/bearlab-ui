@@ -1,28 +1,5 @@
-:root {
-  transition: background-color 0.3s ease;
-  --sidemenu-minimize-opacity: 0;
-  --sidemenu-minimize-width: 270px;
-  --sidemenu-minimize-sublist-height: 0px;
-  --sidemenu-transition: 0.3s ease-in-out;
-}
-
 :root[data-theme="light"] {
-  --content-background: #f9fafb;
-  --header-background: #fff;
-  --sidemenu-background: #fff;
-  --sidemenu-color: #101828;
-  --sidemenu-border-color: #e4e7ec;
-  --sidemenu-link-active-background: #ecf3ff;
-  --sidemenu-link-active-color: #465fff;
-  --sidemenu-link-hover: #f2f4f7;
-  --sidemenu-sublink-background: #f9fbff;
-  --sidemenu-icon-active-color: brightness(0) saturate(100%) invert(36%)
-    sepia(42%) saturate(6694%) hue-rotate(226deg) brightness(101%)
-    contrast(106%); // #465fff
-  --sidemenu-icon-color: brightness(0) saturate(100%) invert(46%) sepia(14%)
-    saturate(610%) hue-rotate(183deg) brightness(90%) contrast(84%); //#667085
   --theme-color: #1d2939;
-  --sidemenu-seperate-column-line-color: #677085;
   --skeleton-bg: #e4e7ec;
   --skeleton-shimmer: linear-gradient(
     90deg,
@@ -37,26 +14,7 @@
 }
 
 :root[data-theme="dark"] {
-  --content-background: #0f1828;
-  --header-background: #0f1828;
-  --sidemenu-background: #0f1828;
-  --sidemenu-color: #d0d5dd;
-  --sidemenu-border-color: #1d2939;
-  --sidemenu-link-active-background: color-mix(
-    in oklab,
-    #465fff 12%,
-    transparent
-  );
-  --sidemenu-link-active-color: #7592ff;
-  --sidemenu-link-hover: color-mix(in oklab, #fff 10%, transparent);
-  --sidemenu-sublink-background: color-mix(in oklab, #fff 4%, transparent);
-  --sidemenu-icon-active-color: brightness(0) saturate(100%) invert(51%)
-    sepia(43%) saturate(1121%) hue-rotate(198deg) brightness(105%)
-    contrast(104%); //#7592ff
-  --sidemenu-icon-color: brightness(0) saturate(100%) invert(78%) sepia(30%)
-    saturate(159%) hue-rotate(179deg) brightness(78%) contrast(87%); //#98a2b3
   --theme-color: color-mix(in oklab, #fff 90%, transparent);
-  --sidemenu-seperate-column-line-color: #97a1b2;
   --skeleton-bg: #1d2939;
   --skeleton-shimmer: linear-gradient(
     90deg,
@@ -69,36 +27,6 @@
   --skeleton-card-bg: #0f1828;
   --skeleton-accent: color-mix(in oklab, #7592ff 12%, transparent);
 }
-
-$sidemenu-font-size: 14px;
-$sidemenu-font-weight: 500;
-$sidemenu-link-gap: 16px;
-$sidemenu-link-border-radius: 8px;
-$layout-border-radius: 8px;
-
-$content-width-active-space: 90px;
-$content-width-tablet: 90px;
-$sidemenu-width-default: 270px;
-$header-height: 75px;
-$footer-height: 30px;
-$layout-border-radius: 8px;
-$viewCard-border-radius: 8px;
-
-$z-index-negative: -1;
-$z-index-default: 1;
-$z-index-progress: 2;
-$z-index-tooltip-info: 20;
-$z-index-component-popover: 9999;
-$z-index-header-options: 2999;
-$z-index-sidemenu: 3000;
-$z-index-blank-page: 3003;
-$z-index-header: 9990;
-$z-index-sidemenu: 9991;
-$z-index-mobile-menu: 9999;
-$z-index-header-notice: 10000;
-$z-index-modal-box: 10001;
-$z-index-modal-page: 10002;
-$z-index-loading: 10003;
 
 $white: #fff;
 
