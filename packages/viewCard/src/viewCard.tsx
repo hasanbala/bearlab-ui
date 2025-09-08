@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import styles from "./viewCard.module.scss";
-import { IconEmpty } from "@bearlab/core/src";
+import { IconEmpty } from "@bearlab/core";
 
 export const ViewCard = (props: Props) => {
   const { className, description, title, children } = props;

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import classnames from "classnames";
-import { ViewError } from "@bearlab/view-error/src";
+import { ViewError } from "@bearlab/view-error";
 import { JSX } from "react";
-import { Popover } from "@bearlab/popover/src";
+import { Popover } from "@bearlab/popover";
 import styles from "./radio.module.scss";
 
 export const Radio = (props: RadioProps) => {

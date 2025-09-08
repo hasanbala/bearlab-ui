@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import { ViewError } from "@bearlab/view-error/src";
-import { IconArrowDown } from "@bearlab/core/src";
+import { ViewError } from "@bearlab/view-error";
+import { IconArrowDown } from "@bearlab/core";
 import styles from "./select.module.scss";
 import { JSX } from "react";
 

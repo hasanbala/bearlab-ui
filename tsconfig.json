@@ -14,16 +14,7 @@
     "noEmit": false,
     "jsx": "react-jsx",
     "module": "esnext",
-    "declaration": true,
-    "baseUrl": ".",
-    "paths": {
-      "@bearlab/core": ["./packages/core/src"],
-      "@bearlab/view-error": ["./packages/view-error/src"],
-      "@bearlab/button": ["./packages/button/src"],
-      "@bearlab/badge": ["./packages/badge/src"],
-      "@bearlab/textarea": ["./packages/textarea/src"],
-      "@bearlab/hooks": ["./packages/hooks/src"]
-    }
+    "declaration": true
   },
   "include": ["packages/*/src/**/*"],
   "exclude": ["node_modules", "**/dist", "**/*.test.ts", "**/*.test.tsx"]

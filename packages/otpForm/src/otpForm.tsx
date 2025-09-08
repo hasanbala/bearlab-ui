@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Input } from "@bearlab/input/src";
+import { Input } from "@bearlab/input";
 import styles from "./otpForm.module.scss";
 
 export const OTPForm = (props: Props) => {

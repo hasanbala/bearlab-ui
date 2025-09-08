@@ -17,11 +17,10 @@
     "declaration": true,
     "outDir": "./dist",
     "declarationDir": "./dist/types",
-    "rootDir": "./src",
     "baseUrl": "../../",
     "paths": {
       "@bearlab/core": ["./packages/core/src"],
-      "@bearlab/view-error": ["./packages/view-error/src"],
+      "@bearlab/view-error": ["./packages/viewError/src"],
       "@bearlab/button": ["./packages/button/src"],
       "@bearlab/badge": ["./packages/badge/src"],
       "@bearlab/textarea": ["./packages/textarea/src"],

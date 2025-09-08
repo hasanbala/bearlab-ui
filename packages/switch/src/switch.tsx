@@ -1,8 +1,8 @@
 import classnames from "classnames";
 import { JSX } from "react";
 import styles from "./switch.module.scss";
-import { Popover } from "@bearlab/popover/src";
-import { ViewError } from "@bearlab/view-error/src";
+import { Popover } from "@bearlab/popover";
+import { ViewError } from "@bearlab/view-error";
 
 export const Switch = (props: Props) => {
   const {

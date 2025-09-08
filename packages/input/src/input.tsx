@@ -6,10 +6,10 @@ import {
   IconCopy,
   IconTick,
   SearchIcon,
-} from "@bearlab/core/src";
-import { ViewError } from "@bearlab/view-error/src";
+} from "@bearlab/core";
+import { ViewError } from "@bearlab/view-error";
 import styles from "./input.module.scss";
-import { useCopyByInput } from "@bearlab/hooks/src";
+import { useCopyByInput } from "@bearlab/hooks";
 
 export const Input = (props: Props) => {
   const {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classnames from "classnames";
-import { IconUpload } from "@bearlab/core/src";
-import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button/src";
+import { IconUpload } from "@bearlab/core";
+import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
 import styles from "./dropzone.module.scss";
 
 export const Dropzone = (props: Props) => {

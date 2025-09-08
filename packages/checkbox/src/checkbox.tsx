@@ -1,8 +1,8 @@
 import { JSX } from "react";
 import classnames from "classnames";
-import { ViewError } from "@bearlab/view-error/src";
-import { Popover } from "@bearlab/popover/src";
-import { IconChecked, IconDisabled } from "@bearlab/core/src";
+import { ViewError } from "@bearlab/view-error";
+import { Popover } from "@bearlab/popover";
+import { IconChecked, IconDisabled } from "@bearlab/core";
 import styles from "./checkbox.module.scss";
 
 export const Checkbox = (props: Props) => {

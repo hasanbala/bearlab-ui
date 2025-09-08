@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import classnames from "classnames";
 import styles from "./textarea.module.scss";
-import { ViewError } from "@bearlab/view-error/src";
+import { ViewError } from "@bearlab/view-error";
 
 export const Textarea = (props: Props) => {
   const { error, label, disabled, className, isRequired, ...rest } = props;

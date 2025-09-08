@@ -20,9 +20,9 @@ import {
   IconSearch,
   IconTick,
   IconUpdate2,
-} from "@bearlab/core/src";
-import { Popover } from "@bearlab/popover/src";
-import { type IPermissions, PERMISSIONS } from "@bearlab/core/src";
+} from "@bearlab/core";
+import { Popover } from "@bearlab/popover";
+import { type IPermissions, PERMISSIONS } from "@bearlab/core";
 import styles from "./button.module.scss";
 
 export const Button = (props: Props) => {

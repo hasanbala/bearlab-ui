@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import styles from "./viewError.module.scss";
-import { IconError2 } from "@bearlab/core/src";
+import { IconError2 } from "@bearlab/core";
 
 export const ViewError = (props: Props) => {
   const { className, label } = props;

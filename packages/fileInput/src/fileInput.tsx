@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { JSX } from "react";
 import styles from "./fileInput.module.scss";
-import { ViewError } from "@bearlab/view-error/src";
+import { ViewError } from "@bearlab/view-error";
 
 export const FileInput = (props: Props) => {
   const { className, label, error, isRequired, ...rest } = props;

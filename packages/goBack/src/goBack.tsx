@@ -5,7 +5,7 @@ import {
   BUTTON_TYPE,
   BUTTON_VARIANT,
   ICON_TYPE,
-} from "@bearlab/button/src";
+} from "@bearlab/button";
 
 export const GoBack = ({
   label = "Go Back",

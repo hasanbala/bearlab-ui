@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { useState } from "react";
 import styles from "./copy.module.scss";
-import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button/src";
+import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
 
 export const Copy = (props: Props) => {
   const { text, className, label = "Copy", copyId, disabled } = props;
