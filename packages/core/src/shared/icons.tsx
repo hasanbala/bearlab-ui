@@ -23,6 +23,8 @@ import { ReactComponent as EyesOpen } from "@/assets/icons/eyes-open.svg";
 import { ReactComponent as IconLoading } from "@/assets/icons/spin3.svg";
 import { ReactComponent as IconEmpty } from "@/assets/icons/empty.svg";
 import { ReactComponent as IconError2 } from "@/assets/icons/error2.svg";
+import { ReactComponent as IconDocument } from "@/assets/icons/preparer.svg";
+import { ReactComponent as IconLoading2 } from "@/assets/icons/spin2.svg";
 
 export {
   IconAdd,
@@ -50,4 +52,6 @@ export {
   IconFilter,
   IconDots,
   IconArrowDown2,
+  IconDocument,
+  IconLoading2,
 };
