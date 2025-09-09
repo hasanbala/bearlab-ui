@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/loading",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Bearlab UI Loading Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -13,7 +13,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.3",
+    "@bearlab/core": "^1.0.4",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {

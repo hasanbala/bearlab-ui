@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Bearlab UI Core - Icons, themes and shared components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
