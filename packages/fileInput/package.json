@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/file-input",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Bearlab UI File-input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,7 +14,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/view-error": "^1.0.4",
+    "@bearlab/view-error": "^1.0.5",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/view-card",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Bearlab UI View-card Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,7 +14,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.4",
+    "@bearlab/core": "^1.0.5",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
