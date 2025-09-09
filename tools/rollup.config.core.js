@@ -4,6 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 import path from "path";
+import svgr from "@svgr/rollup";
 
 const packagePath = path.resolve("packages/core");
 
@@ -41,6 +42,12 @@ export default [
         use: ["sass"],
         includePaths: [path.join(packagePath, "src/assets/styles")],
       }),
+      svgr({
+        exportType: "named",
+        ref: true,
+        svgo: true,
+        titleProp: true,
+      }),
     ],
     external: ["react", "react-dom"],
   },
@@ -52,7 +59,23 @@ export default [
         format: "esm",
       },
     ],
-    plugins: [dts()],
-    external: ["react", "react-dom"],
+    plugins: [
+      dts({
+        compilerOptions: {
+          skipDiagnostics: true,
+          respectExternal: true,
+        },
+      }),
+      {
+        name: "resolve-svg",
+        resolveId(id, importer) {
+          if (id.endsWith(".svg")) {
+            return { id: id, external: true };
+          }
+          return null;
+        },
+      },
+    ],
+    external: ["react", "react-dom", /\.svg$/],
   },
 ];
