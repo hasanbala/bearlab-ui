@@ -115,7 +115,7 @@ type InputProps = Omit<
   "onChange" | "checked" | "popover"
 >;
 
-interface RadioProps extends InputProps {
+export interface RadioProps extends InputProps {
   error?: any;
   name?: string;
   label?: string;
@@ -128,7 +128,7 @@ interface RadioProps extends InputProps {
   onChange: (e: RadioChangeEvent) => void;
 }
 
-interface RadioGroupProps {
+export interface RadioGroupProps {
   options: Array<{
     label: string;
     value: number | string;
@@ -142,7 +142,7 @@ interface RadioGroupProps {
   isVertical?: boolean;
 }
 
-export interface RadioChangeEvent {
+interface RadioChangeEvent {
   target: {
     value: number | string;
     checked: boolean;

@@ -27,7 +27,7 @@ export const FileInput = (props: Props) => {
 
 type InputProps = JSX.IntrinsicElements["input"];
 
-interface Props extends InputProps {
+export interface Props extends InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   label?: string;

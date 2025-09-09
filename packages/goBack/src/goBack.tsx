@@ -44,7 +44,7 @@ export const GoBack = ({
   );
 };
 
-interface Props {
+export interface Props {
   destination: string;
   label?: string;
   className?: string;

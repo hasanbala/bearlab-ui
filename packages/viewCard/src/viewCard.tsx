@@ -32,7 +32,7 @@ export const ViewCard = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   className?: string;
   title?: string;
   description?: string;

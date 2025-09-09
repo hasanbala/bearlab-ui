@@ -57,7 +57,7 @@ export const Copy = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   text: string;
   className?: string;
   label?: string;

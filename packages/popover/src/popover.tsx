@@ -7,7 +7,7 @@ export const Popover = (props: Props) => {
   return <div className={classnames(styles.container, className)}>{label}</div>;
 };
 
-interface Props {
+export interface Props {
   className?: string;
   label: string | number;
 }

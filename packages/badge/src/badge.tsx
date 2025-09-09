@@ -58,7 +58,7 @@ export const Badge = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   variant?: VARIANT_TYPE.LIGHT | VARIANT_TYPE.SOLID;
   size?: SIZE_TYPE.SMALL | SIZE_TYPE.MEDIUM;
   color?:

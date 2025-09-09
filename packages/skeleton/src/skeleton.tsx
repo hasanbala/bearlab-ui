@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import styles from "./skeleton.module.scss";
 
-export const Skeleton = (props: SkeletonProps) => {
+export const Skeleton = (props: Props) => {
   const { className, variant = "default", lines = 4, animated = true } = props;
 
   const renderLines = (count: number, withVariation: boolean = true) => {
@@ -142,7 +142,7 @@ export const Skeleton = (props: SkeletonProps) => {
   );
 };
 
-export interface SkeletonProps {
+export interface Props {
   className?: string;
   variant?: "default" | "article" | "card" | "list";
   lines?: number;

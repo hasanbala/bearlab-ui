@@ -65,7 +65,7 @@ export const Select = (props: Props) => {
 
 type InputProps = JSX.IntrinsicElements["select"];
 
-interface Props extends InputProps {
+export interface Props extends InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name: string;

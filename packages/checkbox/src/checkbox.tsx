@@ -48,7 +48,7 @@ export const Checkbox = (props: Props) => {
 
 type InputProps = Omit<JSX.IntrinsicElements["input"], "popover">;
 
-interface Props extends InputProps {
+export interface Props extends InputProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name?: string;

@@ -105,7 +105,7 @@ export const OTPForm = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   setPassValue: (value: string[]) => void;
   passValue: string[];
   loading?: boolean;

@@ -106,7 +106,7 @@ export const Dropzone = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   className?: string;
   accept?: any;
   multiple?: boolean;

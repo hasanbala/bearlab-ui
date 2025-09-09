@@ -33,7 +33,7 @@ export const Textarea = (props: Props) => {
 
 type TextareaProps = JSX.IntrinsicElements["textarea"];
 
-interface Props extends TextareaProps {
+export interface Props extends TextareaProps {
   label?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;

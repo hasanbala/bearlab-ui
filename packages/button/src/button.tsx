@@ -130,7 +130,7 @@ export const Button = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   label: string | number;
   isLoading?: boolean;
   className?: string;

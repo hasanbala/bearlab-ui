@@ -12,8 +12,7 @@ export const ViewError = (props: Props) => {
     </div>
   );
 };
-
-interface Props {
+export interface Props {
   className?: string;
   label: string;
 }

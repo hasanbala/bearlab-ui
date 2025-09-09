@@ -12,6 +12,6 @@ export const Loading = (props: Props) => {
   );
 };
 
-interface Props {
+export interface Props {
   className?: string;
 }
