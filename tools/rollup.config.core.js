@@ -49,9 +49,29 @@ export default [
       svgr({
         exportType: "named",
         ref: true,
-        svgo: true,
+        svgo: false,
         titleProp: true,
       }),
+      // svgr({
+      //   exportType: "named",
+      //   ref: true,
+      //   titleProp: true,
+      //   svgo: true,
+      //   svgoConfig: {
+      //     plugins: [
+      //       {
+      //         name: "preset-default",
+      //         params: {
+      //           overrides: {
+      //             removeViewBox: false,
+      //             removeDimensions: false,
+      //             removeXMLNS: false,
+      //           },
+      //         },
+      //       },
+      //     ],
+      //   },
+      // }),
     ],
     external: ["react", "react-dom"],
   },
