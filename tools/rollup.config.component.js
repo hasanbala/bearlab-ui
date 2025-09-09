@@ -44,6 +44,7 @@ export default [
         rootDir: path.join(packagePath, "src"),
         compilerOptions: {
           baseUrl: rootPath,
+          skipLibCheck: true,
           paths: {
             "@bearlab/core": [path.join(rootPath, "packages/core")],
             "@bearlab/view-error": [path.join(rootPath, "packages/viewError")],
@@ -71,11 +72,15 @@ export default [
       postcss({
         extract: true,
         minimize: true,
-        use: ["sass"],
-        includePaths: [
-          path.join(corePath, "src/assets/styles"),
-          path.join(packagePath, "src"),
-        ],
+        modules: true,
+        sourceMap: true,
+        sass: {
+          silenceDeprecations: ["legacy-js-api"],
+          includePaths: [
+            path.join(corePath, "src/assets/styles"),
+            path.join(packagePath, "src"),
+          ],
+        },
       }),
     ],
     external: [

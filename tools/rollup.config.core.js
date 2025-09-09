@@ -39,8 +39,12 @@ export default [
       postcss({
         extract: true,
         minimize: true,
-        use: ["sass"],
-        includePaths: [path.join(packagePath, "src/assets/styles")],
+        modules: true,
+        sourceMap: true,
+        sass: {
+          silenceDeprecations: ["legacy-js-api"],
+          includePaths: [path.join(packagePath, "src/assets/styles")],
+        },
       }),
       svgr({
         exportType: "named",
