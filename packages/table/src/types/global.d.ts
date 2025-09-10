@@ -19,7 +19,6 @@ declare module "*.webp" {
   export default content;
 }
 
-// Font dosya türleri için tip tanımlamaları
 declare module "*.woff" {
   const content: string;
   export default content;
@@ -40,21 +39,17 @@ declare module "*.otf" {
   export default content;
 }
 
-// SVG dosyaları için özel tip tanımlaması
 declare module "*.svg" {
   import * as React from "react";
 
-  // SVG'yi React bileşeni olarak kullanmak için
   export const ReactComponent: React.FunctionComponent<
     React.SVGProps<SVGSVGElement> & { title?: string }
   >;
 
-  // SVG'yi dosya yolu olarak kullanmak için
   const src: string;
   export default src;
 }
 
-// CSS/SCSS modülleri için tip tanımlamaları
 declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export default classes;
@@ -70,7 +65,6 @@ declare module "*.module.sass" {
   export default classes;
 }
 
-// Normal CSS/SCSS dosyaları
 declare module "*.css";
 declare module "*.scss";
 declare module "*.sass";

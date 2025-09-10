@@ -61,7 +61,6 @@ export interface Props {
   text: string;
   className?: string;
   label?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  copyId?: any;
+  copyId?: string | number | null | undefined;
   disabled?: boolean;
 }

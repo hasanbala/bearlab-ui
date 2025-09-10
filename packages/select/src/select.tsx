@@ -1,6 +1,5 @@
 import classNames from "classnames";
-import { ViewError } from "@bearlab/view-error";
-import { IconArrowDown } from "@bearlab/core";
+import { IconArrowDown, IconError2 } from "@bearlab/core";
 import styles from "./select.module.scss";
 import { JSX } from "react";
 
@@ -44,7 +43,7 @@ export const Select = (props: Props) => {
           <option value="" disabled className={styles.firstOption}>
             {placeholder}
           </option>
-          {options.map((option) => (
+          {options?.map((option) => (
             <option
               key={option.value}
               value={option.value}
@@ -57,7 +56,12 @@ export const Select = (props: Props) => {
         <span className={styles.chevronIcon}>
           <IconArrowDown />
         </span>
-        {error && <ViewError label={error} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -66,12 +70,11 @@ export const Select = (props: Props) => {
 type InputProps = JSX.IntrinsicElements["select"];
 
 export interface Props extends InputProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name: string;
   value: string;
   label: string;
-  options: Option[];
+  options: Option[] | undefined;
   className?: string;
   disabled?: boolean;
   isRequired?: boolean;

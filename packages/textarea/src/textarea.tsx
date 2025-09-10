@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import classnames from "classnames";
 import styles from "./textarea.module.scss";
-import { ViewError } from "@bearlab/view-error";
+import { IconError2 } from "@bearlab/core";
 
 export const Textarea = (props: Props) => {
   const { error, label, disabled, className, isRequired, ...rest } = props;
@@ -25,7 +25,12 @@ export const Textarea = (props: Props) => {
           className={classnames(error && styles.error)}
           {...rest}
         />
-        {error && <ViewError label={error} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -35,7 +40,6 @@ type TextareaProps = JSX.IntrinsicElements["textarea"];
 
 export interface Props extends TextareaProps {
   label?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   rows?: number;
   value: string;

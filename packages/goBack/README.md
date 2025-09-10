@@ -1,351 +1,190 @@
-# GoBack Component
+# @bearlab/go-back
 
-A flexible navigation button component for React applications that provides "Go Back" functionality with customizable routing behavior.
+A flexible and accessible navigation component for React applications that provides "Go Back" functionality with TypeScript support.
 
-## Features
+## ✨ Features
 
-- ⬅️ **Flexible Navigation** - Browser history or custom destination navigation
-- 🎨 **Customizable Appearance** - Custom labels, icons, and styling
-- 🔄 **Loading States** - Built-in disabled state management
-- 🎯 **Multiple Navigation Modes** - Browser back or specific destination
-- 🛡️ **Type Safety** - Full TypeScript support
-- ♿ **Accessibility** - Screen reader friendly with proper ARIA attributes
+- ✅ **Router Agnostic** - Works with any routing solution (React Router, Next.js, etc.)
+- 🔄 **Browser History Support** - Navigate back through browser history
+- 🎯 **Custom Destinations** - Navigate to specific routes or paths
+- 🎨 **Consistent Design** - Built on top of @bearlab/button for consistent styling
+- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
+- ♿ **Accessible** - WCAG compliant with proper ARIA attributes
+- 🔧 **Customizable** - Custom labels, styling, and disabled states
+- ⚡ **Lightweight** - Minimal bundle size with tree-shaking support
+- 📱 **Responsive** - Works perfectly on all screen sizes
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/go-back
-# or
+```
+
+```bash
 yarn add @bearlab/go-back
 ```
 
-## Basic Usage
+## 🔗 Dependencies
+
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/button` - For go back button
+- `classnames` - For conditional CSS class handling
+
+## 🎯 Usage Examples
+
+### With React Router
 
 ```tsx
-import React from "react";
 import { GoBack } from "@bearlab/go-back";
 import { useNavigate } from "react-router-dom";
 
 function ProductDetails() {
   const navigate = useNavigate();
 
-  return (
-    <div>
-      <GoBack
-        destination="/products"
-        onNavigate={(dest) => navigate(dest as string)}
-      />
-      <h1>Product Details</h1>
-      {/* Your content */}
-    </div>
-  );
-}
-```
-
-## Browser Back Navigation
-
-```tsx
-import React from "react";
-import { GoBack } from "@bearlab/go-back";
-import { useNavigate } from "react-router-dom";
-
-function ProfilePage() {
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      <GoBack
-        destination="/dashboard" // fallback destination
-        hasBack={true} // Use browser history
-        onNavigate={(dest) => {
-          if (typeof dest === "number") {
-            navigate(dest); // Browser back
-          } else {
-            navigate(dest); // Fallback destination
-          }
-        }}
-      />
-      <h1>User Profile</h1>
-      {/* Your content */}
-    </div>
-  );
-}
-```
-
-## Advanced Usage
-
-```tsx
-import React, { useState } from "react";
-import { GoBack } from "@bearlab/go-back";
-import { useNavigate, useLocation } from "react-router-dom";
-
-function EditUserPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-
-  const handleNavigation = (destination: string | number) => {
-    if (hasUnsavedChanges) {
-      const confirm = window.confirm(
-        "You have unsaved changes. Are you sure you want to leave?"
-      );
-      if (!confirm) return;
-    }
-
+  const handleNavigate = (destination: string | number) => {
     if (typeof destination === "number") {
-      navigate(destination); // Browser back
+      navigate(destination); // Browser history navigation
     } else {
-      navigate(destination); // Specific route
+      navigate(destination); // Route navigation
     }
   };
 
   return (
     <div>
-      <GoBack
-        label="Back to Users"
-        destination="/users"
-        hasBack={window.history.length > 1}
-        isDisabled={false}
-        onNavigate={handleNavigation}
-        className="custom-back-button"
-      />
-
-      <h1>Edit User</h1>
-      <form onChange={() => setHasUnsavedChanges(true)}>
-        {/* Form content */}
-      </form>
+      <GoBack destination="/products" onNavigate={handleNavigate} />
+      <h1>Product Details</h1>
+      {/* Rest of your component */}
     </div>
   );
 }
 ```
 
-## Props
-
-| Prop          | Type                               | Default     | Description                                |
-| ------------- | ---------------------------------- | ----------- | ------------------------------------------ |
-| `destination` | `string`                           | -           | **Required.** Fallback route destination   |
-| `onNavigate`  | `(dest: string \| number) => void` | -           | **Required.** Navigation handler function  |
-| `label`       | `string`                           | `"Go Back"` | Button text label                          |
-| `hasBack`     | `boolean`                          | `false`     | Use browser history instead of destination |
-| `isDisabled`  | `boolean`                          | `false`     | Disable the button                         |
-| `className`   | `string`                           | -           | Additional CSS class for styling           |
-
-## Navigation Behavior
-
-The component supports two navigation modes:
-
-### 1. Destination Navigation (Default)
+### With Next.js
 
 ```tsx
-<GoBack destination="/home" onNavigate={(dest) => navigate(dest as string)} />
-```
-
-- Always navigates to the specified `destination`
-- Useful for consistent navigation patterns
-
-### 2. Browser Back Navigation
-
-```tsx
-<GoBack
-  destination="/home" // fallback
-  hasBack={true}
-  onNavigate={(dest) => {
-    if (typeof dest === "number") {
-      navigate(dest); // -1 for browser back
-    } else {
-      navigate(dest); // fallback destination
-    }
-  }}
-/>
-```
-
-- Uses browser history when `hasBack` is true
-- Falls back to `destination` if no history available
-
-## Styling
-
-The component uses the Button component from `@bearlab/button` with these default styles:
-
-- Secondary variant
-- Icon with text layout
-- Reversed icon position (arrow on left)
-
-You can customize with CSS:
-
-```scss
-.custom-back-button {
-  margin-bottom: 20px;
-
-  &:hover {
-    background-color: #f3f4f6;
-    transform: translateX(-2px);
-  }
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-```
-
-## Integration Examples
-
-### With React Router
-
-```tsx
-import { useNavigate } from "react-router-dom";
 import { GoBack } from "@bearlab/go-back";
-
-function ArticleDetails() {
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      <GoBack
-        destination="/articles"
-        onNavigate={(dest) => navigate(dest as string)}
-        label="Back to Articles"
-      />
-      {/* Article content */}
-    </div>
-  );
-}
-```
-
-### With Next.js Router
-
-```tsx
 import { useRouter } from "next/router";
-import { GoBack } from "@bearlab/go-back";
 
-function UserProfile() {
+function ProductPage() {
   const router = useRouter();
 
+  const handleNavigate = (destination: string | number) => {
+    if (typeof destination === "number") {
+      router.back(); // Browser history navigation
+    } else {
+      router.push(destination); // Route navigation
+    }
+  };
+
   return (
     <div>
-      <GoBack
-        destination="/users"
-        hasBack={true}
-        onNavigate={(dest) => {
-          if (typeof dest === "number") {
-            router.back();
-          } else {
-            router.push(dest);
-          }
-        }}
-      />
-      {/* Profile content */}
+      <GoBack destination="/products" onNavigate={handleNavigate} />
+      <h1>Product Page</h1>
+      {/* Rest of your component */}
     </div>
   );
 }
 ```
 
-### With Custom Navigation Logic
+### Browser History Navigation
 
 ```tsx
-function CheckoutPage() {
+import { GoBack } from "@bearlab/go-back";
+import { useNavigate } from "react-router-dom";
+
+function UserProfile() {
   const navigate = useNavigate();
-  const [canGoBack, setCanGoBack] = useState(true);
 
-  const handleNavigation = (dest: string | number) => {
-    // Custom logic before navigation
-    analytics.track("back_button_clicked", {
-      from: "checkout",
-      to: typeof dest === "number" ? "browser_back" : dest,
-    });
-
-    if (typeof dest === "number") {
-      window.history.back();
+  const handleNavigate = (destination: string | number) => {
+    if (typeof destination === "number") {
+      navigate(destination);
     } else {
-      navigate(dest);
+      navigate(destination);
     }
   };
 
   return (
     <div>
       <GoBack
-        label="Continue Shopping"
-        destination="/products"
-        isDisabled={!canGoBack}
-        onNavigate={handleNavigation}
+        label="Back to Previous Page"
+        destination="/dashboard" // Fallback destination
+        hasBack={true} // Use browser history
+        onNavigate={handleNavigate}
       />
-      {/* Checkout form */}
+      <h1>User Profile</h1>
+      {/* Component content */}
     </div>
   );
 }
 ```
 
-## Conditional Rendering
+### Custom Styling
 
 ```tsx
-function ConditionalBack() {
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const location = useLocation();
+import { GoBack } from "@bearlab/go-back";
+import "./custom-styles.css";
 
-  // Only show back button on certain pages
-  const shouldShowBack = ["/profile", "/settings", "/orders"].includes(
-    location.pathname
-  );
-
-  if (!shouldShowBack) return null;
+function CustomGoBack() {
+  const handleNavigate = (destination: string | number) => {
+    // Your navigation logic
+  };
 
   return (
     <GoBack
-      destination={user?.role === "admin" ? "/admin" : "/dashboard"}
-      onNavigate={(dest) => navigate(dest as string)}
-      label={user?.role === "admin" ? "Back to Admin" : "Back to Dashboard"}
+      label="← Return to Dashboard"
+      destination="/dashboard"
+      onNavigate={handleNavigate}
+      className="custom-go-back-style"
     />
   );
 }
 ```
 
-## Loading States
+```css
+/* custom-styles.css */
+.custom-go-back-style {
+  margin-bottom: 20px;
 
-```tsx
-function AsyncOperationPage() {
-  const navigate = useNavigate();
-  const [isSaving, setIsSaving] = useState(false);
+  /* Override button styles */
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
 
-  return (
-    <div>
-      <GoBack
-        destination="/dashboard"
-        isDisabled={isSaving}
-        onNavigate={(dest) => navigate(dest as string)}
-        label={isSaving ? "Saving..." : "Cancel"}
-      />
-
-      {/* Form or content */}
-    </div>
-  );
+.custom-go-back-style:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
 }
 ```
 
-## Accessibility Features
+## 📚 API Reference
 
-- **Keyboard Navigation** - Fully keyboard accessible
-- **Screen Reader Support** - Proper ARIA labels
-- **Focus Management** - Clear focus indicators
-- **Semantic HTML** - Uses proper button element
+### Props
 
-## Browser Support
+| Prop          | Type                                      | Default      | Description                                                          |
+| ------------- | ----------------------------------------- | ------------ | -------------------------------------------------------------------- |
+| `destination` | `string`                                  | **Required** | The route or path to navigate to when not using browser history      |
+| `label`       | `string`                                  | `"Go Back"`  | Text displayed on the button                                         |
+| `className`   | `string`                                  | `undefined`  | Additional CSS class for custom styling                              |
+| `hasBack`     | `boolean`                                 | `false`      | If true, uses browser history navigation (-1) instead of destination |
+| `isDisabled`  | `boolean`                                 | `false`      | Disables the button and prevents navigation                          |
+| `onNavigate`  | `(destination: string \| number) => void` | **Required** | Callback function to handle navigation                               |
 
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
+### Navigation Logic
 
-## Dependencies
+The component follows this navigation logic:
 
-- `react` >= 16.8.0
-- `@bearlab/button` (for button component)
-- `classnames` (for conditional styling)
+1. If `isDisabled` is `true` → No navigation occurs
+2. If `hasBack` is `true` → Calls `onNavigate(-1)` for browser history navigation
+3. Otherwise → Calls `onNavigate(destination)` for route navigation
 
-## TypeScript Support
+### TypeScript Support
+
+The component is fully typed with TypeScript:
 
 ```tsx
-interface Props {
+export interface Props {
   destination: string;
   label?: string;
   className?: string;
@@ -355,92 +194,80 @@ interface Props {
 }
 ```
 
-## Testing
+## 🎨 Styling & Theming
 
-```tsx
-import { render, screen, fireEvent } from "@testing-library/react";
-import { GoBack } from "@bearlab/go-back";
+### Default Styling
 
-test("calls onNavigate with destination when clicked", () => {
-  const mockNavigate = jest.fn();
+The component uses the secondary variant of `@bearlab/button` with:
 
-  render(
-    <GoBack destination="/home" onNavigate={mockNavigate} label="Go Home" />
-  );
+- Arrow icon rotated 180 degrees (pointing left)
+- Icon positioned before text
+- Max-content width
+- 30px bottom margin
 
-  fireEvent.click(screen.getByText("Go Home"));
-  expect(mockNavigate).toHaveBeenCalledWith("/home");
-});
+### Custom CSS Classes
 
-test("calls onNavigate with -1 when hasBack is true", () => {
-  const mockNavigate = jest.fn();
+Override styles by targeting the component's classes:
 
-  render(
-    <GoBack destination="/home" hasBack={true} onNavigate={mockNavigate} />
-  );
+```css
+.your-custom-class {
+  /* Container styles */
+  margin-bottom: 20px;
+  width: auto;
+}
 
-  fireEvent.click(screen.getByRole("button"));
-  expect(mockNavigate).toHaveBeenCalledWith(-1);
-});
-```
-
-## Common Patterns
-
-### Breadcrumb Alternative
-
-```tsx
-function BreadcrumbBack({ currentPage, parentPage, parentPath }) {
-  const navigate = useNavigate();
-
-  return (
-    <div className="breadcrumb-back">
-      <GoBack
-        destination={parentPath}
-        label={`← ${parentPage}`}
-        onNavigate={(dest) => navigate(dest as string)}
-      />
-      <span className="current-page">{currentPage}</span>
-    </div>
-  );
+.your-custom-class svg {
+  /* Icon styles - already rotated 180deg */
+  width: 16px;
+  height: 16px;
 }
 ```
 
-### Modal-Like Navigation
+## ♿ Accessibility
 
-```tsx
-function ModalBack({ onClose, fallbackRoute }) {
-  const navigate = useNavigate();
+The GoBack component inherits accessibility features from `@bearlab/button`:
 
-  return (
-    <GoBack
-      destination={fallbackRoute}
-      hasBack={true}
-      label="× Close"
-      onNavigate={(dest) => {
-        onClose?.();
-        if (typeof dest === "number") {
-          navigate(dest);
-        } else {
-          navigate(dest);
-        }
-      }}
-    />
-  );
-}
-```
+- Proper focus management with visible focus indicators
+- Keyboard navigation support (Enter/Space)
+- Screen reader announcements
+- ARIA attributes for button states
+- Semantic button element usage
 
-## Contributing
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT License - see LICENSE file for details
+MIT © [hasanbala](https://github.com/hasanbala)
 
-## Support
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-For support, please open an issue on GitHub or contact our team.
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/go-back">📦 View on NPM</a>
+  </p>
+</div>

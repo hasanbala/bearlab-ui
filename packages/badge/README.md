@@ -1,129 +1,243 @@
-# Badge Component
+# @bearlab/badge
 
-A flexible and customizable badge component for displaying labels, status indicators, and small pieces of information.
+A modern and flexible React Badge component with full customization support through various variants, colors, and sizes. Built with TypeScript support and includes both light and dark theme compatibility.
 
-## Installation
+## ✨ Features
+
+- 🎨 **2 Variants**: Light and Solid styles
+- 🌈 **7 Color Options**: Primary, Success, Error, Warning, Info, Light, Dark
+- 📏 **2 Sizes**: Small (12px) and Medium (14px)
+- 🔄 **Icon Support**: Start and end icons
+- 🌙 **Theme Support**: Automatic light and dark theme adaptation
+- 📱 **Responsive**: Perfect display on all devices
+- 🎯 **TypeScript**: Full type safety
+- ♿ **Accessible**: WCAG compliant
+
+## 📦 Installation
 
 ```bash
 npm install @bearlab/badge
 ```
 
-## Usage
-
-```tsx
-import { Badge } from '@bearlab/badge';
-import { IconStar } from '@bearlab/core';
-
-// Basic usage
-<Badge label="New" />
-
-// With color and variant
-<Badge
-  label="Success"
-  color="success"
-  variant="solid"
-/>
-
-// With icons
-<Badge
-  label="Featured"
-  startIcon={IconStar}
-  color="primary"
-  variant="light"
-/>
-
-// Small size with end icon
-<Badge
-  label="5"
-  size="small"
-  endIcon={IconStar}
-  color="warning"
-/>
+```bash
+yarn add @bearlab/badge
 ```
 
-## Props
+## 🔗 Dependencies
 
-| Prop        | Type                                                                            | Default      | Description                                |
-| ----------- | ------------------------------------------------------------------------------- | ------------ | ------------------------------------------ |
-| `label`     | `string \| number`                                                              | **Required** | The text or number to display in the badge |
-| `variant`   | `'light' \| 'solid'`                                                            | `'light'`    | Visual style variant of the badge          |
-| `color`     | `'primary' \| 'success' \| 'error' \| 'warning' \| 'info' \| 'light' \| 'dark'` | `'primary'`  | Color theme of the badge                   |
-| `size`      | `'small' \| 'medium'`                                                           | `'medium'`   | Size of the badge                          |
-| `startIcon` | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | `undefined`  | Icon to display at the start of the badge  |
-| `endIcon`   | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | `undefined`  | Icon to display at the end of the badge    |
-| `className` | `string`                                                                        | `undefined`  | Additional CSS classes to apply            |
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames`: For conditional CSS class handling
 
-## Examples
+## 🎨 Color Palette
 
-### Color Variants
+### Light Variant
 
-```tsx
-// Light variants (default)
-<Badge label="Primary" color="primary" variant="light" />
-<Badge label="Success" color="success" variant="light" />
-<Badge label="Error" color="error" variant="light" />
-<Badge label="Warning" color="warning" variant="light" />
-<Badge label="Info" color="info" variant="light" />
+- **Primary**: Blue tone with light background
+- **Success**: Green tone for success messages
+- **Error**: Red tone for error notifications
+- **Warning**: Orange tone for warning messages
+- **Info**: Light blue tone for informational content
+- **Light**: Light gray tone for neutral content
+- **Dark**: Dark gray tone for emphasis
 
-// Solid variants
-<Badge label="Primary" color="primary" variant="solid" />
-<Badge label="Success" color="success" variant="solid" />
-<Badge label="Error" color="error" variant="solid" />
+### Solid Variant
+
+- All color options with filled background and white text
+
+## 📏 Size Guide
+
+| Size   | Font Size | Use Case                   |
+| ------ | --------- | -------------------------- |
+| Small  | 12px      | Compact spaces, list items |
+| Medium | 14px      | General use, standard size |
+
+## 🎯 Usage Examples
+
+### Basic Usage
+
+```jsx
+<Badge label="Default Badge" />
+```
+
+### Different Colors
+
+```jsx
+<Badge label="Primary" color="primary" />
+<Badge label="Success" color="success" />
+<Badge label="Error" color="error" />
+<Badge label="Warning" color="warning" />
+<Badge label="Info" color="info" />
+<Badge label="Light" color="light" />
+<Badge label="Dark" color="dark" />
+```
+
+### Solid Variant
+
+```jsx
+<Badge label="Solid Primary" variant="solid" color="primary" />
+<Badge label="Solid Success" variant="solid" color="success" />
+<Badge label="Solid Error" variant="solid" color="error" />
+```
+
+### Size Options
+
+```jsx
+<Badge label="Small Badge" size="small" />
+<Badge label="Medium Badge" size="medium" />
 ```
 
 ### With Icons
 
-```tsx
-import { IconCheck, IconClose, IconInfo } from '@bearlab/core';
+```jsx
+import { CheckIcon, XIcon } from '@heroicons/react/solid';
 
-<Badge label="Completed" startIcon={IconCheck} color="success" />
-<Badge label="Failed" startIcon={IconClose} color="error" />
-<Badge label="99+" endIcon={IconInfo} color="primary" />
+<Badge
+  label="Completed"
+  color="success"
+  startIcon={CheckIcon}
+/>
+
+<Badge
+  label="Failed"
+  color="error"
+  endIcon={XIcon}
+/>
+
+<Badge
+  label="Processing"
+  color="warning"
+  startIcon={ClockIcon}
+  endIcon={ArrowRightIcon}
+/>
 ```
 
-### Notification Badges
+### Numeric Values
 
-```tsx
-// Message count
-<Badge label="12" color="error" variant="solid" size="small" />
-
-// Status indicators
-<Badge label="Online" color="success" variant="light" />
-<Badge label="Offline" color="error" variant="light" />
-<Badge label="Away" color="warning" variant="light" />
+```jsx
+<Badge label={42} color="primary" />
+<Badge label={999} color="error" variant="solid" />
 ```
 
-## Styling
+### Custom Styling
 
-The component uses CSS modules and can be customized through:
+```jsx
+<Badge
+  label="Custom"
+  className="my-custom-badge"
+  color="primary"
+  variant="solid"
+/>
+```
 
-- CSS custom properties (CSS variables)
-- Additional className prop
-- SCSS module overrides
+### Notification System
 
-### CSS Classes
+```jsx
+const NotificationBadge = ({ type, message, isNew }) => {
+  return (
+    <Badge
+      label={isNew ? `${message} • New` : message}
+      color={type}
+      variant={isNew ? "solid" : "light"}
+      size="small"
+      startIcon={isNew ? BellIcon : undefined}
+    />
+  );
+};
+```
 
-- `.container` - Main badge container
-- `.small`, `.medium` - Size variants
-- `.lightPrimary`, `.solidPrimary` - Color and variant combinations
-- `.startIcon`, `.endIcon` - Icon positioning
+### Category Tags
 
-## Accessibility
+```jsx
+const CategoryTags = ({ categories }) => {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {categories.map((category, index) => (
+        <Badge
+          key={category.id}
+          label={category.name}
+          color={index % 2 === 0 ? "primary" : "info"}
+          variant="light"
+          size="small"
+        />
+      ))}
+    </div>
+  );
+};
+```
 
-- Uses semantic `<span>` element
-- Supports screen readers
-- Color combinations meet WCAG contrast requirements
-- Icons include appropriate aria labels when needed
+## 📚 API Reference
 
-## TypeScript Support
+### Props
 
-Full TypeScript support with comprehensive type definitions for all props and variants.
+| Prop        | Type                                                                            | Default     | Description                 |
+| ----------- | ------------------------------------------------------------------------------- | ----------- | --------------------------- |
+| `label`     | `string \| number`                                                              | -           | **Required.** Badge content |
+| `variant`   | `'light' \| 'solid'`                                                            | `'light'`   | Badge style                 |
+| `color`     | `'primary' \| 'success' \| 'error' \| 'warning' \| 'info' \| 'light' \| 'dark'` | `'primary'` | Color theme                 |
+| `size`      | `'small' \| 'medium'`                                                           | `'medium'`  | Badge size                  |
+| `startIcon` | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | Start icon                  |
+| `endIcon`   | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | End icon                    |
+| `className` | `string`                                                                        | -           | Custom CSS classes          |
 
-## Dependencies
+### TypeScript Support
 
-- `classnames` - For conditional CSS classes
-- `@bearlab/core` - For icon components (peer dependency)
+The component comes with full TypeScript support:
 
-## License
+```typescript
+import { Badge, Props as BadgeProps } from "@bearlab/badge";
 
-MIT
+const MyBadge: React.FC<BadgeProps> = (props) => {
+  return <Badge {...props} />;
+};
+```
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+## 📄 License and 👨‍💻 Author
+
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/badge">📦 View on NPM</a>
+  </p>
+</div>

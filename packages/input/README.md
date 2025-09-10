@@ -1,202 +1,468 @@
-# Input Component
+# @bearlab/input
 
-A flexible and feature-rich input component built with React and TypeScript, designed for modern web applications.
+A comprehensive, feature-rich input component for React applications with TypeScript support, including password visibility toggle, copy functionality, search integration, and flexible icon positioning.
 
-## Features
+## ✨ Features
 
-- 🔍 **Search functionality** - Built-in search icon support
-- 👁️ **Password visibility toggle** - Show/hide password with eye icons
-- 📋 **Copy to clipboard** - One-click copy functionality
-- 🎨 **Customizable icons** - Support for before and after icons
-- ✅ **Form validation** - Error state handling with visual feedback
-- ♿ **Accessibility** - Proper ARIA labels and keyboard navigation
-- 🎯 **Required field indicator** - Asterisk for required fields
-- 🔒 **Disabled state** - Visual and functional disabled state
+- ✅ **Password Visibility Toggle** - Built-in show/hide password functionality
+- 📋 **Copy to Clipboard** - One-click copy functionality with visual feedback
+- 🔍 **Search Integration** - Built-in search icon and functionality
+- 🎨 **Flexible Icon System** - Support for before/after icons with string or component
+- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
+- 🌙 **Dark Mode Support** - Seamless light/dark theme switching
+- ♿ **Fully Accessible** - WCAG compliant with proper ARIA attributes
+- 🎯 **Validation Support** - Built-in error handling and display
+- 📱 **Mobile Responsive** - Optimized for mobile devices
+- 🔧 **Highly Customizable** - Extensive styling options and configurations
+- ⚡ **Lightweight** - Minimal bundle size with tree-shaking support
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/input
-# or
+```
+
+```bash
 yarn add @bearlab/input
 ```
 
-## Dependencies
+## 🔗 Dependencies
 
-Make sure you have these peer dependencies installed:
+- `react` >= 16.8.0
+- `react-dom` >= 16.8.0
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `@bearlab/hooks` For handle copy by input
+- `classnames` - For conditional CSS class handling
 
-```bash
-npm install react classnames @bearlab/core @bearlab/view-error @bearlab/hooks
-```
+## 🎯 Usage Examples
 
-## Basic Usage
+### Standard Text Input
 
 ```tsx
 import { Input } from "@bearlab/input";
+import { useState } from "react";
 
-function MyForm() {
+function BasicExample() {
   const [value, setValue] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
 
   return (
     <Input
-      label="Username"
+      label="Full Name"
       value={value}
-      onChange={(e) => setValue(e.target.value)}
-      placeholder="Enter your username"
+      onChange={handleChange}
+      placeholder="Enter your full name"
     />
   );
 }
 ```
 
-## Advanced Examples
-
-### Password Input with Toggle Visibility
+### Password Input with Toggle
 
 ```tsx
-<Input
-  label="Password"
-  type="password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-  isExistPassword={true}
-  isRequired={true}
-/>
+import { Input } from "@bearlab/input";
+import { useState } from "react";
+
+function PasswordExample() {
+  const [password, setPassword] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  return (
+    <Input
+      label="Password"
+      type="password"
+      value={password}
+      onChange={handleChange}
+      placeholder="Enter your password"
+      isExistPassword={true}
+      isRequired
+    />
+  );
+}
+```
+
+### Copy to Clipboard Input
+
+```tsx
+import { Input } from "@bearlab/input";
+
+function CopyExample() {
+  const apiKey = "sk-1234567890abcdef";
+
+  return (
+    <Input
+      label="API Key"
+      value={apiKey}
+      onChange={() => {}} // Read-only
+      isExistCopy={true}
+      disabled={true}
+    />
+  );
+}
 ```
 
 ### Search Input
 
 ```tsx
-<Input
-  label="Search"
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  isExistSearch={true}
-  onClick={handleSearch}
-  placeholder="Type to search..."
-/>
+import { Input } from "@bearlab/input";
+import { useState } from "react";
+
+function SearchExample() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    console.log("Searching for:", searchQuery);
+    // Implement your search logic
+  };
+
+  return (
+    <Input
+      label="Search Products"
+      value={searchQuery}
+      onChange={handleChange}
+      placeholder="Type to search..."
+      isExistSearch={true}
+      onClick={handleSearch}
+    />
+  );
+}
 ```
 
-### Input with Copy Functionality
+### Input with Icons
 
 ```tsx
-<Input
-  label="API Key"
-  value={apiKey}
-  onChange={(e) => setApiKey(e.target.value)}
-  isExistCopy={true}
-  disabled={true}
-/>
+import { Input } from "@bearlab/input";
+import { IconUser, IconMail } from "@bearlab/core";
+import { useState } from "react";
+
+function IconExample() {
+  const [email, setEmail] = useState("");
+
+  return (
+    <div>
+      {/* With icon component */}
+      <Input
+        label="Email Address"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        beforeIcon={IconMail}
+        placeholder="Enter your email"
+      />
+
+      {/* With string icon */}
+      <Input
+        label="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        afterIcon="@"
+        placeholder="Enter username"
+      />
+    </div>
+  );
+}
 ```
 
-### Input with Custom Icons
+### Form Validation
 
 ```tsx
-import { UserIcon, LockIcon } from "your-icon-library";
+import { Input } from "@bearlab/input";
+import { useState } from "react";
 
-<Input
-  label="Username"
-  value={username}
-  onChange={(e) => setUsername(e.target.value)}
-  beforeIcon={UserIcon}
-  afterIcon={LockIcon}
-/>;
+function ValidationExample() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validateField = (name: string, value: string) => {
+    let error = "";
+
+    switch (name) {
+      case "email":
+        if (!value) {
+          error = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          error = "Invalid email format";
+        }
+        break;
+      case "password":
+        if (!value) {
+          error = "Password is required";
+        } else if (value.length < 8) {
+          error = "Password must be at least 8 characters";
+        }
+        break;
+      case "confirmPassword":
+        if (value !== formData.password) {
+          error = "Passwords do not match";
+        }
+        break;
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
+  const handleChange =
+    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      validateField(name, value);
+    };
+
+  return (
+    <form>
+      <Input
+        label="Email"
+        type="email"
+        value={formData.email}
+        onChange={handleChange("email")}
+        error={errors.email}
+        isRequired
+        placeholder="Enter your email"
+      />
+
+      <Input
+        label="Password"
+        type="password"
+        value={formData.password}
+        onChange={handleChange("password")}
+        error={errors.password}
+        isExistPassword={true}
+        isRequired
+        placeholder="Create a password"
+      />
+
+      <Input
+        label="Confirm Password"
+        type="password"
+        value={formData.confirmPassword}
+        onChange={handleChange("confirmPassword")}
+        error={errors.confirmPassword}
+        isExistPassword={true}
+        isRequired
+        placeholder="Confirm your password"
+      />
+    </form>
+  );
+}
 ```
 
-### Input with Error State
+### Complex Input with Multiple Features
 
 ```tsx
-<Input
-  label="Email"
-  type="email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  error={emailError}
-  isRequired={true}
-/>
-```
+import { Input } from "@bearlab/input";
+import { IconLock } from "@bearlab/core";
+import { useState } from "react";
 
-## Props
+function ComplexExample() {
+  const [secureData, setSecureData] = useState("encrypted-data-12345");
 
-| Prop              | Type                                           | Default  | Description                        |
-| ----------------- | ---------------------------------------------- | -------- | ---------------------------------- |
-| `label`           | `string`                                       | -        | Input label text                   |
-| `value`           | `string \| number`                             | -        | Input value                        |
-| `onChange`        | `(e: ChangeEvent<HTMLInputElement>) => void`   | -        | **Required.** Change event handler |
-| `type`            | `'text' \| 'password' \| 'email' \| 'tel'`     | `'text'` | Input type                         |
-| `placeholder`     | `string`                                       | -        | Placeholder text                   |
-| `disabled`        | `boolean`                                      | `false`  | Disable the input                  |
-| `error`           | `any`                                          | -        | Error message to display           |
-| `isRequired`      | `boolean`                                      | `false`  | Show required asterisk             |
-| `className`       | `string`                                       | -        | Additional CSS class               |
-| `maxLength`       | `number`                                       | -        | Maximum character length           |
-| `beforeIcon`      | `string \| React.FC<SVGProps<SVGSVGElement>>`  | -        | Icon before input                  |
-| `afterIcon`       | `string \| React.FC<SVGProps<SVGSVGElement>>`  | -        | Icon after input                   |
-| `isExistSearch`   | `boolean`                                      | `false`  | Show search icon                   |
-| `isExistPassword` | `boolean`                                      | `false`  | Enable password visibility toggle  |
-| `isExistCopy`     | `boolean`                                      | `false`  | Enable copy functionality          |
-| `onClick`         | `(e: MouseEvent) => void`                      | -        | Click handler for search icon      |
-| `onBlur`          | `(e: FocusEvent<HTMLInputElement>) => void`    | -        | Blur event handler                 |
-| `onKeyDown`       | `(e: KeyboardEvent<HTMLInputElement>) => void` | -        | KeyDown event handler              |
-| `onPaste`         | `ClipboardEventHandler<HTMLInputElement>`      | -        | Paste event handler                |
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      console.log("Enter pressed");
+    }
+  };
 
-## Styling
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    console.log("Paste blocked for security");
+  };
 
-The component uses CSS modules with SCSS. You can override styles by targeting these classes:
-
-```scss
-.container {
-  // Main container styles
-}
-
-.label {
-  // Label styles
-}
-
-.inputWrapper {
-  // Input wrapper styles
-}
-
-.withIcon {
-  // Icon container styles
-}
-
-.beforeIcon {
-  // Before icon positioning
-}
-
-.afterIcon {
-  // After icon positioning
-}
-
-.error {
-  // Error state styles
-}
-
-.disabled {
-  // Disabled state styles
+  return (
+    <Input
+      label="Secure Token"
+      value={secureData}
+      onChange={(e) => setSecureData(e.target.value)}
+      beforeIcon={IconLock}
+      isExistCopy={true}
+      isExistPassword={true}
+      type="password"
+      maxLength={50}
+      onKeyDown={handleKeyDown}
+      onPaste={handlePaste}
+      className="secure-input"
+    />
+  );
 }
 ```
 
-## Accessibility
+## 📚 API Reference
 
-- Uses semantic HTML with proper input labeling
-- Supports keyboard navigation
-- Screen reader friendly with ARIA attributes
-- Focus management for password toggle and copy functionality
+### Props
 
-## Browser Support
+| Prop          | Type                                               | Default      | Description                                |
+| ------------- | -------------------------------------------------- | ------------ | ------------------------------------------ |
+| `label`       | `string`                                           | `undefined`  | Label text displayed above the input       |
+| `value`       | `string \| number`                                 | `undefined`  | The input value                            |
+| `onChange`    | `(e: React.ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when input value changes    |
+| `type`        | `"text" \| "password" \| "email" \| "tel"`         | `"text"`     | Input type                                 |
+| `placeholder` | `string`                                           | `undefined`  | Placeholder text                           |
+| `error`       | `any`                                              | `undefined`  | Error message to display                   |
+| `disabled`    | `boolean`                                          | `false`      | Whether the input is disabled              |
+| `isRequired`  | `boolean`                                          | `false`      | Shows required asterisk (\*) next to label |
+| `className`   | `string`                                           | `undefined`  | Additional CSS class for container         |
+| `maxLength`   | `number`                                           | `undefined`  | Maximum number of characters               |
 
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+### Feature Props
 
-## Contributing
+| Prop              | Type                                                | Default     | Description                          |
+| ----------------- | --------------------------------------------------- | ----------- | ------------------------------------ |
+| `isExistPassword` | `boolean`                                           | `false`     | Adds password visibility toggle      |
+| `isExistCopy`     | `boolean`                                           | `false`     | Adds copy to clipboard functionality |
+| `isExistSearch`   | `boolean`                                           | `false`     | Adds search icon                     |
+| `beforeIcon`      | `string \| React.FC<React.SVGProps<SVGSVGElement>>` | `undefined` | Icon displayed before the input      |
+| `afterIcon`       | `string \| React.FC<React.SVGProps<SVGSVGElement>>` | `undefined` | Icon displayed after the input       |
+
+### Event Handler Props
+
+| Prop        | Type                                                 | Description                           |
+| ----------- | ---------------------------------------------------- | ------------------------------------- |
+| `onBlur`    | `(e: React.FocusEvent<HTMLInputElement>) => void`    | Callback fired when input loses focus |
+| `onKeyDown` | `(e: React.KeyboardEvent<HTMLInputElement>) => void` | Callback fired on key press           |
+| `onPaste`   | `React.ClipboardEventHandler<HTMLInputElement>`      | Callback fired on paste event         |
+| `onClick`   | `(e: React.MouseEvent) => void`                      | Callback for search icon click        |
+
+### TypeScript Support
+
+The component is fully typed with TypeScript:
+
+```tsx
+export interface Props extends JSX.IntrinsicElements["input"] {
+  error?: any;
+  name?: string;
+  value?: string | number;
+  label?: string;
+  className?: string;
+  disabled?: boolean;
+  maxLength?: number;
+  isRequired?: boolean;
+  placeholder?: string;
+  isExistCopy?: boolean;
+  isExistSearch?: boolean;
+  isExistPassword?: boolean;
+  type?: "text" | "password" | "email" | "tel";
+  beforeIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  afterIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  onChange: (val: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (val: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+  onClick?: (e: React.MouseEvent) => void;
+}
+```
+
+### Icon System
+
+The component supports flexible icon positioning:
+
+- **beforeIcon**: Displayed on the left side with border separator
+- **afterIcon**: Displayed on the right side with border separator
+- **String icons**: Simple text/symbols (e.g., "@", "$", "%")
+- **Component icons**: React SVG components from `@bearlab/core`
+
+## 🎨 Styling
+
+### CSS Custom Properties
+
+```css
+.your-input-class {
+  --input-border-color: #e5e7eb;
+  --input-focus-color: #3b82f6;
+  --input-error-color: #ef4444;
+  --input-background: transparent;
+  --input-text-color: #374151;
+  --input-placeholder-color: #9ca3af;
+}
+```
+
+### Custom Styling
+
+```css
+.custom-input {
+  /* Container styling */
+}
+
+.custom-input .inputWrapper input {
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+}
+
+.custom-input .label {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.custom-input .withIcon {
+  background-color: #f8fafc;
+}
+```
+
+### Mobile Responsiveness
+
+The component includes mobile-specific optimizations:
+
+- Responsive label sizing
+- Touch-friendly icon areas
+- Optimized spacing for mobile devices
+- Hidden elements that don't work well on mobile
+
+## ♿ Accessibility
+
+- **ARIA Labels**: Proper labeling for screen readers
+- **Focus Management**: Visible focus indicators with proper contrast
+- **Keyboard Navigation**: Full keyboard support
+- **Error Announcements**: Screen reader announcements for validation errors
+- **Semantic HTML**: Proper form element structure
+- **Required Field Indicators**: Clear visual and programmatic required field marking
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT © [hasanbala]
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/input">📦 View on NPM</a>
+  </p>
+</div>

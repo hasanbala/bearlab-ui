@@ -1,250 +1,195 @@
-# Copy Component
+# @bearlab/copy
 
-A convenient component for copying text to clipboard with visual feedback and customizable behavior.
+A React component that displays text with a convenient copy-to-clipboard functionality. Features visual feedback, error handling, and theme support.
 
-## Installation
+## ✨ Features
+
+- 📋 **One-Click Copy** - Copy text to clipboard with a single button click
+- ✅ **Visual Feedback** - Icon changes to checkmark after successful copy
+- 🎨 **Theme Support** - Built-in light/dark theme compatibility
+- 🚫 **Disabled State** - Prevent copying when needed
+- 📱 **Responsive Design** - Works seamlessly across different screen sizes
+- 🔧 **Customizable** - Easy styling with CSS modules and custom classes
+- ⚡ **TypeScript** - Full TypeScript support with comprehensive type definitions
+- 🔒 **Secure** - Uses modern Clipboard API with fallback handling
+- 💬 **Accessible** - Proper ARIA labels and keyboard navigation support
+
+## 📦 Installation
 
 ```bash
 npm install @bearlab/copy
 ```
 
-## Usage
-
-```tsx
-import { Copy } from '@bearlab/copy';
-
-// Basic usage
-<Copy text="Hello World!" />
-
-// With custom label
-<Copy
-  text="API_KEY_123456789"
-  label="Copy API Key"
-/>
-
-// Disabled state
-<Copy
-  text="Cannot copy this"
-  disabled={true}
-/>
+```bash
+yarn add @bearlab/copy
 ```
 
-## Props
+## 🔗 Dependencies
 
-| Prop        | Type      | Default      | Description                        |
-| ----------- | --------- | ------------ | ---------------------------------- |
-| `text`      | `string`  | **Required** | The text to be copied to clipboard |
-| `label`     | `string`  | `"Copy"`     | Button tooltip label               |
-| `className` | `string`  | `undefined`  | Additional CSS classes             |
-| `copyId`    | `any`     | `undefined`  | Optional ID for copy tracking      |
-| `disabled`  | `boolean` | `false`      | Disables the copy functionality    |
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/button` - For the copy button functionality
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-## Examples
+## 🎯 Usage Examples
 
-### Basic Text Copy
-
-```tsx
-<Copy text="john.doe@example.com" />
-```
-
-### API Key Copy
-
-```tsx
-const apiKey = "sk-1234567890abcdef";
-
-<Copy text={apiKey} label="Copy API Key" className="api-key-copy" />;
-```
-
-### Code Snippet Copy
-
-```tsx
-const codeSnippet = `
-const greeting = "Hello, World!";
-console.log(greeting);
-`;
-
-<Copy text={codeSnippet} label="Copy Code" />;
-```
-
-### Dynamic Content
-
-```tsx
-const [userId] = useState("user_12345");
-
-<Copy text={userId} label="Copy User ID" copyId={userId} />;
-```
-
-### With Empty/Null Text Handling
-
-```tsx
-// Shows "-" when text is empty or null
-<Copy text="" label="Copy Empty" />
-<Copy text={null} label="Copy Null" />
-```
-
-### Disabled Copy
-
-```tsx
-<Copy text="Protected content" label="Copy Protected" disabled={true} />
-```
-
-### List of Copyable Items
-
-```tsx
-const items = [
-  { id: 1, value: "item_001", label: "Copy Item 1" },
-  { id: 2, value: "item_002", label: "Copy Item 2" },
-  { id: 3, value: "item_003", label: "Copy Item 3" },
-];
-
-<div>
-  {items.map((item) => (
-    <Copy key={item.id} text={item.value} label={item.label} copyId={item.id} />
-  ))}
-</div>;
-```
-
-### URL Copy
-
-```tsx
-const shareUrl = "https://example.com/share/12345";
-
-<Copy text={shareUrl} label="Copy Share Link" className="url-copy" />;
-```
-
-### Token Copy with Formatting
-
-```tsx
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
-
-<div className="token-container">
-  <span className="token-label">Access Token:</span>
-  <Copy text={accessToken} label="Copy Token" className="token-copy" />
-</div>;
-```
-
-## Features
-
-### Visual Feedback
-
-The component provides immediate visual feedback when copying:
-
-1. **Default State**: Shows copy icon
-2. **Success State**: Shows checkmark icon for 3 seconds
-3. **Disabled State**: Grayed out appearance
-
-### Text Display
-
-- Displays the actual text content
-- Shows "-" when text is empty or null
-- Handles long text gracefully
-
-### Error Handling
-
-```tsx
-// Component handles clipboard API errors gracefully
-<Copy
-  text="Text to copy"
-  onError={(error) => console.error("Copy failed:", error)}
-/>
-```
-
-### Clipboard API Support
-
-The component uses the modern Clipboard API (`navigator.clipboard.writeText()`):
-
-- Works in secure contexts (HTTPS)
-- Requires user interaction
-- Falls back gracefully on unsupported browsers
-
-## State Management
-
-The component manages its own internal state:
-
-```tsx
-const [isCopy, setIsCopy] = useState(false);
-```
-
-After successful copy:
-
-1. Sets `isCopy` to `true`
-2. Changes icon to checkmark
-3. Resets to default state after 3 seconds
-
-## Accessibility
-
-- Uses semantic button element
-- Provides descriptive tooltip labels
-- Keyboard accessible
-- Screen reader friendly
-- Visual feedback for actions
-
-## Styling
-
-Uses CSS modules with these classes:
-
-- `.container` - Main wrapper
-- `.text` - Text display area
-- `.disabled` - Disabled state styling
-
-The copy button inherits styling from the Button component.
-
-## Browser Compatibility
-
-- Modern browsers with Clipboard API support
-- Requires HTTPS in production
-- Falls back gracefully in unsupported environments
-
-## Integration Example
+### Basic Usage
 
 ```tsx
 import { Copy } from "@bearlab/copy";
-import { useState } from "react";
 
-const DataDisplay = () => {
-  const [data] = useState({
-    userId: "user_12345",
-    sessionId: "session_abcdef",
-    apiEndpoint: "https://api.example.com/v1",
-  });
-
-  return (
-    <div className="data-display">
-      <div className="data-row">
-        <span>User ID:</span>
-        <Copy text={data.userId} label="Copy User ID" />
-      </div>
-
-      <div className="data-row">
-        <span>Session ID:</span>
-        <Copy text={data.sessionId} label="Copy Session ID" />
-      </div>
-
-      <div className="data-row">
-        <span>API Endpoint:</span>
-        <Copy text={data.apiEndpoint} label="Copy API Endpoint" />
-      </div>
-    </div>
-  );
-};
+function App() {
+  return <Copy text="Hello, World!" label="Copy text" />;
+}
 ```
 
-## Security Considerations
+### API Keys or Tokens
 
-- Only copies text to clipboard (no HTML or rich content)
-- Respects browser security policies
-- Requires user interaction to trigger copy
-- Works only in secure contexts
+```tsx
+<Copy text="sk-1234567890abcdef..." label="Copy API key" copyId="api-key-123" />
+```
 
-## TypeScript Support
+### Code Snippets
 
-Full TypeScript support with proper type definitions.
+```tsx
+<Copy text={`npm install @bearlab/copy`} label="Copy install command" />
+```
 
-## Dependencies
+### With Custom Styling
 
-- `@bearlab/button` - Button component for copy action
-- `classnames` - CSS class management
+```tsx
+<Copy
+  text="Custom styled copy component"
+  className="my-custom-copy"
+  label="Copy"
+/>
+```
 
-## License
+### Disabled State
 
-MIT
+```tsx
+<Copy text="This cannot be copied" disabled label="Copy disabled" />
+```
+
+### Handling Empty or Null Text
+
+```tsx
+// Shows "-" when text is empty or null
+<Copy
+  text=""
+  label="Copy empty text"
+/>
+
+<Copy
+  text={null}
+  label="Copy null text"
+/>
+```
+
+## 📚 API Reference
+
+### Props
+
+| Prop        | Type                                    | Default      | Description                                   |
+| ----------- | --------------------------------------- | ------------ | --------------------------------------------- |
+| `text`      | `string`                                | **Required** | The text content to be copied to clipboard    |
+| `label`     | `string`                                | `"Copy"`     | Accessible label for the copy button          |
+| `copyId`    | `string \| number \| null \| undefined` | `undefined`  | Unique identifier for the copy instance       |
+| `disabled`  | `boolean`                               | `false`      | Disables the copy functionality               |
+| `className` | `string`                                | `undefined`  | Additional CSS class names for custom styling |
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling
+
+### CSS Variables
+
+```css
+.my-custom-copy {
+  --copy-text-padding: 16px;
+  --copy-border-radius: 12px;
+  --copy-font-size: 16px;
+  --copy-height: 48px;
+}
+```
+
+### Custom Styling
+
+```scss
+.my-custom-copy {
+  .text {
+    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+    border: 2px dashed #ccc;
+    font-family: "Monaco", monospace;
+
+    &:hover {
+      border-color: #007bff;
+    }
+  }
+
+  // Style the copy button
+  button {
+    margin-left: 8px;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+```
+
+## ♿ Accessibility
+
+- **ARIA Labels**: Copy button includes descriptive labels
+- **Keyboard Navigation**: Fully navigable with Tab key
+- **Screen Readers**: Compatible with screen reading software
+- **High Contrast**: Supports high contrast mode
+- **Focus Indicators**: Clear focus states for keyboard users
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+## 📄 License and 👨‍💻 Author
+
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/copy">📦 View on NPM</a>
+  </p>
+</div>

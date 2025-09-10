@@ -1,63 +1,67 @@
-# Switch Component
+# @bearlab/switch
 
-A modern, accessible toggle switch component for React applications. Provides a sleek alternative to traditional checkboxes with smooth animations and comprehensive features.
+A modern, accessible, and highly customizable Switch (toggle) component for React applications with full TypeScript support, smooth animations, and built-in theme compatibility.
 
-## Features
+## ✨ Features
 
-- 🎨 **Modern Design**: Clean, iOS-inspired toggle switch
-- ♿ **Accessible**: Full keyboard navigation and screen reader support
-- 🏷️ **Flexible Labeling**: Support for labels, error messages, and help text
-- 🔧 **Customizable**: Easy to style and integrate
-- 📱 **Touch Friendly**: Optimized for mobile interactions
-- 🎯 **TypeScript Support**: Complete type definitions included
-- ❗ **Error Handling**: Built-in error state display
-- 💡 **Popover Support**: Optional help text with popover
+- 🎯 **Modern Toggle Design**: Sleek iOS-style switch with smooth animations
+- 🌓 **Theme Support**: Built-in light and dark theme compatibility
+- ♿ **Accessibility First**: Screen reader friendly with proper ARIA attributes
+- 🔧 **TypeScript**: Complete type safety with TypeScript definitions
+- 🎨 **Customizable**: Flexible styling with CSS modules and custom classes
+- 📱 **Touch Friendly**: Optimized for mobile and touch interactions
+- ⚡ **Smooth Animations**: 60fps transitions with CSS transforms
+- 💬 **Popover Support**: Optional tooltip/popover functionality
+- 🚨 **Error Handling**: Built-in error state with visual feedback
+- 🔍 **Form Integration**: Perfect for form libraries and controlled components
 
-## Installation
+## 📦 Installation
 
 ```bash
-npm install your-switch-package-name
-# or
-yarn add your-switch-package-name
+npm install @bearlab/checkbox
 ```
 
-## Dependencies
+```bash
+yarn add @bearlab/checkbox
+```
 
-This component requires the following peer dependencies:
+## 🔗 Dependencies
 
-- `@bearlab/popover` (for popover functionality)
-- `@bearlab/view-error` (for error display)
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-## Usage
+## 🎯 Usage Examples
 
-### Basic Example
+### Basic Usage
 
 ```tsx
-import { Switch } from "your-switch-package-name";
-import { useState } from "react";
+import { Switch } from "@bearlab/switch";
 
-function MyComponent() {
-  const [isEnabled, setIsEnabled] = useState(false);
+function Settings() {
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <Switch
-      checked={isEnabled}
-      onChange={(e) => setIsEnabled(e.target.checked)}
-      label="Enable notifications"
+      name="darkMode"
+      label="Dark Mode"
+      checked={darkMode}
+      onChange={(e) => setDarkMode(e.target.checked)}
     />
   );
 }
 ```
 
-### With Label and Required Indicator
+### With Popover
 
 ```tsx
 <Switch
-  checked={darkMode}
-  onChange={handleDarkModeToggle}
-  label="Dark Mode"
-  name="darkMode"
-  isRequired
+  name="autoSave"
+  label="Auto Save"
+  checked={autoSave}
+  onChange={handleAutoSave}
+  popover="Automatically save your changes as you work"
 />
 ```
 
@@ -65,288 +69,202 @@ function MyComponent() {
 
 ```tsx
 <Switch
-  checked={termsAccepted}
-  onChange={handleTermsChange}
-  label="I accept the terms and conditions"
   name="terms"
-  error="You must accept the terms to continue"
+  label="Accept Terms & Conditions"
+  checked={acceptedTerms}
+  onChange={handleTermsChange}
+  error={!acceptedTerms ? "You must accept the terms to continue" : null}
   isRequired
 />
 ```
 
-### With Help Text (Popover)
+### Disabled State
 
 ```tsx
 <Switch
-  checked={analyticsEnabled}
-  onChange={handleAnalyticsToggle}
-  label="Analytics"
-  name="analytics"
-  popover="Help us improve by sharing anonymous usage data"
+  name="premium"
+  label="Premium Features"
+  checked={false}
+  onChange={() => {}}
+  disabled
+  popover="Upgrade to Pro to enable premium features"
 />
 ```
 
-### Disabled State
+### Without Label
 
 ```tsx
-<Switch checked={false} onChange={() => {}} label="Premium Feature" disabled />
+<Switch
+  name="toggle"
+  checked={isToggled}
+  onChange={handleToggle}
+  className="standalone-switch"
+/>
 ```
 
-## Props
-
-| Prop         | Type                                             | Default     | Required | Description                             |
-| ------------ | ------------------------------------------------ | ----------- | -------- | --------------------------------------- |
-| `checked`    | `boolean`                                        | -           | ✅       | Current checked state of the switch     |
-| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | -           | ✅       | Callback fired when the state changes   |
-| `label`      | `string`                                         | `undefined` | ❌       | Label text displayed next to the switch |
-| `name`       | `string`                                         | `undefined` | ❌       | HTML name attribute                     |
-| `disabled`   | `boolean`                                        | `false`     | ❌       | Whether the switch is disabled          |
-| `error`      | `any`                                            | `undefined` | ❌       | Error message to display                |
-| `isRequired` | `boolean`                                        | `false`     | ❌       | Shows required indicator (\*)           |
-| `popover`    | `string`                                         | `undefined` | ❌       | Help text shown in popover              |
-| `className`  | `string`                                         | `undefined` | ❌       | Additional CSS class names              |
-
-All other standard HTML input props are also supported.
-
-## Styling
-
-The component uses CSS modules for styling. You can customize the appearance by:
-
-### Using className prop
+### Custom Switch Groups
 
 ```tsx
-<Switch className="my-switch" checked={value} onChange={handler} />
-```
-
-### CSS Module overrides
-
-```css
-.my-switch {
-  /* Container styles */
-}
-
-.my-switch .slider {
-  /* Slider track styles */
-  background-color: #e0e0e0;
-  border-radius: 20px;
-}
-
-.my-switch .toggle {
-  /* Toggle button styles */
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.my-switch .checked {
-  /* Checked state styles */
-  background-color: #007bff;
-}
-```
-
-### Custom CSS Properties
-
-```css
-.my-switch {
-  --switch-width: 50px;
-  --switch-height: 28px;
-  --toggle-size: 24px;
-  --switch-padding: 2px;
-}
-```
-
-## States
-
-### Default State
-
-- Clean, minimal appearance
-- Smooth hover effects
-- Clear visual feedback
-
-### Checked State
-
-- Distinctive color change
-- Smooth toggle animation
-- Clear active indication
-
-### Disabled State
-
-- Reduced opacity
-- No interaction possible
-- Maintains visual consistency
-
-### Error State
-
-- Error message display
-- Visual error indication
-- Maintains functionality
-
-## Accessibility
-
-The Switch component follows WCAG guidelines:
-
-- **Keyboard Navigation**: Full support for Space and Enter keys
-- **Screen Reader**: Proper ARIA labels and descriptions
-- **Focus Management**: Clear focus indicators
-- **High Contrast**: Works with high contrast modes
-
-### Keyboard Shortcuts
-
-| Key           | Action                                 |
-| ------------- | -------------------------------------- |
-| `Space`       | Toggle the switch state                |
-| `Enter`       | Toggle the switch state                |
-| `Tab`         | Navigate to next focusable element     |
-| `Shift + Tab` | Navigate to previous focusable element |
-
-## TypeScript
-
-Complete TypeScript support with exported types:
-
-```tsx
-interface SwitchProps extends Omit<JSX.IntrinsicElements["input"], "popover"> {
-  error?: any;
-  name?: string;
-  label?: string;
-  checked: boolean;
-  popover?: string;
-  disabled?: boolean;
-  className?: string;
-  isRequired?: boolean;
-  onChange: (val: React.ChangeEvent<HTMLInputElement>) => void;
-}
-```
-
-## Examples
-
-### Form Integration
-
-```tsx
-import { Switch } from "your-switch-package-name";
-import { useState } from "react";
-
-function SettingsForm() {
-  const [settings, setSettings] = useState({
-    notifications: true,
-    darkMode: false,
-    analytics: true,
+function PermissionsGroup() {
+  const [permissions, setPermissions] = useState({
+    read: true,
+    write: false,
+    delete: false,
   });
 
-  const handleSettingChange =
-    (key: keyof typeof settings) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSettings((prev) => ({
+  const handlePermissionChange =
+    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setPermissions((prev) => ({
         ...prev,
         [key]: e.target.checked,
       }));
     };
 
   return (
-    <form>
+    <div className="permissions-group">
+      <h3>User Permissions</h3>
+
       <Switch
-        checked={settings.notifications}
-        onChange={handleSettingChange("notifications")}
-        label="Push Notifications"
-        name="notifications"
-        popover="Receive notifications about important updates"
+        name="read"
+        label="Read Access"
+        checked={permissions.read}
+        onChange={handlePermissionChange("read")}
+        disabled // Read access always enabled
+        popover="Basic read permission - cannot be disabled"
       />
 
       <Switch
-        checked={settings.darkMode}
-        onChange={handleSettingChange("darkMode")}
-        label="Dark Mode"
-        name="darkMode"
+        name="write"
+        label="Write Access"
+        checked={permissions.write}
+        onChange={handlePermissionChange("write")}
+        popover="Allow user to create and edit content"
       />
 
       <Switch
-        checked={settings.analytics}
-        onChange={handleSettingChange("analytics")}
-        label="Analytics"
-        name="analytics"
-        popover="Help us improve by sharing anonymous usage data"
+        name="delete"
+        label="Delete Access"
+        checked={permissions.delete}
+        onChange={handlePermissionChange("delete")}
+        error={
+          permissions.delete && !permissions.write
+            ? "Write access required for delete permission"
+            : null
+        }
+        popover="Allow user to delete content (requires write access)"
       />
-    </form>
-  );
-}
-```
-
-### Validation Example
-
-```tsx
-function ConsentForm() {
-  const [accepted, setAccepted] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = () => {
-    if (!accepted) {
-      setError("You must accept the terms to continue");
-      return;
-    }
-    setError("");
-    // Continue with form submission
-  };
-
-  return (
-    <div>
-      <Switch
-        checked={accepted}
-        onChange={(e) => {
-          setAccepted(e.target.checked);
-          if (e.target.checked) setError("");
-        }}
-        label="I accept the terms and conditions"
-        error={error}
-        isRequired
-      />
-      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 }
 ```
 
-### Conditional Rendering
+## 📚 API Reference
 
-```tsx
-function FeatureToggle() {
-  const [showAdvanced, setShowAdvanced] = useState(false);
+### Props
 
-  return (
-    <div>
-      <Switch
-        checked={showAdvanced}
-        onChange={(e) => setShowAdvanced(e.target.checked)}
-        label="Show Advanced Options"
-      />
+| Prop         | Type                                               | Required | Default | Description                              |
+| ------------ | -------------------------------------------------- | -------- | ------- | ---------------------------------------- |
+| `checked`    | `boolean`                                          | ✅       | -       | Whether the switch is checked/enabled    |
+| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | ✅       | -       | Callback fired when switch state changes |
+| `name`       | `string`                                           | ❌       | -       | The name attribute for the input element |
+| `label`      | `string`                                           | ❌       | -       | Label text displayed next to the switch  |
+| `error`      | `any`                                              | ❌       | -       | Error state/message to display           |
+| `className`  | `string`                                           | ❌       | -       | Additional CSS classes                   |
+| `disabled`   | `boolean`                                          | ❌       | `false` | Whether the switch is disabled           |
+| `isRequired` | `boolean`                                          | ❌       | `false` | Shows required indicator (\*)            |
+| `popover`    | `string`                                           | ❌       | -       | Popover/tooltip text shown on hover      |
 
-      {showAdvanced && (
-        <div className="advanced-options">{/* Advanced settings here */}</div>
-      )}
-    </div>
-  );
+The component also accepts all standard HTML `input` element props (except `popover` which is handled separately) through TypeScript's `JSX.IntrinsicElements["input"]`.
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling & Themes
+
+The Switch component automatically adapts to light and dark themes based on the `data-theme` attribute on the HTML element.
+
+### Custom Styling
+
+Override default styles with custom CSS classes:
+
+```scss
+.custom-switch {
+  .slider {
+    --switch-width: 50px;
+    --switch-height: 24px;
+    --toggle-size: 20px;
+  }
 }
 ```
 
-## Browser Support
+## ♿ Accessibility
 
-- Chrome >= 60
-- Firefox >= 60
-- Safari >= 12
-- Edge >= 79
+The Switch component is built with accessibility as a priority:
 
-## Contributing
+### Screen Reader Support
 
-Contributions are welcome! Please read our contributing guidelines and submit pull requests to our GitHub repository.
+- Proper semantic HTML with `<input type="checkbox">`
+- Associated labels with `htmlFor` attributes
+- Clear focus indicators that meet WCAG guidelines
 
-## License
+### Keyboard Navigation
 
-MIT License - see LICENSE file for details.
+- **Space**: Toggle the switch state
+- **Tab/Shift+Tab**: Navigate to/from the switch
+- **Enter**: Activate the switch (in form contexts)
 
-## Changelog
+### Visual Accessibility
 
-### v1.0.0
+- High contrast ratios in both light and dark themes
+- Clear visual states for all interactions
+- Reduced motion support for users with vestibular disorders
 
-- Initial release
-- Full accessibility support
-- Error state handling
-- Popover integration
-- TypeScript support
-- CSS modules styling
+### ARIA Attributes
+
+The component automatically handles ARIA attributes for optimal screen reader experience.
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+## 📄 License and 👨‍💻 Author
+
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/switch">📦 View on NPM</a>
+  </p>
+</div>

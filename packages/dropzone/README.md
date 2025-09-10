@@ -1,92 +1,92 @@
-# Dropzone Component
+# @bearlab/dropzone
 
-A modern, customizable drag-and-drop file upload component for React applications with TypeScript support.
+A modern React dropzone component for file uploads with drag & drop functionality, file management, and loading states. Perfect for document uploads, image galleries, and form integrations.
 
-## Features
+## ✨ Features
 
-- 🎯 **Drag & Drop Support** - Intuitive file upload via drag and drop
-- 📁 **Multiple File Selection** - Support for single or multiple file uploads
-- 🎨 **Customizable Styling** - Easy to customize with CSS modules
-- 🔄 **Loading States** - Built-in loading state management
-- 📋 **File Management** - View and remove uploaded files
-- 🛡️ **Type Safety** - Full TypeScript support
-- 📱 **Responsive Design** - Works on all device sizes
+- 🖱️ **Drag & Drop** - Intuitive file dropping with visual feedback
+- 📁 **File Management** - View, remove, and manage uploaded files
+- 🎯 **File Type Filtering** - Accept specific file types with validation
+- 📷 **Multiple Files** - Support for single or multiple file uploads
+- ⏳ **Loading States** - Built-in loading state handling
+- 🎨 **Theme Support** - Light/dark theme compatibility
+- 📱 **Responsive Design** - Works seamlessly across different devices
+- 🎭 **Visual Feedback** - Hover effects and drag state indicators
+- ⚡ **TypeScript** - Full TypeScript support with type definitions
+- 🔒 **Secure** - Client-side file handling with proper validation
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/dropzone
-# or
+```
+
+```bash
 yarn add @bearlab/dropzone
 ```
 
-## Basic Usage
+## 🔗 Dependencies
+
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/button` - For file removal buttons
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
+
+## 🎯 Usage Examples
+
+### Basic File Upload
 
 ```tsx
-import React, { useState } from "react";
 import { Dropzone } from "@bearlab/dropzone";
+import { useState } from "react";
 
-function App() {
+function FileUploader() {
   const [files, setFiles] = useState<FileList | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Dropzone
       files={files}
       setFiles={setFiles}
-      isLoading={isLoading}
-      multiple={true}
       accept="image/*"
+      multiple={true}
     />
   );
 }
 ```
 
-## Advanced Usage
+### PDF Document Upload
 
 ```tsx
-import React, { useState } from "react";
-import { Dropzone } from "@bearlab/dropzone";
+function DocumentUploader() {
+  const [documents, setDocuments] = useState<FileList | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-function FileUploader() {
-  const [files, setFiles] = useState<FileList | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const handleUpload = async () => {
+    if (!documents) return;
 
-  const handleFileUpload = async () => {
-    if (!files) return;
-
-    setIsLoading(true);
-
+    setIsUploading(true);
     try {
-      // Your file upload logic here
-      const formData = new FormData();
-      Array.from(files).forEach((file) => {
-        formData.append("files", file);
-      });
-
-      // await uploadFiles(formData);
-      console.log("Files uploaded successfully");
-    } catch (error) {
-      console.error("Upload failed:", error);
+      // Upload logic here
+      console.log("Uploading documents:", documents);
     } finally {
-      setIsLoading(false);
+      setIsUploading(false);
     }
   };
 
   return (
     <div>
       <Dropzone
-        files={files}
-        setFiles={setFiles}
-        isLoading={isLoading}
+        files={documents}
+        setFiles={setDocuments}
+        accept="application/pdf"
         multiple={true}
-        accept="application/pdf,image/*"
-        className="custom-dropzone"
+        isLoading={isUploading}
       />
 
-      {files && files.length > 0 && (
-        <button onClick={handleFileUpload} disabled={isLoading}>
-          {isLoading ? "Uploading..." : "Upload Files"}
+      {documents && documents.length > 0 && (
+        <button onClick={handleUpload} disabled={isUploading}>
+          {isUploading ? "Uploading..." : "Upload Documents"}
         </button>
       )}
     </div>
@@ -94,182 +94,252 @@ function FileUploader() {
 }
 ```
 
-## Props
-
-| Prop        | Type                                | Default             | Description                                   |
-| ----------- | ----------------------------------- | ------------------- | --------------------------------------------- |
-| `files`     | `FileList \| null`                  | -                   | **Required.** Current files in the dropzone   |
-| `setFiles`  | `(files: FileList \| null) => void` | -                   | **Required.** Function to update files state  |
-| `className` | `string`                            | -                   | Additional CSS class for styling              |
-| `isLoading` | `boolean`                           | `false`             | Shows loading state and disables interactions |
-| `multiple`  | `boolean`                           | `false`             | Allow multiple file selection                 |
-| `accept`    | `string`                            | `"application/pdf"` | File types to accept (MIME types)             |
-
-## Styling
-
-The component uses CSS modules for styling. You can override styles by passing a `className` prop:
-
-```scss
-.custom-dropzone {
-  border: 2px dashed #007bff;
-  border-radius: 12px;
-
-  &:hover {
-    border-color: #0056b3;
-    background-color: #f8f9fa;
-  }
-}
-```
-
-### Default CSS Classes
-
-- `.container` - Main wrapper
-- `.content` - Dropzone area
-- `.dragging` - Applied when dragging files over
-- `.disabled` - Applied when loading
-- `.card` - File list container
-- `.addedItem` - Individual file item
-- `.icon` - Upload icon container
-- `.description` - Text content area
-
-## Events
-
-The component handles the following events automatically:
-
-- **Drag Over** - Shows visual feedback when files are dragged over
-- **Drag Leave** - Removes visual feedback when drag leaves the area
-- **Drop** - Processes dropped files
-- **File Input Change** - Handles traditional file selection
-- **File Remove** - Removes individual files from the list
-
-## File Types
-
-You can specify accepted file types using the `accept` prop:
-
-```tsx
-// Images only
-<Dropzone accept="image/*" />
-
-// PDFs only
-<Dropzone accept="application/pdf" />
-
-// Multiple types
-<Dropzone accept="image/*,application/pdf,.docx" />
-
-// All files
-<Dropzone accept="*/*" />
-```
-
-## Loading States
-
-The component provides built-in loading state management:
-
-```tsx
-const [isLoading, setIsLoading] = useState(false);
-
-// During upload
-setIsLoading(true);
-
-<Dropzone
-  isLoading={isLoading}
-  // ... other props
-/>;
-```
-
-When `isLoading` is `true`:
-
-- Drag and drop is disabled
-- File selection is disabled
-- Remove buttons are disabled
-- Visual loading state is shown
-
-## Accessibility
-
-The component follows accessibility best practices:
-
-- Proper ARIA labels
-- Keyboard navigation support
-- Screen reader compatible
-- Focus management
-
-## Browser Support
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
-## Dependencies
-
-- `react` >= 16.8.0
-- `@bearlab/core` (for icons)
-- `@bearlab/button` (for remove buttons)
-- `classnames` (for conditional styling)
-
-## TypeScript
-
-Full TypeScript support with proper type definitions:
-
-```tsx
-interface DropzoneProps {
-  className?: string;
-  accept?: string;
-  multiple?: boolean;
-  isLoading?: boolean;
-  files: FileList | null;
-  setFiles: (files: FileList | null) => void;
-}
-```
-
-## Examples
-
-### Image Gallery Uploader
+### Image Gallery Upload
 
 ```tsx
 function ImageGallery() {
   const [images, setImages] = useState<FileList | null>(null);
 
+  const handleImagePreview = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Handle image preview
+      console.log("Image preview:", e.target?.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <Dropzone
       files={images}
       setFiles={setImages}
-      accept="image/jpeg,image/png,image/webp"
+      accept="image/jpeg,image/png,image/gif,image/webp"
       multiple={true}
-      className="image-uploader"
+      className="image-dropzone"
     />
   );
 }
 ```
 
-### Document Uploader
+### Single File Upload
 
 ```tsx
-function DocumentUploader() {
-  const [documents, setDocuments] = useState<FileList | null>(null);
+function ProfilePictureUpload() {
+  const [avatar, setAvatar] = useState<FileList | null>(null);
 
   return (
-    <Dropzone
-      files={documents}
-      setFiles={setDocuments}
-      accept="application/pdf,.doc,.docx,.txt"
-      multiple={false}
-    />
+    <div className="profile-upload">
+      <h3>Upload Profile Picture</h3>
+      <Dropzone
+        files={avatar}
+        setFiles={setAvatar}
+        accept="image/jpeg,image/png"
+        multiple={false}
+      />
+    </div>
   );
 }
 ```
 
-## Contributing
+## 📚 API Reference
+
+### Props
+
+| Prop        | Type                                | Default             | Description                                 |
+| ----------- | ----------------------------------- | ------------------- | ------------------------------------------- |
+| `files`     | `FileList \| null`                  | **Required**        | Currently selected files                    |
+| `setFiles`  | `(files: FileList \| null) => void` | **Required**        | Function to update selected files           |
+| `accept`    | `string`                            | `"application/pdf"` | Accepted file types (MIME types)            |
+| `multiple`  | `boolean`                           | `false`             | Allow multiple file selection               |
+| `isLoading` | `boolean`                           | `false`             | Show loading state and disable interactions |
+| `className` | `string`                            | `undefined`         | Additional CSS class names                  |
+
+### File Type Examples
+
+```tsx
+// Images only
+accept = "image/*";
+
+// Specific image types
+accept = "image/jpeg,image/png,image/gif";
+
+// Documents
+accept = "application/pdf";
+
+// Text files
+accept = "text/plain,text/csv";
+
+// Multiple types
+accept = "image/*,application/pdf,.docx";
+
+// All files
+accept = "*";
+```
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## Styling
+
+### CSS Variables
+
+```css
+.custom-dropzone {
+  --dropzone-border-radius: 12px;
+  --dropzone-padding: 48px;
+  --dropzone-border-color: #e0e0e0;
+  --dropzone-hover-border-color: #007bff;
+  --dropzone-background: #f8f9fa;
+  --dropzone-icon-size: 80px;
+}
+```
+
+### Custom Styling
+
+```scss
+.my-custom-dropzone {
+  // Dropzone area
+  .content {
+    border: 2px dashed #ccc;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #f9f9f9, #ededed);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: #007bff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    &.dragging {
+      border-color: #28a745;
+      background: linear-gradient(145deg, #f0f8f0, #e6f4e6);
+      transform: scale(1.02);
+    }
+  }
+
+  // Icon styling
+  .icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    svg {
+      color: white;
+    }
+  }
+
+  // File list styling
+  .card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    .addedItem {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+// Loading state animation
+.custom-dropzone .disabled {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    animation: loading-shimmer 1.5s infinite;
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+```
+
+## ♿ Accessibility
+
+- **Keyboard Navigation**: Full keyboard support for file selection
+- **Screen Readers**: Proper ARIA labels and descriptions
+- **Focus Management**: Clear focus indicators
+- **High Contrast**: Supports high contrast mode
+- **Alternative Input**: Click to browse fallback for drag & drop
+
+### ARIA Attributes
+
+The component includes proper ARIA labeling:
+
+- `aria-label` for file input
+- `role="button"` for clickable areas
+- `aria-describedby` for instructions
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT License - see LICENSE file for details
+MIT © [hasanbala](https://github.com/hasanbala)
 
-## Support
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-For support, please open an issue on GitHub or contact our team.
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/dropzone">📦 View on NPM</a>
+  </p>
+</div>

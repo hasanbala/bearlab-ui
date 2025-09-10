@@ -1,8 +1,8 @@
-# ViewCard Component
+# @bearlab/view-card
 
 A versatile card component for React applications that handles both content display and empty states. Perfect for dashboards, data displays, and content sections that may or may not have data.
 
-## Features
+## ✨ Features
 
 - 🎴 **Dual Mode**: Content card and empty state card
 - 🎨 **Flexible Layout**: Header with title and description
@@ -13,21 +13,24 @@ A versatile card component for React applications that handles both content disp
 - 📱 **Responsive**: Works seamlessly across all screen sizes
 - ⚡ **Lightweight**: Minimal dependencies and bundle size
 
-## Installation
+## 📦 Installation
 
 ```bash
-npm install your-viewcard-package-name
-# or
-yarn add your-viewcard-package-name
+npm install @bearlab/checkbox
 ```
 
-## Dependencies
+```bash
+yarn add @bearlab/checkbox
+```
 
-This component requires the following peer dependency:
+## 🔗 Dependencies
 
-- `@bearlab/core` (for IconEmpty)
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-## Usage
+## 🎯 Usage Examples
 
 ### Content Card (With Children)
 
@@ -91,7 +94,9 @@ When no children are provided, it automatically shows an empty state:
 </ViewCard>
 ```
 
-## Props
+## 📚 API Reference
+
+### Props
 
 | Prop          | Type                                   | Default     | Required | Description                                                                  |
 | ------------- | -------------------------------------- | ----------- | -------- | ---------------------------------------------------------------------------- |
@@ -100,26 +105,30 @@ When no children are provided, it automatically shows an empty state:
 | `children`    | `React.ReactNode \| null \| undefined` | `undefined` | ❌       | Card content. If provided, renders content card; if not, renders empty state |
 | `className`   | `string`                               | `undefined` | ❌       | Additional CSS class names                                                   |
 
-## Card States
+### TypeScript Interface
 
-### Content Card State
+Complete TypeScript support:
 
-Activated when `children` prop contains content:
+```tsx
+interface ViewCardProps {
+  className?: string;
+  title?: string;
+  description?: string;
+  children?: React.ReactNode | null | undefined;
+}
+```
 
-- Header section with title and description
-- Content area for children
-- Standard card layout
+## 🌙 Theme Support
 
-### Empty State Card
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
 
-Activated when `children` is null, undefined, or not provided:
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
 
-- Centered layout
-- Empty state icon
-- Title and description
-- Visual indication of no content
-
-## Styling
+## 🎨 Styling
 
 The component uses CSS modules for styling. Customize through:
 
@@ -187,248 +196,48 @@ The component uses CSS modules for styling. Customize through:
 }
 ```
 
-## Layout Variations
-
-### Dashboard Card
-
-```tsx
-<ViewCard title="Sales Overview" description="Monthly sales performance">
-  <div className="stats-grid">
-    <div className="stat">
-      <span className="value">$45,231</span>
-      <span className="label">Revenue</span>
-    </div>
-    <div className="stat">
-      <span className="value">1,234</span>
-      <span className="label">Orders</span>
-    </div>
-  </div>
-</ViewCard>
-```
-
-### Data Table Card
-
-```tsx
-<ViewCard
-  title="Recent Transactions"
-  description="Latest customer transactions"
->
-  <table className="transactions-table">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Customer</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      {transactions.map((transaction) => (
-        <tr key={transaction.id}>
-          <td>{transaction.date}</td>
-          <td>{transaction.customer}</td>
-          <td>{transaction.amount}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</ViewCard>
-```
-
-### Chart Card
-
-```tsx
-<ViewCard
-  title="Performance Metrics"
-  description="Real-time analytics dashboard"
->
-  <div className="chart-container">
-    <LineChart data={chartData} />
-  </div>
-</ViewCard>
-```
-
-## TypeScript
-
-Complete TypeScript support:
-
-```tsx
-interface ViewCardProps {
-  className?: string;
-  title?: string;
-  description?: string;
-  children?: React.ReactNode | null | undefined;
-}
-```
-
-## Examples
-
-### Conditional Content Display
-
-```tsx
-import { ViewCard } from "your-viewcard-package-name";
-import { useState, useEffect } from "react";
-
-function UserList() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchUsers()
-      .then(setUsers)
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <ViewCard
-      title="Team Members"
-      description={users.length ? `${users.length} active members` : undefined}
-    >
-      {users.length > 0 ? (
-        <div className="user-grid">
-          {users.map((user) => (
-            <div key={user.id} className="user-card">
-              <img src={user.avatar} alt={user.name} />
-              <h4>{user.name}</h4>
-              <p>{user.role}</p>
-            </div>
-          ))}
-        </div>
-      ) : null}
-    </ViewCard>
-  );
-}
-```
-
-### Dynamic Content Cards
-
-```tsx
-function ProductDashboard() {
-  const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-
-  const filteredProducts = products.filter(
-    (product) =>
-      selectedCategory === "all" || product.category === selectedCategory
-  );
-
-  return (
-    <div>
-      <CategorySelector
-        value={selectedCategory}
-        onChange={setSelectedCategory}
-      />
-
-      <ViewCard
-        title="Products"
-        description={
-          filteredProducts.length
-            ? `${filteredProducts.length} products found`
-            : "No products match your criteria"
-        }
-      >
-        {filteredProducts.length > 0 && (
-          <div className="products-grid">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
-      </ViewCard>
-    </div>
-  );
-}
-```
-
-### Nested Cards
-
-```tsx
-function AnalyticsDashboard() {
-  return (
-    <div className="dashboard-grid">
-      <ViewCard
-        title="Revenue Analytics"
-        description="Monthly revenue breakdown"
-      >
-        <div className="analytics-content">
-          <ViewCard title="This Month">
-            <div className="metric-large">$12,345</div>
-          </ViewCard>
-
-          <ViewCard title="Last Month">
-            <div className="metric-large">$10,234</div>
-          </ViewCard>
-        </div>
-      </ViewCard>
-    </div>
-  );
-}
-```
-
-### Form Section Cards
-
-```tsx
-function UserProfile() {
-  return (
-    <div className="profile-sections">
-      <ViewCard
-        title="Personal Information"
-        description="Update your basic profile details"
-      >
-        <form className="profile-form">
-          <input placeholder="Full Name" />
-          <input placeholder="Email" />
-          <textarea placeholder="Bio" />
-        </form>
-      </ViewCard>
-
-      <ViewCard title="Preferences" description="Customize your experience">
-        <div className="preferences-form">
-          <label>
-            <input type="checkbox" /> Email Notifications
-          </label>
-          <label>
-            <input type="checkbox" /> Dark Mode
-          </label>
-        </div>
-      </ViewCard>
-    </div>
-  );
-}
-```
-
-## Accessibility
+## ♿ Accessibility
 
 - **Semantic HTML**: Uses proper heading hierarchy
 - **Screen Reader**: Descriptive content structure
 - **Focus Management**: Focusable content is properly managed
 - **ARIA**: Proper labeling when needed
 
-## Browser Support
+## 🛜 Browser Support
 
-- Chrome >= 60
-- Firefox >= 60
-- Safari >= 12
-- Edge >= 79
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome! Please read our contributing guidelines and submit pull requests to our GitHub repository.
+To contribute to the project:
 
-## License
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
-MIT License - see LICENSE file for details.
+## 📄 License and 👨‍💻 Author
 
-## Changelog
+MIT © [hasanbala](https://github.com/hasanbala)
 
-### v1.0.0
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-- Initial release
-- Content and empty state modes
-- Header with title and description
-- TypeScript support
-- CSS modules styling
-- Responsive design
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/view-card">📦 View on NPM</a>
+  </p>
+</div>

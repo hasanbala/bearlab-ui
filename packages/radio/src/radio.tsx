@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import classnames from "classnames";
-import { ViewError } from "@bearlab/view-error";
 import { JSX } from "react";
-import { Popover } from "@bearlab/popover";
 import styles from "./radio.module.scss";
+import { IconError2 } from "@bearlab/core";
 
 export const Radio = (props: RadioProps) => {
   const {
@@ -62,8 +60,13 @@ export const Radio = (props: RadioProps) => {
             )}
           />
         </span>
-        {error && <ViewError label={error} />}
-        {popover && <Popover className={styles.popover} label={popover} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
+        {popover && <div className={styles.popover}>{label}</div>}
       </div>
       {label && (
         <div className={styles.label}>

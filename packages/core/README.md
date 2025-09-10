@@ -2,7 +2,7 @@
 
 Bearlab UI Core package containing shared icons, themes, and utilities.
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/core

@@ -1,340 +1,263 @@
-# OTPForm Component
+# @bearlab/otp-form
 
-A customizable One-Time Password (OTP) input form component built with React and TypeScript. Perfect for verification workflows, two-factor authentication, and secure code entry.
+A highly customizable and accessible React OTP (One-Time Password) input component with advanced features like auto-focus, paste support, and keyboard navigation.
 
-## Features
+## ✨ Features
 
-- 🔢 **Flexible Length** - Support for any OTP length (default 6 digits)
-- ⌨️ **Smart Navigation** - Auto-focus next input on entry, backspace navigation
-- 📋 **Paste Support** - Intelligent paste handling for full codes
-- 🎯 **Input Validation** - Numbers-only mode or alphanumeric support
-- ♿ **Accessibility** - Full keyboard navigation and screen reader support
-- 🎨 **Customizable** - Easy styling and theming
-- 📱 **Mobile Friendly** - Optimized for mobile keyboards
-- ⚡ **Performance** - Efficient re-rendering with proper state management
+✨ **Auto-focus Navigation** - Automatically moves to the next input field when typing
+🔐 **Number/Text Support** - Configure to accept only numbers or any characters
+📋 **Paste Support** - Intelligent paste handling that distributes pasted content across inputs
+⌨️ **Keyboard Navigation** - Full support for arrow keys and backspace navigation
+🎨 **Dark Mode Ready** - Built-in dark theme support
+♿ **Accessibility** - Screen reader friendly with proper ARIA attributes
+🔧 **Highly Customizable** - Configurable length, validation, and styling
+🚀 **TypeScript Support** - Full TypeScript definitions included
+📱 **Responsive Design** - Works seamlessly across all device sizes
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/otp-form
-# or
+```
+
+```bash
 yarn add @bearlab/otp-form
 ```
 
-## Dependencies
+## 🔗 Dependencies
 
-Make sure you have these peer dependencies installed:
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/input` - Input component base
+- `classnames` - For conditional CSS class handling
 
-```bash
-npm install react @bearlab/input
-```
+## 🎯 Usage Examples
 
-## Basic Usage
+### Basic 6-Digit Numeric OTP
 
 ```tsx
+import React, { useState } from "react";
 import { OTPForm } from "@bearlab/otp-form";
-import { useState } from "react";
 
-function VerificationPage() {
-  const [otpValue, setOtpValue] = useState(["", "", "", "", "", ""]);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = () => {
-    const otp = otpValue.join("");
-    console.log("OTP:", otp);
-  };
+export function BasicOTP() {
+  const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
 
   return (
     <OTPForm
-      passValue={otpValue}
-      setPassValue={setOtpValue}
-      title="Enter verification code"
-      loading={loading}
+      passValue={otp}
+      setPassValue={setOtp}
+      title="Enter your 6-digit code"
     />
   );
 }
 ```
 
-## Advanced Examples
-
-### 4-Digit PIN Entry
+### 4-Digit PIN Input
 
 ```tsx
-<OTPForm
-  passValue={pinValue}
-  setPassValue={setPinValue}
-  title="Enter your PIN"
-  otpLength={4}
-  justNumber={true}
-  loading={isVerifying}
-/>
+import React, { useState } from "react";
+import { OTPForm } from "@bearlab/otp-form";
+
+export function PinInput() {
+  const [pin, setPin] = useState<string[]>(new Array(4).fill(""));
+
+  return (
+    <OTPForm
+      passValue={pin}
+      setPassValue={setPin}
+      title="Enter your PIN"
+      otpLength={4}
+      justNumber={true}
+    />
+  );
+}
 ```
 
-### Alphanumeric Code (8 characters)
+### Alphanumeric Code Input
 
 ```tsx
-<OTPForm
-  passValue={codeValue}
-  setPassValue={setCodeValue}
-  title="Enter activation code"
-  otpLength={8}
-  justNumber={false}
-  loading={isActivating}
-/>
+import React, { useState } from "react";
+import { OTPForm } from "@bearlab/otp-form";
+
+export function AlphanumericCode() {
+  const [code, setCode] = useState<string[]>(new Array(8).fill(""));
+
+  return (
+    <OTPForm
+      passValue={code}
+      setPassValue={setCode}
+      title="Enter activation code"
+      otpLength={8}
+      justNumber={false}
+    />
+  );
+}
 ```
 
-### Complete Verification Flow
+### With Loading State
 
 ```tsx
-function TwoFactorAuth() {
-  const [otp, setOtp] = useState(Array(6).fill(""));
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+import React, { useState } from "react";
+import { OTPForm } from "@bearlab/otp-form";
 
-  const handleVerification = async () => {
-    const otpCode = otp.join("");
+export function OTPWithLoading() {
+  const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
+  const [isVerifying, setIsVerifying] = useState(false);
 
-    if (otpCode.length !== 6) {
-      setError("Please enter all 6 digits");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
+  const handleVerify = async () => {
+    setIsVerifying(true);
     try {
-      await verifyOTP(otpCode);
-      // Redirect to success page
-    } catch (err) {
-      setError("Invalid code. Please try again.");
-      setOtp(Array(6).fill("")); // Clear form
+      // Simulate API call
+      await verifyOTP(otp.join(""));
+    } catch (error) {
+      console.error("Verification failed");
     } finally {
-      setLoading(false);
+      setIsVerifying(false);
     }
   };
-
-  // Auto-submit when all fields are filled
-  useEffect(() => {
-    const isComplete = otp.every((digit) => digit !== "");
-    if (isComplete && !loading) {
-      handleVerification();
-    }
-  }, [otp]);
 
   return (
     <div>
       <OTPForm
         passValue={otp}
         setPassValue={setOtp}
-        title="Enter the 6-digit code sent to your phone"
-        loading={loading}
+        title="Enter verification code"
+        loading={isVerifying}
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button onClick={handleVerify} disabled={isVerifying}>
+        {isVerifying ? "Verifying..." : "Verify"}
+      </button>
     </div>
   );
 }
 ```
 
-### Custom Styling
+## 📚 API Reference
+
+### Props
+
+| Prop           | Type                        | Default      | Description                                  |
+| -------------- | --------------------------- | ------------ | -------------------------------------------- |
+| `passValue`    | `string[]`                  | **Required** | Array containing the current OTP values      |
+| `setPassValue` | `(value: string[]) => void` | **Required** | Function to update the OTP values            |
+| `title`        | `string`                    | **Required** | Label/title displayed above the input fields |
+| `otpLength`    | `number`                    | `6`          | Number of input fields to render             |
+| `justNumber`   | `boolean`                   | `true`       | Whether to accept only numeric input         |
+| `loading`      | `boolean`                   | `false`      | Disables all inputs when true                |
+
+### TypeScript Interface
 
 ```tsx
-<div className="custom-otp-container">
-  <OTPForm
-    passValue={otp}
-    setPassValue={setOtp}
-    title="Verification Required"
-    loading={loading}
-  />
+interface Props {
+  setPassValue: (value: string[]) => void;
+  passValue: string[];
+  loading?: boolean;
+  title: string;
+  justNumber?: boolean;
+  otpLength?: number;
+}
+```
+
+### Keyboard Shortcuts
+
+| Key                | Action                                       |
+| ------------------ | -------------------------------------------- |
+| `0-9`              | Enter digit (when `justNumber` is true)      |
+| `a-z`, `A-Z`       | Enter character (when `justNumber` is false) |
+| `Backspace`        | Clear current field and move to previous     |
+| `ArrowLeft`        | Move to previous field                       |
+| `ArrowRight`       | Move to next field                           |
+| `Ctrl+V` / `Cmd+V` | Paste and distribute content                 |
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling
+
+The component uses CSS modules and supports both light and dark themes out of the box.
+
+### Default Structure
+
+```html
+<div class="container">
+  <div class="subHeader">Title text</div>
+  <div class="inputs">
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <!-- ... more inputs -->
+  </div>
 </div>
+```
 
-/* CSS */
-.custom-otp-container .inputs input {
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
+### CSS Custom Properties
+
+You can override the default styles by targeting the component's CSS classes:
+
+```css
+.otp-form-container .inputs input {
+  border-radius: 8px;
+  border: 2px solid #e1e5e9;
+  background-color: #ffffff;
 }
 
-.custom-otp-container .inputs input:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+.otp-form-container .inputs input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 ```
 
-## Props
+## ♿ Accessibility
 
-| Prop           | Type                        | Default | Description                               |
-| -------------- | --------------------------- | ------- | ----------------------------------------- |
-| `passValue`    | `string[]`                  | -       | **Required.** Array of input values       |
-| `setPassValue` | `(value: string[]) => void` | -       | **Required.** State setter function       |
-| `title`        | `string`                    | -       | **Required.** Form title/instruction text |
-| `loading`      | `boolean`                   | `false` | Disable inputs during processing          |
-| `justNumber`   | `boolean`                   | `true`  | Restrict input to numbers only            |
-| `otpLength`    | `number`                    | `6`     | Number of input fields                    |
+This component follows WAI-ARIA guidelines and includes:
 
-## Behavior
+- Proper `role` and `aria-label` attributes
+- Keyboard navigation support
+- Screen reader announcements
+- Focus management
+- High contrast support
 
-### Keyboard Navigation
+## 🛜 Browser Support
 
-- **Type**: Automatically moves to next field
-- **Backspace**: Clears current field and moves to previous
-- **Arrow Left/Right**: Navigate between fields
-- **Paste**: Distributes pasted content across fields
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
 
-### Input Validation
+## 🤝 Contributing
 
-- **Numbers only** (`justNumber: true`): Only accepts 0-9
-- **Alphanumeric** (`justNumber: false`): Accepts all characters
-- **Single character**: Each field accepts only one character
-
-### State Management
-
-```tsx
-// Initialize empty OTP
-const [otp, setOtp] = useState(Array(6).fill(""));
-
-// Check if complete
-const isComplete = otp.every((digit) => digit !== "");
-const otpCode = otp.join("");
-
-// Clear form
-const clearOTP = () => setOtp(Array(6).fill(""));
-```
-
-## Styling
-
-The component uses CSS modules with SCSS. Available classes:
-
-```scss
-.container {
-  // Main container
-}
-
-.subHeader {
-  // Title/instruction text
-}
-
-.inputs {
-  // Input fields container
-  display: flex;
-  gap: 12px;
-}
-
-.inputs input {
-  // Individual input field
-  width: 48px;
-  height: 48px;
-  text-align: center;
-  font-size: 18px;
-}
-```
-
-### Customization Examples
-
-```scss
-// Large inputs
-.large-otp .inputs input {
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
-}
-
-// Rounded style
-.rounded-otp .inputs input {
-  border-radius: 50%;
-}
-
-// Minimal style
-.minimal-otp .inputs input {
-  border: none;
-  border-bottom: 2px solid #ccc;
-  border-radius: 0;
-  background: transparent;
-}
-```
-
-## Accessibility
-
-- Full keyboard navigation support
-- Screen reader friendly with proper ARIA labels
-- Focus management for seamless user experience
-- High contrast support for better visibility
-
-## Mobile Optimization
-
-- Optimized input types for mobile keyboards
-- Touch-friendly input sizes
-- Proper viewport handling
-- Smooth focus transitions
-
-## Common Patterns
-
-### Auto-Submit on Complete
-
-```tsx
-useEffect(() => {
-  const isComplete = otp.every((digit) => digit !== "");
-  if (isComplete) {
-    handleSubmit();
-  }
-}, [otp]);
-```
-
-### Resend Code Timer
-
-```tsx
-const [countdown, setCountdown] = useState(60);
-
-useEffect(() => {
-  if (countdown > 0) {
-    const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-    return () => clearTimeout(timer);
-  }
-}, [countdown]);
-```
-
-### Error Handling
-
-```tsx
-const [error, setError] = useState("");
-
-const handleError = (message: string) => {
-  setError(message);
-  setOtp(Array(6).fill("")); // Clear form
-  // Focus first input
-  inputsRef.current[0]?.focus();
-};
-```
-
-## Browser Support
-
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Mobile browsers with full touch support
-- Supports clipboard API for paste functionality
-
-## Troubleshooting
-
-### Paste not working
-
-- Ensure the browser supports clipboard API
-- Check if inputs are focused
-- Verify paste data format
-
-### Navigation issues
-
-- Check if inputs have proper refs
-- Ensure keyboard event handlers are attached
-- Verify focus management logic
-
-## Contributing
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT © [hasanbala]
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/otp-form">📦 View on NPM</a>
+  </p>
+</div>

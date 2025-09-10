@@ -1,7 +1,7 @@
 {
-  "name": "@bearlab/popover",
-  "version": "1.0.5",
-  "description": "Bearlab UI Popover Component",
+  "name": "@bearlab/dropdown",
+  "version": "1.0.0",
+  "description": "Bearlab UI Dropdown Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -10,11 +10,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=popover rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=dropdown rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "classnames": "^2.3.2"
+    "classnames": "^2.3.2",
+    "@bearlab/button": "^1.0.5"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -23,7 +24,7 @@
   "keywords": [
     "react",
     "ui",
-    "popover",
+    "dropdown",
     "component",
     "bearlab"
   ],
@@ -32,11 +33,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hasanbala/ui-components.git",
-    "directory": "packages/popover"
+    "directory": "packages/dropdown"
   },
   "homepage": "https://github.com/hasanbala/ui-components#readme",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "808c60448876b34e78883c1d96cb7acca014474d"
+  }
 }

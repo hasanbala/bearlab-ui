@@ -1,104 +1,86 @@
-# Textarea Component
+# @bearlab/textarea
 
-A feature-rich, accessible textarea component for React applications. Provides enhanced functionality over standard HTML textareas with built-in validation, error handling, and modern styling.
+A modern, accessible, and fully customizable Textarea component for React applications with comprehensive TypeScript support, error handling, and seamless theme integration.
 
-## Features
+## ✨ Features
 
-- 📝 **Enhanced Textarea**: Improved UX over standard HTML textarea
-- ♿ **Accessible**: Full WCAG compliance with proper labeling
-- 🔍 **Validation Ready**: Built-in error state and message display
-- 🏷️ **Smart Labeling**: Automatic label association and required indicators
-- 🎨 **Modern Design**: Clean, consistent styling
-- 📏 **Flexible Sizing**: Configurable rows and character limits
-- 🚫 **Disabled State**: Proper disabled state handling
-- 🎯 **TypeScript Support**: Complete type safety included
-- 🔧 **Customizable**: Easy to style and extend
+- 🎨 **Modern Design**: Clean, professional styling with rounded corners and subtle shadows
+- 🌓 **Theme Support**: Built-in light and dark theme compatibility
+- ♿ **Accessibility**: Fully accessible with proper ARIA attributes and keyboard navigation
+- 🔧 **TypeScript**: Complete type safety with TypeScript definitions
+- 🎯 **Flexible Sizing**: Configurable rows, character limits, and auto-resize options
+- 📱 **Responsive**: Works seamlessly across all device sizes and orientations
+- ⚡ **Performance**: Optimized for production with minimal bundle impact
+- 🚨 **Error Handling**: Built-in error states with visual feedback
+- 🔍 **Form Integration**: Perfect integration with form libraries like Formik, React Hook Form
+- 🎪 **Interactive States**: Hover, focus, disabled, and error states with smooth transitions
 
-## Installation
+## 📦 Installation
 
 ```bash
-npm install your-textarea-package-name
-# or
-yarn add your-textarea-package-name
+npm install @bearlab/checkbox
 ```
 
-## Dependencies
+```bash
+yarn add @bearlab/checkbox
+```
 
-This component requires the following peer dependency:
+## 🔗 Dependencies
 
-- `@bearlab/view-error` (for error display)
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-## Usage
+## 🎯 Usage Examples
 
-### Basic Example
+### Basic Usage
 
 ```tsx
-import { Textarea } from "your-textarea-package-name";
-import { useState } from "react";
+import { Textarea } from "@bearlab/textarea";
 
-function MyComponent() {
-  const [message, setMessage] = useState("");
+function ContactForm() {
+  const [feedback, setFeedback] = useState("");
 
   return (
     <Textarea
-      value={message}
-      onChange={(e) => setMessage(e.target.value)}
-      placeholder="Enter your message here..."
-      rows={4}
+      name="feedback"
+      label="Your Feedback"
+      value={feedback}
+      onChange={(e) => setFeedback(e.target.value)}
+      placeholder="Share your thoughts with us..."
+      rows={5}
     />
   );
 }
 ```
 
-### With Label
+### With Character Limit
 
 ```tsx
 <Textarea
-  value={description}
-  onChange={handleDescriptionChange}
-  label="Product Description"
-  placeholder="Describe your product..."
-  rows={6}
-/>
-```
-
-### Required Field
-
-```tsx
-<Textarea
-  value={feedback}
-  onChange={handleFeedbackChange}
-  label="Feedback"
-  placeholder="Your feedback is important to us..."
-  isRequired
-  rows={5}
-/>
-```
-
-### With Error Validation
-
-```tsx
-<Textarea
-  value={comment}
-  onChange={handleCommentChange}
-  label="Comment"
-  error={commentError}
-  placeholder="Leave a comment..."
+  name="bio"
+  label="Bio"
+  value={bio}
+  onChange={handleBioChange}
+  placeholder="Tell us about yourself..."
   maxLength={500}
   rows={4}
 />
 ```
 
-### Character Limit
+### With Error State
 
 ```tsx
 <Textarea
-  value={bio}
-  onChange={handleBioChange}
-  label="Bio"
-  placeholder="Tell us about yourself..."
-  maxLength={250}
-  rows={3}
+  name="description"
+  label="Project Description"
+  value={description}
+  onChange={handleDescriptionChange}
+  error={errors.description}
+  isRequired
+  placeholder="Describe your project in detail..."
+  rows={6}
 />
 ```
 
@@ -106,345 +88,297 @@ function MyComponent() {
 
 ```tsx
 <Textarea
-  value="This content cannot be edited"
+  name="readonly-content"
+  label="Terms & Conditions"
+  value={termsContent}
   onChange={() => {}}
-  label="Read Only Content"
   disabled
-  rows={3}
+  rows={8}
 />
 ```
 
-## Props
-
-| Prop          | Type                                                | Default     | Required | Description                              |
-| ------------- | --------------------------------------------------- | ----------- | -------- | ---------------------------------------- |
-| `value`       | `string`                                            | -           | ✅       | Current value of the textarea            |
-| `onChange`    | `(event: ChangeEvent<HTMLTextAreaElement>) => void` | -           | ✅       | Callback fired when the value changes    |
-| `label`       | `string`                                            | `undefined` | ❌       | Label text displayed above the textarea  |
-| `error`       | `any`                                               | `undefined` | ❌       | Error message to display                 |
-| `name`        | `string`                                            | `undefined` | ❌       | HTML name attribute                      |
-| `rows`        | `number`                                            | `undefined` | ❌       | Number of visible text lines             |
-| `maxLength`   | `number`                                            | `undefined` | ❌       | Maximum number of characters allowed     |
-| `placeholder` | `string`                                            | `undefined` | ❌       | Placeholder text                         |
-| `disabled`    | `boolean`                                           | `false`     | ❌       | Whether the textarea is disabled         |
-| `isRequired`  | `boolean`                                           | `false`     | ❌       | Shows required indicator (\*) in label   |
-| `className`   | `string`                                            | `undefined` | ❌       | Additional CSS class names               |
-| `onBlur`      | `(event: FocusEvent<HTMLTextAreaElement>) => void`  | `undefined` | ❌       | Callback fired when textarea loses focus |
-
-All other standard HTML textarea props are also supported.
-
-## Styling
-
-The component uses CSS modules for styling. You can customize the appearance through:
-
-### Using className prop
+### Auto-Growing Textarea
 
 ```tsx
-<Textarea className="my-textarea" value={value} onChange={handler} />
-```
+function AutoGrowTextarea() {
+  const [content, setContent] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-### CSS Module overrides
-
-```css
-.my-textarea {
-  /* Container styles */
-  margin-bottom: 20px;
-}
-
-.my-textarea textarea {
-  /* Textarea input styles */
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 16px;
-  padding: 12px;
-  transition: border-color 0.2s ease;
-}
-
-.my-textarea textarea:focus {
-  /* Focus styles */
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.my-textarea .error {
-  /* Error state styles */
-  border-color: #dc3545;
-}
-
-.my-textarea .label {
-  /* Label styles */
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #333;
-}
-```
-
-### Custom CSS Properties
-
-```css
-.my-textarea {
-  --textarea-border-color: #e1e5e9;
-  --textarea-focus-color: #007bff;
-  --textarea-error-color: #dc3545;
-  --textarea-disabled-bg: #f8f9fa;
-  --textarea-font-size: 16px;
-  --textarea-line-height: 1.5;
-}
-```
-
-## States
-
-### Default State
-
-- Clean, minimal border
-- Smooth focus transitions
-- Clear typography
-
-### Focus State
-
-- Highlighted border color
-- Optional focus ring
-- Enhanced visual feedback
-
-### Error State
-
-- Red border color
-- Error message display
-- Clear error indication
-
-### Disabled State
-
-- Muted appearance
-- Non-interactive
-- Maintained readability
-
-## Validation
-
-### Built-in Validation Features
-
-- **maxLength**: Automatic character limit enforcement
-- **required**: Visual required indicator
-- **Custom validation**: Error prop for external validation
-
-### Validation Examples
-
-```tsx
-// Character limit validation
-function validateLength(value: string): string | undefined {
-  if (value.length < 10) {
-    return "Message must be at least 10 characters long";
-  }
-  if (value.length > 500) {
-    return "Message cannot exceed 500 characters";
-  }
-  return undefined;
-}
-
-// Usage
-<Textarea
-  value={message}
-  onChange={handleChange}
-  error={validateLength(message)}
-  maxLength={500}
-/>;
-```
-
-## Accessibility
-
-The Textarea component follows WCAG guidelines:
-
-- **Labels**: Proper label association with `htmlFor` and `id`
-- **Error Announcement**: Screen reader accessible error messages
-- **Focus Management**: Clear focus indicators
-- **Keyboard Navigation**: Standard textarea keyboard shortcuts
-- **Required Fields**: Proper indication for screen readers
-
-### ARIA Attributes
-
-- `aria-required`: Set when `isRequired` is true
-- `aria-invalid`: Set when `error` is present
-- `aria-describedby`: Links to error message when present
-
-## TypeScript
-
-Complete TypeScript support with exported interfaces:
-
-```tsx
-interface TextareaProps extends JSX.IntrinsicElements["textarea"] {
-  label?: string;
-  error?: any;
-  rows?: number;
-  value: string;
-  name?: string;
-  maxLength?: number;
-  className?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  isRequired?: boolean;
-  onChange: (val: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onBlur?: (val: React.FocusEvent<HTMLTextAreaElement>) => void;
-}
-```
-
-## Examples
-
-### Form Integration
-
-```tsx
-import { Textarea } from "your-textarea-package-name";
-import { useState } from "react";
-
-interface FormData {
-  title: string;
-  description: string;
-  comments: string;
-}
-
-function ProductForm() {
-  const [formData, setFormData] = useState<FormData>({
-    title: "",
-    description: "",
-    comments: "",
-  });
-  const [errors, setErrors] = useState<Partial<FormData>>({});
-
-  const handleChange =
-    (field: keyof FormData) => (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setFormData((prev) => ({ ...prev, [field]: e.target.value }));
-      // Clear error when user starts typing
-      if (errors[field]) {
-        setErrors((prev) => ({ ...prev, [field]: undefined }));
-      }
-    };
-
-  return (
-    <form>
-      <Textarea
-        value={formData.description}
-        onChange={handleChange("description")}
-        label="Product Description"
-        error={errors.description}
-        placeholder="Describe your product in detail..."
-        isRequired
-        rows={6}
-        maxLength={1000}
-      />
-
-      <Textarea
-        value={formData.comments}
-        onChange={handleChange("comments")}
-        label="Additional Comments"
-        placeholder="Any additional information..."
-        rows={4}
-        maxLength={500}
-      />
-    </form>
-  );
-}
-```
-
-### Real-time Validation
-
-```tsx
-function FeedbackForm() {
-  const [feedback, setFeedback] = useState("");
-  const [error, setError] = useState("");
-
-  const validateFeedback = (value: string) => {
-    if (value.length < 20) {
-      setError("Feedback must be at least 20 characters long");
-    } else if (value.length > 1000) {
-      setError("Feedback cannot exceed 1000 characters");
-    } else {
-      setError("");
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setFeedback(value);
-    validateFeedback(value);
-  };
+  }, [content]);
 
   return (
     <Textarea
-      value={feedback}
-      onChange={handleChange}
-      label="Your Feedback"
-      error={error}
-      placeholder="Please share your thoughts..."
-      isRequired
-      rows={5}
-      maxLength={1000}
+      ref={textareaRef}
+      name="auto-grow"
+      label="Auto-growing Content"
+      value={content}
+      onChange={(e) => setContent(e.target.value)}
+      placeholder="Start typing and watch me grow..."
+      rows={3}
     />
   );
 }
 ```
 
-### Auto-resize Integration
+### Rich Text Preview
 
 ```tsx
-// Custom hook for auto-resize functionality
-function useAutoResize(ref: RefObject<HTMLTextAreaElement>) {
-  const adjustHeight = useCallback(() => {
-    const textarea = ref.current;
-    if (textarea) {
-      textarea.style.height = "auto";
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  }, [ref]);
-
-  return adjustHeight;
-}
-
-function AutoResizeTextarea() {
-  const [value, setValue] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const adjustHeight = useAutoResize(textareaRef);
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-    adjustHeight();
-  };
+function RichTextEditor() {
+  const [markdown, setMarkdown] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
 
   return (
-    <div>
-      <Textarea
-        value={value}
-        onChange={handleChange}
-        label="Auto-resize Textarea"
-        placeholder="This textarea will grow as you type..."
-        rows={3}
-      />
+    <div className="rich-editor">
+      <div className="editor-tabs">
+        <button
+          onClick={() => setShowPreview(false)}
+          className={!showPreview ? "active" : ""}
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => setShowPreview(true)}
+          className={showPreview ? "active" : ""}
+        >
+          Preview
+        </button>
+      </div>
+
+      {!showPreview ? (
+        <Textarea
+          name="markdown"
+          label="Markdown Content"
+          value={markdown}
+          onChange={(e) => setMarkdown(e.target.value)}
+          placeholder="# Enter markdown here..."
+          rows={15}
+        />
+      ) : (
+        <div
+          className="preview"
+          dangerouslySetInnerHTML={{ __html: parseMarkdown(markdown) }}
+        />
+      )}
     </div>
   );
 }
 ```
 
-## Browser Support
+## 📚 API Reference
 
-- Chrome >= 60
-- Firefox >= 60
-- Safari >= 12
-- Edge >= 79
+### Props
 
-## Contributing
+| Prop          | Type                                                  | Required | Default | Description                                 |
+| ------------- | ----------------------------------------------------- | -------- | ------- | ------------------------------------------- |
+| `value`       | `string`                                              | ✅       | -       | The current value of the textarea           |
+| `onChange`    | `(e: React.ChangeEvent<HTMLTextAreaElement>) => void` | ✅       | -       | Callback fired when the value changes       |
+| `name`        | `string`                                              | ❌       | -       | The name attribute for the textarea element |
+| `label`       | `string`                                              | ❌       | -       | Label text displayed above the textarea     |
+| `error`       | `any`                                                 | ❌       | -       | Error state/message to display              |
+| `rows`        | `number`                                              | ❌       | -       | Number of visible text lines                |
+| `maxLength`   | `number`                                              | ❌       | -       | Maximum number of characters allowed        |
+| `className`   | `string`                                              | ❌       | -       | Additional CSS classes                      |
+| `disabled`    | `boolean`                                             | ❌       | `false` | Whether the textarea is disabled            |
+| `isRequired`  | `boolean`                                             | ❌       | `false` | Shows required indicator (\*)               |
+| `placeholder` | `string`                                              | ❌       | -       | Placeholder text                            |
+| `onBlur`      | `(e: React.FocusEvent<HTMLTextAreaElement>) => void`  | ❌       | -       | Callback fired when textarea loses focus    |
 
-Contributions are welcome! Please read our contributing guidelines and submit pull requests to our GitHub repository.
+The component also accepts all standard HTML `textarea` element props through TypeScript's `JSX.IntrinsicElements["textarea"]`.
 
-## License
+## 🌙 Theme Support
 
-MIT License - see LICENSE file for details.
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
 
-## Changelog
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
 
-### v1.0.0
+## 🎨 Styling & Themes
 
-- Initial release
-- Full accessibility support
-- Error state handling
-- Character limit support
-- TypeScript support
-- CSS modules styling
+The Textarea component automatically adapts to light and dark themes based on the `data-theme` attribute on the HTML element.
+
+### Custom Styling
+
+Override default styles with custom CSS classes:
+
+```scss
+.custom-textarea {
+  --textarea-border-radius: 12px;
+  --textarea-padding: 20px;
+  --textarea-min-height: 120px;
+}
+```
+
+## ♿ Accessibility
+
+The Textarea component is built with accessibility as a core principle:
+
+### Screen Reader Support
+
+- Proper semantic HTML with `<textarea>` element
+- Associated labels with correct `htmlFor` attributes
+- Error messages are properly announced to screen readers
+- Required field indicators are accessible
+
+### Keyboard Navigation
+
+- **Tab/Shift+Tab**: Navigate to/from the textarea
+- **All standard text editing shortcuts**: Copy, paste, select all, etc.
+- **Arrow keys**: Navigate within the text content
+- **Enter**: Create new lines (standard textarea behavior)
+
+### Visual Accessibility
+
+- High contrast ratios meeting WCAG AA standards
+- Clear focus indicators with 3px blue outline
+- Error states with both color and iconographic indicators
+- Consistent visual hierarchy with proper font weights and sizes
+
+### ARIA Support
+
+- Automatic `aria-describedby` for error messages
+- `aria-required` for required fields
+- Proper `aria-invalid` states for error conditions
+
+### Responsive Behavior
+
+- Adapts to container width automatically
+- Maintains consistent padding and typography across breakpoints
+- Touch-friendly sizing for mobile devices
+- Proper text scaling for different screen densities
+
+### Textarea with Mentions
+
+```tsx
+function MentionTextarea() {
+  const [content, setContent] = useState("");
+  const [showMentions, setShowMentions] = useState(false);
+  const [mentionQuery, setMentionQuery] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    const cursorPos = e.target.selectionStart;
+
+    // Check for @ mentions
+    const beforeCursor = value.slice(0, cursorPos);
+    const mentionMatch = beforeCursor.match(/@(\w*)$/);
+
+    if (mentionMatch) {
+      setMentionQuery(mentionMatch[1]);
+      setShowMentions(true);
+    } else {
+      setShowMentions(false);
+    }
+
+    setContent(value);
+  };
+
+  return (
+    <div className="mention-container">
+      <Textarea
+        name="mention-content"
+        label="Message"
+        value={content}
+        onChange={handleChange}
+        placeholder="Type @ to mention someone..."
+        rows={4}
+      />
+      {showMentions && (
+        <MentionDropdown query={mentionQuery} onSelect={handleMentionSelect} />
+      )}
+    </div>
+  );
+}
+```
+
+### Textarea with Auto-save
+
+```tsx
+function AutoSaveTextarea() {
+  const [content, setContent] = useState("");
+  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "error">(
+    "saved"
+  );
+
+  // Auto-save with debounce
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (content.trim()) {
+        setSaveStatus("saving");
+        try {
+          await saveContent(content);
+          setSaveStatus("saved");
+        } catch (error) {
+          setSaveStatus("error");
+        }
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [content]);
+
+  return (
+    <div>
+      <Textarea
+        name="auto-save"
+        label="Draft Content"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="Start typing... Your work is automatically saved"
+        rows={8}
+      />
+      <div className="save-status">
+        {saveStatus === "saving" && "💾 Saving..."}
+        {saveStatus === "saved" && "✅ Saved"}
+        {saveStatus === "error" && "❌ Error saving"}
+      </div>
+    </div>
+  );
+}
+```
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+## 📄 License and 👨‍💻 Author
+
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/textarea">📦 View on NPM</a>
+  </p>
+</div>

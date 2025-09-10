@@ -1,7 +1,7 @@
 {
-  "name": "@bearlab/view-error",
+  "name": "@bearlab/table",
   "version": "1.0.5",
-  "description": "Bearlab UI View-error Component",
+  "description": "Bearlab UI Table Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -10,11 +10,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=viewError rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=table rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.6",
+    "@bearlab/checkbox": "^1.0.5",
+    "@bearlab/radio": "^1.0.5",
+    "@bearlab/input": "^1.0.5",
+    "@bearlab/hooks": "^1.0.2",
+    "@bearlab/select": "^1.0.5",
+    "@bearlab/button": "^1.0.5",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
@@ -24,7 +29,7 @@
   "keywords": [
     "react",
     "ui",
-    "view-error",
+    "table",
     "component",
     "bearlab"
   ],
@@ -33,11 +38,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hasanbala/ui-components.git",
-    "directory": "packages/viewError"
+    "directory": "packages/table"
   },
   "homepage": "https://github.com/hasanbala/ui-components#readme",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "808c60448876b34e78883c1d96cb7acca014474d"
+  }
 }

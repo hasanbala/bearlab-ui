@@ -14,9 +14,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/popover": "^1.0.5",
-    "@bearlab/view-error": "^1.0.5",
-    "classnames": "^2.3.2"
+    "classnames": "^2.3.2",
+    "@bearlab/core": "^1.0.6"
   },
   "peerDependencies": {
     "react": ">=16.8.0",

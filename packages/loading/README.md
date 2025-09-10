@@ -1,248 +1,278 @@
-# Loading Component
+# @bearlab/loading
 
-A simple, elegant loading spinner component built with React and TypeScript for indicating loading states in your application.
+A lightweight, accessible loading spinner component for React applications with smooth animations and flexible positioning.
 
-## Features
+## ✨ Features
 
-- 🎯 **Lightweight** - Minimal footprint with clean design
-- 🎨 **Customizable** - Easy to style and customize
-- ♿ **Accessible** - Screen reader friendly
-- 📱 **Responsive** - Works on all screen sizes
-- ⚡ **Performance** - Optimized with CSS animations
+- ✅ **Smooth Animation** - Optimized CSS animations with 60fps performance
+- 🎯 **Auto-Centered** - Automatically centers itself within its container
+- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
+- 🔧 **Highly Customizable** - Easy styling with custom CSS classes
+- ⚡ **Lightweight** - Minimal bundle size (~1KB gzipped)
+- ♿ **Accessible** - Screen reader friendly with proper ARIA attributes
+- 🌙 **Theme Compatible** - Works seamlessly with light and dark themes
+- 📱 **Responsive** - Scales appropriately on all screen sizes
+- 🎨 **Modern Design** - Clean, professional loading indicator
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/loading
-# or
+```
+
+```bash
 yarn add @bearlab/loading
 ```
 
-## Dependencies
+## 🔗 Dependencies
 
-Make sure you have these peer dependencies installed:
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-```bash
-npm install react classnames @bearlab/core
-```
+## 🎯 Usage Examples
 
-## Basic Usage
+### Simple Loading Spinner
 
 ```tsx
 import { Loading } from "@bearlab/loading";
 
-function MyComponent() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return <div>Your content here</div>;
-}
-```
-
-## Examples
-
-### Basic Loading Spinner
-
-```tsx
-<Loading />
-```
-
-### Custom Styled Loading Spinner
-
-```tsx
-<Loading className="my-custom-loading" />
-```
-
-### Conditional Loading
-
-```tsx
-function DataFetcher() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchData()
-      .then(setData)
-      .finally(() => setLoading(false));
-  }, []);
-
-  return <div>{loading ? <Loading /> : <div>{data}</div>}</div>;
-}
-```
-
-### Overlay Loading
-
-```tsx
-function LoadingOverlay({ isLoading, children }) {
+function App() {
   return (
-    <div style={{ position: "relative" }}>
-      {children}
-      {isLoading && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Loading />
-        </div>
-      )}
+    <div style={{ position: "relative", height: "200px" }}>
+      <Loading />
     </div>
   );
 }
 ```
 
-### Loading with Custom Size
+### Conditional Loading
 
 ```tsx
-<Loading className="large-spinner" />
+import { Loading } from "@bearlab/loading";
+import { useState, useEffect } from "react";
 
-/* CSS */
-.large-spinner .loading {
-  width: 48px;
-  height: 48px;
+function DataFetcher() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetchData()
+      .then(setData)
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div style={{ position: "relative", height: "300px" }}>
+        <Loading />
+      </div>
+    );
+  }
+
+  return <div>{/* Your content */}</div>;
 }
 ```
 
-## Props
+### Custom Styled Loading
 
-| Prop        | Type     | Default | Description                             |
-| ----------- | -------- | ------- | --------------------------------------- |
-| `className` | `string` | -       | Additional CSS class for custom styling |
+```tsx
+import { Loading } from "@bearlab/loading";
+import "./custom-loading.css";
 
-## Styling
+function CustomLoading() {
+  return (
+    <div className="custom-loading-container">
+      <Loading className="custom-loading" />
+      <p>Loading your content...</p>
+    </div>
+  );
+}
+```
 
-The component uses CSS modules with SCSS. You can override styles by targeting these classes:
-
-```scss
-.container {
-  // Main container styles
+```css
+/* custom-loading.css */
+.custom-loading-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 200px;
 }
 
-.loading {
-  // Loading icon styles
-  animation: spin 1s linear infinite;
-}
-```
-
-### Custom Styling Examples
-
-```scss
-// Large spinner
-.large-loading {
-  .loading {
-    width: 48px;
-    height: 48px;
-  }
+.custom-loading {
+  /* Override default positioning for inline use */
+  position: relative !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+  margin-bottom: 16px;
 }
 
-// Custom color
-.custom-color {
-  .loading {
-    color: #3b82f6;
-  }
+/* Custom size */
+.custom-loading svg {
+  width: 32px !important;
+  height: 32px !important;
 }
 
-// Slow animation
-.slow-spin {
-  .loading {
-    animation-duration: 2s;
-  }
+/* Custom color */
+.custom-loading svg {
+  color: #3b82f6;
 }
 ```
 
-## Animation
+## 📚 API Reference
 
-The component uses CSS animations for smooth rotation. The default animation:
+### Props
 
-```scss
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+| Prop        | Type     | Default     | Description                             |
+| ----------- | -------- | ----------- | --------------------------------------- |
+| `className` | `string` | `undefined` | Additional CSS class for custom styling |
+
+### TypeScript Support
+
+The component is fully typed with TypeScript:
+
+```tsx
+export interface Props {
+  className?: string;
 }
 ```
 
-## Accessibility
+## 🌙 Theme Support
 
-- Uses semantic HTML structure
-- Screen reader friendly with appropriate ARIA labels
-- Respects user's motion preferences (`prefers-reduced-motion`)
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
 
-## Use Cases
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
 
-- **API calls** - Show while fetching data
-- **Form submissions** - Indicate processing state
-- **Page transitions** - Loading between routes
-- **File uploads** - Progress indication
-- **Lazy loading** - Content loading states
+## 🎨 Styling & Customization
 
-## Best Practices
+### Default Behavior
 
-### Do's ✅
+The Loading component:
 
-- Use for operations that take more than 200ms
-- Provide alternative text for screen readers
-- Center align in the container
-- Use consistent sizing across your app
+- Positions itself absolutely at the center of its nearest positioned parent
+- Uses a 24x24px spinning icon by default
+- Animates with a smooth 1-second rotation cycle
+- Has a high z-index (10003) to appear above other content
 
-### Don'ts ❌
+### Custom Positioning
 
-- Don't use for very quick operations (< 200ms)
-- Don't block user interaction unnecessarily
-- Avoid multiple loading spinners on the same page
-- Don't forget to handle loading state cleanup
+#### Relative Positioning
 
-## Performance
+```css
+.custom-loading {
+  position: relative !important;
+  transform: none !important;
+  top: auto !important;
+  left: auto !important;
+}
+```
 
-- Lightweight component with minimal re-renders
-- CSS animations are hardware accelerated
-- No JavaScript-based animations for better performance
+#### Fixed Positioning
 
-## Browser Support
+```css
+.fixed-loading {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+}
+```
 
-- Modern browsers (Chrome, Firefox, Safari, Edge)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-- Supports CSS animations
+### Custom Sizing
 
-## Troubleshooting
+```css
+/* Small spinner */
+.small-loading svg {
+  width: 16px !important;
+  height: 16px !important;
+}
 
-### Loading spinner not showing
+/* Large spinner */
+.large-loading svg {
+  width: 48px !important;
+  height: 48px !important;
+}
+```
 
-- Check if the component is properly imported
-- Verify that `@bearlab/core` is installed
-- Ensure CSS modules are configured correctly
+### Custom Colors
 
-### Animation not smooth
+```css
+/* Blue spinner */
+.blue-loading svg {
+  color: #3b82f6;
+}
 
-- Check for conflicting CSS animations
-- Verify hardware acceleration is enabled
-- Consider reducing animation complexity for older devices
+/* Success green spinner */
+.success-loading svg {
+  color: #10b981;
+}
 
-## Contributing
+/* Warning orange spinner */
+.warning-loading svg {
+  color: #f59e0b;
+}
+```
+
+### Animation Customization
+
+```css
+/* Faster animation */
+.fast-loading svg {
+  animation-duration: 0.5s !important;
+}
+
+/* Slower animation */
+.slow-loading svg {
+  animation-duration: 2s !important;
+}
+
+/* Reverse animation */
+.reverse-loading svg {
+  animation-direction: reverse !important;
+}
+```
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT © [hasanbala]
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/loading">📦 View on NPM</a>
+  </p>
+</div>

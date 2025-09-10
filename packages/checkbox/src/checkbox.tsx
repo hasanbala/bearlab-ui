@@ -1,8 +1,6 @@
 import { JSX } from "react";
 import classnames from "classnames";
-import { ViewError } from "@bearlab/view-error";
-import { Popover } from "@bearlab/popover";
-import { IconChecked, IconDisabled } from "@bearlab/core";
+import { IconChecked, IconDisabled, IconError2 } from "@bearlab/core";
 import styles from "./checkbox.module.scss";
 
 export const Checkbox = (props: Props) => {
@@ -34,8 +32,13 @@ export const Checkbox = (props: Props) => {
         />
         {checked && <IconChecked className={styles.iconChecked} />}
         {disabled && <IconDisabled className={styles.iconDisabled} />}
-        {error && <ViewError label={error} />}
-        {popover && <Popover className={styles.popover} label={popover} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
+        {popover && <div className={styles.popover}>{label}</div>}
       </div>
       {label && (
         <div className={styles.label}>
@@ -49,7 +52,6 @@ export const Checkbox = (props: Props) => {
 type InputProps = Omit<JSX.IntrinsicElements["input"], "popover">;
 
 export interface Props extends InputProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name?: string;
   label?: string;

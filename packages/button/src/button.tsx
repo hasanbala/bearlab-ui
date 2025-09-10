@@ -20,9 +20,9 @@ import {
   IconSearch,
   IconTick,
   IconUpdate2,
+  PERMISSIONS,
+  type IPermissions,
 } from "@bearlab/core";
-import { Popover } from "@bearlab/popover";
-import { type IPermissions, PERMISSIONS } from "@bearlab/core";
 import styles from "./button.module.scss";
 
 export const Button = (props: Props) => {
@@ -96,7 +96,7 @@ export const Button = (props: Props) => {
       return (
         <>
           {iconType.custom || iconTypes[iconType.default]}
-          {label && <Popover className={styles.popover} label={label} />}
+          {label && <div className={styles.popover}>{label}</div>}
         </>
       );
     }

@@ -81,6 +81,41 @@
       border-color: variables.$gray-570;
     }
   }
+
+  .popover {
+    position: absolute;
+    display: none;
+    background-color: variables.$white;
+    border-radius: 8px;
+    padding: 12px;
+    color: variables.$gray-610;
+    z-index: 9999;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: variables.$box-shadow-200;
+    width: max-content;
+    top: -45px;
+  }
+
+  .viewError {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+    font-size: 14px;
+    width: max-content;
+
+    svg {
+      margin-right: 8px;
+      width: 12px;
+      height: 12px;
+    }
+
+    span {
+      color: variables.$red-20;
+    }
+  }
 }
 
 .radioGroup {

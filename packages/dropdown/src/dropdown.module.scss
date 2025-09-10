@@ -1,0 +1,132 @@
+@use "../../core/src/assets/styles/variables.scss";
+
+.dropdownContainer {
+  position: absolute;
+  z-index: 40;
+  right: 0;
+  margin-top: 8px;
+  border-radius: 12px;
+  border: 1px solid variables.$gray-570;
+  background-color: variables.$white;
+  box-shadow: variables.$box-shadow-10;
+  padding: 12px;
+}
+
+html[data-theme="dark"] .dropdownContainer {
+  background-color: variables.$black-330;
+  border-color: variables.$gray-600;
+}
+
+.dropdownItemContainer {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: variables.$gray-610;
+  cursor: pointer;
+  border: none;
+  background-color: variables.$white;
+  font-weight: 500;
+
+  &:hover {
+    background-color: variables.$gray-620;
+    color: variables.$black-340;
+  }
+}
+
+html[data-theme="dark"] .dropdownItemContainer {
+  background-color: variables.$black-350;
+  color: variables.$gray-600;
+
+  &:hover {
+    background-color: variables.$black-360;
+    color: variables.$gray-630;
+  }
+}
+
+.dropdownBasic {
+  position: relative;
+
+  button {
+    width: fit-content;
+
+    svg {
+      fill: none !important;
+      transition: transform 200ms ease;
+    }
+  }
+
+  .active {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  .dropdown {
+    left: 0;
+    margin-top: 8px;
+    display: flex;
+    width: 260px;
+    flex-direction: column;
+    padding: 0px 12px;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 0px;
+      border-bottom: 1px solid variables.$gray-570;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .dropdownItem {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      height: 40px;
+
+      &:hover {
+        .icon {
+          fill: variables.$gray-590;
+        }
+      }
+
+      .icon {
+        fill: variables.$gray-560;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+html[data-theme="dark"] .dropdownBasic {
+  cursor: pointer;
+
+  .dropdown {
+    border-color: variables.$black-10;
+    background-color: variables.$black-350;
+
+    ul {
+      border-bottom-color: variables.$black-70;
+    }
+
+    .dropdownItem {
+      &:hover {
+        .icon {
+          fill: variables.$gray-630;
+        }
+      }
+
+      .icon {
+        fill: variables.$blue-190;
+      }
+    }
+  }
+}

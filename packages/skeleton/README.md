@@ -1,8 +1,8 @@
-# Skeleton Component
+# @bearlab/skeleton
 
 A flexible and customizable skeleton loading component for React applications. Perfect for creating smooth loading states while your content is being fetched.
 
-## Features
+## ✨ Features
 
 - 🎨 **Multiple Variants**: Default, article, card, and list layouts
 - ⚡ **Animated or Static**: Toggle animation on/off
@@ -11,15 +11,23 @@ A flexible and customizable skeleton loading component for React applications. P
 - 🎯 **TypeScript Support**: Full type safety included
 - 🎪 **Easy Integration**: Drop-in replacement for loading content
 
-## Installation
+## 📦 Installation
 
 ```bash
-npm install your-skeleton-package-name
-# or
-yarn add your-skeleton-package-name
+npm install @bearlab/checkbox
 ```
 
-## Usage
+```bash
+yarn add @bearlab/checkbox
+```
+
+## 🔗 Dependencies
+
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `classnames` - For conditional CSS class handling
+
+## 🎯 Usage Examples
 
 ### Basic Example
 
@@ -70,7 +78,9 @@ Great for user lists, comments, or any repetitive content:
 />
 ```
 
-## Props
+## 📚 API Reference
+
+### Props
 
 | Prop        | Type                                         | Default     | Description                                             |
 | ----------- | -------------------------------------------- | ----------- | ------------------------------------------------------- |
@@ -79,7 +89,7 @@ Great for user lists, comments, or any repetitive content:
 | `animated`  | `boolean`                                    | `true`      | Enable/disable shimmer animation                        |
 | `className` | `string`                                     | `undefined` | Additional CSS class names                              |
 
-## Variants
+### Variants
 
 ### Default
 
@@ -107,7 +117,30 @@ Great for user lists, comments, or any repetitive content:
 - Each item has avatar and content placeholders
 - Ideal for user lists or comments
 
-## Styling
+### TypeScript Support
+
+Full TypeScript support with exported interfaces:
+
+```tsx
+interface SkeletonProps {
+  className?: string;
+  variant?: "default" | "article" | "card" | "list";
+  lines?: number;
+  animated?: boolean;
+}
+```
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling
 
 The component uses CSS modules for styling. You can override styles by:
 
@@ -138,105 +171,41 @@ The component uses CSS modules for styling. You can override styles by:
 }
 ```
 
-## Animation
+## 🛜 Browser Support
 
-The skeleton includes a smooth shimmer animation by default. The animation:
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
 
-- Uses CSS transforms for optimal performance
-- Provides visual feedback that content is loading
-- Can be disabled with `animated={false}`
+## 🤝 Contributing
 
-## TypeScript
+To contribute to the project:
 
-Full TypeScript support with exported interfaces:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
-```tsx
-interface SkeletonProps {
-  className?: string;
-  variant?: "default" | "article" | "card" | "list";
-  lines?: number;
-  animated?: boolean;
-}
-```
+## 📄 License and 👨‍💻 Author
 
-## Examples
+MIT © [hasanbala](https://github.com/hasanbala)
 
-### Loading State Management
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-```tsx
-import { useState, useEffect } from "react";
-import { Skeleton } from "your-skeleton-package-name";
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
 
-function UserProfile({ userId }: { userId: string }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
 
-  useEffect(() => {
-    fetchUser(userId)
-      .then(setUser)
-      .finally(() => setLoading(false));
-  }, [userId]);
+---
 
-  if (loading) {
-    return <Skeleton variant="article" />;
-  }
-
-  return (
-    <div>
-      <img src={user.avatar} alt={user.name} />
-      <h2>{user.name}</h2>
-      <p>{user.bio}</p>
-    </div>
-  );
-}
-```
-
-### Multiple Skeletons
-
-```tsx
-function ProductList() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  return (
-    <div className="product-grid">
-      {loading ? (
-        <>
-          {Array.from({ length: 6 }, (_, i) => (
-            <Skeleton key={i} variant="card" />
-          ))}
-        </>
-      ) : (
-        products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))
-      )}
-    </div>
-  );
-}
-```
-
-## Browser Support
-
-- Chrome >= 60
-- Firefox >= 60
-- Safari >= 12
-- Edge >= 79
-
-## Contributing
-
-Contributions are welcome! Please read our contributing guidelines and submit pull requests to our GitHub repository.
-
-## License
-
-MIT License - see LICENSE file for details.
-
-## Changelog
-
-### v1.0.0
-
-- Initial release
-- Support for 4 skeleton variants
-- Animation control
-- TypeScript support
-- CSS modules styling
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/skeleton">📦 View on NPM</a>
+  </p>
+</div>

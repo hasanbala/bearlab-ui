@@ -1,10 +1,9 @@
 import classnames from "classnames";
-import { JSX } from "react";
 import styles from "./fileInput.module.scss";
-import { ViewError } from "@bearlab/view-error";
+import { IconError2 } from "@bearlab/core";
 
 export const FileInput = (props: Props) => {
-  const { className, label, error, isRequired, ...rest } = props;
+  const { className, label, error, isRequired, onChange } = props;
 
   return (
     <div className={classnames(styles.container, className)}>
@@ -17,18 +16,20 @@ export const FileInput = (props: Props) => {
         <input
           type="file"
           className={classnames(error && styles.error)}
-          {...rest}
+          onChange={onChange}
         />
-        {error && <ViewError label={error} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-type InputProps = JSX.IntrinsicElements["input"];
-
-export interface Props extends InputProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface Props {
   error?: any;
   label?: string;
   className?: string;

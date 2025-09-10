@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "es6"],
+    "lib": ["dom", "dom.iterable", "es6", "ES2017"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -20,7 +20,6 @@
     "baseUrl": "../../",
     "paths": {
       "@bearlab/core": ["./packages/core/src"],
-      "@bearlab/view-error": ["./packages/viewError/src"],
       "@bearlab/button": ["./packages/button/src"],
       "@bearlab/badge": ["./packages/badge/src"],
       "@bearlab/textarea": ["./packages/textarea/src"],
@@ -33,12 +32,13 @@
       "@bearlab/input": ["./packages/input/src"],
       "@bearlab/loading": ["./packages/loading/src"],
       "@bearlab/otp-form": ["./packages/otpForm/src"],
-      "@bearlab/popover": ["./packages/popover/src"],
       "@bearlab/radio": ["./packages/radio/src"],
       "@bearlab/select": ["./packages/select/src"],
       "@bearlab/skeleton": ["./packages/skeleton/src"],
       "@bearlab/switch": ["./packages/switch/src"],
-      "@bearlab/view-card": ["./packages/viewCard/src"]
+      "@bearlab/view-card": ["./packages/viewCard/src"],
+      "@bearlab/dropdown": ["./packages/dropdown/src"],
+      "@bearlab/table": ["./packages/table/src"]
     }
   },
   "include": ["src/**/*"],

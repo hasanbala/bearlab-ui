@@ -1,8 +1,7 @@
 import classnames from "classnames";
 import { JSX } from "react";
 import styles from "./switch.module.scss";
-import { Popover } from "@bearlab/popover";
-import { ViewError } from "@bearlab/view-error";
+import { IconError2 } from "@bearlab/core";
 
 export const Switch = (props: Props) => {
   const {
@@ -49,8 +48,13 @@ export const Switch = (props: Props) => {
             )}
           />
         </span>
-        {error && <ViewError label={error} />}
-        {popover && <Popover className={styles.popover} label={popover} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
+        {popover && <div className={styles.popover}>{label}</div>}
       </div>
       {label && (
         <div className={styles.label}>
@@ -64,7 +68,6 @@ export const Switch = (props: Props) => {
 type InputProps = Omit<JSX.IntrinsicElements["input"], "popover">;
 
 export interface Props extends InputProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name?: string;
   label?: string;

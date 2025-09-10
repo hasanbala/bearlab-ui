@@ -1,150 +1,75 @@
-# Checkbox Component
+# @bearlab/checkbox
 
-A fully accessible and customizable checkbox component with support for labels, error states, and tooltips.
+A customizable and accessible React checkbox component with built-in error handling, tooltips, and theme support.
 
-## Installation
+## ✨ Features
+
+- 🎯 **Fully Accessible** - Built with semantic HTML and proper ARIA attributes
+- 🎨 **Themeable** - Supports light/dark theme switching
+- ✨ **Interactive States** - Hover, focus, checked, and disabled states
+- 🚨 **Error Handling** - Built-in error display with icons
+- 💬 **Tooltip Support** - Popover tooltips on hover
+- 📱 **Responsive** - Works seamlessly across different screen sizes
+- ⚡ **TypeScript** - Full TypeScript support with comprehensive type definitions
+- 🎭 **Customizable** - Easy to style with CSS modules and custom classes
+
+## 📦 Installation
 
 ```bash
 npm install @bearlab/checkbox
 ```
 
-## Usage
-
-```tsx
-import { Checkbox } from '@bearlab/checkbox';
-
-// Basic checkbox
-<Checkbox
-  checked={isChecked}
-  onChange={handleChange}
-/>
-
-// Checkbox with label
-<Checkbox
-  checked={acceptTerms}
-  onChange={setAcceptTerms}
-  label="I accept the terms and conditions"
-/>
-
-// Required checkbox with error
-<Checkbox
-  checked={isRequired}
-  onChange={setIsRequired}
-  label="This field is required"
-  isRequired={true}
-  error={validationError}
-/>
+```bash
+yarn add @bearlab/checkbox
 ```
 
-## Props
+## 🔗 Dependencies
 
-| Prop         | Type                                                   | Default      | Description                     |
-| ------------ | ------------------------------------------------------ | ------------ | ------------------------------- |
-| `checked`    | `boolean`                                              | **Required** | Whether the checkbox is checked |
-| `onChange`   | `(event: React.ChangeEvent<HTMLInputElement>) => void` | **Required** | Change handler function         |
-| `label`      | `string`                                               | `undefined`  | Label text for the checkbox     |
-| `disabled`   | `boolean`                                              | `false`      | Disables the checkbox           |
-| `error`      | `any`                                                  | `undefined`  | Error message to display        |
-| `isRequired` | `boolean`                                              | `false`      | Shows required asterisk (\*)    |
-| `popover`    | `string`                                               | `undefined`  | Tooltip text                    |
-| `className`  | `string`                                               | `undefined`  | Additional CSS classes          |
-| `name`       | `string`                                               | `undefined`  | Input name attribute            |
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
 
-Plus all standard HTML input attributes (excluding `popover`).
-
-## Examples
+## 🎯 Usage Examples
 
 ### Basic Usage
 
 ```tsx
-const [isChecked, setIsChecked] = useState(false);
+import { Checkbox } from "@bearlab/checkbox";
+import { useState } from "react";
 
-<Checkbox
-  checked={isChecked}
-  onChange={(e) => setIsChecked(e.target.checked)}
-  label="Enable notifications"
-/>;
+function App() {
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <Checkbox
+      checked={isChecked}
+      onChange={(e) => setIsChecked(e.target.checked)}
+      label="Accept terms and conditions"
+    />
+  );
+}
 ```
 
-### Form Integration
+### With Required Field
 
 ```tsx
-const [formData, setFormData] = useState({
-  newsletter: false,
-  terms: false,
-  privacy: false,
-});
-
-<form>
-  <Checkbox
-    name="newsletter"
-    checked={formData.newsletter}
-    onChange={(e) =>
-      setFormData({
-        ...formData,
-        newsletter: e.target.checked,
-      })
-    }
-    label="Subscribe to newsletter"
-  />
-
-  <Checkbox
-    name="terms"
-    checked={formData.terms}
-    onChange={(e) =>
-      setFormData({
-        ...formData,
-        terms: e.target.checked,
-      })
-    }
-    label="I accept the terms of service"
-    isRequired={true}
-  />
-</form>;
-```
-
-### With Error Handling
-
-```tsx
-const [agreed, setAgreed] = useState(false);
-const [error, setError] = useState("");
-
-const handleSubmit = () => {
-  if (!agreed) {
-    setError("You must agree to the terms");
-    return;
-  }
-  setError("");
-  // Proceed with submission
-};
-
 <Checkbox
   checked={agreed}
-  onChange={(e) => {
-    setAgreed(e.target.checked);
-    if (e.target.checked) setError("");
-  }}
-  label="I agree to the terms and conditions"
-  isRequired={true}
-  error={error}
-/>;
+  onChange={(e) => setAgreed(e.target.checked)}
+  label="I agree to the privacy policy"
+  isRequired
+/>
 ```
 
-### Disabled State
+### With Error State
 
 ```tsx
 <Checkbox
-  checked={true}
-  onChange={() => {}}
-  label="This option is disabled"
-  disabled={true}
-/>
-
-<Checkbox
-  checked={false}
-  onChange={() => {}}
-  label="This option is also disabled"
-  disabled={true}
+  checked={hasError}
+  onChange={(e) => setHasError(e.target.checked)}
+  label="This field has an error"
+  error="Please accept the terms to continue"
 />
 ```
 
@@ -152,158 +77,150 @@ const handleSubmit = () => {
 
 ```tsx
 <Checkbox
-  checked={receiveEmails}
-  onChange={setReceiveEmails}
-  label="Email notifications"
-  popover="Receive email updates about your account activity"
+  checked={showTooltip}
+  onChange={(e) => setShowTooltip(e.target.checked)}
+  label="Enable notifications"
+  popover="You will receive email notifications about important updates"
 />
 ```
 
-### Multiple Checkboxes
+### Disabled State
 
 ```tsx
-const [permissions, setPermissions] = useState({
-  read: true,
-  write: false,
-  delete: false,
-  admin: false,
-});
-
-const handlePermissionChange =
-  (permission: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPermissions({
-      ...permissions,
-      [permission]: e.target.checked,
-    });
-  };
-
-<div>
-  <Checkbox
-    checked={permissions.read}
-    onChange={handlePermissionChange("read")}
-    label="Read access"
-  />
-
-  <Checkbox
-    checked={permissions.write}
-    onChange={handlePermissionChange("write")}
-    label="Write access"
-  />
-
-  <Checkbox
-    checked={permissions.delete}
-    onChange={handlePermissionChange("delete")}
-    label="Delete access"
-    popover="Allows deletion of resources"
-  />
-
-  <Checkbox
-    checked={permissions.admin}
-    onChange={handlePermissionChange("admin")}
-    label="Admin access"
-    isRequired={true}
-    popover="Full administrative privileges"
-  />
-</div>;
+<Checkbox
+  checked={false}
+  onChange={() => {}}
+  label="This checkbox is disabled"
+  disabled
+/>
 ```
 
-### Checkbox Group with Validation
+### Custom Styling
 
 ```tsx
-const [interests, setInterests] = useState<string[]>([]);
-const [error, setError] = useState("");
+<Checkbox
+  checked={customStyled}
+  onChange={(e) => setCustomStyled(e.target.checked)}
+  label="Custom styled checkbox"
+  className="my-custom-checkbox"
+/>
+```
 
-const interestOptions = [
-  { id: "tech", label: "Technology" },
-  { id: "sports", label: "Sports" },
-  { id: "music", label: "Music" },
-  { id: "travel", label: "Travel" },
-];
+## 📚 API Reference
 
-const handleInterestChange =
-  (interestId: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setInterests([...interests, interestId]);
-    } else {
-      setInterests(interests.filter((id) => id !== interestId));
+### Props
+
+| Prop         | Type                                             | Default      | Description                                    |
+| ------------ | ------------------------------------------------ | ------------ | ---------------------------------------------- |
+| `checked`    | `boolean`                                        | **Required** | Controls the checked state of the checkbox     |
+| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when the checkbox state changes |
+| `label`      | `string`                                         | `undefined`  | Label text displayed next to the checkbox      |
+| `disabled`   | `boolean`                                        | `false`      | Disables the checkbox interaction              |
+| `error`      | `any`                                            | `undefined`  | Error message to display below the checkbox    |
+| `isRequired` | `boolean`                                        | `false`      | Shows a red asterisk (\*) next to the label    |
+| `popover`    | `string`                                         | `undefined`  | Tooltip content shown on hover                 |
+| `className`  | `string`                                         | `undefined`  | Additional CSS class names                     |
+| `name`       | `string`                                         | `undefined`  | Name attribute for the input element           |
+
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling
+
+### CSS Variables
+
+The component uses CSS custom properties that can be overridden:
+
+```css
+.my-custom-checkbox {
+  --checkbox-size: 24px;
+  --checkbox-border-radius: 8px;
+  --checkbox-border-color: #custom-color;
+  --checkbox-checked-bg: #custom-blue;
+}
+```
+
+### Custom Classes
+
+You can target specific parts of the component:
+
+```scss
+.my-checkbox {
+  // Container styling
+  .checkboxWrapper {
+    // Checkbox wrapper styling
+
+    input {
+      // Input element styling
     }
-
-    if (interests.length >= 1 || e.target.checked) {
-      setError("");
-    }
-  };
-
-const validate = () => {
-  if (interests.length === 0) {
-    setError("Please select at least one interest");
-    return false;
   }
-  return true;
-};
 
-<fieldset>
-  <legend>Select your interests:</legend>
-  {interestOptions.map((option) => (
-    <Checkbox
-      key={option.id}
-      checked={interests.includes(option.id)}
-      onChange={handleInterestChange(option.id)}
-      label={option.label}
-      error={error && interests.length === 0 ? error : undefined}
-    />
-  ))}
-</fieldset>;
+  .label {
+    // Label styling
+  }
+
+  .popover {
+    // Tooltip styling
+  }
+
+  .viewError {
+    // Error message styling
+  }
+}
 ```
 
-## Visual States
+## ♿ Accessibility
 
-The checkbox component supports several visual states:
+This component follows WAI-ARIA guidelines and includes:
 
-- **Unchecked**: Default state
-- **Checked**: Shows check mark icon
-- **Disabled**: Grayed out and non-interactive
-- **Error**: Red border and error message
-- **Required**: Shows asterisk (\*) next to label
+- Proper semantic HTML structure with `<label>` and `<input type="checkbox">`
+- Keyboard navigation support (Space to toggle, Tab to focus)
+- Screen reader compatibility
+- High contrast mode support
+- Focus indicators for keyboard users
 
-## Accessibility
+## 🛜 Browser Support
 
-- Semantic `<input type="checkbox">` element
-- Proper `<label>` association
-- ARIA attributes for error states
-- Keyboard navigation support (Space to toggle)
-- Screen reader friendly
-- Focus management
-- High contrast support
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
 
-## Styling
+## 🤝 Contributing
 
-Uses CSS modules with these classes:
+To contribute to the project:
 
-- `.container` - Main wrapper element
-- `.checkboxWrapper` - Checkbox input container
-- `.iconChecked` - Checked state icon
-- `.iconDisabled` - Disabled state icon
-- `.label` - Label text styling
-- `.disabled` - Disabled state styling
-- `.popover` - Tooltip positioning
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
-## Icons
+## 📄 License and 👨‍💻 Author
 
-The component uses icons from `@bearlab/core`:
+MIT © [hasanbala](https://github.com/hasanbala)
 
-- `IconChecked` - Displayed when checked
-- `IconDisabled` - Displayed when disabled
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-## TypeScript Support
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
 
-Full TypeScript support with proper type definitions extending HTML input element props.
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
 
-## Dependencies
+---
 
-- `@bearlab/core` - Icon components
-- `@bearlab/view-error` - Error display component
-- `@bearlab/popover` - Tooltip component
-
-## License
-
-MIT
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/checkbox">📦 View on NPM</a>
+  </p>
+</div>

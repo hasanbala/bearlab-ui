@@ -1,289 +1,388 @@
-# Button Component
+# @bearlab/button
 
-A versatile and feature-rich button component with support for icons, loading states, variants, and permission-based rendering.
+A comprehensive and highly customizable React Button component with extensive functionality. Features loading states, multiple variants, built-in icons, permission-based rendering, and complete TypeScript support with automatic light/dark theme adaptation.
 
-## Installation
+## ✨ Features
+
+- 🎨 **3 Variants**: Primary, Secondary, Tertiary styles
+- 🔘 **3 Button Types**: Icon with Text, Just Icon, Just Text
+- 🎯 **18+ Built-in Icons**: Add, Delete, Search, Export, and more
+- 🔄 **Loading States**: Smooth loading animation with spinner
+- 🛡️ **Permission System**: Role-based button rendering
+- 🎨 **Custom Icons**: Support for custom React elements
+- 🌙 **Theme Support**: Automatic light and dark theme adaptation
+- ⚡ **Performance**: Optimized rendering and animations
+- 🎯 **TypeScript**: Full type safety and IntelliSense
+- ♿ **Accessible**: WCAG compliant with proper focus states
+
+## 📦 Installation
 
 ```bash
 npm install @bearlab/button
 ```
 
-## Usage
+```bash
+yarn add @bearlab/button
+```
 
-```tsx
-import { Button, BUTTON_TYPE, BUTTON_VARIANT, ICON_TYPE } from '@bearlab/button';
+## 🔗 Dependencies
 
-// Basic button
+- `react >= 16.8.0`
+- `react-dom >= 16.8.0`
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
+
+## 🎨 Button Types
+
+### ICON_WITH_TEXT
+
+Displays label with an icon. Icon position can be controlled with `iconTextReverse`.
+
+### JUST_ICON
+
+Shows only the icon with a tooltip on hover displaying the label.
+
+### JUST_TEXT
+
+Text-only button without any icons.
+
+## 🌈 Variants
+
+### PRIMARY (Default)
+
+- Blue background with white text
+- Default button style for primary actions
+
+### SECONDARY
+
+- White background with gray text and border
+- Used for secondary actions
+
+### TERTIARY
+
+- Gradient background
+- Special emphasis for premium actions
+
+## 🎯 Usage Examples
+
+### Basic Buttons
+
+```jsx
+import { Button } from '@bearlab/button';
+import { BUTTON_TYPE, BUTTON_VARIANT, ICON_TYPE } from '@bearlab/button/helpers';
+
+// Text only button
 <Button
+  label="Submit"
   buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Click me"
-  onClick={handleClick}
 />
 
-// Button with icon
+// Icon with text
 <Button
-  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
   label="Add Item"
-  iconType={{ default: ICON_TYPE.ADD }}
-  onClick={handleAdd}
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.ADD, custom: null }}
 />
 
-// Loading button
+// Icon only button
 <Button
-  buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Save"
-  isLoading={isLoading}
-  onClick={handleSave}
-/>
-```
-
-## Props
-
-| Prop              | Type                                                   | Default                                     | Description                              |
-| ----------------- | ------------------------------------------------------ | ------------------------------------------- | ---------------------------------------- |
-| `label`           | `string \| number`                                     | **Required**                                | Button text/label                        |
-| `buttonType`      | `BUTTON_TYPE`                                          | **Required**                                | Type of button (text, icon, or combined) |
-| `onClick`         | `(event: React.MouseEvent<HTMLButtonElement>) => void` | `undefined`                                 | Click handler function                   |
-| `isLoading`       | `boolean`                                              | `false`                                     | Shows loading spinner when true          |
-| `disabled`        | `boolean`                                              | `false`                                     | Disables the button                      |
-| `iconType`        | `{ default: ICON_TYPE, custom?: React.ReactElement }`  | `{ default: ICON_TYPE.NONE, custom: null }` | Icon configuration                       |
-| `variant`         | `BUTTON_VARIANT`                                       | `undefined`                                 | Visual style variant                     |
-| `htmlType`        | `'button' \| 'submit'`                                 | `'button'`                                  | HTML button type                         |
-| `iconTextReverse` | `boolean`                                              | `false`                                     | Reverses icon and text order             |
-| `className`       | `string`                                               | `undefined`                                 | Additional CSS classes                   |
-| `permission`      | `string \| string[]`                                   | `PERMISSIONS.DEFAULT`                       | Required permissions                     |
-| `allAuths`        | `object`                                               | `{}`                                        | User permissions object                  |
-
-## Button Types
-
-### `BUTTON_TYPE.JUST_TEXT`
-
-Text-only button without icons.
-
-```tsx
-<Button
-  buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Save Changes"
-  onClick={handleSave}
-/>
-```
-
-### `BUTTON_TYPE.JUST_ICON`
-
-Icon-only button with tooltip on hover.
-
-```tsx
-<Button
+  label="Delete"
   buttonType={BUTTON_TYPE.JUST_ICON}
-  label="Delete" // Shows as tooltip
-  iconType={{ default: ICON_TYPE.DELETE }}
-  onClick={handleDelete}
+  iconType={{ default: ICON_TYPE.DELETE, custom: null }}
 />
 ```
 
-### `BUTTON_TYPE.ICON_WITH_TEXT`
+### Button Variants
 
-Button with both icon and text.
-
-```tsx
+```jsx
+// Primary (default)
 <Button
-  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-  label="Export Data"
-  iconType={{ default: ICON_TYPE.EXPORT }}
-  onClick={handleExport}
-/>
-```
-
-## Icon Types
-
-Available built-in icons:
-
-```tsx
-ICON_TYPE.ADD; // Plus icon
-ICON_TYPE.DELETE; // Trash icon
-ICON_TYPE.SEARCH; // Search icon
-ICON_TYPE.EXPORT; // Export icon
-ICON_TYPE.DOCUMENT; // Document icon
-ICON_TYPE.UPDATE; // Update icon
-ICON_TYPE.CLOSE; // Close/X icon
-ICON_TYPE.NOTIFY; // Notification icon
-ICON_TYPE.ARROW; // Arrow icon
-ICON_TYPE.ARROW_DOWN; // Down arrow
-ICON_TYPE.ARROW_RIGHT; // Right arrow
-ICON_TYPE.FILTER; // Filter icon
-ICON_TYPE.COPY; // Copy icon
-ICON_TYPE.TICK; // Check mark
-ICON_TYPE.MINUS; // Minus icon
-ICON_TYPE.PLUS; // Plus icon
-ICON_TYPE.DOTS; // Menu dots
-ICON_TYPE.NONE; // No icon
-```
-
-### Custom Icons
-
-```tsx
-<Button
-  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-  label="Custom Action"
-  iconType={{
-    default: ICON_TYPE.NONE,
-    custom: <MyCustomIcon />,
-  }}
-  onClick={handleCustomAction}
-/>
-```
-
-## Variants
-
-```tsx
-// Primary variant
-<Button
+  label="Primary"
   buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Primary Action"
   variant={BUTTON_VARIANT.PRIMARY}
 />
 
-// Secondary variant
+// Secondary
 <Button
+  label="Secondary"
   buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Secondary Action"
   variant={BUTTON_VARIANT.SECONDARY}
 />
 
-// Tertiary variant
+// Tertiary (gradient)
 <Button
+  label="Tertiary"
   buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Tertiary Action"
   variant={BUTTON_VARIANT.TERTIARY}
 />
 ```
 
-## Loading State
+### With Built-in Icons
 
-```tsx
-const [isLoading, setIsLoading] = useState(false);
-
-const handleAsyncAction = async () => {
-  setIsLoading(true);
-  try {
-    await someAsyncOperation();
-  } finally {
-    setIsLoading(false);
-  }
-};
+```jsx
+// Available icons: ADD, DELETE, SEARCH, EXPORT, DOCUMENT, UPDATE,
+// CLOSE, NOTIFY, ARROW, ARROW_DOWN, ARROW_RIGHT, MINUS, PLUS,
+// FILTER, DOTS, TICK, COPY
 
 <Button
-  buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Process Data"
-  isLoading={isLoading}
-  onClick={handleAsyncAction}
+  label="Search"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.SEARCH, custom: null }}
+/>
+
+<Button
+  label="Export Data"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.EXPORT, custom: null }}
+/>
+
+<Button
+  label="Delete Item"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.DELETE, custom: null }}
+  variant={BUTTON_VARIANT.SECONDARY}
+/>
+```
+
+### Custom Icons
+
+```jsx
+import { CustomIcon } from "./CustomIcon";
+
+<Button
+  label="Custom Action"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{
+    default: ICON_TYPE.NONE,
+    custom: <CustomIcon />,
+  }}
 />;
 ```
 
-## Permission-based Rendering
+### Loading States
 
-```tsx
-const userPermissions = {
-  DELETE_USER: true,
-  EDIT_USER: false,
-  VIEW_USER: true
+```jsx
+const [isLoading, setIsLoading] = useState(false);
+
+const handleClick = async () => {
+  setIsLoading(true);
+  await performAsyncOperation();
+  setIsLoading(false);
 };
 
-// Button won't render if user lacks permission
 <Button
+  label="Save Changes"
   buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-  label="Delete User"
-  iconType={{ default: ICON_TYPE.DELETE }}
-  permission="DELETE_USER"
-  allAuths={userPermissions}
-  onClick={handleDelete}
+  iconType={{ default: ICON_TYPE.TICK, custom: null }}
+  isLoading={isLoading}
+  onClick={handleClick}
+/>;
+```
+
+### Icon Position Control
+
+```jsx
+// Icon after text (default)
+<Button
+  label="Next"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.ARROW_RIGHT, custom: null }}
+/>
+
+// Icon before text
+<Button
+  label="Previous"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.ARROW, custom: null }}
+  iconTextReverse={true}
+/>
+```
+
+### Form Integration
+
+```jsx
+<form onSubmit={handleSubmit}>
+  <Button
+    label="Submit Form"
+    buttonType={BUTTON_TYPE.JUST_TEXT}
+    htmlType="SUBMIT"
+    disabled={!isFormValid}
+  />
+
+  <Button
+    label="Cancel"
+    buttonType={BUTTON_TYPE.JUST_TEXT}
+    variant={BUTTON_VARIANT.SECONDARY}
+    htmlType="BUTTON"
+    onClick={handleCancel}
+  />
+</form>
+```
+
+### Permission-Based Rendering
+
+```jsx
+// Button will only render if user has required permissions
+<Button
+  label="Admin Action"
+  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+  iconType={{ default: ICON_TYPE.UPDATE, custom: null }}
+  permission="ADMIN_WRITE"
+  allAuths={{
+    ADMIN_READ: true,
+    ADMIN_WRITE: true,
+    USER_READ: true
+  }}
 />
 
 // Multiple permissions (OR logic)
 <Button
+  label="Moderate Content"
   buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Admin Action"
-  permission={["ADMIN", "SUPER_USER"]}
+  permission={["ADMIN_WRITE", "MODERATOR_WRITE"]}
   allAuths={userPermissions}
-  onClick={handleAdminAction}
 />
 ```
 
-## Examples
+## 📚 API Reference
 
-### Form Buttons
+### Props
 
-```tsx
-// Submit button
-<Button
-  buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Submit"
-  htmlType="submit"
-  variant={BUTTON_VARIANT.PRIMARY}
-  isLoading={isSubmitting}
-/>
+| Prop              | Type                 | Default                           | Description                       |
+| ----------------- | -------------------- | --------------------------------- | --------------------------------- |
+| `label`           | `string \| number`   | -                                 | **Required.** Button text content |
+| `buttonType`      | `BUTTON_TYPE`        | -                                 | **Required.** Button display type |
+| `variant`         | `BUTTON_VARIANT`     | `PRIMARY`                         | Button visual style               |
+| `iconType`        | `IconConfig`         | `{ default: NONE, custom: null }` | Icon configuration                |
+| `isLoading`       | `boolean`            | `false`                           | Loading state with spinner        |
+| `disabled`        | `boolean`            | `false`                           | Disabled state                    |
+| `htmlType`        | `HTML_TYPE`          | `BUTTON`                          | HTML button type                  |
+| `onClick`         | `Function`           | -                                 | Click event handler               |
+| `iconTextReverse` | `boolean`            | `false`                           | Reverse icon and text order       |
+| `className`       | `string`             | -                                 | Custom CSS classes                |
+| `permission`      | `string \| string[]` | -                                 | Required permissions              |
+| `allAuths`        | `object`             | `{}`                              | Available permissions             |
 
-// Cancel button
-<Button
-  buttonType={BUTTON_TYPE.JUST_TEXT}
-  label="Cancel"
-  variant={BUTTON_VARIANT.SECONDARY}
-  onClick={handleCancel}
-/>
+### Types
+
+#### BUTTON_TYPE
+
+```typescript
+enum BUTTON_TYPE {
+  ICON_WITH_TEXT = "ICON_WITH_TEXT",
+  JUST_ICON = "JUST_ICON",
+  JUST_TEXT = "JUST_TEXT",
+}
 ```
 
-### Action Buttons
+#### BUTTON_VARIANT
 
-```tsx
-// Add new item
-<Button
-  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-  label="Add New"
-  iconType={{ default: ICON_TYPE.ADD }}
-  variant={BUTTON_VARIANT.PRIMARY}
-  onClick={handleAdd}
-/>
-
-// Search with reversed icon
-<Button
-  buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-  label="Search"
-  iconType={{ default: ICON_TYPE.SEARCH }}
-  iconTextReverse={true}
-  onClick={handleSearch}
-/>
+```typescript
+enum BUTTON_VARIANT {
+  PRIMARY = "PRIMARY",
+  SECONDARY = "SECONDARY",
+  TERTIARY = "TERTIARY",
+}
 ```
 
-## Accessibility
+#### ICON_TYPE
 
-- Semantic `<button>` element
-- Proper ARIA attributes
-- Keyboard navigation support
-- Focus management
-- Loading state announcements
-- Tooltip support for icon-only buttons
+```typescript
+enum ICON_TYPE {
+  NONE = "NONE",
+  ADD = "ADD",
+  DELETE = "DELETE",
+  SEARCH = "SEARCH",
+  EXPORT = "EXPORT",
+  DOCUMENT = "DOCUMENT",
+  UPDATE = "UPDATE",
+  CLOSE = "CLOSE",
+  NOTIFY = "NOTIFY",
+  ARROW = "ARROW",
+  ARROW_DOWN = "ARROW_DOWN",
+  ARROW_RIGHT = "ARROW_RIGHT",
+  MINUS = "MINUS",
+  PLUS = "PLUS",
+  FILTER = "FILTER",
+  DOTS = "DOTS",
+  TICK = "TICK",
+  COPY = "COPY",
+}
+```
 
-## Styling
+#### HTML_TYPE
 
-Uses CSS modules with the following classes:
+```typescript
+enum HTML_TYPE {
+  BUTTON = "button",
+  SUBMIT = "submit",
+}
+```
 
-- `.container` - Main button container
-- `.justIcon` - Icon-only button styles
-- `.customIcon` - Custom icon styles
-- `.loadingButton` - Loading state styles
-- `.disabledButton` - Disabled state styles
-- `.iconTextReverse` - Reversed layout styles
+### TypeScript Support
 
-## TypeScript Support
+```typescript
+import { Button, Props as ButtonProps } from "@bearlab/button";
 
-Full TypeScript support with enums and type definitions.
+const MyButton: React.FC<ButtonProps> = (props) => {
+  return <Button {...props} />;
+};
+```
 
-## Dependencies
+## 🌙 Theme Support
 
-- `classnames` - CSS class management
-- `@bearlab/core` - Icon components
-- `@bearlab/popover` - Tooltip functionality
+The component automatically adapts to light and dark themes:
 
-## License
+```html
+<html data-theme="dark">
+  <!-- Dark theme automatically applied -->
+</html>
+```
 
-MIT
+## ♿ Accessibility
+
+- Full keyboard navigation support
+- Screen reader compatible
+- Proper ARIA labels for icon-only buttons
+- High contrast support in dark theme
+- Focus indicators and states
+- Disabled state handling
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
+
+## 📄 License and 👨‍💻 Author
+
+MIT © [hasanbala](https://github.com/hasanbala)
+
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
+
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/button">📦 View on NPM</a>
+  </p>
+</div>

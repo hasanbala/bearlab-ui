@@ -6,8 +6,8 @@ import {
   IconCopy,
   IconTick,
   IconSearch,
+  IconError2,
 } from "@bearlab/core";
-import { ViewError } from "@bearlab/view-error";
 import styles from "./input.module.scss";
 import { useCopyByInput } from "@bearlab/hooks";
 
@@ -123,7 +123,12 @@ export const Input = (props: Props) => {
         {isExistSearch && (
           <IconSearch className={styles.searchIcon} onClick={onClick} />
         )}
-        {error && <ViewError label={error} />}
+        {error && (
+          <div className={styles.viewError}>
+            <IconError2 />
+            <span>{label}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -132,7 +137,6 @@ export const Input = (props: Props) => {
 type InputProps = JSX.IntrinsicElements["input"];
 
 export interface Props extends InputProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
   name?: string;
   value?: string | number;

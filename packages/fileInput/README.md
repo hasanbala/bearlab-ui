@@ -1,349 +1,133 @@
-# FileInput Component
+# @bearlab/file-input
 
-A clean, accessible file input component for React applications with built-in error handling and validation support.
+A modern, accessible, and customizable file input component for React applications with TypeScript support.
 
-## Features
+## ✨ Features
 
-- 📁 **Native File Input** - Built on native HTML file input
-- ✅ **Form Validation** - Built-in error handling and display
-- 🏷️ **Labels & Required Fields** - Proper form labeling with required indicators
-- 🎨 **Customizable Styling** - Easy to style with CSS modules
-- 🛡️ **Type Safety** - Full TypeScript support with proper typing
-- ♿ **Accessibility** - Screen reader friendly with proper ARIA attributes
+- ✅ **Fully Accessible** - WCAG compliant with proper ARIA attributes
+- 🎨 **Dark Mode Support** - Seamless light/dark theme switching
+- 🔧 **Highly Customizable** - Custom styling with CSS modules and classNames
+- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
+- ⚡ **Lightweight** - Minimal bundle size with tree-shaking support
+- 🎯 **Modern Design** - Beautiful default styling with hover and focus states
+- 📱 **Responsive** - Works perfectly on all screen sizes
+- 🚨 **Error Handling** - Built-in error display with validation support
 
-## Installation
+## 📦 Installation
 
 ```bash
 npm install @bearlab/file-input
-# or
+```
+
+```bash
 yarn add @bearlab/file-input
 ```
 
-## Basic Usage
+## 🔗 Dependencies
+
+- `react` >= 16.8.0
+- `react-dom` >= 16.8.0
+- `@bearlab/core` - For upload icons, style variables, utilities and theme support
+- `classnames` - For conditional CSS class handling
+
+## 🎯 Usage Examples
+
+### Basic Usage
 
 ```tsx
-import React, { useState } from "react";
 import { FileInput } from "@bearlab/file-input";
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      console.log("Selected file:", files[0]);
+    }
+  };
+
+  return <FileInput label="Upload Document" onChange={handleFileChange} />;
+}
+```
+
+### With Validation and Error Handling
+
+```tsx
+import { FileInput } from "@bearlab/file-input";
+import { useState } from "react";
+
+function FileUploadForm() {
+  const [error, setError] = useState<string | null>(null);
+
+  const validateFile = (file: File) => {
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+
+    if (file.size > maxSize) {
+      return "File size must be less than 5MB";
+    }
+
+    if (!allowedTypes.includes(file.type)) {
+      return "Only JPEG, PNG, and PDF files are allowed";
+    }
+
+    return null;
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setSelectedFile(file || null);
-  };
-
-  return (
-    <FileInput
-      label="Upload Document"
-      onChange={handleFileChange}
-      accept="application/pdf"
-      required
-    />
-  );
-}
-```
-
-## Advanced Usage
-
-```tsx
-import React, { useState } from "react";
-import { FileInput } from "@bearlab/file-input";
-
-function DocumentUploader() {
-  const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string>("");
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-
-    if (selectedFile) {
-      // File size validation (5MB limit)
-      if (selectedFile.size > 5 * 1024 * 1024) {
-        setError("File size must be less than 5MB");
-        return;
-      }
-
-      // File type validation
-      const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
-      if (!allowedTypes.includes(selectedFile.type)) {
-        setError("Please select a PDF or image file");
-        return;
-      }
-
-      setError("");
-      setFile(selectedFile);
-    }
-  };
-
-  return (
-    <div>
-      <FileInput
-        label="Upload Document"
-        onChange={handleFileChange}
-        accept=".pdf,.jpg,.jpeg,.png"
-        isRequired={true}
-        error={error}
-        className="document-input"
-      />
-
-      {file && (
-        <div className="file-info">
-          <p>Selected: {file.name}</p>
-          <p>Size: {(file.size / 1024).toFixed(2)} KB</p>
-        </div>
-      )}
-    </div>
-  );
-}
-```
-
-## Props
-
-| Prop         | Type                                             | Default | Description                      |
-| ------------ | ------------------------------------------------ | ------- | -------------------------------- |
-| `label`      | `string`                                         | -       | Label text for the input         |
-| `error`      | `any`                                            | -       | Error message to display         |
-| `isRequired` | `boolean`                                        | `false` | Shows required indicator (\*)    |
-| `className`  | `string`                                         | -       | Additional CSS class for styling |
-| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | -       | File selection change handler    |
-
-### Inherited HTML Input Props
-
-The component also accepts all standard HTML input props:
-
-| Prop       | Type      | Description                   |
-| ---------- | --------- | ----------------------------- |
-| `accept`   | `string`  | File types to accept          |
-| `multiple` | `boolean` | Allow multiple file selection |
-| `disabled` | `boolean` | Disable the input             |
-| `name`     | `string`  | Form field name               |
-| `id`       | `string`  | Input ID                      |
-
-## Styling
-
-The component uses CSS modules for styling. You can customize it with your own CSS:
-
-```scss
-.document-input {
-  .label {
-    color: #2563eb;
-    font-weight: 600;
-  }
-
-  input[type="file"] {
-    border: 2px dashed #d1d5db;
-    padding: 12px;
-    border-radius: 8px;
-
-    &:focus {
-      border-color: #2563eb;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    &.error {
-      border-color: #dc2626;
-    }
-  }
-}
-```
-
-### Default CSS Classes
-
-- `.container` - Main wrapper
-- `.label` - Label element
-- `.inputWrapper` - Input container
-- `.error` - Applied to input when error exists
-
-## Error Handling
-
-The component provides built-in error display:
-
-```tsx
-const [error, setError] = useState("");
-
-const validateFile = (file: File) => {
-  if (file.size > 10 * 1024 * 1024) {
-    setError("File size cannot exceed 10MB");
-    return false;
-  }
-
-  if (!file.type.startsWith("image/")) {
-    setError("Please select an image file");
-    return false;
-  }
-
-  setError("");
-  return true;
-};
-
-<FileInput
-  error={error}
-  onChange={handleFileChange}
-  // ... other props
-/>;
-```
-
-## File Type Validation
-
-Specify accepted file types using the `accept` attribute:
-
-```tsx
-// Images only
-<FileInput accept="image/*" />
-
-// Specific image types
-<FileInput accept="image/jpeg,image/png,image/webp" />
-
-// Documents
-<FileInput accept=".pdf,.doc,.docx" />
-
-// Multiple categories
-<FileInput accept="image/*,application/pdf,.txt" />
-```
-
-## Form Integration
-
-Perfect for use with form libraries like React Hook Form:
-
-```tsx
-import { useForm, Controller } from "react-hook-form";
-import { FileInput } from "@bearlab/file-input";
-
-interface FormData {
-  document: FileList;
-}
-
-function MyForm() {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = (data: FormData) => {
-    const file = data.document[0];
-    console.log("Selected file:", file);
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="document"
-        control={control}
-        rules={{ required: "Please select a file" }}
-        render={({ field, fieldState }) => (
-          <FileInput
-            label="Upload Document"
-            onChange={field.onChange}
-            error={fieldState.error?.message}
-            isRequired
-            accept=".pdf"
-          />
-        )}
-      />
-
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-## Accessibility Features
-
-The component follows accessibility best practices:
-
-- **Proper labeling** - Associates label with input using htmlFor
-- **Required field indication** - Visual (\*) indicator for required fields
-- **Error announcements** - Screen readers announce errors
-- **Keyboard navigation** - Full keyboard accessibility
-- **Focus management** - Proper focus states
-
-## Examples
-
-### Profile Picture Uploader
-
-```tsx
-function ProfilePictureUploader() {
-  const [profilePic, setProfilePic] = useState<File | null>(null);
-  const [error, setError] = useState("");
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        setError("Image must be less than 2MB");
-        return;
-      }
+      const validationError = validateFile(file);
+      setError(validationError);
 
-      setError("");
-      setProfilePic(file);
+      if (!validationError) {
+        // Process the file
+        console.log("File is valid:", file);
+      }
     }
   };
 
   return (
     <FileInput
       label="Profile Picture"
-      onChange={handleImageUpload}
-      accept="image/jpeg,image/png"
       error={error}
       isRequired
+      accept="image/*,.pdf"
+      onChange={handleFileChange}
+      className="my-custom-file-input"
     />
   );
 }
 ```
 
-### Multiple File Upload
+### Multiple File Selection
 
 ```tsx
-function MultipleFileUploader() {
-  const [files, setFiles] = useState<FileList | null>(null);
+import { FileInput } from "@bearlab/file-input";
 
-  const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFiles(event.target.files);
+function MultipleFileUpload() {
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFiles(event.target.files);
   };
 
   return (
     <div>
       <FileInput
-        label="Select Documents"
-        onChange={handleFilesChange}
-        accept=".pdf,.doc,.docx"
+        label="Upload Multiple Documents"
         multiple
+        onChange={handleFileChange}
       />
 
-      {files && (
-        <ul>
-          {Array.from(files).map((file, index) => (
-            <li key={index}>{file.name}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-```
-
-### Drag and Drop Alternative
-
-```tsx
-function SimpleFileUploader() {
-  const [file, setFile] = useState<File | null>(null);
-
-  return (
-    <div className="upload-area">
-      {!file ? (
-        <FileInput
-          label="Choose File"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          accept="*/*"
-        />
-      ) : (
-        <div className="file-selected">
-          <p>✓ {file.name}</p>
-          <button onClick={() => setFile(null)}>Remove</button>
+      {selectedFiles && (
+        <div>
+          <h3>Selected Files:</h3>
+          <ul>
+            {Array.from(selectedFiles).map((file, index) => (
+              <li key={index}>{file.name}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -351,67 +135,158 @@ function SimpleFileUploader() {
 }
 ```
 
-## Browser Support
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
-## Dependencies
-
-- `react` >= 16.8.0
-- `@bearlab/view-error` (for error display)
-- `classnames` (for conditional styling)
-
-## TypeScript Support
-
-Full TypeScript support with comprehensive type definitions:
+### Custom Styling
 
 ```tsx
-interface Props extends InputProps {
-  error?: any;
-  label?: string;
-  className?: string;
-  isRequired?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+import { FileInput } from "@bearlab/file-input";
+import "./custom-styles.css";
+
+function CustomStyledFileInput() {
+  return (
+    <FileInput
+      label="Custom Styled Upload"
+      className="custom-file-input"
+      onChange={handleFileChange}
+    />
+  );
+}
+```
+
+```css
+/* custom-styles.css */
+.custom-file-input input {
+  border: 2px dashed #3b82f6;
+  background-color: #f8fafc;
 }
 
-type InputProps = JSX.IntrinsicElements["input"];
+.custom-file-input input:hover {
+  border-color: #2563eb;
+  background-color: #f1f5f9;
+}
 ```
 
-## Testing
+## 📚 API Reference
 
-```tsx
-import { render, screen, fireEvent } from "@testing-library/react";
-import { FileInput } from "@bearlab/file-input";
+### Props
 
-test("handles file selection", () => {
-  const mockOnChange = jest.fn();
+| Prop         | Type                                                   | Default     | Description                                |
+| ------------ | ------------------------------------------------------ | ----------- | ------------------------------------------ |
+| `label`      | `string`                                               | `undefined` | Label text displayed above the input       |
+| `error`      | `any`                                                  | `undefined` | Error message to display below the input   |
+| `isRequired` | `boolean`                                              | `false`     | Shows required asterisk (\*) next to label |
+| `className`  | `string`                                               | `undefined` | Additional CSS class for the container     |
+| `onChange`   | `(event: React.ChangeEvent<HTMLInputElement>) => void` | `undefined` | Callback fired when file selection changes |
 
-  render(<FileInput label="Test File Input" onChange={mockOnChange} />);
+All other props are passed through to the underlying `<input>` element, including:
 
-  const input = screen.getByLabelText("Test File Input");
-  const file = new File(["test"], "test.txt", { type: "text/plain" });
+- `accept` - File types to accept
+- `multiple` - Allow multiple file selection
+- `disabled` - Disable the input
+- `name` - Form field name
+- `id` - Element ID
+- `required` - HTML5 required attribute
 
-  fireEvent.change(input, { target: { files: [file] } });
+### TypeScript Support
 
-  expect(mockOnChange).toHaveBeenCalled();
-});
+The component is fully typed with TypeScript:
+
+```typescript
+import { FileInput, Props as FileInputProps } from "@bearlab/file-input";
+
+const MyButton: React.FC<FileInputProps> = (props) => {
+  return <FileInput {...props} />;
+};
 ```
 
-## Contributing
+## 🌙 Theme Support
+
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
+
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
+```
+
+## 🎨 Styling
+
+### CSS Custom Properties
+
+The component uses CSS modules but exposes several CSS custom properties for easy theming:
+
+```css
+.your-custom-class {
+  --file-input-border-color: #e5e7eb;
+  --file-input-focus-color: #3b82f6;
+  --file-input-error-color: #ef4444;
+  --file-input-background: transparent;
+  --file-input-text-color: #374151;
+}
+```
+
+### Custom CSS Classes
+
+Override styles by targeting the component's CSS classes:
+
+```css
+.your-container .bearlab-file-input {
+  /* Container styles */
+}
+
+.your-container .bearlab-file-input input {
+  /* Input styles */
+}
+
+.your-container .bearlab-file-input label {
+  /* Label styles */
+}
+```
+
+## ♿ Accessibility
+
+The FileInput component follows WAI-ARIA guidelines:
+
+- Proper labeling with `<label>` elements
+- Error announcements for screen readers
+- Keyboard navigation support
+- Focus management with visible focus indicators
+- Semantic HTML structure
+
+## 🛜 Browser Support
+
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari
+- ✅ Android Chrome
+
+## 🤝 Contributing
+
+To contribute to the project:
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+5. Create a Pull Request
 
-## License
+## 📄 License and 👨‍💻 Author
 
-MIT License - see LICENSE file for details
+MIT © [hasanbala](https://github.com/hasanbala)
 
-## Support
+**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-For support, please open an issue on GitHub or contact our team.
+For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+
+Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by the Bearlab team</p>
+  <p>
+    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://www.npmjs.com/package/@bearlab/file-input">📦 View on NPM</a>
+  </p>
+</div>
