@@ -1,3 +1,4 @@
 export { Badge } from "./badge";
 export type { Props as BadgeProps } from "./badge";
-export type { COLOR_TYPE, SIZE_TYPE, VARIANT_TYPE } from "./helpers";
+export { COLOR_TYPE, VARIANT_TYPE, SIZE_TYPE } from "./helpers";
+export type { ColorType, VariantType, SizeType } from "./helpers";

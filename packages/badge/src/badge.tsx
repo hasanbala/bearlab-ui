@@ -1,6 +1,13 @@
 import classnames from "classnames";
 import styles from "./badge.module.scss";
-import { COLOR_TYPE, SIZE_TYPE, VARIANT_TYPE } from "./helpers";
+import {
+  COLOR_TYPE,
+  ColorType,
+  SIZE_TYPE,
+  SizeType,
+  VARIANT_TYPE,
+  VariantType,
+} from "./helpers";
 
 export const Badge = (props: Props) => {
   const {
@@ -59,16 +66,9 @@ export const Badge = (props: Props) => {
 };
 
 export interface Props {
-  variant?: VARIANT_TYPE.LIGHT | VARIANT_TYPE.SOLID;
-  size?: SIZE_TYPE.SMALL | SIZE_TYPE.MEDIUM;
-  color?:
-    | COLOR_TYPE.PRIMARY
-    | COLOR_TYPE.SUCCESS
-    | COLOR_TYPE.ERROR
-    | COLOR_TYPE.WARNING
-    | COLOR_TYPE.INFO
-    | COLOR_TYPE.LIGHT
-    | COLOR_TYPE.DARK;
+  variant?: VariantType;
+  size?: SizeType;
+  color?: ColorType;
   startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   label: string | number;
