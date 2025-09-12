@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=badge rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=alert rollup -c tools/rollup.config.component.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -33,7 +33,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/hasanbala/ui-components.git",
-    "directory": "packages/badge"
+    "directory": "packages/alert"
   },
   "homepage": "https://github.com/hasanbala/ui-components#readme",
   "publishConfig": {
