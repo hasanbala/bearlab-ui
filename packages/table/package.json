@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/table",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bearlab UI Table Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,12 +14,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/button": "^1.0.6",
-    "@bearlab/checkbox": "^1.0.6",
-    "@bearlab/hooks": "^1.0.3",
-    "@bearlab/input": "^1.0.6",
-    "@bearlab/radio": "^1.0.6",
-    "@bearlab/select": "^1.0.6",
+    "@bearlab/button": "^1.0.7",
+    "@bearlab/checkbox": "^1.0.7",
+    "@bearlab/hooks": "^1.0.4",
+    "@bearlab/input": "^1.0.7",
+    "@bearlab/radio": "^1.0.7",
+    "@bearlab/select": "^1.0.7",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/input",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Bearlab UI Input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,8 +14,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.7",
-    "@bearlab/hooks": "^1.0.3",
+    "@bearlab/core": "^1.0.8",
+    "@bearlab/hooks": "^1.0.4",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
