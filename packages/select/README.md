@@ -17,11 +17,11 @@ A modern, accessible, and customizable Select component for React applications w
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/select
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/select
 ```
 
 ## 🔗 Dependencies

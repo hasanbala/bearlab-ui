@@ -27,11 +27,11 @@ A powerful, feature-rich React table component with built-in pagination, search,
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/table
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/table
 ```
 
 ## 🔗 Dependencies

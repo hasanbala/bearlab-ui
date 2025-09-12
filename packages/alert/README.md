@@ -17,11 +17,11 @@ A versatile and accessible React alert component for displaying important messag
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/badge
+npm install @bearlab/alert
 ```
 
 ```bash
-yarn add @bearlab/badge
+yarn add @bearlab/alert
 ```
 
 ## 🔗 Dependencies

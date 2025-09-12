@@ -18,11 +18,11 @@ A flexible and customizable React tab component with support for icons, notifica
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/badge
+npm install @bearlab/tab
 ```
 
 ```bash
-yarn add @bearlab/badge
+yarn add @bearlab/tab
 ```
 
 ## 🔗 Dependencies

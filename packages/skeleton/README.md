@@ -14,11 +14,11 @@ A flexible and customizable skeleton loading component for React applications. P
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/skeleton
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/skeleton
 ```
 
 ## 🔗 Dependencies

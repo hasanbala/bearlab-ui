@@ -18,11 +18,11 @@ A modern, accessible, and highly customizable Switch (toggle) component for Reac
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/switch
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/switch
 ```
 
 ## 🔗 Dependencies

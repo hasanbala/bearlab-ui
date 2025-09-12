@@ -16,11 +16,11 @@ A versatile card component for React applications that handles both content disp
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/view-card
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/view-card
 ```
 
 ## 🔗 Dependencies

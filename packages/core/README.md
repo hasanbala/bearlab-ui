@@ -5,11 +5,11 @@ The foundation package of the BearLab UI ecosystem. Provides essential utilities
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/button
+npm install @bearlab/core
 ```
 
 ```bash
-yarn add @bearlab/button
+yarn add @bearlab/core
 ```
 
 ## 📋 Requirements

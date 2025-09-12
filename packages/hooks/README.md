@@ -5,11 +5,11 @@ A collection of reusable React hooks for common UI interactions and utilities. P
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/dropdown
+npm install @bearlab/hooks
 ```
 
 ```bash
-yarn add @bearlab/dropdown
+yarn add @bearlab/hooks
 ```
 
 ## 📋 Requirements

@@ -18,11 +18,11 @@ A modern, accessible, and fully customizable Textarea component for React applic
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/checkbox
+npm install @bearlab/textarea
 ```
 
 ```bash
-yarn add @bearlab/checkbox
+yarn add @bearlab/textarea
 ```
 
 ## 🔗 Dependencies

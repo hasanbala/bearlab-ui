@@ -18,11 +18,11 @@ A versatile and customizable React avatar component library with support for ima
 ## 📦 Installation
 
 ```bash
-npm install @bearlab/badge
+npm install @bearlab/avatar
 ```
 
 ```bash
-yarn add @bearlab/badge
+yarn add @bearlab/avatar
 ```
 
 ## 🔗 Dependencies
