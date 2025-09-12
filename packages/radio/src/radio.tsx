@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { JSX } from "react";
 import styles from "./radio.module.scss";
-import { IconError2 } from "@bearlab/core";
+import { IconErrorTriangle } from "@bearlab/core";
 
 export const Radio = (props: RadioProps) => {
   const {
@@ -62,7 +62,7 @@ export const Radio = (props: RadioProps) => {
         </span>
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}
@@ -145,7 +145,7 @@ export interface RadioGroupProps {
   isVertical?: boolean;
 }
 
-interface RadioChangeEvent {
+export interface RadioChangeEvent {
   target: {
     value: number | string;
     checked: boolean;

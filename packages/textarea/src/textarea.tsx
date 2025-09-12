@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import classnames from "classnames";
 import styles from "./textarea.module.scss";
-import { IconError2 } from "@bearlab/core";
+import { IconErrorTriangle } from "@bearlab/core";
 
 export const Textarea = (props: Props) => {
   const { error, label, disabled, className, isRequired, ...rest } = props;
@@ -27,7 +27,7 @@ export const Textarea = (props: Props) => {
         />
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}

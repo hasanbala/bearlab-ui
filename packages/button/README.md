@@ -32,36 +32,90 @@ yarn add @bearlab/button
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
-## 🎨 Button Types
+## 📚 API Reference
 
-### ICON_WITH_TEXT
+### Props
 
-Displays label with an icon. Icon position can be controlled with `iconTextReverse`.
+| Prop              | Type                 | Default                           | Description                       |
+| ----------------- | -------------------- | --------------------------------- | --------------------------------- |
+| `label`           | `string \| number`   | -                                 | **Required.** Button text content |
+| `buttonType`      | `BUTTON_TYPE`        | -                                 | **Required.** Button display type |
+| `variant`         | `BUTTON_VARIANT`     | `PRIMARY`                         | Button visual style               |
+| `iconType`        | `IconConfig`         | `{ default: NONE, custom: null }` | Icon configuration                |
+| `isLoading`       | `boolean`            | `false`                           | Loading state with spinner        |
+| `disabled`        | `boolean`            | `false`                           | Disabled state                    |
+| `htmlType`        | `HTML_TYPE`          | `BUTTON`                          | HTML button type                  |
+| `onClick`         | `Function`           | -                                 | Click event handler               |
+| `iconTextReverse` | `boolean`            | `false`                           | Reverse icon and text order       |
+| `className`       | `string`             | -                                 | Custom CSS classes                |
+| `permission`      | `string \| string[]` | -                                 | Required permissions              |
+| `allAuths`        | `object`             | `{}`                              | Available permissions             |
 
-### JUST_ICON
+### Types
 
-Shows only the icon with a tooltip on hover displaying the label.
+#### BUTTON_TYPE
 
-### JUST_TEXT
+```typescript
+enum BUTTON_TYPE {
+  ICON_WITH_TEXT = "ICON_WITH_TEXT",
+  JUST_ICON = "JUST_ICON",
+  JUST_TEXT = "JUST_TEXT",
+}
+```
 
-Text-only button without any icons.
+#### BUTTON_VARIANT
 
-## 🌈 Variants
+```typescript
+enum BUTTON_VARIANT {
+  PRIMARY = "PRIMARY",
+  SECONDARY = "SECONDARY",
+  TERTIARY = "TERTIARY",
+}
+```
 
-### PRIMARY (Default)
+#### ICON_TYPE
 
-- Blue background with white text
-- Default button style for primary actions
+```typescript
+enum ICON_TYPE {
+  NONE = "NONE",
+  ADD = "ADD",
+  DELETE = "DELETE",
+  SEARCH = "SEARCH",
+  EXPORT = "EXPORT",
+  DOCUMENT = "DOCUMENT",
+  UPDATE = "UPDATE",
+  CLOSE = "CLOSE",
+  NOTIFY = "NOTIFY",
+  ARROW = "ARROW",
+  ARROW_DOWN = "ARROW_DOWN",
+  ARROW_RIGHT = "ARROW_RIGHT",
+  MINUS = "MINUS",
+  PLUS = "PLUS",
+  FILTER = "FILTER",
+  DOTS = "DOTS",
+  TICK = "TICK",
+  COPY = "COPY",
+}
+```
 
-### SECONDARY
+#### HTML_TYPE
 
-- White background with gray text and border
-- Used for secondary actions
+```typescript
+enum HTML_TYPE {
+  BUTTON = "button",
+  SUBMIT = "submit",
+}
+```
 
-### TERTIARY
+### TypeScript Support
 
-- Gradient background
-- Special emphasis for premium actions
+```typescript
+import { Button, Props as ButtonProps } from "@bearlab/button";
+
+const MyButton: React.FC<ButtonProps> = (props) => {
+  return <Button {...props} />;
+};
+```
 
 ## 🎯 Usage Examples
 
@@ -244,90 +298,36 @@ const handleClick = async () => {
 />
 ```
 
-## 📚 API Reference
+## 🎨 Button Types
 
-### Props
+### ICON_WITH_TEXT
 
-| Prop              | Type                 | Default                           | Description                       |
-| ----------------- | -------------------- | --------------------------------- | --------------------------------- |
-| `label`           | `string \| number`   | -                                 | **Required.** Button text content |
-| `buttonType`      | `BUTTON_TYPE`        | -                                 | **Required.** Button display type |
-| `variant`         | `BUTTON_VARIANT`     | `PRIMARY`                         | Button visual style               |
-| `iconType`        | `IconConfig`         | `{ default: NONE, custom: null }` | Icon configuration                |
-| `isLoading`       | `boolean`            | `false`                           | Loading state with spinner        |
-| `disabled`        | `boolean`            | `false`                           | Disabled state                    |
-| `htmlType`        | `HTML_TYPE`          | `BUTTON`                          | HTML button type                  |
-| `onClick`         | `Function`           | -                                 | Click event handler               |
-| `iconTextReverse` | `boolean`            | `false`                           | Reverse icon and text order       |
-| `className`       | `string`             | -                                 | Custom CSS classes                |
-| `permission`      | `string \| string[]` | -                                 | Required permissions              |
-| `allAuths`        | `object`             | `{}`                              | Available permissions             |
+Displays label with an icon. Icon position can be controlled with `iconTextReverse`.
 
-### Types
+### JUST_ICON
 
-#### BUTTON_TYPE
+Shows only the icon with a tooltip on hover displaying the label.
 
-```typescript
-enum BUTTON_TYPE {
-  ICON_WITH_TEXT = "ICON_WITH_TEXT",
-  JUST_ICON = "JUST_ICON",
-  JUST_TEXT = "JUST_TEXT",
-}
-```
+### JUST_TEXT
 
-#### BUTTON_VARIANT
+Text-only button without any icons.
 
-```typescript
-enum BUTTON_VARIANT {
-  PRIMARY = "PRIMARY",
-  SECONDARY = "SECONDARY",
-  TERTIARY = "TERTIARY",
-}
-```
+## 🌈 Variants
 
-#### ICON_TYPE
+### PRIMARY (Default)
 
-```typescript
-enum ICON_TYPE {
-  NONE = "NONE",
-  ADD = "ADD",
-  DELETE = "DELETE",
-  SEARCH = "SEARCH",
-  EXPORT = "EXPORT",
-  DOCUMENT = "DOCUMENT",
-  UPDATE = "UPDATE",
-  CLOSE = "CLOSE",
-  NOTIFY = "NOTIFY",
-  ARROW = "ARROW",
-  ARROW_DOWN = "ARROW_DOWN",
-  ARROW_RIGHT = "ARROW_RIGHT",
-  MINUS = "MINUS",
-  PLUS = "PLUS",
-  FILTER = "FILTER",
-  DOTS = "DOTS",
-  TICK = "TICK",
-  COPY = "COPY",
-}
-```
+- Blue background with white text
+- Default button style for primary actions
 
-#### HTML_TYPE
+### SECONDARY
 
-```typescript
-enum HTML_TYPE {
-  BUTTON = "button",
-  SUBMIT = "submit",
-}
-```
+- White background with gray text and border
+- Used for secondary actions
 
-### TypeScript Support
+### TERTIARY
 
-```typescript
-import { Button, Props as ButtonProps } from "@bearlab/button";
-
-const MyButton: React.FC<ButtonProps> = (props) => {
-  return <Button {...props} />;
-};
-```
+- Gradient background
+- Special emphasis for premium actions
 
 ## 🌙 Theme Support
 

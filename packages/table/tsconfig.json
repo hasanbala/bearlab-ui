@@ -38,7 +38,10 @@
       "@bearlab/switch": ["./packages/switch/src"],
       "@bearlab/view-card": ["./packages/viewCard/src"],
       "@bearlab/dropdown": ["./packages/dropdown/src"],
-      "@bearlab/table": ["./packages/table/src"]
+      "@bearlab/table": ["./packages/table/src"],
+      "@bearlab/avatar": ["./packages/avatar/src"],
+      "@bearlab/alert": ["./packages/alert/src"],
+      "@bearlab/tab": ["./packages/tab/src"]
     }
   },
   "include": ["src/**/*"],

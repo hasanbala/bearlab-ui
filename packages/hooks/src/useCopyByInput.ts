@@ -21,7 +21,7 @@ export const useCopyByInput = (
           }, 3000)
         );
       })
-      .catch(() => console.warn("error", "Bir hata meydana geldi"));
+      .catch(() => console.warn("error", "An error has occurred"));
   };
 
   return { isCopy, handleCopy };

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { IconArrowDown, IconError2 } from "@bearlab/core";
+import { IconArrowDown, IconErrorTriangle } from "@bearlab/core";
 import styles from "./select.module.scss";
 import { JSX } from "react";
 
@@ -58,7 +58,7 @@ export const Select = (props: Props) => {
         </span>
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}

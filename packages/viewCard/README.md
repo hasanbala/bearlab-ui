@@ -30,6 +30,30 @@ yarn add @bearlab/checkbox
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop          | Type                                   | Default     | Required | Description                                                                  |
+| ------------- | -------------------------------------- | ----------- | -------- | ---------------------------------------------------------------------------- |
+| `title`       | `string`                               | `undefined` | ❌       | Card title displayed in header                                               |
+| `description` | `string`                               | `undefined` | ❌       | Description text displayed under title                                       |
+| `children`    | `React.ReactNode \| null \| undefined` | `undefined` | ❌       | Card content. If provided, renders content card; if not, renders empty state |
+| `className`   | `string`                               | `undefined` | ❌       | Additional CSS class names                                                   |
+
+### TypeScript Interface
+
+Complete TypeScript support:
+
+```tsx
+interface ViewCardProps {
+  className?: string;
+  title?: string;
+  description?: string;
+  children?: React.ReactNode | null | undefined;
+}
+```
+
 ## 🎯 Usage Examples
 
 ### Content Card (With Children)
@@ -94,30 +118,6 @@ When no children are provided, it automatically shows an empty state:
 </ViewCard>
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop          | Type                                   | Default     | Required | Description                                                                  |
-| ------------- | -------------------------------------- | ----------- | -------- | ---------------------------------------------------------------------------- |
-| `title`       | `string`                               | `undefined` | ❌       | Card title displayed in header                                               |
-| `description` | `string`                               | `undefined` | ❌       | Description text displayed under title                                       |
-| `children`    | `React.ReactNode \| null \| undefined` | `undefined` | ❌       | Card content. If provided, renders content card; if not, renders empty state |
-| `className`   | `string`                               | `undefined` | ❌       | Additional CSS class names                                                   |
-
-### TypeScript Interface
-
-Complete TypeScript support:
-
-```tsx
-interface ViewCardProps {
-  className?: string;
-  title?: string;
-  description?: string;
-  children?: React.ReactNode | null | undefined;
-}
-```
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -128,7 +128,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 The component uses CSS modules for styling. Customize through:
 

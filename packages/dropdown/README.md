@@ -32,6 +32,63 @@ yarn add @bearlab/dropdown
 - `@bearlab/button` - For dropdown trigger buttons
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Components Overview
+
+This package exports three main components:
+
+1. **`Dropdown`** - The base container component
+2. **`DropdownItem`** - Individual menu items (buttons or links)
+3. **`DropdownBasic`** - A complete dropdown solution with built-in trigger
+
+### Dropdown Component
+
+| Prop        | Type              | Default      | Description                               |
+| ----------- | ----------------- | ------------ | ----------------------------------------- |
+| `show`      | `boolean`         | **Required** | Controls the visibility of the dropdown   |
+| `onClose`   | `() => void`      | **Required** | Callback fired when dropdown should close |
+| `children`  | `React.ReactNode` | **Required** | Content to render inside dropdown         |
+| `className` | `string`          | `undefined`  | Additional CSS class names                |
+
+### DropdownItem Component
+
+| Prop          | Type              | Default      | Description                       |
+| ------------- | ----------------- | ------------ | --------------------------------- |
+| `children`    | `React.ReactNode` | **Required** | Content to render inside the item |
+| `tag`         | `"a" \| "button"` | `"button"`   | HTML element type to render       |
+| `href`        | `string`          | `undefined`  | URL for link items (when tag="a") |
+| `onClick`     | `() => void`      | `undefined`  | Click handler for the item        |
+| `onItemClick` | `() => void`      | `undefined`  | Additional click handler          |
+| `className`   | `string`          | `undefined`  | Additional CSS class names        |
+
+### DropdownBasic Component
+
+| Prop        | Type             | Default      | Description                           |
+| ----------- | ---------------- | ------------ | ------------------------------------- |
+| `list`      | `DropdownConfig` | **Required** | Configuration object for the dropdown |
+| `className` | `string`         | `undefined`  | Additional CSS class names            |
+
+#### DropdownConfig Interface
+
+```tsx
+interface DropdownConfig {
+  dropdownLabel: string;
+  options: {
+    label: string;
+    icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+    href: string;
+  }[][];
+}
+```
+
+### Keyboard Shortcuts
+
+- **Tab**: Navigate between dropdown items
+- **Enter/Space**: Activate focused item
+- **Escape**: Close dropdown
+- **Arrow Keys**: Navigate items (when focus is within dropdown)
+
 ## 🎯 Usage Examples
 
 ### Basic Dropdown with Custom Trigger
@@ -165,63 +222,6 @@ function ConnectedDropdown() {
 }
 ```
 
-## 📚 API Reference
-
-### Components Overview
-
-This package exports three main components:
-
-1. **`Dropdown`** - The base container component
-2. **`DropdownItem`** - Individual menu items (buttons or links)
-3. **`DropdownBasic`** - A complete dropdown solution with built-in trigger
-
-### Dropdown Component
-
-| Prop        | Type              | Default      | Description                               |
-| ----------- | ----------------- | ------------ | ----------------------------------------- |
-| `show`      | `boolean`         | **Required** | Controls the visibility of the dropdown   |
-| `onClose`   | `() => void`      | **Required** | Callback fired when dropdown should close |
-| `children`  | `React.ReactNode` | **Required** | Content to render inside dropdown         |
-| `className` | `string`          | `undefined`  | Additional CSS class names                |
-
-### DropdownItem Component
-
-| Prop          | Type              | Default      | Description                       |
-| ------------- | ----------------- | ------------ | --------------------------------- |
-| `children`    | `React.ReactNode` | **Required** | Content to render inside the item |
-| `tag`         | `"a" \| "button"` | `"button"`   | HTML element type to render       |
-| `href`        | `string`          | `undefined`  | URL for link items (when tag="a") |
-| `onClick`     | `() => void`      | `undefined`  | Click handler for the item        |
-| `onItemClick` | `() => void`      | `undefined`  | Additional click handler          |
-| `className`   | `string`          | `undefined`  | Additional CSS class names        |
-
-### DropdownBasic Component
-
-| Prop        | Type             | Default      | Description                           |
-| ----------- | ---------------- | ------------ | ------------------------------------- |
-| `list`      | `DropdownConfig` | **Required** | Configuration object for the dropdown |
-| `className` | `string`         | `undefined`  | Additional CSS class names            |
-
-#### DropdownConfig Interface
-
-```tsx
-interface DropdownConfig {
-  dropdownLabel: string;
-  options: {
-    label: string;
-    icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-    href: string;
-  }[][];
-}
-```
-
-### Keyboard Shortcuts
-
-- **Tab**: Navigate between dropdown items
-- **Enter/Space**: Activate focused item
-- **Escape**: Close dropdown
-- **Arrow Keys**: Navigate items (when focus is within dropdown)
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -232,7 +232,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 ### CSS Variables
 

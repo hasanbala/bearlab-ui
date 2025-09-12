@@ -4,16 +4,16 @@ A modern, accessible React radio button component with advanced features includi
 
 ## ✨ Features
 
-🎯 **Single & Group Selection** - Individual radio buttons or grouped radio sets
-✨ **Custom Styling** - Beautiful custom radio design with hover and focus states
-🎨 **Dark Mode Ready** - Built-in dark theme support
-🚨 **Error States** - Built-in error handling with visual feedback
-💡 **Tooltip Support** - Optional popover tooltips for additional information
-♿ **Accessibility First** - WCAG compliant with proper ARIA attributes
-⌨️ **Keyboard Navigation** - Full keyboard support for navigation
-🔧 **TypeScript Ready** - Complete TypeScript definitions
-📱 **Responsive Design** - Works seamlessly across all device sizes
-🎛️ **Flexible Layout** - Horizontal or vertical group layouts
+- 🎯 **Single & Group Selection** - Individual radio buttons or grouped radio sets
+- ✨ **Custom Styling** - Beautiful custom radio design with hover and focus states
+- 🎨 **Dark Mode Ready** - Built-in dark theme support
+- 🚨 **Error States** - Built-in error handling with visual feedback
+- 💡 **Tooltip Support** - Optional popover tooltips for additional information
+- ♿ **Accessibility First** - WCAG compliant with proper ARIA attributes
+- ⌨️ **Keyboard Navigation** - Full keyboard support for navigation
+- 🔧 **TypeScript Ready** - Complete TypeScript definitions
+- 📱 **Responsive Design** - Works seamlessly across all device sizes
+- 🎛️ **Flexible Layout** - Horizontal or vertical group layouts
 
 ## 📦 Installation
 
@@ -31,6 +31,65 @@ yarn add @bearlab/radio
 - `react-dom >= 16.8.0`
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames`: Utility for conditional CSS classes
+
+## 📚 API Reference
+
+### Radio Props
+
+| Prop         | Type                            | Default      | Description                            |
+| ------------ | ------------------------------- | ------------ | -------------------------------------- |
+| `value`      | `string \| number`              | **Required** | The value of the radio button          |
+| `onChange`   | `(e: RadioChangeEvent) => void` | **Required** | Callback fired when selection changes  |
+| `name`       | `string`                        | -            | Name attribute for the radio input     |
+| `label`      | `string`                        | -            | Label text displayed next to the radio |
+| `checked`    | `boolean`                       | `false`      | Whether the radio is selected          |
+| `disabled`   | `boolean`                       | `false`      | Whether the radio is disabled          |
+| `error`      | `any`                           | -            | Error state indicator                  |
+| `isRequired` | `boolean`                       | `false`      | Shows required asterisk (\*)           |
+| `popover`    | `string`                        | -            | Tooltip text shown on hover            |
+| `className`  | `string`                        | -            | Additional CSS classes                 |
+
+### Radio.Group Props
+
+| Prop         | Type                            | Default      | Description                           |
+| ------------ | ------------------------------- | ------------ | ------------------------------------- |
+| `options`    | `Array<RadioOption>`            | **Required** | Array of radio options                |
+| `value`      | `string \| number`              | **Required** | Currently selected value              |
+| `onChange`   | `(e: RadioChangeEvent) => void` | **Required** | Callback fired when selection changes |
+| `name`       | `string`                        | -            | Name attribute for all radio inputs   |
+| `disabled`   | `boolean`                       | `false`      | Disables all radio options            |
+| `isVertical` | `boolean`                       | `false`      | Vertical layout instead of horizontal |
+| `className`  | `string`                        | -            | Additional CSS classes                |
+
+### TypeScript Interfaces
+
+```tsx
+interface RadioOption {
+  label: string;
+  value: string | number;
+  disabled?: boolean;
+}
+
+interface RadioChangeEvent {
+  target: {
+    value: string | number;
+    checked: boolean;
+  };
+}
+
+interface RadioProps {
+  value: string | number;
+  onChange: (e: RadioChangeEvent) => void;
+  name?: string;
+  label?: string;
+  checked?: boolean;
+  disabled?: boolean;
+  error?: any;
+  isRequired?: boolean;
+  popover?: string;
+  className?: string;
+}
+```
 
 ## 🎯 Usage Examples
 
@@ -197,65 +256,6 @@ export function RadioWithTooltips() {
 <Radio name="payment2" value="paypal" onChange={handleChange} />
 ```
 
-## 📚 API Reference
-
-### Radio Props
-
-| Prop         | Type                            | Default      | Description                            |
-| ------------ | ------------------------------- | ------------ | -------------------------------------- |
-| `value`      | `string \| number`              | **Required** | The value of the radio button          |
-| `onChange`   | `(e: RadioChangeEvent) => void` | **Required** | Callback fired when selection changes  |
-| `name`       | `string`                        | -            | Name attribute for the radio input     |
-| `label`      | `string`                        | -            | Label text displayed next to the radio |
-| `checked`    | `boolean`                       | `false`      | Whether the radio is selected          |
-| `disabled`   | `boolean`                       | `false`      | Whether the radio is disabled          |
-| `error`      | `any`                           | -            | Error state indicator                  |
-| `isRequired` | `boolean`                       | `false`      | Shows required asterisk (\*)           |
-| `popover`    | `string`                        | -            | Tooltip text shown on hover            |
-| `className`  | `string`                        | -            | Additional CSS classes                 |
-
-### Radio.Group Props
-
-| Prop         | Type                            | Default      | Description                           |
-| ------------ | ------------------------------- | ------------ | ------------------------------------- |
-| `options`    | `Array<RadioOption>`            | **Required** | Array of radio options                |
-| `value`      | `string \| number`              | **Required** | Currently selected value              |
-| `onChange`   | `(e: RadioChangeEvent) => void` | **Required** | Callback fired when selection changes |
-| `name`       | `string`                        | -            | Name attribute for all radio inputs   |
-| `disabled`   | `boolean`                       | `false`      | Disables all radio options            |
-| `isVertical` | `boolean`                       | `false`      | Vertical layout instead of horizontal |
-| `className`  | `string`                        | -            | Additional CSS classes                |
-
-### TypeScript Interfaces
-
-```tsx
-interface RadioOption {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
-}
-
-interface RadioChangeEvent {
-  target: {
-    value: string | number;
-    checked: boolean;
-  };
-}
-
-interface RadioProps {
-  value: string | number;
-  onChange: (e: RadioChangeEvent) => void;
-  name?: string;
-  label?: string;
-  checked?: boolean;
-  disabled?: boolean;
-  error?: any;
-  isRequired?: boolean;
-  popover?: string;
-  className?: string;
-}
-```
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -266,7 +266,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 The component uses CSS modules and supports extensive customization.
 

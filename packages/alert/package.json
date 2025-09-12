@@ -1,0 +1,42 @@
+{
+  "name": "@bearlab/alert",
+  "version": "1.0.0",
+  "description": "Bearlab UI Alert Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=badge rollup -c tools/rollup.config.component.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bearlab/core": "^1.0.7",
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "alert",
+    "component",
+    "bearlab"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/ui-components.git",
+    "directory": "packages/badge"
+  },
+  "homepage": "https://github.com/hasanbala/ui-components#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

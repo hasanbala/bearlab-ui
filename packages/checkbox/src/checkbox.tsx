@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import classnames from "classnames";
-import { IconChecked, IconDisabled, IconError2 } from "@bearlab/core";
+import { IconChecked, IconDisabled, IconErrorTriangle } from "@bearlab/core";
 import styles from "./checkbox.module.scss";
 
 export const Checkbox = (props: Props) => {
@@ -34,7 +34,7 @@ export const Checkbox = (props: Props) => {
         {disabled && <IconDisabled className={styles.iconDisabled} />}
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}

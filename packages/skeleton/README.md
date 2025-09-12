@@ -27,57 +27,6 @@ yarn add @bearlab/checkbox
 - `react-dom >= 16.8.0`
 - `classnames` - For conditional CSS class handling
 
-## 🎯 Usage Examples
-
-### Basic Example
-
-```tsx
-import { Skeleton } from "your-skeleton-package-name";
-
-function MyComponent() {
-  const [loading, setLoading] = useState(true);
-
-  return (
-    <div>{loading ? <Skeleton /> : <div>Your actual content here</div>}</div>
-  );
-}
-```
-
-### Article Variant
-
-Perfect for blog posts, news articles, or any content with author information:
-
-```tsx
-<Skeleton variant="article" />
-```
-
-### Card Variant
-
-Ideal for product cards, image galleries, or media content:
-
-```tsx
-<Skeleton variant="card" />
-```
-
-### List Variant
-
-Great for user lists, comments, or any repetitive content:
-
-```tsx
-<Skeleton variant="list" />
-```
-
-### Custom Configuration
-
-```tsx
-<Skeleton
-  variant="default"
-  lines={6}
-  animated={false}
-  className="my-custom-skeleton"
-/>
-```
-
 ## 📚 API Reference
 
 ### Props
@@ -130,6 +79,57 @@ interface SkeletonProps {
 }
 ```
 
+## 🎯 Usage Examples
+
+### Basic Example
+
+```tsx
+import { Skeleton } from "your-skeleton-package-name";
+
+function MyComponent() {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <div>{loading ? <Skeleton /> : <div>Your actual content here</div>}</div>
+  );
+}
+```
+
+### Article Variant
+
+Perfect for blog posts, news articles, or any content with author information:
+
+```tsx
+<Skeleton variant="article" />
+```
+
+### Card Variant
+
+Ideal for product cards, image galleries, or media content:
+
+```tsx
+<Skeleton variant="card" />
+```
+
+### List Variant
+
+Great for user lists, comments, or any repetitive content:
+
+```tsx
+<Skeleton variant="list" />
+```
+
+### Custom Configuration
+
+```tsx
+<Skeleton
+  variant="default"
+  lines={6}
+  animated={false}
+  className="my-custom-skeleton"
+/>
+```
+
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -140,7 +140,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 The component uses CSS modules for styling. You can override styles by:
 

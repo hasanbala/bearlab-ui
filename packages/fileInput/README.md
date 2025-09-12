@@ -30,6 +30,39 @@ yarn add @bearlab/file-input
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop         | Type                                                   | Default     | Description                                |
+| ------------ | ------------------------------------------------------ | ----------- | ------------------------------------------ |
+| `label`      | `string`                                               | `undefined` | Label text displayed above the input       |
+| `error`      | `any`                                                  | `undefined` | Error message to display below the input   |
+| `isRequired` | `boolean`                                              | `false`     | Shows required asterisk (\*) next to label |
+| `className`  | `string`                                               | `undefined` | Additional CSS class for the container     |
+| `onChange`   | `(event: React.ChangeEvent<HTMLInputElement>) => void` | `undefined` | Callback fired when file selection changes |
+
+All other props are passed through to the underlying `<input>` element, including:
+
+- `accept` - File types to accept
+- `multiple` - Allow multiple file selection
+- `disabled` - Disable the input
+- `name` - Form field name
+- `id` - Element ID
+- `required` - HTML5 required attribute
+
+### TypeScript Support
+
+The component is fully typed with TypeScript:
+
+```typescript
+import { FileInput, Props as FileInputProps } from "@bearlab/file-input";
+
+const MyButton: React.FC<FileInputProps> = (props) => {
+  return <FileInput {...props} />;
+};
+```
+
 ## 🎯 Usage Examples
 
 ### Basic Usage
@@ -165,39 +198,6 @@ function CustomStyledFileInput() {
 }
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop         | Type                                                   | Default     | Description                                |
-| ------------ | ------------------------------------------------------ | ----------- | ------------------------------------------ |
-| `label`      | `string`                                               | `undefined` | Label text displayed above the input       |
-| `error`      | `any`                                                  | `undefined` | Error message to display below the input   |
-| `isRequired` | `boolean`                                              | `false`     | Shows required asterisk (\*) next to label |
-| `className`  | `string`                                               | `undefined` | Additional CSS class for the container     |
-| `onChange`   | `(event: React.ChangeEvent<HTMLInputElement>) => void` | `undefined` | Callback fired when file selection changes |
-
-All other props are passed through to the underlying `<input>` element, including:
-
-- `accept` - File types to accept
-- `multiple` - Allow multiple file selection
-- `disabled` - Disable the input
-- `name` - Form field name
-- `id` - Element ID
-- `required` - HTML5 required attribute
-
-### TypeScript Support
-
-The component is fully typed with TypeScript:
-
-```typescript
-import { FileInput, Props as FileInputProps } from "@bearlab/file-input";
-
-const MyButton: React.FC<FileInputProps> = (props) => {
-  return <FileInput {...props} />;
-};
-```
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -208,7 +208,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 ### CSS Custom Properties
 

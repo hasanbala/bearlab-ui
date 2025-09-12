@@ -31,6 +31,24 @@ yarn add @bearlab/loading
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop        | Type     | Default     | Description                             |
+| ----------- | -------- | ----------- | --------------------------------------- |
+| `className` | `string` | `undefined` | Additional CSS class for custom styling |
+
+### TypeScript Support
+
+The component is fully typed with TypeScript:
+
+```tsx
+export interface Props {
+  className?: string;
+}
+```
+
 ## 🎯 Usage Examples
 
 ### Simple Loading Spinner
@@ -122,24 +140,6 @@ function CustomLoading() {
 }
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type     | Default     | Description                             |
-| ----------- | -------- | ----------- | --------------------------------------- |
-| `className` | `string` | `undefined` | Additional CSS class for custom styling |
-
-### TypeScript Support
-
-The component is fully typed with TypeScript:
-
-```tsx
-export interface Props {
-  className?: string;
-}
-```
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -150,7 +150,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling & Customization
+## 🎨 🎭 Styling
 
 ### Default Behavior
 

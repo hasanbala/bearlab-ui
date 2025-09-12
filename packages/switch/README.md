@@ -32,6 +32,24 @@ yarn add @bearlab/checkbox
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop         | Type                                               | Required | Default | Description                              |
+| ------------ | -------------------------------------------------- | -------- | ------- | ---------------------------------------- |
+| `checked`    | `boolean`                                          | ✅       | -       | Whether the switch is checked/enabled    |
+| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | ✅       | -       | Callback fired when switch state changes |
+| `name`       | `string`                                           | ❌       | -       | The name attribute for the input element |
+| `label`      | `string`                                           | ❌       | -       | Label text displayed next to the switch  |
+| `error`      | `any`                                              | ❌       | -       | Error state/message to display           |
+| `className`  | `string`                                           | ❌       | -       | Additional CSS classes                   |
+| `disabled`   | `boolean`                                          | ❌       | `false` | Whether the switch is disabled           |
+| `isRequired` | `boolean`                                          | ❌       | `false` | Shows required indicator (\*)            |
+| `popover`    | `string`                                           | ❌       | -       | Popover/tooltip text shown on hover      |
+
+The component also accepts all standard HTML `input` element props (except `popover` which is handled separately) through TypeScript's `JSX.IntrinsicElements["input"]`.
+
 ## 🎯 Usage Examples
 
 ### Basic Usage
@@ -158,24 +176,6 @@ function PermissionsGroup() {
 }
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop         | Type                                               | Required | Default | Description                              |
-| ------------ | -------------------------------------------------- | -------- | ------- | ---------------------------------------- |
-| `checked`    | `boolean`                                          | ✅       | -       | Whether the switch is checked/enabled    |
-| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | ✅       | -       | Callback fired when switch state changes |
-| `name`       | `string`                                           | ❌       | -       | The name attribute for the input element |
-| `label`      | `string`                                           | ❌       | -       | Label text displayed next to the switch  |
-| `error`      | `any`                                              | ❌       | -       | Error state/message to display           |
-| `className`  | `string`                                           | ❌       | -       | Additional CSS classes                   |
-| `disabled`   | `boolean`                                          | ❌       | `false` | Whether the switch is disabled           |
-| `isRequired` | `boolean`                                          | ❌       | `false` | Shows required indicator (\*)            |
-| `popover`    | `string`                                           | ❌       | -       | Popover/tooltip text shown on hover      |
-
-The component also accepts all standard HTML `input` element props (except `popover` which is handled separately) through TypeScript's `JSX.IntrinsicElements["input"]`.
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -186,7 +186,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling & Themes
+## 🎨 Styling
 
 The Switch component automatically adapts to light and dark themes based on the `data-theme` attribute on the HTML element.
 

@@ -32,6 +32,18 @@ yarn add @bearlab/copy
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop        | Type                                    | Default      | Description                                   |
+| ----------- | --------------------------------------- | ------------ | --------------------------------------------- |
+| `text`      | `string`                                | **Required** | The text content to be copied to clipboard    |
+| `label`     | `string`                                | `"Copy"`     | Accessible label for the copy button          |
+| `copyId`    | `string \| number \| null \| undefined` | `undefined`  | Unique identifier for the copy instance       |
+| `disabled`  | `boolean`                               | `false`      | Disables the copy functionality               |
+| `className` | `string`                                | `undefined`  | Additional CSS class names for custom styling |
+
 ## 🎯 Usage Examples
 
 ### Basic Usage
@@ -87,18 +99,6 @@ function App() {
 />
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type                                    | Default      | Description                                   |
-| ----------- | --------------------------------------- | ------------ | --------------------------------------------- |
-| `text`      | `string`                                | **Required** | The text content to be copied to clipboard    |
-| `label`     | `string`                                | `"Copy"`     | Accessible label for the copy button          |
-| `copyId`    | `string \| number \| null \| undefined` | `undefined`  | Unique identifier for the copy instance       |
-| `disabled`  | `boolean`                               | `false`      | Disables the copy functionality               |
-| `className` | `string`                                | `undefined`  | Additional CSS class names for custom styling |
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -109,7 +109,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 ### CSS Variables
 

@@ -13,13 +13,13 @@ import {
   IconDots,
   IconExport,
   IconFilter,
-  IconLoading2,
+  IconLoadingSpin,
   IconMinus,
   IconPing,
   IconPlus,
   IconSearch,
   IconTick,
-  IconUpdate2,
+  IconUpdate,
   PERMISSIONS,
   type IPermissions,
 } from "@bearlab/core";
@@ -63,7 +63,7 @@ export const Button = (props: Props) => {
     [ICON_TYPE.DELETE]: <IconDelete />,
     [ICON_TYPE.EXPORT]: <IconExport />,
     [ICON_TYPE.DOCUMENT]: <IconDocument />,
-    [ICON_TYPE.UPDATE]: <IconUpdate2 />,
+    [ICON_TYPE.UPDATE]: <IconUpdate />,
     [ICON_TYPE.SEARCH]: <IconSearch />,
     [ICON_TYPE.CLOSE]: <IconCross />,
     [ICON_TYPE.NOTIFY]: <IconPing />,
@@ -83,7 +83,7 @@ export const Button = (props: Props) => {
     if (isLoading) {
       return (
         <div className={styles.progress}>
-          <IconLoading2 />
+          <IconLoadingSpin />
         </div>
       );
     }

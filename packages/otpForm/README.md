@@ -4,15 +4,15 @@ A highly customizable and accessible React OTP (One-Time Password) input compone
 
 ## ✨ Features
 
-✨ **Auto-focus Navigation** - Automatically moves to the next input field when typing
-🔐 **Number/Text Support** - Configure to accept only numbers or any characters
-📋 **Paste Support** - Intelligent paste handling that distributes pasted content across inputs
-⌨️ **Keyboard Navigation** - Full support for arrow keys and backspace navigation
-🎨 **Dark Mode Ready** - Built-in dark theme support
-♿ **Accessibility** - Screen reader friendly with proper ARIA attributes
-🔧 **Highly Customizable** - Configurable length, validation, and styling
-🚀 **TypeScript Support** - Full TypeScript definitions included
-📱 **Responsive Design** - Works seamlessly across all device sizes
+- ✨ **Auto-focus Navigation** - Automatically moves to the next input field when typing
+- 🔐 **Number/Text Support** - Configure to accept only numbers or any characters
+- 📋 **Paste Support** - Intelligent paste handling that distributes pasted content across inputs
+- ⌨️ **Keyboard Navigation** - Full support for arrow keys and backspace navigation
+- 🎨 **Dark Mode Ready** - Built-in dark theme support
+- ♿ **Accessibility** - Screen reader friendly with proper ARIA attributes
+- 🔧 **Highly Customizable** - Configurable length, validation, and styling
+- 🚀 **TypeScript Support** - Full TypeScript definitions included
+- 📱 **Responsive Design** - Works seamlessly across all device sizes
 
 ## 📦 Installation
 
@@ -30,6 +30,43 @@ yarn add @bearlab/otp-form
 - `react-dom >= 16.8.0`
 - `@bearlab/input` - Input component base
 - `classnames` - For conditional CSS class handling
+
+## 📚 API Reference
+
+### Props
+
+| Prop           | Type                        | Default      | Description                                  |
+| -------------- | --------------------------- | ------------ | -------------------------------------------- |
+| `passValue`    | `string[]`                  | **Required** | Array containing the current OTP values      |
+| `setPassValue` | `(value: string[]) => void` | **Required** | Function to update the OTP values            |
+| `title`        | `string`                    | **Required** | Label/title displayed above the input fields |
+| `otpLength`    | `number`                    | `6`          | Number of input fields to render             |
+| `justNumber`   | `boolean`                   | `true`       | Whether to accept only numeric input         |
+| `loading`      | `boolean`                   | `false`      | Disables all inputs when true                |
+
+### TypeScript Interface
+
+```tsx
+interface Props {
+  setPassValue: (value: string[]) => void;
+  passValue: string[];
+  loading?: boolean;
+  title: string;
+  justNumber?: boolean;
+  otpLength?: number;
+}
+```
+
+### Keyboard Shortcuts
+
+| Key                | Action                                       |
+| ------------------ | -------------------------------------------- |
+| `0-9`              | Enter digit (when `justNumber` is true)      |
+| `a-z`, `A-Z`       | Enter character (when `justNumber` is false) |
+| `Backspace`        | Clear current field and move to previous     |
+| `ArrowLeft`        | Move to previous field                       |
+| `ArrowRight`       | Move to next field                           |
+| `Ctrl+V` / `Cmd+V` | Paste and distribute content                 |
 
 ## 🎯 Usage Examples
 
@@ -132,43 +169,6 @@ export function OTPWithLoading() {
 }
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop           | Type                        | Default      | Description                                  |
-| -------------- | --------------------------- | ------------ | -------------------------------------------- |
-| `passValue`    | `string[]`                  | **Required** | Array containing the current OTP values      |
-| `setPassValue` | `(value: string[]) => void` | **Required** | Function to update the OTP values            |
-| `title`        | `string`                    | **Required** | Label/title displayed above the input fields |
-| `otpLength`    | `number`                    | `6`          | Number of input fields to render             |
-| `justNumber`   | `boolean`                   | `true`       | Whether to accept only numeric input         |
-| `loading`      | `boolean`                   | `false`      | Disables all inputs when true                |
-
-### TypeScript Interface
-
-```tsx
-interface Props {
-  setPassValue: (value: string[]) => void;
-  passValue: string[];
-  loading?: boolean;
-  title: string;
-  justNumber?: boolean;
-  otpLength?: number;
-}
-```
-
-### Keyboard Shortcuts
-
-| Key                | Action                                       |
-| ------------------ | -------------------------------------------- |
-| `0-9`              | Enter digit (when `justNumber` is true)      |
-| `a-z`, `A-Z`       | Enter character (when `justNumber` is false) |
-| `Backspace`        | Clear current field and move to previous     |
-| `ArrowLeft`        | Move to previous field                       |
-| `ArrowRight`       | Move to next field                           |
-| `Ctrl+V` / `Cmd+V` | Paste and distribute content                 |
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -179,7 +179,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 The component uses CSS modules and supports both light and dark themes out of the box.
 

@@ -33,6 +33,41 @@ yarn add @bearlab/dropzone
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop        | Type                                | Default             | Description                                 |
+| ----------- | ----------------------------------- | ------------------- | ------------------------------------------- |
+| `files`     | `FileList \| null`                  | **Required**        | Currently selected files                    |
+| `setFiles`  | `(files: FileList \| null) => void` | **Required**        | Function to update selected files           |
+| `accept`    | `string`                            | `"application/pdf"` | Accepted file types (MIME types)            |
+| `multiple`  | `boolean`                           | `false`             | Allow multiple file selection               |
+| `isLoading` | `boolean`                           | `false`             | Show loading state and disable interactions |
+| `className` | `string`                            | `undefined`         | Additional CSS class names                  |
+
+### File Type Examples
+
+```tsx
+// Images only
+accept = "image/*";
+
+// Specific image types
+accept = "image/jpeg,image/png,image/gif";
+
+// Documents
+accept = "application/pdf";
+
+// Text files
+accept = "text/plain,text/csv";
+
+// Multiple types
+accept = "image/*,application/pdf,.docx";
+
+// All files
+accept = "*";
+```
+
 ## 🎯 Usage Examples
 
 ### Basic File Upload
@@ -141,41 +176,6 @@ function ProfilePictureUpload() {
 }
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type                                | Default             | Description                                 |
-| ----------- | ----------------------------------- | ------------------- | ------------------------------------------- |
-| `files`     | `FileList \| null`                  | **Required**        | Currently selected files                    |
-| `setFiles`  | `(files: FileList \| null) => void` | **Required**        | Function to update selected files           |
-| `accept`    | `string`                            | `"application/pdf"` | Accepted file types (MIME types)            |
-| `multiple`  | `boolean`                           | `false`             | Allow multiple file selection               |
-| `isLoading` | `boolean`                           | `false`             | Show loading state and disable interactions |
-| `className` | `string`                            | `undefined`         | Additional CSS class names                  |
-
-### File Type Examples
-
-```tsx
-// Images only
-accept = "image/*";
-
-// Specific image types
-accept = "image/jpeg,image/png,image/gif";
-
-// Documents
-accept = "application/pdf";
-
-// Text files
-accept = "text/plain,text/csv";
-
-// Multiple types
-accept = "image/*,application/pdf,.docx";
-
-// All files
-accept = "*";
-```
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -186,7 +186,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## Styling
+## 🎨 🎭 Styling
 
 ### CSS Variables
 

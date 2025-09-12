@@ -30,28 +30,31 @@ yarn add @bearlab/badge
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames`: For conditional CSS class handling
 
-## 🎨 Color Palette
+## 📚 API Reference
 
-### Light Variant
+### Props
 
-- **Primary**: Blue tone with light background
-- **Success**: Green tone for success messages
-- **Error**: Red tone for error notifications
-- **Warning**: Orange tone for warning messages
-- **Info**: Light blue tone for informational content
-- **Light**: Light gray tone for neutral content
-- **Dark**: Dark gray tone for emphasis
+| Prop        | Type                                                                            | Default     | Description                 |
+| ----------- | ------------------------------------------------------------------------------- | ----------- | --------------------------- |
+| `label`     | `string \| number`                                                              | -           | **Required.** Badge content |
+| `variant`   | `'light' \| 'solid'`                                                            | `'light'`   | Badge style                 |
+| `color`     | `'primary' \| 'success' \| 'error' \| 'warning' \| 'info' \| 'light' \| 'dark'` | `'primary'` | Color theme                 |
+| `size`      | `'small' \| 'medium'`                                                           | `'medium'`  | Badge size                  |
+| `startIcon` | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | Start icon                  |
+| `endIcon`   | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | End icon                    |
+| `className` | `string`                                                                        | -           | Custom CSS classes          |
 
-### Solid Variant
+### TypeScript Support
 
-- All color options with filled background and white text
+The component comes with full TypeScript support:
 
-## 📏 Size Guide
+```typescript
+import { Badge, Props as BadgeProps } from "@bearlab/badge";
 
-| Size   | Font Size | Use Case                   |
-| ------ | --------- | -------------------------- |
-| Small  | 12px      | Compact spaces, list items |
-| Medium | 14px      | General use, standard size |
+const MyBadge: React.FC<BadgeProps> = (props) => {
+  return <Badge {...props} />;
+};
+```
 
 ## 🎯 Usage Examples
 
@@ -167,31 +170,28 @@ const CategoryTags = ({ categories }) => {
 };
 ```
 
-## 📚 API Reference
+## 🎨 Color Palette
 
-### Props
+### Light Variant
 
-| Prop        | Type                                                                            | Default     | Description                 |
-| ----------- | ------------------------------------------------------------------------------- | ----------- | --------------------------- |
-| `label`     | `string \| number`                                                              | -           | **Required.** Badge content |
-| `variant`   | `'light' \| 'solid'`                                                            | `'light'`   | Badge style                 |
-| `color`     | `'primary' \| 'success' \| 'error' \| 'warning' \| 'info' \| 'light' \| 'dark'` | `'primary'` | Color theme                 |
-| `size`      | `'small' \| 'medium'`                                                           | `'medium'`  | Badge size                  |
-| `startIcon` | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | Start icon                  |
-| `endIcon`   | `React.FunctionComponent<React.SVGProps<SVGSVGElement>>`                        | -           | End icon                    |
-| `className` | `string`                                                                        | -           | Custom CSS classes          |
+- **Primary**: Blue tone with light background
+- **Success**: Green tone for success messages
+- **Error**: Red tone for error notifications
+- **Warning**: Orange tone for warning messages
+- **Info**: Light blue tone for informational content
+- **Light**: Light gray tone for neutral content
+- **Dark**: Dark gray tone for emphasis
 
-### TypeScript Support
+### Solid Variant
 
-The component comes with full TypeScript support:
+- All color options with filled background and white text
 
-```typescript
-import { Badge, Props as BadgeProps } from "@bearlab/badge";
+## 📏 Size Guide
 
-const MyBadge: React.FC<BadgeProps> = (props) => {
-  return <Badge {...props} />;
-};
-```
+| Size   | Font Size | Use Case                   |
+| ------ | --------- | -------------------------- |
+| Small  | 12px      | Compact spaces, list items |
+| Medium | 14px      | General use, standard size |
 
 ## 🌙 Theme Support
 

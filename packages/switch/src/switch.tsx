@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { JSX } from "react";
 import styles from "./switch.module.scss";
-import { IconError2 } from "@bearlab/core";
+import { IconErrorTriangle } from "@bearlab/core";
 
 export const Switch = (props: Props) => {
   const {
@@ -50,7 +50,7 @@ export const Switch = (props: Props) => {
         </span>
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}

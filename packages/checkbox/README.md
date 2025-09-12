@@ -30,6 +30,22 @@ yarn add @bearlab/checkbox
 - `@bearlab/core` - For upload icons, style variables, utilities and theme support
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop         | Type                                             | Default      | Description                                    |
+| ------------ | ------------------------------------------------ | ------------ | ---------------------------------------------- |
+| `checked`    | `boolean`                                        | **Required** | Controls the checked state of the checkbox     |
+| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when the checkbox state changes |
+| `label`      | `string`                                         | `undefined`  | Label text displayed next to the checkbox      |
+| `disabled`   | `boolean`                                        | `false`      | Disables the checkbox interaction              |
+| `error`      | `any`                                            | `undefined`  | Error message to display below the checkbox    |
+| `isRequired` | `boolean`                                        | `false`      | Shows a red asterisk (\*) next to the label    |
+| `popover`    | `string`                                         | `undefined`  | Tooltip content shown on hover                 |
+| `className`  | `string`                                         | `undefined`  | Additional CSS class names                     |
+| `name`       | `string`                                         | `undefined`  | Name attribute for the input element           |
+
 ## 🎯 Usage Examples
 
 ### Basic Usage
@@ -106,22 +122,6 @@ function App() {
 />
 ```
 
-## 📚 API Reference
-
-### Props
-
-| Prop         | Type                                             | Default      | Description                                    |
-| ------------ | ------------------------------------------------ | ------------ | ---------------------------------------------- |
-| `checked`    | `boolean`                                        | **Required** | Controls the checked state of the checkbox     |
-| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when the checkbox state changes |
-| `label`      | `string`                                         | `undefined`  | Label text displayed next to the checkbox      |
-| `disabled`   | `boolean`                                        | `false`      | Disables the checkbox interaction              |
-| `error`      | `any`                                            | `undefined`  | Error message to display below the checkbox    |
-| `isRequired` | `boolean`                                        | `false`      | Shows a red asterisk (\*) next to the label    |
-| `popover`    | `string`                                         | `undefined`  | Tooltip content shown on hover                 |
-| `className`  | `string`                                         | `undefined`  | Additional CSS class names                     |
-| `name`       | `string`                                         | `undefined`  | Name attribute for the input element           |
-
 ## 🌙 Theme Support
 
 The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
@@ -132,7 +132,7 @@ The component automatically supports dark theme. When the `data-theme="dark"` at
 </html>
 ```
 
-## 🎨 Styling
+## 🎨 🎭 Styling
 
 ### CSS Variables
 

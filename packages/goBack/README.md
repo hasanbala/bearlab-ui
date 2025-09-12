@@ -31,6 +31,42 @@ yarn add @bearlab/go-back
 - `@bearlab/button` - For go back button
 - `classnames` - For conditional CSS class handling
 
+## 📚 API Reference
+
+### Props
+
+| Prop          | Type                                      | Default      | Description                                                          |
+| ------------- | ----------------------------------------- | ------------ | -------------------------------------------------------------------- |
+| `destination` | `string`                                  | **Required** | The route or path to navigate to when not using browser history      |
+| `label`       | `string`                                  | `"Go Back"`  | Text displayed on the button                                         |
+| `className`   | `string`                                  | `undefined`  | Additional CSS class for custom styling                              |
+| `hasBack`     | `boolean`                                 | `false`      | If true, uses browser history navigation (-1) instead of destination |
+| `isDisabled`  | `boolean`                                 | `false`      | Disables the button and prevents navigation                          |
+| `onNavigate`  | `(destination: string \| number) => void` | **Required** | Callback function to handle navigation                               |
+
+### Navigation Logic
+
+The component follows this navigation logic:
+
+1. If `isDisabled` is `true` → No navigation occurs
+2. If `hasBack` is `true` → Calls `onNavigate(-1)` for browser history navigation
+3. Otherwise → Calls `onNavigate(destination)` for route navigation
+
+### TypeScript Support
+
+The component is fully typed with TypeScript:
+
+```tsx
+export interface Props {
+  destination: string;
+  label?: string;
+  className?: string;
+  hasBack?: boolean;
+  isDisabled?: boolean;
+  onNavigate: (destination: string | number) => void;
+}
+```
+
 ## 🎯 Usage Examples
 
 ### With React Router
@@ -158,43 +194,17 @@ function CustomGoBack() {
 }
 ```
 
-## 📚 API Reference
+## 🌙 Theme Support
 
-### Props
+The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
 
-| Prop          | Type                                      | Default      | Description                                                          |
-| ------------- | ----------------------------------------- | ------------ | -------------------------------------------------------------------- |
-| `destination` | `string`                                  | **Required** | The route or path to navigate to when not using browser history      |
-| `label`       | `string`                                  | `"Go Back"`  | Text displayed on the button                                         |
-| `className`   | `string`                                  | `undefined`  | Additional CSS class for custom styling                              |
-| `hasBack`     | `boolean`                                 | `false`      | If true, uses browser history navigation (-1) instead of destination |
-| `isDisabled`  | `boolean`                                 | `false`      | Disables the button and prevents navigation                          |
-| `onNavigate`  | `(destination: string \| number) => void` | **Required** | Callback function to handle navigation                               |
-
-### Navigation Logic
-
-The component follows this navigation logic:
-
-1. If `isDisabled` is `true` → No navigation occurs
-2. If `hasBack` is `true` → Calls `onNavigate(-1)` for browser history navigation
-3. Otherwise → Calls `onNavigate(destination)` for route navigation
-
-### TypeScript Support
-
-The component is fully typed with TypeScript:
-
-```tsx
-export interface Props {
-  destination: string;
-  label?: string;
-  className?: string;
-  hasBack?: boolean;
-  isDisabled?: boolean;
-  onNavigate: (destination: string | number) => void;
-}
+```html
+<html data-theme="dark">
+  <!-- Dark theme active -->
+</html>
 ```
 
-## 🎨 Styling & Theming
+## 🎨 🎭 Styling
 
 ### Default Styling
 

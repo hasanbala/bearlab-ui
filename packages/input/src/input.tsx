@@ -1,12 +1,12 @@
 import classnames from "classnames";
 import { JSX, useState } from "react";
 import {
-  EyesClose,
-  EyesOpen,
+  IconEyesClose,
+  IconEyesOpen,
   IconCopy,
   IconTick,
   IconSearch,
-  IconError2,
+  IconErrorTriangle,
 } from "@bearlab/core";
 import styles from "./input.module.scss";
 import { useCopyByInput } from "@bearlab/hooks";
@@ -35,7 +35,7 @@ export const Input = (props: Props) => {
   const renderPassord = () => {
     if (passwordVisible) {
       return (
-        <EyesClose
+        <IconEyesClose
           className={styles.eyes}
           onClick={() => setPasswordVisible(!passwordVisible)}
         />
@@ -43,7 +43,7 @@ export const Input = (props: Props) => {
     }
 
     return (
-      <EyesOpen
+      <IconEyesOpen
         className={styles.eyes}
         onClick={() => setPasswordVisible(!passwordVisible)}
       />
@@ -125,7 +125,7 @@ export const Input = (props: Props) => {
         )}
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}

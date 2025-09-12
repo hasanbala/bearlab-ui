@@ -1,0 +1,244 @@
+@use "../../core/src/assets/styles/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    padding: 12px;
+    border: 1px solid variables.$gray-80;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  nav {
+    display: flex;
+    overflow-x: auto;
+    border-radius: 8px;
+    background-color: variables.$gray-620;
+    padding: 4px;
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: variables.$white;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 9999px;
+      background-color: variables.$gray-80;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      gap: 8px;
+      transition: 0.2s ease-in-out;
+      border: none;
+      cursor: pointer;
+
+      &.active {
+        background-color: variables.$white;
+        color: variables.$black-340;
+        box-shadow: variables.$box-shadow-20;
+      }
+
+      &.inactive {
+        background-color: transparent;
+        color: variables.$gray-40;
+
+        &:hover {
+          color: variables.$gray-610;
+        }
+      }
+
+      span {
+        padding: 2px 8px;
+        text-align: center;
+        background-color: variables.$gray-120;
+        color: variables.$blue-20;
+        border-radius: 9999px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .content {
+    padding: 24px;
+    padding-top: 16px;
+    border: 1px solid variables.$gray-80;
+    border-top: 0;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+    h3 {
+      margin-bottom: 4px;
+      font-size: 20px;
+      font-weight: 500;
+      color: variables.$black-10;
+    }
+
+    p {
+      font-size: 14px;
+      color: variables.$gray-40;
+    }
+  }
+
+  &.underLine {
+    .header {
+      border-bottom: none;
+
+      nav {
+        border-bottom: 1px solid variables.$gray-80;
+        background-color: transparent !important;
+        padding: 0px;
+        border-radius: 0px;
+
+        button {
+          box-shadow: none !important;
+          background-color: transparent !important;
+          border-bottom: 2px solid variables.$blue-20;
+          border-radius: 0px;
+
+          &.active {
+            color: variables.$blue-20;
+            border-color: variables.$blue-20;
+
+            svg {
+              fill: variables.$blue-20;
+            }
+          }
+
+          &.inactive {
+            color: variables.$gray-40;
+            border-color: transparent;
+
+            &:hover {
+              color: variables.$gray-610;
+
+              svg {
+                fill: variables.$gray-610;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+html[data-theme="dark"] .container {
+  .header {
+    border-color: variables.$black-10;
+
+    nav {
+      background-color: variables.$black-340;
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: variables.$gray-350;
+      }
+
+      button {
+        &.active {
+          background-color: variables.$black-40;
+          color: variables.$gray-340;
+        }
+
+        &.inactive {
+          color: variables.$gray-320;
+
+          &:hover {
+            color: variables.$gray-80;
+          }
+        }
+
+        span {
+          background-color: color-mix(
+            in oklab,
+            variables.$blue-20 15%,
+            transparent
+          );
+          color: variables.$blue-260;
+        }
+      }
+    }
+  }
+
+  &.underLine {
+    nav {
+      border-color: variables.$black-10;
+    }
+
+    button {
+      &.active {
+        color: variables.$blue-260;
+        border-color: variables.$blue-260;
+      }
+
+      &.inactive {
+        color: variables.$blue-190;
+
+        &:hover {
+          color: variables.$gray-620;
+
+          svg {
+            fill: variables.$gray-620;
+          }
+        }
+      }
+    }
+  }
+
+  .content {
+    border-color: variables.$black-10;
+
+    h3 {
+      color: variables.$gray-10;
+    }
+
+    p {
+      color: variables.$gray-320;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    &.vertical {
+      flex-direction: row;
+      gap: 30px;
+
+      .header {
+        border: none;
+        padding: 0px;
+
+        nav {
+          flex-direction: column;
+          overflow-x: none;
+          border: none;
+          gap: 10px;
+          text-align: center;
+
+          button {
+            min-height: 50px;
+          }
+        }
+      }
+
+      .content {
+        border: none;
+        padding: 0px;
+      }
+    }
+  }
+}

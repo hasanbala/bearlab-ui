@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import styles from "./fileInput.module.scss";
-import { IconError2 } from "@bearlab/core";
+import { IconErrorTriangle } from "@bearlab/core";
 
 export const FileInput = (props: Props) => {
   const { className, label, error, isRequired, onChange } = props;
@@ -20,7 +20,7 @@ export const FileInput = (props: Props) => {
         />
         {error && (
           <div className={styles.viewError}>
-            <IconError2 />
+            <IconErrorTriangle />
             <span>{label}</span>
           </div>
         )}
