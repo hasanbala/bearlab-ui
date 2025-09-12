@@ -43,5 +43,6 @@
   "homepage": "https://github.com/hasanbala/ui-components#readme",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "93957b0a570bcc4830df9ba9c982c472eb0a4a45"
 }
