@@ -33,4 +33,4 @@ export { IconWarning } from "./shared";
 
 // Constants & Types
 export { PERMISSIONS } from "./constants";
-export type { Permissions } from "./constants";
+export type { Permissions, IPermissions } from "./constants";
