@@ -16,7 +16,7 @@
   "dependencies": {
     "@bearlab/button": "^1.0.7",
     "@bearlab/checkbox": "^1.0.7",
-    "@bearlab/hooks": "^1.0.4",
+    "@bearlab/hooks": "^1.0.5",
     "@bearlab/input": "^1.0.7",
     "@bearlab/radio": "^1.0.7",
     "@bearlab/select": "^1.0.7",
