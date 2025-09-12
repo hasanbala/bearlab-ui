@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/avatar",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Bearlab UI Avatar Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
