@@ -29,6 +29,89 @@
   .recordInfo {
     margin-top: 20px;
   }
+
+  .paginationWrapper {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+
+    button {
+      width: fit-content;
+    }
+
+    .pageSizeSelector {
+      width: fit-content;
+      min-width: 80px;
+    }
+
+    .paginationControls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .tabletControls {
+      button {
+        width: 44px;
+      }
+    }
+
+    .pageInfo {
+      display: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: variables.$gray-590;
+    }
+
+    .pageList {
+      align-items: center;
+      gap: 4px;
+      display: flex;
+
+      li {
+        margin: 0px 2px;
+      }
+    }
+
+    .ghostPageList {
+      display: none;
+    }
+
+    .pageButton {
+      display: flex;
+      height: 40px;
+      width: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: transparent;
+    }
+
+    .pageButtonActive {
+      background-color: variables.$blue-20;
+      color: variables.$white;
+    }
+
+    .pageButtonInactive {
+      color: variables.$gray-590;
+
+      &:hover {
+        background-color: variables.$blue-270;
+        color: variables.$blue-20;
+      }
+    }
+
+    .prevButton {
+      svg {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }
 
 html[data-theme="dark"] .container {
@@ -37,6 +120,22 @@ html[data-theme="dark"] .container {
   .cellText {
     color: variables.$gray-60;
   }
+
+  .paginationWrapper {
+    .pageInfo {
+      color: variables.$gray-60;
+    }
+
+    .pageButtonInactive {
+      color: variables.$gray-60;
+      background-color: variables.$gray-610;
+
+      &:hover {
+        background-color: variables.$blue-20;
+        color: variables.$white;
+      }
+    }
+  }
 }
 
 @media (max-width: 1024px) {
@@ -44,6 +143,27 @@ html[data-theme="dark"] .container {
     .header {
       flex-direction: column;
       align-items: flex-start;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 8px 12px;
+
+    .pageInfo {
+      display: flex;
+    }
+
+    .paginationWrapper {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+
+      .pageSizeSelector {
+        min-width: auto;
+        width: 100%;
+      }
     }
   }
 }

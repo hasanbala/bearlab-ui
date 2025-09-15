@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MainTable,
   TableBody,
@@ -38,9 +38,9 @@ export const Table = (props: Props) => {
     serverPagination = false,
     totalCount,
     currentPage = 1,
-    pageSizeOptions,
+    pageSizeOptions = [10, 20, 50, 100],
     showPageSizeSelector,
-    pageSizePlaceholder,
+    pageSizePlaceholder = "Select page size",
     maxVisiblePages = 6,
     onTableChange,
   } = props;
@@ -280,76 +280,74 @@ export const Table = (props: Props) => {
     }));
 
     return (
-      <Fragment>
-        <div className={classnames(styles.container, className)}>
-          <div
-            className={classnames(
-              styles.paginationControls,
-              isMobile && styles.tabletControls
-            )}
-          >
-            <Button
-              label=""
-              buttonType={BUTTON_TYPE.JUST_ICON}
-              iconType={{ default: ICON_TYPE.ARROW }}
-              onClick={() => goToPage(initialPage - 1)}
-              disabled={disabled || initialPage === 1}
-              variant={BUTTON_VARIANT.SECONDARY}
-              className={classnames(styles.pageButton, styles.prevButton)}
-              iconTextReverse
-            />
-            {mobileMinimize && (
-              <span className={styles.pageInfo}>
-                Page {initialPage} of {totalPages}
-              </span>
-            )}
-            {showPageNumbers && (
-              <ul
-                className={classnames(
-                  styles.pageList,
-                  mobileMinimize && styles.ghostPageList
-                )}
-              >
-                {visiblePages.map((page, idx) => (
-                  <li key={`${page}-${idx}`}>
-                    <Button
-                      buttonType={BUTTON_TYPE.JUST_TEXT}
-                      label={page.toString()}
-                      onClick={() => goToPage(page as number)}
-                      disabled={disabled}
-                      className={classnames(
-                        styles.pageButton,
-                        initialPage === page && styles.pageButtonActive,
-                        initialPage !== page && styles.pageButtonInactive
-                      )}
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-            <Button
-              label=""
-              buttonType={BUTTON_TYPE.JUST_ICON}
-              iconType={{ default: ICON_TYPE.ARROW }}
-              onClick={() => goToPage(initialPage + 1)}
-              disabled={disabled || initialPage === totalPages}
-              variant={BUTTON_VARIANT.SECONDARY}
-              className={styles.pageButton}
-            />
-          </div>
-          {showPageSizeSelector && pageSize && (
-            <Select
-              options={pageSizeSelectOptions}
-              placeholder={pageSizePlaceholder || "Select page size"}
-              onChange={(e) => onPageChange(Number(e.target.value), true)}
-              name="pageSize"
-              value={pageSize.toString()}
-              label=""
-              className={styles.pageSizeSelector}
-            />
+      <div className={styles.paginationWrapper}>
+        <div
+          className={classnames(
+            styles.paginationControls,
+            isMobile && styles.tabletControls
           )}
+        >
+          <Button
+            label=""
+            buttonType={BUTTON_TYPE.JUST_ICON}
+            iconType={{ default: ICON_TYPE.ARROW }}
+            onClick={() => goToPage(initialPage - 1)}
+            disabled={disabled || initialPage === 1}
+            variant={BUTTON_VARIANT.SECONDARY}
+            className={classnames(styles.pageButton, styles.prevButton)}
+            iconTextReverse
+          />
+          {mobileMinimize && (
+            <span className={styles.pageInfo}>
+              Page {initialPage} of {totalPages}
+            </span>
+          )}
+          {showPageNumbers && (
+            <ul
+              className={classnames(
+                styles.pageList,
+                mobileMinimize && styles.ghostPageList
+              )}
+            >
+              {visiblePages.map((page, idx) => (
+                <li key={`${page}-${idx}`}>
+                  <Button
+                    buttonType={BUTTON_TYPE.JUST_TEXT}
+                    label={page.toString()}
+                    onClick={() => goToPage(page as number)}
+                    disabled={disabled}
+                    className={classnames(
+                      styles.pageButton,
+                      initialPage === page && styles.pageButtonActive,
+                      initialPage !== page && styles.pageButtonInactive
+                    )}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+          <Button
+            label=""
+            buttonType={BUTTON_TYPE.JUST_ICON}
+            iconType={{ default: ICON_TYPE.ARROW }}
+            onClick={() => goToPage(initialPage + 1)}
+            disabled={disabled || initialPage === totalPages}
+            variant={BUTTON_VARIANT.SECONDARY}
+            className={styles.pageButton}
+          />
         </div>
-      </Fragment>
+        {showPageSizeSelector && pageSize && (
+          <Select
+            options={pageSizeSelectOptions}
+            placeholder={pageSizePlaceholder}
+            onChange={(e) => onPageChange(Number(e.target.value), true)}
+            name="pageSize"
+            value={pageSize.toString()}
+            label=""
+            className={styles.pageSizeSelector}
+          />
+        )}
+      </div>
     );
   };
 
