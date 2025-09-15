@@ -115,20 +115,25 @@ get_confirmation() {
 publish_packages() {
     if [[ "$DRY_RUN" == "true" ]]; then
         info "DRY RUN - Showing what would be published:"
-        $LERNA_CMD publish --conventional-commits --dry-run
+        # $LERNA_CMD publish --conventional-commits --dry-run
+        $LERNA_CMD changed
         return 0
     fi
 
     # Version bump if requested
-    if [[ -n "$VERSION_BUMP" ]]; then
-        info "Bumping $VERSION_BUMP version..."
-        $LERNA_CMD version $VERSION_BUMP --conventional-commits --yes
-    fi
+    # if [[ -n "$VERSION_BUMP" ]]; then
+    #     info "Bumping $VERSION_BUMP version..."
+    #     $LERNA_CMD version $VERSION_BUMP --conventional-commits --yes
+    # fi
 
     # Publish logic
     if [[ "$CHANGED_ONLY" == "true" ]]; then
-        info "Publishing changed packages..."
-        $LERNA_CMD publish --conventional-commits --yes
+        info "Publishing changed packages with version bump..."
+        if [[ -n "$VERSION_BUMP" ]]; then
+            $LERNA_CMD version $VERSION_BUMP --conventional-commits --yes
+        else
+            $LERNA_CMD publish --conventional-commits --yes
+        fi
     else
         info "Publishing all packages..."
         $LERNA_CMD publish from-package --yes
