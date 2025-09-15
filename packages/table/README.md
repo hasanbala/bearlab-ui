@@ -4,17 +4,6 @@ A powerful, feature-rich React table component with built-in pagination, search,
 
 ## ✨ Features
 
-✨ **Rich Feature Set**
-
-- 🔍 Built-in search functionality
-- 📄 Client-side and server-side pagination
-- ✅ Row selection (checkbox/radio)
-- 🎯 Filtering capabilities
-- 📱 Responsive design with mobile optimization
-- 🌙 Dark mode support
-- 🎨 Customizable styling
-- ♿ Accessibility compliant
-
 - **🔍 Search & Filter**: Built-in search functionality with customizable filters
 - **📑 Pagination**: Client-side and server-side pagination support
 - **✅ Row Selection**: Support for checkbox and radio button selection

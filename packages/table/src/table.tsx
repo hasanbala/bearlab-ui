@@ -69,6 +69,22 @@ export const Table = (props: Props) => {
     }, obj);
   };
 
+  const indexOfLastItem = initialPage * pageSize;
+  const indexOfFirstItem = indexOfLastItem - pageSize;
+  const currentItems = serverPagination
+    ? dataSource
+    : filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = serverPagination
+    ? Math.ceil((totalCount || 0) / pageSize)
+    : Math.ceil(filteredData.length / pageSize);
+
+  const dataToDisplay = pagination
+    ? currentItems
+    : serverPagination
+    ? dataSource
+    : filteredData;
+
   useEffect(() => {
     if (searchValue.trim() == "") {
       setFilteredData(dataSource);
@@ -148,22 +164,6 @@ export const Table = (props: Props) => {
     if (onTableChange)
       onTableChange(setInitialPage, page, pageSize, isPageSize);
   };
-
-  const indexOfLastItem = initialPage * pageSize;
-  const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentItems = serverPagination
-    ? dataSource
-    : filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = serverPagination
-    ? Math.ceil((totalCount || 0) / pageSize)
-    : Math.ceil(filteredData.length / pageSize);
-
-  const dataToDisplay = pagination
-    ? currentItems
-    : serverPagination
-    ? dataSource
-    : filteredData;
 
   const renderSelectionColumn = () => {
     if (!rowSelection) {
@@ -268,16 +268,90 @@ export const Table = (props: Props) => {
     return pages;
   };
 
-  if (totalPages <= 1) {
-    return null;
-  }
+  const renderPagination = () => {
+    if (!pagination || totalPages <= 1) {
+      return null;
+    }
 
-  const visiblePages = getVisiblePages();
+    const visiblePages = getVisiblePages();
+    const pageSizeSelectOptions = pageSizeOptions?.map((size) => ({
+      value: size.toString(),
+      label: `${size} / page`,
+    }));
 
-  const pageSizeSelectOptions = pageSizeOptions?.map((size) => ({
-    value: size.toString(),
-    label: `${size} / page`,
-  }));
+    return (
+      <Fragment>
+        <div className={classnames(styles.container, className)}>
+          <div
+            className={classnames(
+              styles.paginationControls,
+              isMobile && styles.tabletControls
+            )}
+          >
+            <Button
+              label=""
+              buttonType={BUTTON_TYPE.JUST_ICON}
+              iconType={{ default: ICON_TYPE.ARROW }}
+              onClick={() => goToPage(initialPage - 1)}
+              disabled={disabled || initialPage === 1}
+              variant={BUTTON_VARIANT.SECONDARY}
+              className={classnames(styles.pageButton, styles.prevButton)}
+              iconTextReverse
+            />
+            {mobileMinimize && (
+              <span className={styles.pageInfo}>
+                Page {initialPage} of {totalPages}
+              </span>
+            )}
+            {showPageNumbers && (
+              <ul
+                className={classnames(
+                  styles.pageList,
+                  mobileMinimize && styles.ghostPageList
+                )}
+              >
+                {visiblePages.map((page, idx) => (
+                  <li key={`${page}-${idx}`}>
+                    <Button
+                      buttonType={BUTTON_TYPE.JUST_TEXT}
+                      label={page.toString()}
+                      onClick={() => goToPage(page as number)}
+                      disabled={disabled}
+                      className={classnames(
+                        styles.pageButton,
+                        initialPage === page && styles.pageButtonActive,
+                        initialPage !== page && styles.pageButtonInactive
+                      )}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+            <Button
+              label=""
+              buttonType={BUTTON_TYPE.JUST_ICON}
+              iconType={{ default: ICON_TYPE.ARROW }}
+              onClick={() => goToPage(initialPage + 1)}
+              disabled={disabled || initialPage === totalPages}
+              variant={BUTTON_VARIANT.SECONDARY}
+              className={styles.pageButton}
+            />
+          </div>
+          {showPageSizeSelector && pageSize && (
+            <Select
+              options={pageSizeSelectOptions}
+              placeholder={pageSizePlaceholder || "Select page size"}
+              onChange={(e) => onPageChange(Number(e.target.value), true)}
+              name="pageSize"
+              value={pageSize.toString()}
+              label=""
+              className={styles.pageSizeSelector}
+            />
+          )}
+        </div>
+      </Fragment>
+    );
+  };
 
   return (
     <div className={classnames(styles.container, className)}>
@@ -356,80 +430,7 @@ export const Table = (props: Props) => {
         </MainTable>
       </div>
 
-      {pagination && totalPages > 1 && (
-        <Fragment>
-          {totalPages > 1 && (
-            <div className={classnames(styles.container, className)}>
-              <div
-                className={classnames(
-                  styles.paginationControls,
-                  isMobile && styles.tabletControls
-                )}
-              >
-                <Button
-                  label=""
-                  buttonType={BUTTON_TYPE.JUST_ICON}
-                  iconType={{ default: ICON_TYPE.ARROW }}
-                  onClick={() => goToPage(initialPage - 1)}
-                  disabled={disabled || initialPage === 1}
-                  variant={BUTTON_VARIANT.SECONDARY}
-                  className={classnames(styles.pageButton, styles.prevButton)}
-                  iconTextReverse
-                />
-                {mobileMinimize && (
-                  <span className={styles.pageInfo}>
-                    Page {initialPage} of {totalPages}
-                  </span>
-                )}
-                {showPageNumbers && (
-                  <ul
-                    className={classnames(
-                      styles.pageList,
-                      mobileMinimize && styles.ghostPageList
-                    )}
-                  >
-                    {visiblePages.map((page, idx) => (
-                      <li key={`${page}-${idx}`}>
-                        <Button
-                          buttonType={BUTTON_TYPE.JUST_TEXT}
-                          label={page.toString()}
-                          onClick={() => goToPage(page as number)}
-                          disabled={disabled}
-                          className={classnames(
-                            styles.pageButton,
-                            initialPage === page && styles.pageButtonActive,
-                            initialPage !== page && styles.pageButtonInactive
-                          )}
-                        />
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <Button
-                  label=""
-                  buttonType={BUTTON_TYPE.JUST_ICON}
-                  iconType={{ default: ICON_TYPE.ARROW }}
-                  onClick={() => goToPage(initialPage + 1)}
-                  disabled={disabled || initialPage === totalPages}
-                  variant={BUTTON_VARIANT.SECONDARY}
-                  className={styles.pageButton}
-                />
-              </div>
-              {showPageSizeSelector && pageSize && (
-                <Select
-                  options={pageSizeSelectOptions}
-                  placeholder={pageSizePlaceholder || "Select page size"}
-                  onChange={(e) => onPageChange(Number(e.target.value), true)}
-                  name="pageSize"
-                  value={pageSize.toString()}
-                  label=""
-                  className={styles.pageSizeSelector}
-                />
-              )}
-            </div>
-          )}
-        </Fragment>
-      )}
+      {renderPagination()}
 
       {totalCount && (
         <div className={styles.recordInfo}>
