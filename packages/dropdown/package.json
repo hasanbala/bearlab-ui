@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/dropdown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Bearlab UI Dropdown Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,7 +14,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/button": "^1.0.7",
+    "@bearlab/button": "^1.0.8",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
