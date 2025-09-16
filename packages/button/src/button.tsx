@@ -157,7 +157,6 @@ export interface Props {
       | ICON_TYPE.COPY;
     custom?: null | React.ReactElement;
   };
-
   buttonType:
     | BUTTON_TYPE.ICON_WITH_TEXT
     | BUTTON_TYPE.JUST_ICON

@@ -9,9 +9,7 @@ import {
 
 export const GoBack = ({
   label = "Go Back",
-  destination,
   className,
-  hasBack,
   isDisabled,
   onNavigate,
 }: Props) => {
@@ -20,11 +18,7 @@ export const GoBack = ({
       return;
     }
 
-    if (hasBack) {
-      onNavigate(-1);
-    }
-
-    return onNavigate(destination);
+    return onNavigate();
   };
 
   return (
@@ -45,10 +39,8 @@ export const GoBack = ({
 };
 
 export interface Props {
-  destination: string;
   label?: string;
   className?: string;
-  hasBack?: boolean;
   isDisabled?: boolean;
-  onNavigate: (destination: string | number) => void;
+  onNavigate: () => void;
 }

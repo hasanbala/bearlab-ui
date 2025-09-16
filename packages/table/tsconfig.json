@@ -41,7 +41,8 @@
       "@bearlab/table": ["./packages/table/src"],
       "@bearlab/avatar": ["./packages/avatar/src"],
       "@bearlab/alert": ["./packages/alert/src"],
-      "@bearlab/tab": ["./packages/tab/src"]
+      "@bearlab/tab": ["./packages/tab/src"],
+      "@bearlab/faq": ["./packages/faq/src"]
     }
   },
   "include": ["src/**/*"],

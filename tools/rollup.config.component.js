@@ -69,6 +69,7 @@ export default [
             "@bearlab/alert": [path.join(rootPath, "packages/alert")],
             "@bearlab/tab": [path.join(rootPath, "packages/tab")],
             "@bearlab/avatar": [path.join(rootPath, "packages/avatar")],
+            "@bearlab/faq": [path.join(rootPath, "packages/faq")],
           },
         },
       }),
@@ -114,6 +115,7 @@ export default [
       "@bearlab/alert",
       "@bearlab/tab",
       "@bearlab/avatar",
+      "@bearlab/faq",
     ],
   },
   {
@@ -152,6 +154,7 @@ export default [
       "@bearlab/alert",
       "@bearlab/tab",
       "@bearlab/avatar",
+      "@bearlab/faq",
     ],
   },
 ];

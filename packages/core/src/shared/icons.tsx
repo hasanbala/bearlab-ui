@@ -29,6 +29,7 @@ import { ReactComponent as IconErrorCircle } from "../assets/icons/error-circle.
 import { ReactComponent as IconInfo } from "../assets/icons/info.svg";
 import { ReactComponent as IconSuccess } from "../assets/icons/success.svg";
 import { ReactComponent as IconWarning } from "../assets/icons/warning.svg";
+import { ReactComponent as IconSupport } from "../assets/icons/support.svg";
 
 export {
   IconAdd,
@@ -62,4 +63,5 @@ export {
   IconInfo,
   IconSuccess,
   IconWarning,
+  IconSupport,
 };

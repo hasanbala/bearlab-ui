@@ -1,0 +1,43 @@
+{
+  "name": "@bearlab/faq",
+  "version": "1.0.8",
+  "description": "Bearlab UI Radio Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=faq rollup -c tools/rollup.config.component.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bearlab/core": "^1.0.11",
+    "@bearlab/button": "^1.0.8",
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "faq",
+    "component",
+    "bearlab"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/ui-components.git",
+    "directory": "packages/faq"
+  },
+  "homepage": "https://github.com/hasanbala/ui-components#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -30,6 +30,7 @@ export { IconErrorCircle } from "./shared";
 export { IconInfo } from "./shared";
 export { IconSuccess } from "./shared";
 export { IconWarning } from "./shared";
+export { IconSupport } from "./shared";
 
 // Constants & Types
 export { PERMISSIONS } from "./constants";
