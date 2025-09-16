@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/hooks",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Bearlab UI Hooks - Custom React hooks for better UX and performance",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
