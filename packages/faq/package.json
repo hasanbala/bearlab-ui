@@ -1,7 +1,7 @@
 {
   "name": "@bearlab/faq",
-  "version": "1.0.9",
-  "description": "Bearlab UI Radio Component",
+  "version": "1.0.0",
+  "description": "Bearlab UI FAQ Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
