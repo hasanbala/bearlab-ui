@@ -7,7 +7,6 @@ import {
   TableRow,
 } from "./mainTable";
 import { Checkbox } from "@bearlab/checkbox";
-import { Input } from "@bearlab/input";
 import { Radio } from "@bearlab/radio";
 import { Select } from "@bearlab/select";
 import {
@@ -26,11 +25,11 @@ export const Table = (props: Props) => {
     dataSource,
     columns,
     className,
-    showFilter = false,
-    showSeeAll = false,
-    showSearch = false,
-    onFilterClick,
-    onSeeAllClick,
+    // showFilter = false,
+    // showSeeAll = false,
+    // showSearch = false,
+    // onFilterClick,
+    // onSeeAllClick,
     rowSelection,
     pagination = false,
     onRowClick,
@@ -353,7 +352,7 @@ export const Table = (props: Props) => {
 
   return (
     <div className={classnames(styles.container, className)}>
-      {(showFilter || showSeeAll || showSearch) && (
+      {/* {(showFilter || showSeeAll || showSearch) && (
         <div className={styles.header}>
           {title && <h3 className={styles.title}>{title}</h3>}
           <div className={styles.actionsWrapper}>
@@ -389,6 +388,12 @@ export const Table = (props: Props) => {
             )}
           </div>
         </div>
+      )} */}
+
+      {title && (
+        <div className={styles.header}>
+          {title && <h3 className={styles.title}>{title}</h3>}
+        </div>
       )}
 
       <div className={styles.tableWrapper}>
@@ -400,6 +405,7 @@ export const Table = (props: Props) => {
                   key={column.key}
                   isHeader
                   className={styles.headerCell}
+                  style={{ width: column.width }}
                 >
                   {column.title}
                 </TableCell>
@@ -413,6 +419,7 @@ export const Table = (props: Props) => {
                   <TableCell
                     key={`${record["key"]}-${column.key}`}
                     className={styles.bodyCell}
+                    style={{ width: column.width }}
                   >
                     {column.render
                       ? column.render(
@@ -449,11 +456,11 @@ export interface Props {
   dataSource: Record<string, any>[];
   columns: TableColumn[];
   className?: string;
-  showFilter?: boolean;
-  showSeeAll?: boolean;
-  showSearch?: boolean;
-  onFilterClick?: () => void;
-  onSeeAllClick?: () => void;
+  // showFilter?: boolean;
+  // showSeeAll?: boolean;
+  // showSearch?: boolean;
+  // onFilterClick?: () => void;
+  // onSeeAllClick?: () => void;
   rowSelection?: {
     type: "checkbox" | "radio";
     onChange?: (
@@ -490,4 +497,5 @@ interface TableColumn {
   key: string;
   render?: (text: any, record: any) => React.ReactNode;
   sorter?: (a: any, b: any) => number;
+  width?: string | number;
 }

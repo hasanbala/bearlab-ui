@@ -28,6 +28,7 @@ interface TableCellProps {
   children: ReactNode;
   isHeader?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const MainTable = ({ children, className }: TableProps) => (
@@ -52,9 +53,14 @@ const TableCell = ({
   children,
   isHeader = false,
   className,
+  style,
 }: TableCellProps) => {
   const CellTag = isHeader ? "th" : "td";
-  return <CellTag className={` ${className}`}>{children}</CellTag>;
+  return (
+    <CellTag className={` ${className}`} style={style}>
+      {children}
+    </CellTag>
+  );
 };
 
 export { MainTable, TableHeader, TableBody, TableRow, TableCell };

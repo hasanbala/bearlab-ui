@@ -4,24 +4,6 @@
 .container {
   @include layout.tableLayoutLight;
 
-  .cellContent {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .cellIcon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .cellText {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: variables.$gray-590;
-  }
-
   .tableWrapper {
     border-bottom: 1px solid variables.$black-360;
   }
@@ -116,10 +98,6 @@
 
 html[data-theme="dark"] .container {
   @include layout.tableLayoutDark;
-
-  .cellText {
-    color: variables.$gray-60;
-  }
 
   .paginationWrapper {
     .pageInfo {
