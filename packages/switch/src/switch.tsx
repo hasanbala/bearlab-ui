@@ -54,7 +54,7 @@ export const Switch = (props: Props) => {
             <span>{label}</span>
           </div>
         )}
-        {popover && <div className={styles.popover}>{label}</div>}
+        {popover && <div className={styles.popover}>{popover}</div>}
       </div>
       {label && (
         <div className={styles.label}>

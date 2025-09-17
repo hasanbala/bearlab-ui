@@ -268,16 +268,16 @@ MIT © [hasanbala](https://github.com/hasanbala)
 
 **Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
 
-For more UI components, check out the [@bearlab/ui-components](https://github.com/hasanbala/ui-components) repository.
+For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
 
-Feel free to open an [issue](https://github.com/hasanbala/ui-components/issues) for questions or feedback! ⭐
+Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
 
 ---
 
 <div align="center">
   <p>Made with ❤️ by the Bearlab team</p>
   <p>
-    <a href="https://github.com/hasanbala/ui-components">⭐ Star us on GitHub</a> •
+    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
     <a href="https://www.npmjs.com/package/@bearlab/go-back">📦 View on NPM</a>
   </p>
 </div>
