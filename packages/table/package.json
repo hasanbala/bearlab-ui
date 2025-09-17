@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/table",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Bearlab UI Table Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

@@ -46,11 +46,6 @@ yarn add @bearlab/table
 | `columns`              | `TableColumn[]`                         | `[]`                 | Column configuration                                                  |
 | `title`                | `string`                                | -                    | Table title displayed in header                                       |
 | `className`            | `string`                                | -                    | Additional CSS class name                                             |
-| `showFilter`           | `boolean`                               | `false`              | Show filter button in header                                          |
-| `showSeeAll`           | `boolean`                               | `false`              | Show "See all" button in header                                       |
-| `showSearch`           | `boolean`                               | `false`              | Enable search functionality                                           |
-| `onFilterClick`        | `() => void`                            | -                    | Filter button click handler                                           |
-| `onSeeAllClick`        | `() => void`                            | -                    | "See all" button click handler                                        |
 | `rowSelection`         | `RowSelection`                          | -                    | Row selection configuration                                           |
 | `pagination`           | `boolean \| PaginationConfig`           | `false`              | Pagination configuration                                              |
 | `onRowClick`           | `(record: Record<string, any>) => void` | -                    | Row click handler                                                     |
@@ -71,6 +66,7 @@ yarn add @bearlab/table
 | `title`     | `string`                                      | Column header title                                    |
 | `dataIndex` | `string`                                      | Data field key (supports nested keys like "user.name") |
 | `key`       | `string`                                      | Unique column key                                      |
+| `width`     | `string \| number`                            | Column width                                           |
 | `render`    | `(text: any, record: any) => React.ReactNode` | Custom render function                                 |
 | `sorter`    | `(a: any, b: any) => number`                  | Sort function (future feature)                         |
 
@@ -164,26 +160,21 @@ function MyTable() {
 }
 ```
 
-### Table with Search and Pagination
+### Table with Pagination
 
 ```jsx
 import { Table } from "@bearlab/table";
 
-function SearchableTable() {
+function PaginatedTable() {
   return (
     <Table
       title="User Management"
       dataSource={dataSource}
       columns={columns}
-      showSearch={true}
       pagination={{
         pageSize: 10,
         showPageNumbers: true,
       }}
-      showFilter={true}
-      showSeeAll={true}
-      onFilterClick={() => console.log("Filter clicked")}
-      onSeeAllClick={() => console.log("See all clicked")}
     />
   );
 }
