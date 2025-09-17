@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.11](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/switch@1.0.10...@bearlab/switch@1.0.11) (2025-09-17)
+
+**Note:** Version bump only for package @bearlab/switch
+
+
+
+
+
 ## [1.0.10](https://github.com/hasanbala/ui-components/compare/@bearlab/switch@1.0.9...@bearlab/switch@1.0.10) (2025-09-16)
 
 **Note:** Version bump only for package @bearlab/switch
