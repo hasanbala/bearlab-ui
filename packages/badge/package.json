@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/badge",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Bearlab UI Badge Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

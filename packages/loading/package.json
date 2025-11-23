@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/loading",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Bearlab UI Loading Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
