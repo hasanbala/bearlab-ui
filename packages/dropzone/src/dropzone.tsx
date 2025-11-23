@@ -5,7 +5,8 @@ import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
 import styles from "./dropzone.module.scss";
 
 export const Dropzone = (props: Props) => {
-  const { className, isLoading, multiple, accept, files, setFiles } = props;
+  const { className, isLoading, multiple, accept, files, setFiles, style } =
+    props;
 
   const [isDragging, setIsDragging] = useState(false);
 
@@ -82,6 +83,7 @@ export const Dropzone = (props: Props) => {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
+        style={style}
       >
         <div className={styles.icon}>
           <IconUpload />
@@ -113,4 +115,5 @@ export interface Props {
   isLoading?: boolean;
   files: FileList | null;
   setFiles: (_val: FileList | null) => void;
+  style?: React.CSSProperties;
 }

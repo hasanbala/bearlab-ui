@@ -3,7 +3,7 @@ import classnames from "classnames";
 import styles from "./tab.module.scss";
 
 export const Tab = (props: Props) => {
-  const { tabs, actionType, isVertical } = props;
+  const { tabs, actionType, isVertical, className, style } = props;
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -12,8 +12,10 @@ export const Tab = (props: Props) => {
       className={classnames(
         styles.container,
         actionType == "underline" && styles.underLine,
-        isVertical && styles.vertical
+        isVertical && styles.vertical,
+        className
       )}
+      style={style}
     >
       <div className={styles.header}>
         <nav>
@@ -55,4 +57,6 @@ export interface Props {
   }[];
   actionType: "button" | "underline";
   isVertical?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
 }

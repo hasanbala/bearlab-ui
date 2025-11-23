@@ -2,10 +2,13 @@ import classnames from "classnames";
 import styles from "./avatarIcon.module.scss";
 
 export const AvatarIcon = (props: AvatarIconProps) => {
-  const { src, size = "medium", status = "none" } = props;
+  const { src, size = "medium", status = "none", className, style } = props;
 
   return (
-    <div className={classnames(styles.container, styles[size])}>
+    <div
+      className={classnames(styles.container, styles[size], className)}
+      style={style}
+    >
       <img src={src} alt="avatar" />
       {status !== "none" && (
         <span
@@ -21,4 +24,6 @@ export interface AvatarIconProps {
   alt?: string;
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge" | "xxlarge";
   status?: "online" | "offline" | "busy" | "none";
+  className?: string;
+  style?: React.CSSProperties;
 }

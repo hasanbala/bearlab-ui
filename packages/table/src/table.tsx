@@ -42,6 +42,7 @@ export const Table = (props: Props) => {
     pageSizePlaceholder = "Select page size",
     maxVisiblePages = 6,
     onTableChange,
+    style,
   } = props;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -351,7 +352,7 @@ export const Table = (props: Props) => {
   };
 
   return (
-    <div className={classnames(styles.container, className)}>
+    <div className={classnames(styles.container, className)} style={style}>
       {/* {(showFilter || showSeeAll || showSearch) && (
         <div className={styles.header}>
           {title && <h3 className={styles.title}>{title}</h3>}
@@ -489,6 +490,7 @@ export interface Props {
     isPageSize?: boolean
   ) => void;
   maxVisiblePages?: number;
+  style?: React.CSSProperties;
 }
 
 interface TableColumn {

@@ -18,6 +18,7 @@ export const Badge = (props: Props) => {
     endIcon,
     label,
     className,
+    style,
   } = props;
 
   const IconStart = startIcon!;
@@ -57,6 +58,7 @@ export const Badge = (props: Props) => {
         variants[variant][color],
         className
       )}
+      style={style}
     >
       {startIcon && <IconStart className={styles.startIcon} />}
       {label}
@@ -73,4 +75,5 @@ export interface Props {
   endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   label: string | number;
   className?: string;
+  style?: React.CSSProperties;
 }

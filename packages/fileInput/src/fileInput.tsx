@@ -3,10 +3,10 @@ import styles from "./fileInput.module.scss";
 import { IconErrorTriangle } from "@bearlab/core";
 
 export const FileInput = (props: Props) => {
-  const { className, label, error, isRequired, onChange } = props;
+  const { className, label, error, isRequired, onChange, style } = props;
 
   return (
-    <div className={classnames(styles.container, className)}>
+    <div className={classnames(styles.container, className)} style={style}>
       {label && (
         <div className={styles.label}>
           {label} {isRequired && <span>*</span>}
@@ -35,4 +35,5 @@ export interface Props {
   className?: string;
   isRequired?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  style?: React.CSSProperties;
 }

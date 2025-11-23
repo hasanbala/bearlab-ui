@@ -4,7 +4,7 @@ import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
 import styles from "./dropdown.module.scss";
 
 export const Dropdown = (props: IDropdown) => {
-  const { show, children, className, onClose } = props;
+  const { show, children, className, onClose, style } = props;
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,6 +32,7 @@ export const Dropdown = (props: IDropdown) => {
     <div
       ref={dropdownRef}
       className={classnames(styles.dropdownContainer, className)}
+      style={style}
     >
       {children}
     </div>
@@ -44,8 +45,9 @@ export const DropdownItem = (props: IDropdownItem) => {
     href,
     onClick,
     onItemClick,
-    className = "",
+    className,
     children,
+    style,
   } = props;
 
   const handleClick = (event: React.MouseEvent) => {
@@ -68,6 +70,7 @@ export const DropdownItem = (props: IDropdownItem) => {
         href={href}
         className={classnames(styles.dropdownItemContainer, className)}
         onClick={handleClick}
+        style={style}
       >
         {children}
       </a>
@@ -78,6 +81,7 @@ export const DropdownItem = (props: IDropdownItem) => {
     <button
       onClick={handleClick}
       className={classnames(styles.dropdownItemContainer, className)}
+      style={style}
     >
       {children}
     </button>
@@ -85,14 +89,14 @@ export const DropdownItem = (props: IDropdownItem) => {
 };
 
 export const DropdownBasic = (props: IDropdownBasic) => {
-  const { list, className } = props;
+  const { list, className, style } = props;
 
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDropdown = () => setIsOpen(!isOpen);
 
   return (
-    <div className={classnames(styles.dropdownBasic, className)}>
+    <div className={classnames(styles.dropdownBasic, className)} style={style}>
       <Button
         label={list.dropdownLabel}
         buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
@@ -132,6 +136,7 @@ export interface IDropdown {
   onClose: () => void;
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export interface IDropdownItem {
@@ -142,6 +147,7 @@ export interface IDropdownItem {
   baseClassName?: string;
   className?: string;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 export interface IDropdownBasic {
@@ -154,4 +160,5 @@ export interface IDropdownBasic {
     }[][];
   };
   className?: string;
+  style?: React.CSSProperties;
 }

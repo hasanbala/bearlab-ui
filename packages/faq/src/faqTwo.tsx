@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { FaqByTwo } from "./faqByTwo";
 import styles from "./faq.module.scss";
+import classnames from "classnames";
 
 export const FaqV2 = (props: Props) => {
-  const { data } = props;
+  const { data, className, style } = props;
 
   const [openIndexFirstGroup, setOpenIndexFirstGroup] = useState<number | null>(
     0
@@ -34,7 +35,10 @@ export const FaqV2 = (props: Props) => {
     ));
 
   return (
-    <div className={styles.containerByFaqTwo}>
+    <div
+      className={classnames(styles.containerByFaqTwo, className)}
+      style={style}
+    >
       <div className={styles.column}>
         {renderFaqItems(
           data.slice(0, 3),
@@ -58,4 +62,6 @@ export interface Props {
     title: string;
     content: string;
   }[];
+  className?: string;
+  style?: React.CSSProperties;
 }

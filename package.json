@@ -23,7 +23,7 @@
   },
   "scripts": {
     "bootstrap": "npm install",
-    "install:all": "npm install && npm run build:core",
+    "install:all": "npm install && npm run build:all",
     "clean": "lerna run clean --parallel",
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
     "build:core": "lerna run build --scope=@bearlab/core",

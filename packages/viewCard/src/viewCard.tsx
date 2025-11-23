@@ -3,7 +3,7 @@ import styles from "./viewCard.module.scss";
 import { IconEmpty } from "@bearlab/core";
 
 export const ViewCard = (props: Props) => {
-  const { className, description, title, children } = props;
+  const { className, description, title, children, style } = props;
 
   if (children) {
     return (
@@ -20,7 +20,10 @@ export const ViewCard = (props: Props) => {
   }
 
   return (
-    <div className={classnames(styles.containerWithEmptyCard, className)}>
+    <div
+      className={classnames(styles.containerWithEmptyCard, className)}
+      style={style}
+    >
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
         <p className={styles.description}>{description}</p>
@@ -37,4 +40,5 @@ export interface Props {
   title?: string;
   description?: string;
   children?: React.ReactNode | null | undefined;
+  style?: React.CSSProperties;
 }

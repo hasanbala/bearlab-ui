@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { JSX } from "react";
+import type { JSX } from "react";
 import styles from "./radio.module.scss";
 import { IconErrorTriangle } from "@bearlab/core";
 
@@ -18,17 +18,12 @@ export const Radio = (props: RadioProps) => {
     ...rest
   } = props;
 
-  const handleRadioChange = () =>
-    onChange({
-      target: {
-        checked: true,
-        value: value,
-      },
-    });
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    onChange(e);
 
   return (
     <label
-      htmlFor={name}
+      htmlFor={`${name}-${value}`}
       className={classnames(
         styles.container,
         className,
@@ -37,8 +32,8 @@ export const Radio = (props: RadioProps) => {
     >
       <div className={styles.radioWrapper}>
         <input
-          id={name}
-          name={name}
+          id={`${name}-${value}`}
+          name={`${name}-${value}`}
           type="radio"
           value={value}
           onChange={handleRadioChange}
@@ -128,7 +123,7 @@ export interface RadioProps extends InputProps {
   className?: string;
   isRequired?: boolean;
   value: number | string;
-  onChange: (e: RadioChangeEvent) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface RadioGroupProps {
@@ -141,13 +136,6 @@ export interface RadioGroupProps {
   name?: string;
   className?: string;
   value: number | string;
-  onChange: (e: RadioChangeEvent) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isVertical?: boolean;
-}
-
-export interface RadioChangeEvent {
-  target: {
-    value: number | string;
-    checked: boolean;
-  };
 }

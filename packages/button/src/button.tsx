@@ -39,6 +39,7 @@ export const Button = (props: Props) => {
     iconTextReverse,
     permission = PERMISSIONS.DEFAULT,
     allAuths = {},
+    style,
   } = props;
 
   if (Object.keys(allAuths).length) {
@@ -124,6 +125,7 @@ export const Button = (props: Props) => {
         variant && styles[variant],
         iconTextReverse && styles.iconTextReverse
       )}
+      style={style}
     >
       {renderContent()}
     </button>
@@ -171,4 +173,5 @@ export interface Props {
     | BUTTON_VARIANT.TERTIARY;
   permission?: string | string[];
   allAuths?: any;
+  style?: React.CSSProperties;
 }

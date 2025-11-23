@@ -7,12 +7,9 @@ import {
   ICON_TYPE,
 } from "@bearlab/button";
 
-export const GoBack = ({
-  label = "Go Back",
-  className,
-  isDisabled,
-  onNavigate,
-}: Props) => {
+export const GoBack = (props: Props) => {
+  const { label = "Go Back", className, isDisabled, onNavigate, style } = props;
+
   const handleOnClick = () => {
     if (isDisabled) {
       return;
@@ -34,6 +31,7 @@ export const GoBack = ({
         className,
         isDisabled && styles.disabled
       )}
+      style={style}
     />
   );
 };
@@ -43,4 +41,5 @@ export interface Props {
   className?: string;
   isDisabled?: boolean;
   onNavigate: () => void;
+  style?: React.CSSProperties;
 }

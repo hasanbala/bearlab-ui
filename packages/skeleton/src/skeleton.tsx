@@ -2,7 +2,13 @@ import classnames from "classnames";
 import styles from "./skeleton.module.scss";
 
 export const Skeleton = (props: Props) => {
-  const { className, variant = "default", lines = 4, animated = true } = props;
+  const {
+    className,
+    variant = "default",
+    lines = 4,
+    animated = true,
+    style,
+  } = props;
 
   const renderLines = (count: number, withVariation: boolean = true) => {
     return Array.from({ length: count }, (_, index) => (
@@ -87,7 +93,7 @@ export const Skeleton = (props: Props) => {
       case "list":
         return (
           <>
-            {Array.from({ length: 3 }, (_, index) => (
+            {Array.from({ length: lines || 4 }, (_, index) => (
               <div key={index} className={styles.listItem}>
                 <div
                   className={classnames(
@@ -136,7 +142,10 @@ export const Skeleton = (props: Props) => {
   };
 
   return (
-    <div className={classnames(styles.container, styles[variant], className)}>
+    <div
+      className={classnames(styles.container, styles[variant], className)}
+      style={style}
+    >
       {renderVariant()}
     </div>
   );
@@ -147,4 +156,5 @@ export interface Props {
   variant?: "default" | "article" | "card" | "list";
   lines?: number;
   animated?: boolean;
+  style?: React.CSSProperties;
 }

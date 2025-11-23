@@ -4,7 +4,7 @@ import styles from "./copy.module.scss";
 import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
 
 export const Copy = (props: Props) => {
-  const { text, className, label = "Copy", copyId, disabled } = props;
+  const { text, className, label = "Copy", copyId, disabled, style } = props;
   const [isCopy, setIsCopy] = useState(false);
 
   const copyCode = () => {
@@ -40,6 +40,7 @@ export const Copy = (props: Props) => {
         className,
         disabled && styles.disabled
       )}
+      style={style}
     >
       <div className={styles.text}>
         {text == "" || text == null ? "-" : text}
@@ -63,4 +64,5 @@ export interface Props {
   label?: string;
   copyId?: string | number | null | undefined;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }

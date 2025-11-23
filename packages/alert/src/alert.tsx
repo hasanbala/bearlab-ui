@@ -15,6 +15,8 @@ export const Alert = (props: Props) => {
     showLink = false,
     linkHref = "/",
     linkText = "Learn more",
+    className,
+    style,
   } = props;
 
   const variantClasses = {
@@ -47,8 +49,10 @@ export const Alert = (props: Props) => {
     <div
       className={classnames(
         styles.container,
-        variantClasses[variant].container
+        variantClasses[variant].container,
+        className
       )}
+      style={style}
     >
       <div className={styles.content}>
         <div
@@ -80,4 +84,6 @@ export interface Props {
   showLink?: boolean;
   linkHref?: string;
   linkText?: string;
+  className?: string;
+  style?: React.CSSProperties;
 }

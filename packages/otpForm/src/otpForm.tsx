@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Input } from "@bearlab/input";
 import styles from "./otpForm.module.scss";
+import classnames from "classnames";
 
 export const OTPForm = (props: Props) => {
   const {
@@ -10,6 +11,8 @@ export const OTPForm = (props: Props) => {
     setPassValue,
     justNumber = true,
     otpLength = 6,
+    className,
+    style,
   } = props;
 
   const inputsRef = useRef<HTMLInputElement[]>([]);
@@ -79,7 +82,7 @@ export const OTPForm = (props: Props) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={classnames(styles.container, className)} style={style}>
       <div className={styles.subHeader}>{title}</div>
       <div className={styles.inputs}>
         {[...Array(otpLength)].map((_, index) => (
@@ -112,4 +115,6 @@ export interface Props {
   title: string;
   justNumber?: boolean;
   otpLength?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }

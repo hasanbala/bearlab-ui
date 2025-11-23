@@ -2,7 +2,8 @@ import classnames from "classnames";
 import styles from "./avatarText.module.scss";
 
 export const AvatarText = (props: AvatarTextProps) => {
-  const { name, className } = props;
+  const { name, className, style } = props;
+
   const initials = name
     .split(" ")
     .map((word) => word[0])
@@ -31,6 +32,7 @@ export const AvatarText = (props: AvatarTextProps) => {
   return (
     <div
       className={classnames(styles.container, getColorClass(name), className)}
+      style={style}
     >
       <span className={styles.label}>{initials}</span>
     </div>
@@ -40,4 +42,5 @@ export const AvatarText = (props: AvatarTextProps) => {
 export interface AvatarTextProps {
   name: string;
   className?: string;
+  style?: React.CSSProperties;
 }

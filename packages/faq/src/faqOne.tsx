@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { FaqByOne } from "./faqByOne";
 import styles from "./faq.module.scss";
+import classnames from "classnames";
 
 export const FaqV1 = (props: Props) => {
-  const { data } = props;
+  const { data, className, style } = props;
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -11,7 +12,10 @@ export const FaqV1 = (props: Props) => {
     setOpenIndex(openIndex == index ? null : index);
 
   return (
-    <div className={styles.containerByFaqOne}>
+    <div
+      className={classnames(styles.containerByFaqOne, className)}
+      style={style}
+    >
       {data.map((item, index) => (
         <FaqByOne
           key={index}
@@ -27,4 +31,6 @@ export const FaqV1 = (props: Props) => {
 
 export interface Props {
   data: { title: string; content: string }[];
+  className?: string;
+  style?: React.CSSProperties;
 }

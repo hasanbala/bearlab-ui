@@ -11,9 +11,10 @@ import {
   IconSupport,
 } from "@bearlab/core";
 import { ICON_TYPE } from "./helpers";
+import classnames from "classnames";
 
 export const FaqV3 = (props: Props) => {
-  const { data, iconType } = props;
+  const { data, iconType, className, style } = props;
 
   const iconTypes = {
     [ICON_TYPE.ADD]: <IconAdd />,
@@ -29,7 +30,10 @@ export const FaqV3 = (props: Props) => {
   };
 
   return (
-    <div className={styles.containerByFaqThree}>
+    <div
+      className={classnames(styles.containerByFaqThree, className)}
+      style={style}
+    >
       {data.map((item, index: number) => (
         <div className={styles.wrapperFaq} key={index}>
           <div className={styles.iconContainer}>
@@ -61,4 +65,6 @@ export interface Props {
       | ICON_TYPE.SUPPORT;
     custom?: null | React.ReactElement;
   };
+  className?: string;
+  style?: React.CSSProperties;
 }
