@@ -78,6 +78,12 @@ validate_environment() {
     else
         LERNA_CMD="lerna"
     fi
+
+    # Check for uncommitted changes
+    if [[ -n $(git status --porcelain) ]]; then
+        error "Working tree has uncommitted changes. Please commit or stash them first."
+        exit 1
+    fi
 }
 
 # Build packages
