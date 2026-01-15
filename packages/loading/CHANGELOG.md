@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.12](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/loading@1.0.11...@bearlab/loading@1.0.12) (2026-01-15)
+
+
+### Features
+
+* **loading:** add optional icon prop support ([ffd7bab](https://github.com/hasanbala/bearlab-ui/commit/ffd7babd3aad493c8b7306755ff3adcf487248f8))
+
+
+
+
+
 ## [1.0.11](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/loading@1.0.10...@bearlab/loading@1.0.11) (2025-11-23)
 
 **Note:** Version bump only for package @bearlab/loading
