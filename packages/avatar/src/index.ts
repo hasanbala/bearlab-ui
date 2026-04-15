@@ -1,4 +1,12 @@
-export { AvatarIcon } from "./avatarIcon";
-export { AvatarText } from "./avatarText";
-export { type AvatarIconProps } from "./avatarIcon";
-export { type AvatarTextProps } from "./avatarText";
+export { AvatarIcon } from "./avatar-icon";
+export { AvatarText } from "./avatar-text";
+export type {
+  AvatarIconProps,
+  AvatarTextProps,
+  AvatarSize,
+  AvatarStatus,
+  AvatarIconClassNames,
+  AvatarIconStyles,
+  AvatarTextClassNames,
+  AvatarTextStyles,
+} from "./types/avatar.types";

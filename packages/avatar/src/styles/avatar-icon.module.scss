@@ -1,0 +1,136 @@
+:root {
+  --bearlab-avatar-icon-xsmall-size: 1.5rem; /* 24px */
+  --bearlab-avatar-icon-small-size: 2rem; /* 32px */
+  --bearlab-avatar-icon-medium-size: 2.5rem; /* 40px */
+  --bearlab-avatar-icon-large-size: 3rem; /* 48px */
+  --bearlab-avatar-icon-xlarge-size: 3.5rem; /* 56px */
+  --bearlab-avatar-icon-xxlarge-size: 4rem; /* 64px */
+  --bearlab-avatar-icon-status-xsmall-size: 0.375rem; /* 6px  */
+  --bearlab-avatar-icon-status-small-size: 0.5rem; /* 8px  */
+  --bearlab-avatar-icon-status-medium-size: 0.625rem; /* 10px */
+  --bearlab-avatar-icon-status-large-size: 0.75rem; /* 12px */
+  --bearlab-avatar-icon-status-xlarge-size: 0.875rem; /* 14px */
+  --bearlab-avatar-icon-status-xxlarge-size: 1rem; /* 16px */
+  --bearlab-avatar-icon-status-border-width: 0.09375rem; /* 1.5px */
+  --bearlab-avatar-icon-border-radius: 9999px;
+  --bearlab-avatar-icon-status-border-radius: 9999px;
+}
+
+:root[data-theme="light"] {
+  --bearlab-avatar-icon-status-border-color: #fff;
+  --bearlab-avatar-icon-status-online-bg: #12b76a;
+  --bearlab-avatar-icon-status-offline-bg: #f97066;
+  --bearlab-avatar-icon-status-busy-bg: #f79009;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-avatar-icon-status-border-color: #111827;
+  --bearlab-avatar-icon-status-online-bg: #12b76a;
+  --bearlab-avatar-icon-status-offline-bg: #f97066;
+  --bearlab-avatar-icon-status-busy-bg: #f79009;
+}
+
+.container {
+  position: relative;
+  border-radius: var(--bearlab-avatar-icon-border-radius);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--bearlab-avatar-icon-border-radius);
+  }
+
+  &.xsmall {
+    width: var(--bearlab-avatar-icon-xsmall-size);
+    height: var(--bearlab-avatar-icon-xsmall-size);
+    max-width: var(--bearlab-avatar-icon-xsmall-size);
+  }
+
+  &.small {
+    width: var(--bearlab-avatar-icon-small-size);
+    height: var(--bearlab-avatar-icon-small-size);
+    max-width: var(--bearlab-avatar-icon-small-size);
+  }
+
+  &.medium {
+    width: var(--bearlab-avatar-icon-medium-size);
+    height: var(--bearlab-avatar-icon-medium-size);
+    max-width: var(--bearlab-avatar-icon-medium-size);
+  }
+
+  &.large {
+    width: var(--bearlab-avatar-icon-large-size);
+    height: var(--bearlab-avatar-icon-large-size);
+    max-width: var(--bearlab-avatar-icon-large-size);
+  }
+
+  &.xlarge {
+    width: var(--bearlab-avatar-icon-xlarge-size);
+    height: var(--bearlab-avatar-icon-xlarge-size);
+    max-width: var(--bearlab-avatar-icon-xlarge-size);
+  }
+
+  &.xxlarge {
+    width: var(--bearlab-avatar-icon-xxlarge-size);
+    height: var(--bearlab-avatar-icon-xxlarge-size);
+    max-width: var(--bearlab-avatar-icon-xxlarge-size);
+  }
+
+  .status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: var(--bearlab-avatar-icon-status-border-radius);
+    border: var(--bearlab-avatar-icon-status-border-width) solid
+      var(--bearlab-avatar-icon-status-border-color);
+
+    &.xsmall {
+      width: var(--bearlab-avatar-icon-status-xsmall-size);
+      height: var(--bearlab-avatar-icon-status-xsmall-size);
+      max-width: var(--bearlab-avatar-icon-status-xsmall-size);
+    }
+
+    &.small {
+      width: var(--bearlab-avatar-icon-status-small-size);
+      height: var(--bearlab-avatar-icon-status-small-size);
+      max-width: var(--bearlab-avatar-icon-status-small-size);
+    }
+
+    &.medium {
+      width: var(--bearlab-avatar-icon-status-medium-size);
+      height: var(--bearlab-avatar-icon-status-medium-size);
+      max-width: var(--bearlab-avatar-icon-status-medium-size);
+    }
+
+    &.large {
+      width: var(--bearlab-avatar-icon-status-large-size);
+      height: var(--bearlab-avatar-icon-status-large-size);
+      max-width: var(--bearlab-avatar-icon-status-large-size);
+    }
+
+    &.xlarge {
+      width: var(--bearlab-avatar-icon-status-xlarge-size);
+      height: var(--bearlab-avatar-icon-status-xlarge-size);
+      max-width: var(--bearlab-avatar-icon-status-xlarge-size);
+    }
+
+    &.xxlarge {
+      width: var(--bearlab-avatar-icon-status-xxlarge-size);
+      height: var(--bearlab-avatar-icon-status-xxlarge-size);
+      max-width: var(--bearlab-avatar-icon-status-xxlarge-size);
+    }
+
+    &.online {
+      background-color: var(--bearlab-avatar-icon-status-online-bg);
+    }
+
+    &.offline {
+      background-color: var(--bearlab-avatar-icon-status-offline-bg);
+    }
+
+    &.busy {
+      background-color: var(--bearlab-avatar-icon-status-busy-bg);
+    }
+  }
+}

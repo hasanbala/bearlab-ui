@@ -1,384 +1,240 @@
 # @bearlab/textarea
 
-A modern, accessible, and fully customizable Textarea component for React applications with comprehensive TypeScript support, error handling, and seamless theme integration.
+> Accessible, fully customizable Textarea component for React applications.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/textarea)](https://www.npmjs.com/package/@bearlab/textarea)
+[![license](https://img.shields.io/npm/l/@bearlab/textarea)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- 🎨 **Modern Design**: Clean, professional styling with rounded corners and subtle shadows
-- 🌓 **Theme Support**: Built-in light and dark theme compatibility
-- ♿ **Accessibility**: Fully accessible with proper ARIA attributes and keyboard navigation
-- 🔧 **TypeScript**: Complete type safety with TypeScript definitions
-- 🎯 **Flexible Sizing**: Configurable rows, character limits, and auto-resize options
-- 📱 **Responsive**: Works seamlessly across all device sizes and orientations
-- ⚡ **Performance**: Optimized for production with minimal bundle impact
-- 🚨 **Error Handling**: Built-in error states with visual feedback
-- 🔍 **Form Integration**: Perfect integration with form libraries like Formik, React Hook Form
-- 🎪 **Interactive States**: Hover, focus, disabled, and error states with smooth transitions
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Label & required indicator** — native `<label>` linked via `htmlFor` with accessible `*` marker
+- ✅ **Error state support** — accepts `boolean | string`; string errors render an inline message with icon
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
+- ✅ **Accessible by default** — `aria-required`, `aria-invalid`, `aria-describedby`, `useId()` for stable IDs
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Extends native `<textarea>`** — all standard HTML textarea attributes are forwarded
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/textarea
-```
 
-```bash
+# yarn
 yarn add @bearlab/textarea
+
+# pnpm
+pnpm add @bearlab/textarea
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop          | Type                                                  | Required | Default | Description                                 |
-| ------------- | ----------------------------------------------------- | -------- | ------- | ------------------------------------------- |
-| `value`       | `string`                                              | ✅       | -       | The current value of the textarea           |
-| `onChange`    | `(e: React.ChangeEvent<HTMLTextAreaElement>) => void` | ✅       | -       | Callback fired when the value changes       |
-| `name`        | `string`                                              | ❌       | -       | The name attribute for the textarea element |
-| `label`       | `string`                                              | ❌       | -       | Label text displayed above the textarea     |
-| `error`       | `any`                                                 | ❌       | -       | Error state/message to display              |
-| `rows`        | `number`                                              | ❌       | -       | Number of visible text lines                |
-| `maxLength`   | `number`                                              | ❌       | -       | Maximum number of characters allowed        |
-| `className`   | `string`                                              | ❌       | -       | Additional CSS classes                      |
-| `disabled`    | `boolean`                                             | ❌       | `false` | Whether the textarea is disabled            |
-| `isRequired`  | `boolean`                                             | ❌       | `false` | Shows required indicator (\*)               |
-| `placeholder` | `string`                                              | ❌       | -       | Placeholder text                            |
-| `onBlur`      | `(e: React.FocusEvent<HTMLTextAreaElement>) => void`  | ❌       | -       | Callback fired when textarea loses focus    |
-
-The component also accepts all standard HTML `textarea` element props through TypeScript's `JSX.IntrinsicElements["textarea"]`.
-
-## 🎯 Usage Examples
-
-### Basic Usage
+## Usage
 
 ```tsx
 import { Textarea } from "@bearlab/textarea";
 
-function ContactForm() {
-  const [feedback, setFeedback] = useState("");
-
+export default function App() {
   return (
-    <Textarea
-      name="feedback"
-      label="Your Feedback"
-      value={feedback}
-      onChange={(e) => setFeedback(e.target.value)}
-      placeholder="Share your thoughts with us..."
-      rows={5}
-    />
+    <Textarea label="Your message" placeholder="Write something..." rows={4} />
   );
 }
 ```
-
-### With Character Limit
-
-```tsx
-<Textarea
-  name="bio"
-  label="Bio"
-  value={bio}
-  onChange={handleBioChange}
-  placeholder="Tell us about yourself..."
-  maxLength={500}
-  rows={4}
-/>
-```
-
-### With Error State
-
-```tsx
-<Textarea
-  name="description"
-  label="Project Description"
-  value={description}
-  onChange={handleDescriptionChange}
-  error={errors.description}
-  isRequired
-  placeholder="Describe your project in detail..."
-  rows={6}
-/>
-```
-
-### Disabled State
-
-```tsx
-<Textarea
-  name="readonly-content"
-  label="Terms & Conditions"
-  value={termsContent}
-  onChange={() => {}}
-  disabled
-  rows={8}
-/>
-```
-
-### Auto-Growing Textarea
-
-```tsx
-function AutoGrowTextarea() {
-  const [content, setContent] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [content]);
-
-  return (
-    <Textarea
-      ref={textareaRef}
-      name="auto-grow"
-      label="Auto-growing Content"
-      value={content}
-      onChange={(e) => setContent(e.target.value)}
-      placeholder="Start typing and watch me grow..."
-      rows={3}
-    />
-  );
-}
-```
-
-### Rich Text Preview
-
-```tsx
-function RichTextEditor() {
-  const [markdown, setMarkdown] = useState("");
-  const [showPreview, setShowPreview] = useState(false);
-
-  return (
-    <div className="rich-editor">
-      <div className="editor-tabs">
-        <button
-          onClick={() => setShowPreview(false)}
-          className={!showPreview ? "active" : ""}
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => setShowPreview(true)}
-          className={showPreview ? "active" : ""}
-        >
-          Preview
-        </button>
-      </div>
-
-      {!showPreview ? (
-        <Textarea
-          name="markdown"
-          label="Markdown Content"
-          value={markdown}
-          onChange={(e) => setMarkdown(e.target.value)}
-          placeholder="# Enter markdown here..."
-          rows={15}
-        />
-      ) : (
-        <div
-          className="preview"
-          dangerouslySetInnerHTML={{ __html: parseMarkdown(markdown) }}
-        />
-      )}
-    </div>
-  );
-}
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-The Textarea component automatically adapts to light and dark themes based on the `data-theme` attribute on the HTML element.
-
-### Custom Styling
-
-Override default styles with custom CSS classes:
-
-```scss
-.custom-textarea {
-  --textarea-border-radius: 12px;
-  --textarea-padding: 20px;
-  --textarea-min-height: 120px;
-}
-```
-
-## ♿ Accessibility
-
-The Textarea component is built with accessibility as a core principle:
-
-### Screen Reader Support
-
-- Proper semantic HTML with `<textarea>` element
-- Associated labels with correct `htmlFor` attributes
-- Error messages are properly announced to screen readers
-- Required field indicators are accessible
-
-### Keyboard Navigation
-
-- **Tab/Shift+Tab**: Navigate to/from the textarea
-- **All standard text editing shortcuts**: Copy, paste, select all, etc.
-- **Arrow keys**: Navigate within the text content
-- **Enter**: Create new lines (standard textarea behavior)
-
-### Visual Accessibility
-
-- High contrast ratios meeting WCAG AA standards
-- Clear focus indicators with 3px blue outline
-- Error states with both color and iconographic indicators
-- Consistent visual hierarchy with proper font weights and sizes
-
-### ARIA Support
-
-- Automatic `aria-describedby` for error messages
-- `aria-required` for required fields
-- Proper `aria-invalid` states for error conditions
-
-### Responsive Behavior
-
-- Adapts to container width automatically
-- Maintains consistent padding and typography across breakpoints
-- Touch-friendly sizing for mobile devices
-- Proper text scaling for different screen densities
-
-### Textarea with Mentions
-
-```tsx
-function MentionTextarea() {
-  const [content, setContent] = useState("");
-  const [showMentions, setShowMentions] = useState(false);
-  const [mentionQuery, setMentionQuery] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    const cursorPos = e.target.selectionStart;
-
-    // Check for @ mentions
-    const beforeCursor = value.slice(0, cursorPos);
-    const mentionMatch = beforeCursor.match(/@(\w*)$/);
-
-    if (mentionMatch) {
-      setMentionQuery(mentionMatch[1]);
-      setShowMentions(true);
-    } else {
-      setShowMentions(false);
-    }
-
-    setContent(value);
-  };
-
-  return (
-    <div className="mention-container">
-      <Textarea
-        name="mention-content"
-        label="Message"
-        value={content}
-        onChange={handleChange}
-        placeholder="Type @ to mention someone..."
-        rows={4}
-      />
-      {showMentions && (
-        <MentionDropdown query={mentionQuery} onSelect={handleMentionSelect} />
-      )}
-    </div>
-  );
-}
-```
-
-### Textarea with Auto-save
-
-```tsx
-function AutoSaveTextarea() {
-  const [content, setContent] = useState("");
-  const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "error">(
-    "saved"
-  );
-
-  // Auto-save with debounce
-  useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (content.trim()) {
-        setSaveStatus("saving");
-        try {
-          await saveContent(content);
-          setSaveStatus("saved");
-        } catch (error) {
-          setSaveStatus("error");
-        }
-      }
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [content]);
-
-  return (
-    <div>
-      <Textarea
-        name="auto-save"
-        label="Draft Content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Start typing... Your work is automatically saved"
-        rows={8}
-      />
-      <div className="save-status">
-        {saveStatus === "saving" && "💾 Saving..."}
-        {saveStatus === "saved" && "✅ Saved"}
-        {saveStatus === "error" && "❌ Error saving"}
-      </div>
-    </div>
-  );
-}
-```
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/textarea">📦 View on NPM</a>
-  </p>
-</div>
+## Props
+
+| Prop         | Type                                        | Default | Required | Description                                                         |
+| ------------ | ------------------------------------------- | ------- | -------- | ------------------------------------------------------------------- |
+| `label`      | `string`                                    | —       | ❌       | Label text rendered above the textarea                              |
+| `error`      | `boolean \| string`                         | —       | ❌       | Error state; string value renders an inline error message           |
+| `isRequired` | `boolean`                                   | `false` | ❌       | Shows required `*` marker and sets `aria-required`                  |
+| `disabled`   | `boolean`                                   | `false` | ❌       | Disables the textarea and applies disabled styling                  |
+| `id`         | `string`                                    | —       | ❌       | Custom id for the textarea; auto-generated via `useId()` if omitted |
+| `className`  | [`TextareaClassNames`](#textareaclassnames) | —       | ❌       | Per-slot className overrides                                        |
+| `style`      | [`TextareaStyles`](#textareastyles)         | —       | ❌       | Per-slot inline style overrides                                     |
+
+> The component extends `React.TextareaHTMLAttributes<HTMLTextAreaElement>` (excluding `className` and `style`), so all standard textarea props such as `rows`, `maxLength`, `placeholder`, `onChange`, `onBlur`, etc. are also supported.
+
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container using `className?.root` or style the inner textarea element natively using `style?.textarea`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `TextareaClassNames`
+
+| Slot              | Targets                               |
+| ----------------- | ------------------------------------- |
+| `root`            | Outermost container `<div>`           |
+| `label`           | Label element `<label>`               |
+| `requiredMark`    | Required asterisk `<span>`            |
+| `textareaWrapper` | Inner wrapper `<div>` around textarea |
+| `textarea`        | Native `<textarea>` element           |
+| `errorMessage`    | Error message `<div>`                 |
+
+```tsx
+<Textarea
+  label="Description"
+  placeholder="Enter a description..."
+  className={{
+    root: "my-textarea-root",
+    label: "my-textarea-label",
+    textarea: "my-textarea-field",
+    errorMessage: "my-error-message",
+  }}
+/>
+```
+
+### `TextareaStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Textarea
+  label="Notes"
+  placeholder="Add your notes here..."
+  style={{
+    root: { marginBottom: "1.5rem" },
+    label: { fontWeight: 600 },
+    textarea: { minHeight: "120px", borderRadius: "8px" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Textarea` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+```html
+<!-- Light theme (default) -->
+<html data-theme="light">
+  ...
+</html>
+
+<!-- Dark theme -->
+<html data-theme="dark">
+  ...
+</html>
+```
+
+No additional configuration is required — the component's stylesheet automatically applies the correct color tokens based on the active theme selector.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-textarea-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-textarea-root-gap: 0.5rem;
+  --bearlab-textarea-label-color: #1a1a1a;
+  --bearlab-textarea-label-font-size: 0.875rem;
+  --bearlab-textarea-textarea-border-radius: 8px;
+  --bearlab-textarea-textarea-padding: 0.75rem 1rem;
+  --bearlab-textarea-textarea-border-color: #d1d5db;
+  --bearlab-textarea-error-color: #dc2626;
+  --bearlab-textarea-error-font-size: 0.8125rem;
+}
+
+[data-theme="dark"] {
+  --bearlab-textarea-label-color: #f3f4f6;
+  --bearlab-textarea-textarea-border-color: #374151;
+  --bearlab-textarea-error-color: #f87171;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`<label>` with `htmlFor`** — The label is programmatically linked to the textarea using a stable ID (generated via `useId()` or the custom `id` prop), ensuring screen readers announce the label when the field is focused.
+- **`aria-required`** — Set to `true` on the native `<textarea>` when `isRequired` is passed, informing assistive technologies that the field is required.
+- **`aria-invalid`** — Set to `true` when the `error` prop is truthy, signaling an invalid field state to screen readers.
+- **`aria-describedby`** — When `error` is a string, the error message `<div>` receives a stable ID and is linked to the textarea via `aria-describedby`, ensuring the error is announced on focus or state change.
+- **`role="alert"` & `aria-live="polite"`** — The error message container uses these attributes so assistive technologies announce the error immediately upon appearance without interrupting the user's flow.
+- **`aria-hidden="true"`** — Applied to the decorative error icon to prevent redundant or confusing screen reader announcements.
+- **`aria-hidden="true"` on required `*`** — The asterisk required marker is hidden from screen readers because the `aria-required` attribute already conveys required status programmatically.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  TextareaProps,
+  TextareaClassNames,
+  TextareaStyles,
+} from "@bearlab/textarea";
+```
+
+### `TextareaClassNames`
+
+```ts
+interface TextareaClassNames {
+  root?: string;
+  label?: string;
+  requiredMark?: string;
+  textareaWrapper?: string;
+  textarea?: string;
+  errorMessage?: string;
+}
+```
+
+### `TextareaStyles`
+
+```ts
+interface TextareaStyles {
+  root?: React.CSSProperties;
+  label?: React.CSSProperties;
+  requiredMark?: React.CSSProperties;
+  textareaWrapper?: React.CSSProperties;
+  textarea?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

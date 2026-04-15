@@ -1,0 +1,205 @@
+:root {
+  --bearlab-radio-size: 1.25rem /* 20px */;
+  --bearlab-radio-border-width: 0.078125rem /* 1.25px */;
+  --bearlab-radio-dot-size: 0.5rem /* 8px */;
+  --bearlab-radio-gap: 0.75rem /* 12px */;
+  --bearlab-radio-font-size: 0.875rem /* 14px */;
+  --bearlab-radio-font-weight: 500;
+  --bearlab-radio-label-font-size: 0.875rem /* 14px */;
+  --bearlab-radio-label-font-weight: 600;
+  --bearlab-radio-group-gap: 0.625rem /* 10px */;
+  --bearlab-radio-popover-border-radius: 0.5rem /* 8px */;
+  --bearlab-radio-popover-padding: 0.75rem /* 12px */;
+  --bearlab-radio-popover-font-size: 0.8125rem /* 13px */;
+  --bearlab-radio-popover-font-weight: 500;
+  --bearlab-radio-popover-top: -2.8125rem /* -45px */;
+  --bearlab-radio-popover-z-index: 9999;
+  --bearlab-radio-error-font-size: 0.875rem /* 14px */;
+  --bearlab-radio-error-icon-size: 0.75rem /* 12px */;
+  --bearlab-radio-error-icon-gap: 0.5rem /* 8px */;
+  --bearlab-radio-error-bottom: -1.25rem /* -20px */;
+  --bearlab-radio-focus-outline-width: 0.125rem /* 2px */;
+  --bearlab-radio-focus-outline-offset: 0.125rem /* 2px */;
+  --bearlab-radio-disabled-opacity: 0.6;
+}
+
+:root[data-theme="light"] {
+  --bearlab-radio-color: #374151;
+  --bearlab-radio-label-color: #344054;
+  --bearlab-radio-required-color: #f04438;
+  --bearlab-radio-checked-bg: #465fff;
+  --bearlab-radio-checked-border-color: #465fff;
+  --bearlab-radio-unchecked-bg: transparent;
+  --bearlab-radio-unchecked-border-color: #d1d5db;
+  --bearlab-radio-disabled-bg: #f3f4f6;
+  --bearlab-radio-disabled-border-color: #e5e7eb;
+  --bearlab-radio-dot-color: #fff;
+  --bearlab-radio-popover-bg: #fff;
+  --bearlab-radio-popover-color: #344054;
+  --bearlab-radio-error-color: #f00438;
+  --bearlab-radio-focus-color: #465fff;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-radio-color: #e5e7eb;
+  --bearlab-radio-label-color: #98a2b3;
+  --bearlab-radio-required-color: #f04438;
+  --bearlab-radio-checked-bg: #465fff;
+  --bearlab-radio-checked-border-color: #465fff;
+  --bearlab-radio-unchecked-bg: transparent;
+  --bearlab-radio-unchecked-border-color: #374151;
+  --bearlab-radio-disabled-bg: #374151;
+  --bearlab-radio-disabled-border-color: #374151;
+  --bearlab-radio-dot-color: #fff;
+  --bearlab-radio-popover-bg: #fff;
+  --bearlab-radio-popover-color: #344054;
+  --bearlab-radio-error-color: #f00438;
+  --bearlab-radio-focus-color: #465fff;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  gap: var(--bearlab-radio-gap);
+  font-size: var(--bearlab-radio-font-size);
+  font-weight: var(--bearlab-radio-font-weight);
+  color: var(--bearlab-radio-color);
+
+  &:hover .popover,
+  &:focus-within .popover {
+    display: block;
+  }
+}
+
+.radioWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  position: absolute;
+  width: 0.0625rem /* 1px */;
+  height: 0.0625rem /* 1px */;
+  padding: 0;
+  margin: -0.0625rem /* -1px */;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+
+  &:focus-visible ~ .checkedWrapper {
+    outline: var(--bearlab-radio-focus-outline-width) solid
+      var(--bearlab-radio-focus-color);
+    outline-offset: var(--bearlab-radio-focus-outline-offset);
+  }
+}
+
+.checkedWrapper {
+  display: flex;
+  width: var(--bearlab-radio-size);
+  height: var(--bearlab-radio-size);
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: var(--bearlab-radio-border-width);
+}
+
+.innerDot {
+  width: var(--bearlab-radio-dot-size);
+  height: var(--bearlab-radio-dot-size);
+  border-radius: 50%;
+  background-color: var(--bearlab-radio-dot-color);
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.checked {
+  border-color: var(--bearlab-radio-checked-border-color);
+  background-color: var(--bearlab-radio-checked-bg);
+}
+
+.unchecked {
+  background-color: var(--bearlab-radio-unchecked-bg);
+  border-color: var(--bearlab-radio-unchecked-border-color);
+}
+
+.checkedDisabled {
+  background-color: var(--bearlab-radio-disabled-bg);
+  border-color: var(--bearlab-radio-disabled-border-color);
+}
+
+.label {
+  color: var(--bearlab-radio-label-color);
+  font-size: var(--bearlab-radio-label-font-size);
+  font-weight: var(--bearlab-radio-label-font-weight);
+  min-width: fit-content;
+
+  span {
+    color: var(--bearlab-radio-required-color);
+  }
+}
+
+.popover {
+  position: absolute;
+  display: none;
+  background-color: var(--bearlab-radio-popover-bg);
+  border-radius: var(--bearlab-radio-popover-border-radius);
+  padding: var(--bearlab-radio-popover-padding);
+  color: var(--bearlab-radio-popover-color);
+  z-index: var(--bearlab-radio-popover-z-index);
+  font-weight: var(--bearlab-radio-popover-font-weight);
+  font-size: var(--bearlab-radio-popover-font-size);
+  box-shadow:
+    0 0.0625rem /* 1px */ 0.0625rem /* 1px */ 0 rgba(162, 184, 191, 0.274),
+    0 -0.0625rem /* -1px */ 0.0625rem /* 1px */ 0.0625rem /* 1px */
+      rgba(196, 205, 222, 0.119) inset,
+    0 0 0 0.0625rem /* 1px */ rgba(197, 206, 225, 0.383) inset;
+  width: max-content;
+  top: var(--bearlab-radio-popover-top);
+}
+
+.viewError {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  bottom: var(--bearlab-radio-error-bottom);
+  font-size: var(--bearlab-radio-error-font-size);
+  width: max-content;
+
+  svg {
+    margin-right: var(--bearlab-radio-error-icon-gap);
+    width: var(--bearlab-radio-error-icon-size);
+    height: var(--bearlab-radio-error-icon-size);
+  }
+
+  span {
+    color: var(--bearlab-radio-error-color);
+  }
+}
+
+.radioGroup {
+  display: flex;
+  gap: var(--bearlab-radio-group-gap);
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.disabled {
+  opacity: var(--bearlab-radio-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}

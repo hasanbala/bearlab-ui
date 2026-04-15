@@ -1,13 +1,22 @@
+import { useId } from "react";
+import classnames from "classnames";
+import type { AlertProps } from "./types/alert.types";
+import styles from "./styles/alert.module.scss";
 import {
   IconErrorCircle,
   IconInfo,
   IconSuccess,
   IconWarning,
-} from "@bearlab/core";
-import styles from "./alert.module.scss";
-import classnames from "classnames";
+} from "./assets/icons";
 
-export const Alert = (props: Props) => {
+const ALERT_ICONS = {
+  success: IconSuccess,
+  error: IconErrorCircle,
+  warning: IconWarning,
+  info: IconInfo,
+} as const;
+
+export const Alert = (props: AlertProps) => {
   const {
     variant,
     title,
@@ -19,55 +28,65 @@ export const Alert = (props: Props) => {
     style,
   } = props;
 
-  const variantClasses = {
-    success: {
-      container: styles.successContainer,
-      icon: styles.successIcon,
-    },
-    error: {
-      container: styles.errorContainer,
-      icon: styles.errorIcon,
-    },
-    warning: {
-      container: styles.warningContainer,
-      icon: styles.warningIcon,
-    },
-    info: {
-      container: styles.infoContainer,
-      icon: styles.infoIcon,
-    },
-  };
+  const titleId = useId();
+  const descId = useId();
 
-  const icons = {
-    success: <IconSuccess />,
-    error: <IconErrorCircle />,
-    warning: <IconWarning />,
-    info: <IconInfo />,
+  const AlertComponent = ALERT_ICONS[variant];
+
+  const getAriaLive = () => {
+    if (variant === "error") return "assertive";
+    return "polite";
   };
 
   return (
     <div
+      role="alert"
+      aria-live={getAriaLive()}
+      aria-labelledby={titleId}
+      aria-describedby={descId}
+      style={style?.root}
       className={classnames(
         styles.container,
-        variantClasses[variant].container,
-        className
+        styles[`${variant}Container`],
+        className?.root
       )}
-      style={style}
     >
-      <div className={styles.content}>
+      <div
+        className={classnames(styles.content, className?.content)}
+        style={style?.content}
+      >
         <div
           className={classnames(
             styles.iconWrapper,
-            variantClasses[variant].icon
+            styles[`${variant}Icon`],
+            className?.iconWrapper
           )}
+          style={style?.iconWrapper}
+          aria-hidden="true"
         >
-          {icons[variant]}
+          <AlertComponent />
         </div>
         <div>
-          <h4 className={styles.title}>{title}</h4>
-          <p className={styles.description}>{message}</p>
+          <h4
+            id={titleId}
+            className={classnames(styles.title, className?.title)}
+            style={style?.title}
+          >
+            {title}
+          </h4>
+          <p
+            id={descId}
+            className={classnames(styles.description, className?.description)}
+            style={style?.description}
+          >
+            {message}
+          </p>
           {showLink && (
-            <a href={linkHref} className={styles.link}>
+            <a
+              href={linkHref}
+              className={classnames(styles.link, className?.link)}
+              style={style?.link}
+            >
               {linkText}
             </a>
           )}
@@ -76,14 +95,3 @@ export const Alert = (props: Props) => {
     </div>
   );
 };
-
-export interface Props {
-  variant: "success" | "error" | "warning" | "info";
-  title: string;
-  message: string;
-  showLink?: boolean;
-  linkHref?: string;
-  linkText?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}

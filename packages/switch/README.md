@@ -1,270 +1,213 @@
 # @bearlab/switch
 
-A modern, accessible, and highly customizable Switch (toggle) component for React applications with full TypeScript support, smooth animations, and built-in theme compatibility.
+> Accessible, fully customizable Switch (Toggle) component for React applications.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/switch)](https://www.npmjs.com/package/@bearlab/switch)
+[![license](https://img.shields.io/npm/l/@bearlab/switch)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- 🎯 **Modern Toggle Design**: Sleek iOS-style switch with smooth animations
-- 🌓 **Theme Support**: Built-in light and dark theme compatibility
-- ♿ **Accessibility First**: Screen reader friendly with proper ARIA attributes
-- 🔧 **TypeScript**: Complete type safety with TypeScript definitions
-- 🎨 **Customizable**: Flexible styling with CSS modules and custom classes
-- 📱 **Touch Friendly**: Optimized for mobile and touch interactions
-- ⚡ **Smooth Animations**: 60fps transitions with CSS transforms
-- 💬 **Popover Support**: Optional tooltip/popover functionality
-- 🚨 **Error Handling**: Built-in error state with visual feedback
-- 🔍 **Form Integration**: Perfect for form libraries and controlled components
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+
+---
+
+## Features
+
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `role="switch"`, `aria-checked`, `aria-required`, and more
+- ✅ **Built-in Error & Popover states** — rich contextual information out of the box
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/switch
-```
 
-```bash
+# yarn
 yarn add @bearlab/switch
+
+# pnpm
+pnpm add @bearlab/switch
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop         | Type                                               | Required | Default | Description                              |
-| ------------ | -------------------------------------------------- | -------- | ------- | ---------------------------------------- |
-| `checked`    | `boolean`                                          | ✅       | -       | Whether the switch is checked/enabled    |
-| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | ✅       | -       | Callback fired when switch state changes |
-| `name`       | `string`                                           | ❌       | -       | The name attribute for the input element |
-| `label`      | `string`                                           | ❌       | -       | Label text displayed next to the switch  |
-| `error`      | `any`                                              | ❌       | -       | Error state/message to display           |
-| `className`  | `string`                                           | ❌       | -       | Additional CSS classes                   |
-| `disabled`   | `boolean`                                          | ❌       | `false` | Whether the switch is disabled           |
-| `isRequired` | `boolean`                                          | ❌       | `false` | Shows required indicator (\*)            |
-| `popover`    | `string`                                           | ❌       | -       | Popover/tooltip text shown on hover      |
-
-The component also accepts all standard HTML `input` element props (except `popover` which is handled separately) through TypeScript's `JSX.IntrinsicElements["input"]`.
-
-## 🎯 Usage Examples
-
-### Basic Usage
+## Usage
 
 ```tsx
+import { useState } from "react";
 import { Switch } from "@bearlab/switch";
 
-function Settings() {
-  const [darkMode, setDarkMode] = useState(false);
+export default function App() {
+  const [enabled, setEnabled] = useState(false);
 
   return (
     <Switch
-      name="darkMode"
-      label="Dark Mode"
-      checked={darkMode}
-      onChange={(e) => setDarkMode(e.target.checked)}
+      name="notifications"
+      label="Enable notifications"
+      checked={enabled}
+      onChange={(e) => setEnabled(e.target.checked)}
     />
   );
 }
 ```
 
-### With Popover
+---
 
-```tsx
-<Switch
-  name="autoSave"
-  label="Auto Save"
-  checked={autoSave}
-  onChange={handleAutoSave}
-  popover="Automatically save your changes as you work"
-/>
-```
+## Props
 
-### With Error State
+The `Switch` component extends standard native `<input>` properties (excluding custom slotted ones).
 
-```tsx
-<Switch
-  name="terms"
-  label="Accept Terms & Conditions"
-  checked={acceptedTerms}
-  onChange={handleTermsChange}
-  error={!acceptedTerms ? "You must accept the terms to continue" : null}
-  isRequired
-/>
-```
-
-### Disabled State
-
-```tsx
-<Switch
-  name="premium"
-  label="Premium Features"
-  checked={false}
-  onChange={() => {}}
-  disabled
-  popover="Upgrade to Pro to enable premium features"
-/>
-```
-
-### Without Label
-
-```tsx
-<Switch
-  name="toggle"
-  checked={isToggled}
-  onChange={handleToggle}
-  className="standalone-switch"
-/>
-```
-
-### Custom Switch Groups
-
-```tsx
-function PermissionsGroup() {
-  const [permissions, setPermissions] = useState({
-    read: true,
-    write: false,
-    delete: false,
-  });
-
-  const handlePermissionChange =
-    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPermissions((prev) => ({
-        ...prev,
-        [key]: e.target.checked,
-      }));
-    };
-
-  return (
-    <div className="permissions-group">
-      <h3>User Permissions</h3>
-
-      <Switch
-        name="read"
-        label="Read Access"
-        checked={permissions.read}
-        onChange={handlePermissionChange("read")}
-        disabled // Read access always enabled
-        popover="Basic read permission - cannot be disabled"
-      />
-
-      <Switch
-        name="write"
-        label="Write Access"
-        checked={permissions.write}
-        onChange={handlePermissionChange("write")}
-        popover="Allow user to create and edit content"
-      />
-
-      <Switch
-        name="delete"
-        label="Delete Access"
-        checked={permissions.delete}
-        onChange={handlePermissionChange("delete")}
-        error={
-          permissions.delete && !permissions.write
-            ? "Write access required for delete permission"
-            : null
-        }
-        popover="Allow user to delete content (requires write access)"
-      />
-    </div>
-  );
-}
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 Styling
-
-The Switch component automatically adapts to light and dark themes based on the `data-theme` attribute on the HTML element.
-
-### Custom Styling
-
-Override default styles with custom CSS classes:
-
-```scss
-.custom-switch {
-  .slider {
-    --switch-width: 50px;
-    --switch-height: 24px;
-    --toggle-size: 20px;
-  }
-}
-```
-
-## ♿ Accessibility
-
-The Switch component is built with accessibility as a priority:
-
-### Screen Reader Support
-
-- Proper semantic HTML with `<input type="checkbox">`
-- Associated labels with `htmlFor` attributes
-- Clear focus indicators that meet WCAG guidelines
-
-### Keyboard Navigation
-
-- **Space**: Toggle the switch state
-- **Tab/Shift+Tab**: Navigate to/from the switch
-- **Enter**: Activate the switch (in form contexts)
-
-### Visual Accessibility
-
-- High contrast ratios in both light and dark themes
-- Clear visual states for all interactions
-- Reduced motion support for users with vestibular disorders
-
-### ARIA Attributes
-
-The component automatically handles ARIA attributes for optimal screen reader experience.
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
+| Prop         | Type                                          | Default | Required | Description                                            |
+| ------------ | --------------------------------------------- | ------- | -------- | ------------------------------------------------------ |
+| `checked`    | `boolean`                                     | —       | ✅       | Current state of the switch                            |
+| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | — | ✅       | Callback fired when state changes                      |
+| `name`       | `string`                                      | —       | ❌       | The name attribute of the input                        |
+| `label`      | `string`                                      | —       | ❌       | Descriptive label rendered alongside the switch        |
+| `error`      | `string`                                      | —       | ❌       | Error message displayed below the switch               |
+| `popover`    | `string`                                      | —       | ❌       | Tooltip/popover text triggered by the switch           |
+| `disabled`   | `boolean`                                     | —       | ❌       | Disables the switch interaction                        |
+| `isRequired` | `boolean`                                     | —       | ❌       | Marks the switch as required and appends `*` to label  |
+| `className`  | [`SwitchClassNames`](#switchclassnames)       | —       | ❌       | Per-slot className overrides                           |
+| `style`      | [`SwitchStyles`](#switchstyles)               | —       | ❌       | Per-slot inline style overrides                        |
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/switch">📦 View on NPM</a>
-  </p>
-</div>
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.slider`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `SwitchClassNames`
+
+| Slot            | Targets                               |
+| --------------- | ------------------------------------- |
+| `root`          | Outermost container `<label>`         |
+| `switchWrapper` | Inner container `<div>` around switch |
+| `slider`        | Background slider `<span>`            |
+| `toggle`        | Thumb/toggle indicator `<span>`       |
+| `label`         | Label text `<span>`                   |
+| `error`         | Error text container `<div>`          |
+| `popover`       | Popover container `<div>`             |
+
+```tsx
+<Switch
+  checked={true}
+  onChange={() => {}}
+  label="Custom Switch"
+  className={{
+    root: "custom-switch-root",
+    slider: "custom-slider-bg",
+    toggle: "custom-toggle-thumb",
+  }}
+/>
+```
+
+### `SwitchStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Switch
+  checked={true}
+  onChange={() => {}}
+  style={{
+    slider: { backgroundColor: "#007bff" },
+    toggle: { borderRadius: "4px" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Switch` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-switch-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-switch-slider-bg-unchecked: #e2e8f0;
+  --bearlab-switch-slider-bg-checked: #3b82f6;
+  --bearlab-switch-toggle-bg: #ffffff;
+  --bearlab-switch-toggle-size: 20px;
+  --bearlab-switch-label-color: #1e293b;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`role="switch"`** — Explicitly defines the element as a switch (not just a generic checkbox).
+- **`aria-checked`** — Accurately reflects the `checked` boolean state to screen readers.
+- **`aria-describedby`** — Semantically links the input to its dynamically generated `error` and `popover` IDs for additional context.
+- **`aria-required` & `aria-disabled`** — Communicates constraint states naturally to assistive technology.
+- **`aria-hidden="true"`** — Applied to visual-only elements (like the slider, toggle, and required asterisk) and icons to minimize redundant screen reader clutter.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  SwitchProps,
+  SwitchClassNames,
+  SwitchStyles,
+} from "@bearlab/switch";
+```
+
+### `SwitchClassNames`
+
+```ts
+interface SwitchClassNames {
+  root?: string;
+  switchWrapper?: string;
+  slider?: string;
+  toggle?: string;
+  label?: string;
+  error?: string;
+  popover?: string;
+}
+```
+
+### `SwitchStyles`
+
+```ts
+interface SwitchStyles {
+  root?: React.CSSProperties;
+  switchWrapper?: React.CSSProperties;
+  slider?: React.CSSProperties;
+  toggle?: React.CSSProperties;
+  label?: React.CSSProperties;
+  error?: React.CSSProperties;
+  popover?: React.CSSProperties;
+}
+```

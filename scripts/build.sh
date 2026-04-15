@@ -17,7 +17,6 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
 # Default values
 CLEAN=false
-CORE_ONLY=false
 COMPONENTS_ONLY=false
 SPECIFIC_PACKAGES=()
 
@@ -28,13 +27,11 @@ usage() {
     echo "Options:"
     echo "  -h, --help              Show help"
     echo "  -c, --clean             Clean before building"
-    echo "  --core-only             Build only core package"
-    echo "  --components-only       Build only components (exclude core)"
+    echo "  --components-only       Build only components"
     echo ""
     echo "Examples:"
     echo "  $0                      # Build all packages"
     echo "  $0 --clean              # Clean and build all"
-    echo "  $0 --core-only          # Build only core"
     echo "  $0 button input         # Build specific packages"
 }
 
@@ -43,7 +40,6 @@ while [[ $# -gt 0 ]]; do
     case $1 in
         -h|--help) usage; exit 0 ;;
         -c|--clean) CLEAN=true; shift ;;
-        --core-only) CORE_ONLY=true; shift ;;
         --components-only) COMPONENTS_ONLY=true; shift ;;
         -*) error "Unknown option: $1"; usage; exit 1 ;;
         *) SPECIFIC_PACKAGES+=("$1"); shift ;;
@@ -51,14 +47,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate options
-if [[ "$CORE_ONLY" == "true" && "$COMPONENTS_ONLY" == "true" ]]; then
-    error "Cannot use --core-only and --components-only together"
-    exit 1
-fi
-
-if [[ ${#SPECIFIC_PACKAGES[@]} -gt 0 && ("$CORE_ONLY" == "true" || "$COMPONENTS_ONLY" == "true") ]]; then
-    error "Cannot specify packages with --core-only or --components-only"
-    exit 1
+if [[ ${#SPECIFIC_PACKAGES[@]} -gt 0 && "$COMPONENTS_ONLY" == "true" ]]; then
+    warning "--components-only flag is deprecated. Building all packages or specific packages instead."
 fi
 
 # Clean if requested
@@ -69,48 +59,26 @@ clean_packages() {
     success "Packages cleaned"
 }
 
-# Build core package
-build_core() {
-    info "Building core package..."
-    if ! npm run build:core; then
-        error "Core build failed"
+# Build all packages
+build_all() {
+    info "Building all packages..."
+    if ! npm run build; then
+        error "Build failed"
         exit 1
     fi
-    success "Core built successfully"
-}
-
-# Build components
-build_components() {
-    info "Building components..."
-    if ! npm run build:components; then
-        error "Components build failed"
-        exit 1
-    fi
-    success "Components built successfully"
+    success "All packages built successfully"
 }
 
 # Build specific packages
 build_specific() {
     local packages=("$@")
-    local core_needed=false
-    
-    # Check if core is needed
-    for package in "${packages[@]}"; do
-        [[ "$package" != "core" ]] && { core_needed=true; break; }
-    done
-    
-    # Build core first if needed and not explicitly included
-    if [[ "$core_needed" == "true" && ! " ${packages[*]} " =~ " core " ]]; then
-        build_core
-    fi
-    
-    # Build each package
+
     for package in "${packages[@]}"; do
         info "Building $package..."
-        if npm run "build:$package" 2>/dev/null; then
+        if npx lerna run build --scope="@bearlab/$package" 2>/dev/null; then
             success "Built $package"
         else
-            error "Failed to build $package (package may not exist)"
+            error "Failed to build $package (package may not exist or build error)"
             exit 1
         fi
     done
@@ -130,24 +98,18 @@ show_artifacts() {
 # Main execution
 main() {
     info "Starting build process..."
-    
+
     clean_packages
-    
-    if [[ "$CORE_ONLY" == "true" ]]; then
-        build_core
-    elif [[ "$COMPONENTS_ONLY" == "true" ]]; then
-        build_components
-    elif [[ ${#SPECIFIC_PACKAGES[@]} -gt 0 ]]; then
+
+    if [[ ${#SPECIFIC_PACKAGES[@]} -gt 0 ]]; then
         build_specific "${SPECIFIC_PACKAGES[@]}"
     else
         # Build all (default)
-        build_core
-        build_components
+        build_all
     fi
-    
+
     show_artifacts
     success "Build process completed!"
 }
 
-# Run main function
 main "$@"

@@ -1,0 +1,47 @@
+:root {
+  --bearlab-loading-container-width: 1.5rem; /* 24px */
+  --bearlab-loading-container-height: 1.5rem; /* 24px */
+  --bearlab-loading-icon-z-index: 10003;
+  --bearlab-loading-animation-duration: 1s;
+}
+
+.container {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: var(--bearlab-loading-container-height);
+  width: var(--bearlab-loading-container-width);
+
+  .loading {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: var(--bearlab-loading-icon-z-index);
+    animation: spin var(--bearlab-loading-animation-duration) linear infinite;
+    -webkit-animation: var(--bearlab-loading-animation-duration) spin linear
+      infinite;
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .srOnly {
+    position: absolute;
+    width: 0.0625rem; /* 1px */
+    height: 0.0625rem; /* 1px */
+    padding: 0;
+    margin: -0.0625rem; /* -1px */
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}

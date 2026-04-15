@@ -1,0 +1,512 @@
+:root {
+  --bearlab-button-padding-x: 1rem; /* 16px */
+  --bearlab-button-padding-y: 0.75rem; /* 12px */
+  --bearlab-button-height: 2.75rem; /* 44px */
+  --bearlab-button-border-radius: 0.5rem; /* 8px */
+  --bearlab-button-font-size: 0.875rem; /* 14px */
+  --bearlab-button-font-weight: 500;
+  --bearlab-button-line-height: 1.75rem; /* 28px */
+  --bearlab-button-icon-size: 1.125rem; /* 18px */
+  --bearlab-button-icon-gap: 0.625rem; /* 10px */
+  --bearlab-button-justicon-border-radius: 9999px;
+  --bearlab-button-justicon-size: 2.75rem; /* 44px */
+  --bearlab-button-justicon-icon-size: 1.5rem; /* 24px */
+  --bearlab-button-spinner-size: 1.25rem; /* 20px */
+  --bearlab-button-disabled-opacity: 0.6;
+  --bearlab-button-popover-padding: 0.75rem; /* 12px */
+  --bearlab-button-popover-border-radius: 0.5rem; /* 8px */
+  --bearlab-button-popover-font-size: 0.8125rem; /* 13px */
+  --bearlab-button-popover-font-weight: 500;
+  --bearlab-button-popover-offset-top: -2.8125rem; /* -45px */
+  --bearlab-button-transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --bearlab-button-transition-slow: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --bearlab-button-tertiary-bg: linear-gradient(
+    to right,
+    #213338,
+    #24424a,
+    #25515e,
+    #246172,
+    #217187
+  );
+  --bearlab-button-shadow: 0 1px 2px 0 #1018282e, 0 1px 3px 0 #10182814;
+  --bearlab-button-popover-shadow:
+    0px 1px 1px 0px #a2b8be46, 0px -1px 1px 1px #c4cdde1e inset,
+    0px 0px 0px 1px #c5cee162 inset;
+  --bearlab-button-holographic-gradient: linear-gradient(
+    135deg,
+    #6366f1 0%,
+    #8b5cf6 25%,
+    #06b6d4 50%,
+    #6366f1 75%,
+    #8b5cf6 100%
+  );
+  --bearlab-button-holographic-gradient-size: 300% 300%;
+  --bearlab-button-holographic-blur: blur(14px) saturate(200%);
+}
+
+:root[data-theme="light"] {
+  --bearlab-button-primary-bg: #465fff;
+  --bearlab-button-primary-bg-hover: #3641f5;
+  --bearlab-button-primary-color: #fff;
+  --bearlab-button-primary-icon-fill: #fff;
+  --bearlab-button-secondary-bg: #fff;
+  --bearlab-button-secondary-bg-hover: #f9fafb;
+  --bearlab-button-secondary-color: #374151;
+  --bearlab-button-secondary-border-color: #d1d5db;
+  --bearlab-button-secondary-icon-fill: #667085;
+  --bearlab-button-secondary-icon-fill-hover: #374151;
+  --bearlab-button-secondary-spinner-circle-stroke: #d1d5db;
+  --bearlab-button-secondary-spinner-path-stroke: #465fff;
+  --bearlab-button-justicon-bg: transparent;
+  --bearlab-button-justicon-bg-hover: #e4e7ec;
+  --bearlab-button-justicon-icon-fill: #667085;
+  --bearlab-button-justicon-icon-fill-hover: #374151;
+  --bearlab-button-popover-bg: #fff;
+  --bearlab-button-popover-color: #344054;
+  --bearlab-button-disabled-bg: #93c5fd;
+  --bearlab-button-tinted-bg: #465fff24;
+  --bearlab-button-tinted-bg-hover: #465fff38;
+  --bearlab-button-tinted-border: #4760ff4d;
+  --bearlab-button-tinted-outer-border: #465fff2e;
+  --bearlab-button-tinted-color: #2d3aad;
+  --bearlab-button-tinted-icon-fill: #465fff;
+  --bearlab-button-tinted-icon-fill-hover: #2d3aad;
+  --bearlab-button-tinted-specular: #ffffffb3;
+  --bearlab-button-tinted-shadow:
+    0 4px 20px #465fff2e, 0 1px 4px #465fff1a, inset 0 1px 0 #ffffffcc,
+    inset 0 -2px 4px #3641f533;
+  --bearlab-button-tinted-shadow-hover:
+    0 8px 32px #465fff47, 0 2px 8px #465fff24, inset 0 1px 0 #ffffffe6,
+    inset 0 -2px 4px #3641f53d;
+  --bearlab-button-tinted-blur: blur(16px) saturate(180%);
+  --bearlab-button-holographic-bg: #ffffff47;
+  --bearlab-button-holographic-border: #ffffff8c;
+  --bearlab-button-holographic-outer-border: #8b5cf638;
+  --bearlab-button-holographic-color: #ffffffeb;
+  --bearlab-button-holographic-icon-fill: #6366f1;
+  --bearlab-button-holographic-specular: #ffffffd9;
+  --bearlab-button-holographic-shadow:
+    0 4px 24px #6467f233, 0 1px 4px #10182814, inset 0 1px 0 #ffffffd9,
+    inset 0 -1px 0 #6366f11f;
+  --bearlab-button-holographic-shadow-hover:
+    0 8px 40px #6366f152, 0 2px 8px #1018281a, inset 0 1px 0 #ffffffe6,
+    inset 0 -1px 0 #6366f129;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-button-primary-bg: #465fff;
+  --bearlab-button-primary-bg-hover: #3641f5;
+  --bearlab-button-primary-color: #fff;
+  --bearlab-button-primary-icon-fill: #fff;
+  --bearlab-button-secondary-bg: #1d2939;
+  --bearlab-button-secondary-bg-hover: rgba(255, 255, 255, 0.03);
+  --bearlab-button-secondary-color: #98a2b3;
+  --bearlab-button-secondary-color-hover: #d1d5db;
+  --bearlab-button-secondary-border-color: #344054;
+  --bearlab-button-secondary-icon-fill: #667085;
+  --bearlab-button-secondary-icon-fill-hover: #d1d5db;
+  --bearlab-button-secondary-spinner-circle-stroke: #344054;
+  --bearlab-button-secondary-spinner-path-stroke: #7592ff;
+  --bearlab-button-justicon-bg: transparent;
+  --bearlab-button-justicon-bg-hover: #6670853d;
+  --bearlab-button-justicon-icon-fill: #667085;
+  --bearlab-button-justicon-icon-fill-hover: #d1d5db;
+  --bearlab-button-popover-bg: #1d2939;
+  --bearlab-button-popover-color: #d1d5db;
+  --bearlab-button-disabled-bg: #465fff59;
+  --bearlab-button-tinted-bg: #465fff2e;
+  --bearlab-button-tinted-bg-hover: #465fff47;
+  --bearlab-button-tinted-border: #7592ff4d;
+  --bearlab-button-tinted-outer-border: #7592ff38;
+  --bearlab-button-tinted-color: #c8d2fff2;
+  --bearlab-button-tinted-icon-fill: #7592ff;
+  --bearlab-button-tinted-icon-fill-hover: #aab8ff;
+  --bearlab-button-tinted-specular: #96aaff40;
+  --bearlab-button-tinted-shadow:
+    0 0 20px #465fff59, 0 4px 16px #00000066, inset 0 1px 0 #96aaff33,
+    inset 0 -2px 4px #141e5080;
+  --bearlab-button-tinted-shadow-hover:
+    0 0 32px #465fff8c, 0 8px 24px #00000080, inset 0 1px 0 #96aaff47,
+    inset 0 -2px 4px #141e5099;
+  --bearlab-button-tinted-blur: blur(16px) saturate(200%);
+  --bearlab-button-holographic-bg: #0a0f1e66;
+  --bearlab-button-holographic-border: #ffffff24;
+  --bearlab-button-holographic-outer-border: #8b5cf647;
+  --bearlab-button-holographic-color: #1d2939;
+  --bearlab-button-holographic-icon-fill: #a78bfa;
+  --bearlab-button-holographic-specular: #c8b4ff33;
+  --bearlab-button-holographic-shadow:
+    0 0 24px #8b5cf64d, 0 4px 16px #00000073, inset 0 1px 0 #c8b4ff29,
+    inset 0 -1px 0 #0000004d;
+  --bearlab-button-holographic-shadow-hover:
+    0 0 48px #8b5cf680, 0 8px 32px #fe8f8f8c, inset 0 1px 0 #c8b4ff38,
+    inset 0 -1px 0 #0000005c;
+}
+
+.container {
+  --_icon-color: var(--bearlab-button-primary-icon-fill);
+  padding: var(--bearlab-button-padding-y) var(--bearlab-button-padding-x);
+  color: var(--bearlab-button-primary-color);
+  cursor: pointer;
+  font-size: var(--bearlab-button-font-size);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--bearlab-button-border-radius);
+  border: none;
+  width: 100%;
+  height: var(--bearlab-button-height);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  background-color: var(--bearlab-button-primary-bg);
+  box-shadow: var(--bearlab-button-shadow);
+  transition:
+    background-color var(--bearlab-button-transition),
+    background-position var(--bearlab-button-transition-slow),
+    box-shadow var(--bearlab-button-transition),
+    color var(--bearlab-button-transition),
+    transform var(--bearlab-button-transition),
+    opacity var(--bearlab-button-transition);
+  -webkit-font-smoothing: antialiased;
+  will-change: transform;
+
+  &:hover {
+    background-color: var(--bearlab-button-primary-bg-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bearlab-button-primary-bg);
+    outline-offset: 2px;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  span {
+    font-weight: var(--bearlab-button-font-weight);
+    line-height: var(--bearlab-button-line-height);
+    width: max-content;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 2;
+
+    ~ svg {
+      margin-left: var(--bearlab-button-icon-gap);
+    }
+  }
+
+  &:not(.customIcon) {
+    svg {
+      fill: var(--_icon-color);
+      transition: fill var(--bearlab-button-transition);
+
+      g,
+      path,
+      circle,
+      rect,
+      ellipse,
+      polygon,
+      polyline,
+      line,
+      use {
+        fill: inherit;
+      }
+    }
+  }
+
+  svg {
+    width: var(--bearlab-button-icon-size);
+    height: var(--bearlab-button-icon-size);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .progress {
+    height: var(--bearlab-button-spinner-size);
+    width: var(--bearlab-button-spinner-size);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+
+    svg {
+      animation: spin 1s linear infinite;
+      width: 100%;
+      height: 100%;
+      fill: none;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .popover {
+    position: absolute;
+    display: none;
+    background-color: var(--bearlab-button-popover-bg);
+    border-radius: var(--bearlab-button-popover-border-radius);
+    padding: var(--bearlab-button-popover-padding);
+    color: var(--bearlab-button-popover-color);
+    z-index: 9999;
+    font-weight: var(--bearlab-button-popover-font-weight);
+    font-size: var(--bearlab-button-popover-font-size);
+    box-shadow: var(--bearlab-button-popover-shadow);
+    width: max-content;
+    top: var(--bearlab-button-popover-offset-top);
+    pointer-events: none;
+  }
+}
+
+.loadingButton {
+  cursor: not-allowed;
+
+  &:active {
+    transform: none;
+  }
+}
+
+.disabledButton {
+  cursor: not-allowed;
+  opacity: var(--bearlab-button-disabled-opacity);
+  background-color: var(--bearlab-button-disabled-bg);
+  pointer-events: none;
+
+  &:active {
+    transform: none;
+  }
+}
+
+.secondary {
+  --_icon-color: var(--bearlab-button-secondary-icon-fill);
+  background-color: var(--bearlab-button-secondary-bg);
+  color: var(--bearlab-button-secondary-color);
+  box-shadow: inset 0 0 0 1px var(--bearlab-button-secondary-border-color);
+
+  &:hover {
+    background-color: var(--bearlab-button-secondary-bg-hover);
+  }
+
+  &.loadingButton {
+    circle {
+      stroke: var(--bearlab-button-secondary-spinner-circle-stroke);
+    }
+    path {
+      stroke: var(--bearlab-button-secondary-spinner-path-stroke);
+    }
+  }
+
+  &.justIcon {
+    box-shadow: none;
+  }
+}
+
+.tertiary {
+  --_icon-color: var(--bearlab-button-primary-icon-fill);
+  background-image: var(--bearlab-button-tertiary-bg);
+  background-color: transparent;
+  box-shadow: none;
+
+  &:hover {
+    background-image: var(--bearlab-button-tertiary-bg);
+    background-color: transparent;
+    opacity: 0.9;
+  }
+}
+
+.liquid-tinted {
+  --_icon-color: var(--bearlab-button-tinted-icon-fill);
+  background-color: var(--bearlab-button-tinted-bg);
+  backdrop-filter: var(--bearlab-button-tinted-blur);
+  -webkit-backdrop-filter: var(--bearlab-button-tinted-blur);
+  color: var(--bearlab-button-tinted-color);
+  border: 1px solid var(--bearlab-button-tinted-border);
+  outline: 1px solid var(--bearlab-button-tinted-outer-border);
+  outline-offset: -2px;
+  box-shadow: var(--bearlab-button-tinted-shadow);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: var(--bearlab-button-tinted-specular);
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity var(--bearlab-button-transition);
+  }
+
+  &:hover {
+    --_icon-color: var(--bearlab-button-tinted-icon-fill-hover);
+    background-color: var(--bearlab-button-tinted-bg-hover);
+    box-shadow: var(--bearlab-button-tinted-shadow-hover);
+    transform: translateY(-1px) scale(1.002);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  &.justIcon {
+    box-shadow: var(--bearlab-button-tinted-shadow);
+    border: 1px solid var(--bearlab-button-tinted-border);
+    outline: 1px solid var(--bearlab-button-tinted-outer-border);
+    outline-offset: -2px;
+
+    &:hover {
+      background-color: var(--bearlab-button-tinted-bg-hover);
+      box-shadow: var(--bearlab-button-tinted-shadow-hover);
+    }
+  }
+}
+
+.liquid-holographic {
+  --_icon-color: var(--bearlab-button-holographic-icon-fill);
+  background-image: var(--bearlab-button-holographic-gradient);
+  background-size: var(--bearlab-button-holographic-gradient-size);
+  background-position: 0% 50%;
+  background-color: var(--bearlab-button-holographic-bg);
+  backdrop-filter: var(--bearlab-button-holographic-blur);
+  -webkit-backdrop-filter: var(--bearlab-button-holographic-blur);
+  color: var(--bearlab-button-holographic-color);
+  border: 1px solid var(--bearlab-button-holographic-border);
+  outline: 1px solid var(--bearlab-button-holographic-outer-border);
+  outline-offset: -2px;
+  box-shadow: var(--bearlab-button-holographic-shadow);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--bearlab-button-holographic-specular) 30%,
+      rgba(255, 255, 255, 1) 50%,
+      var(--bearlab-button-holographic-specular) 70%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity var(--bearlab-button-transition);
+  }
+
+  &:hover {
+    background-position: 60% 50%;
+    background-color: var(--bearlab-button-holographic-bg);
+    box-shadow: var(--bearlab-button-holographic-shadow-hover);
+    transform: translateY(-1px) scale(1.003);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  &.animated {
+    animation: holographic-idle 4s ease infinite;
+  }
+
+  &.justIcon,
+  &.iconWithText {
+    box-shadow: var(--bearlab-button-holographic-shadow);
+    border: 1px solid var(--bearlab-button-holographic-border);
+    --_icon-color: #d1d5db;
+
+    &:hover {
+      background-position: 60% 50%;
+      box-shadow: var(--bearlab-button-holographic-shadow-hover);
+    }
+  }
+
+  @keyframes holographic-idle {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+.justIcon {
+  --_icon-color: var(--bearlab-button-justicon-icon-fill);
+  border-radius: var(--bearlab-button-justicon-border-radius);
+  min-height: var(--bearlab-button-justicon-size);
+  min-width: var(--bearlab-button-justicon-size);
+  height: fit-content;
+  width: fit-content;
+  background-color: var(--bearlab-button-justicon-bg);
+  box-shadow: inset 0 0 0 1px var(--bearlab-button-secondary-border-color);
+  padding: 0;
+
+  &:hover {
+    --_icon-color: var(--bearlab-button-justicon-icon-fill-hover);
+    background-color: var(--bearlab-button-justicon-bg-hover);
+
+    .popover {
+      display: block;
+    }
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  svg {
+    width: var(--bearlab-button-justicon-icon-size);
+    height: var(--bearlab-button-justicon-icon-size);
+  }
+}
+
+.reverseIconText {
+  span {
+    order: 2;
+  }
+
+  svg {
+    margin-right: var(--bearlab-button-icon-gap);
+    margin-left: 0 !important;
+    order: 1;
+  }
+
+  &.justIcon svg {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
+html[data-theme="dark"] .container {
+  &.secondary {
+    &:hover {
+      --_icon-color: var(--bearlab-button-secondary-icon-fill-hover);
+      color: var(--bearlab-button-secondary-color-hover);
+    }
+
+    &.justIcon {
+      background-color: transparent;
+    }
+  }
+
+  &.justIcon:not(.liquid-tinted):not(.liquid-holographic) {
+    &:hover {
+      --_icon-color: var(--bearlab-button-justicon-icon-fill-hover);
+    }
+  }
+}

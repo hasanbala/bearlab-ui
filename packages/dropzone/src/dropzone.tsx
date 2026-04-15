@@ -1,119 +1,109 @@
-import { useState } from "react";
 import classnames from "classnames";
-import { IconUpload } from "@bearlab/core";
-import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
-import styles from "./dropzone.module.scss";
+import { IconUpload } from "./assets/icons";
+import { DropzoneList } from "./components/dropzone-list";
+import { useDropzone } from "./hooks/use-dropzone";
+import styles from "./styles/dropzone.module.scss";
+import type { DropzoneProps } from "./types/dropzone.types";
 
-export const Dropzone = (props: Props) => {
-  const { className, isLoading, multiple, accept, files, setFiles, style } =
-    props;
+export const Dropzone = (props: DropzoneProps) => {
+  const {
+    className,
+    style,
+    isLoading = false,
+    multiple = false,
+    accept = "application/pdf",
+    files,
+    setFiles,
+    title = "Drag & Drop Files Here",
+    subTitle = "Drag and drop the file here or click to upload",
+    browseText = "Browse File",
+    "aria-label": ariaLabel = "File upload area",
+  } = props;
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-
-    if (!isLoading) {
-      setIsDragging(true);
-    }
-  };
-
-  const handleDragLeave = () => {
-    if (!isLoading) {
-      setIsDragging(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!isLoading) {
-      setIsDragging(false);
-      const files = e.dataTransfer.files;
-      setFiles(files);
-    }
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isLoading) {
-      const files = e.target.files;
-      setFiles(files);
-    }
-  };
-
-  const handleRemoveFile = (name: string) => {
-    if (!isLoading) {
-      const filteredFiles = Array.from(files as any).filter(
-        (item: any) => item.name !== name
-      ) as any;
-
-      setFiles(filteredFiles);
-    }
-  };
-
-  const renderContent = () => {
-    if (files?.length) {
-      return (
-        <div className={styles.card}>
-          {Array.from(files).map((file, index) => (
-            <div className={styles.addedItem} key={index}>
-              <div key={index}>{file.name}</div>
-              <Button
-                buttonType={BUTTON_TYPE.JUST_ICON}
-                iconType={{ default: ICON_TYPE.DELETE }}
-                onClick={() => handleRemoveFile(file.name)}
-                label="Remove"
-                disabled={isLoading}
-              />
-            </div>
-          ))}
-        </div>
-      );
-    }
-  };
+  const {
+    isDragging,
+    inputRef,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleInputChange,
+    handleKeyDown,
+    handleRemoveFile,
+  } = useDropzone({ isLoading, files, setFiles });
 
   return (
-    <div className={styles.container}>
+    <div
+      className={classnames(styles.container, className?.root)}
+      style={style?.root}
+      role="region"
+      aria-label={ariaLabel}
+    >
       <div
-        className={classnames(
-          styles.content,
-          isDragging && styles.dragging,
-          isLoading && styles.disabled,
-          className
-        )}
+        className={classnames(styles.content, className?.content)}
+        style={style?.content}
+        role="button"
+        tabIndex={isLoading ? -1 : 0}
+        aria-disabled={isLoading}
+        aria-busy={isLoading}
+        data-dragging={isDragging || undefined}
+        data-disabled={isLoading || undefined}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        style={style}
+        onKeyDown={handleKeyDown}
+        onClick={() => !isLoading && inputRef.current?.click()}
       >
-        <div className={styles.icon}>
+        <div
+          className={classnames(styles.icon, className?.icon)}
+          style={style?.icon}
+          aria-hidden="true"
+        >
           <IconUpload />
         </div>
+
         <div className={styles.description}>
-          <div className={styles.title}>Drag & Drop Files Here</div>
-          <div className={styles.subTitle}>
-            Drag and drop the file here or click to upload
-          </div>
-          <div className={styles.link}>Browse File</div>
+          <p
+            className={classnames(styles.title, className?.title)}
+            style={style?.title}
+          >
+            {title}
+          </p>
+
+          <p
+            className={classnames(styles.subtitle, className?.subtitle)}
+            style={style?.subtitle}
+          >
+            {subTitle}
+          </p>
+
+          <span
+            className={classnames(styles.browse, className?.browse)}
+            style={style?.browse}
+            aria-hidden="true"
+          >
+            {browseText}
+          </span>
         </div>
         <input
+          ref={inputRef}
           type="file"
           multiple={multiple}
+          accept={accept}
           disabled={isLoading}
-          accept={accept ?? "application/pdf"}
-          onChange={handleFileInputChange}
+          onChange={handleInputChange}
+          aria-hidden="true"
+          tabIndex={-1}
+          className={classnames(styles.input, className?.input)}
+          style={style?.input}
         />
       </div>
-      {renderContent()}
+      <DropzoneList
+        files={files}
+        isLoading={isLoading}
+        onRemoveFile={handleRemoveFile}
+        style={style}
+        className={className}
+      />
     </div>
   );
 };
-
-export interface Props {
-  className?: string;
-  accept?: any;
-  multiple?: boolean;
-  isLoading?: boolean;
-  files: FileList | null;
-  setFiles: (_val: FileList | null) => void;
-  style?: React.CSSProperties;
-}

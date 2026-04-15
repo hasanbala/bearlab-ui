@@ -1,19 +1,12 @@
 import classnames from "classnames";
-import styles from "./badge.module.scss";
-import {
-  COLOR_TYPE,
-  ColorType,
-  SIZE_TYPE,
-  SizeType,
-  VARIANT_TYPE,
-  VariantType,
-} from "./helpers";
+import styles from "./styles/badge.module.scss";
+import type { BadgeProps } from "./types/badge.types";
 
-export const Badge = (props: Props) => {
+export const Badge = (props: BadgeProps) => {
   const {
-    variant = VARIANT_TYPE.LIGHT,
-    color = COLOR_TYPE.PRIMARY,
-    size = SIZE_TYPE.MEDIUM,
+    variant = "light",
+    color = "primary",
+    size = "medium",
     startIcon,
     endIcon,
     label,
@@ -21,8 +14,8 @@ export const Badge = (props: Props) => {
     style,
   } = props;
 
-  const IconStart = startIcon!;
-  const IconEnd = endIcon!;
+  const IconStart = startIcon;
+  const IconEnd = endIcon;
 
   const sizeStyles = {
     small: styles.small,
@@ -56,24 +49,25 @@ export const Badge = (props: Props) => {
         styles.container,
         sizeStyles[size],
         variants[variant][color],
-        className
+        className?.root
       )}
-      style={style}
+      style={style?.root}
     >
-      {startIcon && <IconStart className={styles.startIcon} />}
+      {IconStart && (
+        <IconStart
+          className={classnames(styles.startIcon, className?.startIcon)}
+          style={style?.startIcon}
+          aria-hidden="true"
+        />
+      )}
       {label}
-      {endIcon && <IconEnd className={styles.endIcon} />}
+      {IconEnd && (
+        <IconEnd
+          className={classnames(styles.endIcon, className?.endIcon)}
+          style={style?.endIcon}
+          aria-hidden="true"
+        />
+      )}
     </span>
   );
 };
-
-export interface Props {
-  variant?: VariantType;
-  size?: SizeType;
-  color?: ColorType;
-  startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  label: string | number;
-  className?: string;
-  style?: React.CSSProperties;
-}

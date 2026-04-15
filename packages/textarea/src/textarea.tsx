@@ -1,54 +1,78 @@
-import { JSX } from "react";
+import { useId } from "react";
 import classnames from "classnames";
-import styles from "./textarea.module.scss";
-import { IconErrorTriangle } from "@bearlab/core";
+import { IconErrorTriangle } from "./assets/icons";
+import styles from "./styles/textarea.module.scss";
+import type { TextareaProps } from "./types/textarea.types";
 
-export const Textarea = (props: Props) => {
-  const { error, label, disabled, className, isRequired, ...rest } = props;
+export const Textarea = (props: TextareaProps) => {
+  const { error, label, disabled, className, style, isRequired, id, ...rest } =
+    props;
+
+  const generatedId = useId();
+  const inputId = id || generatedId;
+  const errorId = `${inputId}-error`;
+  const hasStringError = error && typeof error === "string";
 
   return (
     <div
       className={classnames(
         styles.container,
-        className,
+        className?.root,
         disabled && styles.disabled
       )}
+      style={style?.root}
     >
       {label && (
-        <div className={styles.label}>
-          {label} {isRequired && <span>*</span>}
-        </div>
+        <label
+          htmlFor={inputId}
+          className={classnames(styles.label, className?.label)}
+          style={style?.label}
+        >
+          {label}
+          {isRequired && (
+            <span
+              className={classnames(
+                styles.requiredMark,
+                className?.requiredMark
+              )}
+              style={style?.requiredMark}
+              aria-hidden="true"
+            >
+              *
+            </span>
+          )}
+        </label>
       )}
-      <div className={styles.textareaWrapper}>
+      <div
+        className={classnames(
+          styles.textareaWrapper,
+          className?.textareaWrapper
+        )}
+        style={style?.textareaWrapper}
+      >
         <textarea
+          id={inputId}
           disabled={disabled}
-          className={classnames(error && styles.error)}
+          aria-required={isRequired}
+          aria-invalid={!!error}
+          aria-describedby={hasStringError ? errorId : undefined}
+          className={classnames(className?.textarea, error && styles.error)}
+          style={style?.textarea}
           {...rest}
         />
-        {error && (
-          <div className={styles.viewError}>
-            <IconErrorTriangle />
-            <span>{label}</span>
+        {hasStringError && (
+          <div
+            id={errorId}
+            role="alert"
+            aria-live="polite"
+            className={classnames(styles.viewError, className?.errorMessage)}
+            style={style?.errorMessage}
+          >
+            <IconErrorTriangle aria-hidden="true" />
+            <span>{error}</span>
           </div>
         )}
       </div>
     </div>
   );
 };
-
-type TextareaProps = JSX.IntrinsicElements["textarea"];
-
-export interface Props extends TextareaProps {
-  label?: string;
-  error?: any;
-  rows?: number;
-  value: string;
-  name?: string;
-  maxLength?: number;
-  className?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  isRequired?: boolean;
-  onChange: (_val: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onBlur?: (_val: React.FocusEvent<HTMLTextAreaElement>) => void;
-}

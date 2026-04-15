@@ -1,0 +1,54 @@
+{
+  "name": "@bearlab/growl",
+  "version": "1.0.0",
+  "description": "Bearlab UI Growl Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=growl rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@bearlab/button": "^1.0.11",
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "notification",
+    "notify",
+    "toast",
+    "growl",
+    "react-growl",
+    "bearlab",
+    "bearlab-ui",
+    "accessible",
+    "toastify",
+    "react-toastify",
+    "push",
+    "alert",
+    "snackbar"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/growl"
+  },
+  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

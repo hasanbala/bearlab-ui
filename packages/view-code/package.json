@@ -1,0 +1,51 @@
+{
+  "name": "@bearlab/view-code",
+  "version": "1.0.0",
+  "description": "Bearlab UI View Code Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=view-code rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "view-code",
+    "bearlab",
+    "bearlab-ui",
+    "code-viewer",
+    "code-block",
+    "syntax-highlight",
+    "syntax-highlighting",
+    "code-snippet",
+    "javascript",
+    "typescript",
+    "multi-language"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/view-code"
+  },
+  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

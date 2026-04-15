@@ -1,62 +1,65 @@
-import { useState } from "react";
 import classnames from "classnames";
-import styles from "./tab.module.scss";
+import styles from "./styles/tab.module.scss";
+import type { TabProps } from "./types/tab.types";
+import { useTab } from "./hooks/use-tab";
+import { TabButton } from "./components/tab-button";
+import { TabContent } from "./components/tab-content";
 
-export const Tab = (props: Props) => {
+export const Tab = (props: TabProps) => {
   const { tabs, actionType, isVertical, className, style } = props;
-
-  const [activeTab, setActiveTab] = useState(0);
+  const { activeTab, setActiveTab } = useTab(tabs[0]?.key ?? 0);
 
   return (
     <div
       className={classnames(
         styles.container,
-        actionType == "underline" && styles.underLine,
+        actionType === "underline" && styles.underLine,
         isVertical && styles.vertical,
-        className
+        className?.root
       )}
-      style={style}
+      style={style?.root}
     >
-      <div className={styles.header}>
-        <nav>
+      <div
+        className={classnames(styles.header, className?.header)}
+        style={style?.header}
+      >
+        <nav
+          role="tablist"
+          aria-orientation={isVertical ? "vertical" : "horizontal"}
+          className={className?.nav}
+          style={style?.nav}
+        >
           {tabs.map((tab) => (
-            <button
+            <TabButton
               key={tab.key}
+              tab={tab}
+              isActive={activeTab === tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={activeTab == tab.key ? styles.active : styles.inactive}
-            >
-              {tab.icon && <tab.icon />}
-              {tab.title}
-              {tab.notify && <span>{tab.notify}</span>}
-            </button>
+              tabId={`tab-${tab.key}`}
+              panelId={`tabpanel-${tab.key}`}
+              className={{
+                button: className?.button,
+                notify: className?.notify,
+              }}
+              style={{ button: style?.button, notify: style?.notify }}
+            />
           ))}
         </nav>
       </div>
-      <div className={styles.content}>
-        {tabs.map(
-          (tab) =>
-            activeTab == tab.key && (
-              <div key={tab.key}>
-                <h3>{tab.title}</h3>
-                <p>{tab.content}</p>
-              </div>
-            )
-        )}
+      <div
+        className={classnames(styles.content, className?.content)}
+        style={style?.content}
+      >
+        {tabs.map((tab) => (
+          <TabContent
+            key={tab.key}
+            tab={tab}
+            isActive={activeTab === tab.key}
+            tabId={`tab-${tab.key}`}
+            panelId={`tabpanel-${tab.key}`}
+          />
+        ))}
       </div>
     </div>
   );
 };
-
-export interface Props {
-  tabs: {
-    key: number;
-    title: string;
-    content: string;
-    notify: number | null;
-    icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | null;
-  }[];
-  actionType: "button" | "underline";
-  isVertical?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-}

@@ -1,0 +1,17 @@
+export const LANG_LABELS: Record<string, string> = {
+  javascript: "JavaScript",
+  typescript: "TypeScript",
+  jsx: "JSX",
+  tsx: "TSX",
+  python: "Python",
+  css: "CSS",
+  scss: "SCSS",
+  html: "HTML",
+  bash: "Bash",
+  shell: "Shell",
+  json: "JSON",
+  sql: "SQL",
+  markdown: "Markdown",
+  md: "Markdown",
+  text: "Plain Text",
+};

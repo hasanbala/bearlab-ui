@@ -1,0 +1,251 @@
+:root {
+  --bearlab-tab-header-padding: 0.75rem; /* 12px */
+  --bearlab-tab-header-border-radius-start: 0.75rem; /* 12px */
+  --bearlab-tab-nav-border-radius: 0.5rem; /* 8px */
+  --bearlab-tab-nav-padding: 0.25rem; /* 4px */
+  --bearlab-tab-nav-scrollbar-height: 0.375rem; /* 6px */
+  --bearlab-tab-nav-scrollbar-thumb-radius: 624.9375rem; /* 9999px */
+  --bearlab-tab-button-border-radius: 0.375rem; /* 6px */
+  --bearlab-tab-button-padding-block: 0.5rem; /* 8px */
+  --bearlab-tab-button-padding-inline: 0.75rem; /* 12px */
+  --bearlab-tab-button-font-size: 0.875rem; /* 14px */
+  --bearlab-tab-button-font-weight: 500;
+  --bearlab-tab-button-gap: 0.5rem; /* 8px */
+  --bearlab-tab-button-transition: 0.2s ease-in-out;
+  --bearlab-tab-notify-padding-block: 0.125rem; /* 2px */
+  --bearlab-tab-notify-padding-inline: 0.5rem; /* 8px */
+  --bearlab-tab-notify-font-size: 0.75rem; /* 12px */
+  --bearlab-tab-notify-border-radius: 624.9375rem; /* 9999px */
+  --bearlab-tab-content-padding: 1.5rem; /* 24px */
+  --bearlab-tab-content-padding-top: 1rem; /* 16px */
+  --bearlab-tab-content-border-radius-end: 0.75rem; /* 12px */
+  --bearlab-tab-content-title-margin-bottom: 0.25rem; /* 4px */
+  --bearlab-tab-content-title-font-size: 1.25rem; /* 20px */
+  --bearlab-tab-content-title-font-weight: 500;
+  --bearlab-tab-content-text-font-size: 0.875rem; /* 14px */
+  --bearlab-tab-vertical-gap: 1.875rem; /* 30px */
+  --bearlab-tab-vertical-nav-gap: 0.625rem; /* 10px */
+  --bearlab-tab-vertical-button-min-height: 3.125rem; /* 50px */
+}
+
+:root[data-theme="light"] {
+  --bearlab-tab-container-border-color: #e4e7ec;
+  --bearlab-tab-nav-bg: #f2f4f7;
+  --bearlab-tab-nav-scrollbar-track-bg: #fff;
+  --bearlab-tab-nav-scrollbar-thumb-bg: #e4e7ec;
+  --bearlab-tab-button-active-bg: #fff;
+  --bearlab-tab-button-active-color: #101828;
+  --bearlab-tab-button-active-shadow:
+    0 0.0625rem 0.125rem 0 rgba(16, 24, 40, 0.05),
+    /* 1px 2px */ 0 0.0625rem 0.1875rem 0 rgba(16, 24, 40, 0.1); /* 1px 3px */
+  --bearlab-tab-button-inactive-color: #667085;
+  --bearlab-tab-button-inactive-hover-color: #344054;
+  --bearlab-tab-notify-bg: #ecf3ff;
+  --bearlab-tab-notify-color: #465fff;
+  --bearlab-tab-content-border-color: #e4e7ec;
+  --bearlab-tab-content-title-color: #1d2939;
+  --bearlab-tab-content-text-color: #667085;
+  --bearlab-tab-underline-nav-border-color: #e4e7ec;
+  --bearlab-tab-underline-button-active-color: #465fff;
+  --bearlab-tab-underline-button-active-border-color: #465fff;
+  --bearlab-tab-underline-button-inactive-color: #667085;
+  --bearlab-tab-underline-button-inactive-hover-color: #344054;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-tab-container-border-color: #1d2939;
+  --bearlab-tab-nav-bg: #101828;
+  --bearlab-tab-nav-scrollbar-track-bg: transparent;
+  --bearlab-tab-nav-scrollbar-thumb-bg: #475467;
+  --bearlab-tab-button-active-bg: rgba(255, 255, 255, 0.03);
+  --bearlab-tab-button-active-color: rgba(255, 255, 255, 1);
+  --bearlab-tab-button-active-shadow: none;
+  --bearlab-tab-button-inactive-color: #a4aab7;
+  --bearlab-tab-button-inactive-hover-color: #e4e7ec;
+  --bearlab-tab-notify-bg: color-mix(in oklab, #465fff 15%, transparent);
+  --bearlab-tab-notify-color: #7592ff;
+  --bearlab-tab-content-border-color: #1d2939;
+  --bearlab-tab-content-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-tab-content-text-color: #a4aab7;
+  --bearlab-tab-underline-nav-border-color: #1d2939;
+  --bearlab-tab-underline-button-active-color: #7592ff;
+  --bearlab-tab-underline-button-active-border-color: #7592ff;
+  --bearlab-tab-underline-button-inactive-color: #98a2b3;
+  --bearlab-tab-underline-button-inactive-hover-color: #f2f4f7;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    padding: var(--bearlab-tab-header-padding);
+    border: 0.0625rem solid var(--bearlab-tab-container-border-color); /* 1px */
+    border-top-left-radius: var(--bearlab-tab-header-border-radius-start);
+    border-top-right-radius: var(--bearlab-tab-header-border-radius-start);
+  }
+
+  nav {
+    display: flex;
+    overflow-x: auto;
+    border-radius: var(--bearlab-tab-nav-border-radius);
+    background-color: var(--bearlab-tab-nav-bg);
+    padding: var(--bearlab-tab-nav-padding);
+
+    &::-webkit-scrollbar {
+      height: var(--bearlab-tab-nav-scrollbar-height);
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--bearlab-tab-nav-scrollbar-track-bg);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: var(--bearlab-tab-nav-scrollbar-thumb-radius);
+      background-color: var(--bearlab-tab-nav-scrollbar-thumb-bg);
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--bearlab-tab-button-border-radius);
+      padding-block: var(--bearlab-tab-button-padding-block);
+      padding-inline: var(--bearlab-tab-button-padding-inline);
+      font-size: var(--bearlab-tab-button-font-size);
+      font-weight: var(--bearlab-tab-button-font-weight);
+      gap: var(--bearlab-tab-button-gap);
+      transition: var(--bearlab-tab-button-transition);
+      border: none;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: 0.125rem solid var(--bearlab-tab-underline-button-active-color); /* 2px */
+        outline-offset: 0.125rem; /* 2px */
+      }
+
+      &.active {
+        background-color: var(--bearlab-tab-button-active-bg);
+        color: var(--bearlab-tab-button-active-color);
+        box-shadow: var(--bearlab-tab-button-active-shadow);
+      }
+
+      &.inactive {
+        background-color: transparent;
+        color: var(--bearlab-tab-button-inactive-color);
+
+        &:hover {
+          color: var(--bearlab-tab-button-inactive-hover-color);
+        }
+      }
+
+      span {
+        padding-block: var(--bearlab-tab-notify-padding-block);
+        padding-inline: var(--bearlab-tab-notify-padding-inline);
+        text-align: center;
+        background-color: var(--bearlab-tab-notify-bg);
+        color: var(--bearlab-tab-notify-color);
+        border-radius: var(--bearlab-tab-notify-border-radius);
+        font-size: var(--bearlab-tab-notify-font-size);
+      }
+    }
+  }
+
+  .content {
+    padding: var(--bearlab-tab-content-padding);
+    padding-top: var(--bearlab-tab-content-padding-top);
+    border: 0.0625rem solid var(--bearlab-tab-content-border-color); /* 1px */
+    border-top: 0;
+    border-bottom-left-radius: var(--bearlab-tab-content-border-radius-end);
+    border-bottom-right-radius: var(--bearlab-tab-content-border-radius-end);
+
+    h3 {
+      margin-bottom: var(--bearlab-tab-content-title-margin-bottom);
+      font-size: var(--bearlab-tab-content-title-font-size);
+      font-weight: var(--bearlab-tab-content-title-font-weight);
+      color: var(--bearlab-tab-content-title-color);
+    }
+
+    p {
+      font-size: var(--bearlab-tab-content-text-font-size);
+      color: var(--bearlab-tab-content-text-color);
+    }
+  }
+
+  &.underLine {
+    .header {
+      border-bottom: none;
+
+      nav {
+        border-bottom: 0.0625rem solid
+          var(--bearlab-tab-underline-nav-border-color); /* 1px */
+        background-color: transparent !important;
+        padding: 0;
+        border-radius: 0;
+
+        button {
+          box-shadow: none !important;
+          background-color: transparent !important;
+          border-bottom: 0.125rem solid
+            var(--bearlab-tab-underline-button-active-color); /* 2px */
+          border-radius: 0;
+
+          &.active {
+            color: var(--bearlab-tab-underline-button-active-color);
+            border-color: var(
+              --bearlab-tab-underline-button-active-border-color
+            );
+
+            svg {
+              fill: var(--bearlab-tab-underline-button-active-color);
+            }
+          }
+
+          &.inactive {
+            color: var(--bearlab-tab-underline-button-inactive-color);
+            border-color: transparent;
+
+            &:hover {
+              color: var(--bearlab-tab-underline-button-inactive-hover-color);
+
+              svg {
+                fill: var(--bearlab-tab-underline-button-inactive-hover-color);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 48rem) {
+  /* 768px */
+  .container {
+    &.vertical {
+      flex-direction: row;
+      gap: var(--bearlab-tab-vertical-gap);
+
+      .header {
+        border: none;
+        padding: 0;
+
+        nav {
+          flex-direction: column;
+          overflow-x: unset;
+          border: none;
+          gap: var(--bearlab-tab-vertical-nav-gap);
+          text-align: center;
+
+          button {
+            min-height: var(--bearlab-tab-vertical-button-min-height);
+          }
+        }
+      }
+
+      .content {
+        border: none;
+        padding: 0;
+      }
+    }
+  }
+}

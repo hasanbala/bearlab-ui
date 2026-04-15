@@ -1,13 +1,14 @@
 import classnames from "classnames";
-import type { JSX } from "react";
-import styles from "./radio.module.scss";
-import { IconErrorTriangle } from "@bearlab/core";
+import { IconErrorTriangle } from "./assets/icons";
+import type { RadioProps } from "./types/radio.types";
+import styles from "./styles/radio.module.scss";
 
 export const Radio = (props: RadioProps) => {
   const {
     checked,
     onChange,
     className,
+    style,
     disabled,
     label,
     name,
@@ -18,124 +19,93 @@ export const Radio = (props: RadioProps) => {
     ...rest
   } = props;
 
+  const inputId = `radio-${name}-${value}`;
+  const errorId = error ? `radio-error-${name}-${value}` : undefined;
+  const popoverId = popover ? `radio-popover-${name}-${value}` : undefined;
+
+  const describedBy =
+    [errorId, popoverId].filter(Boolean).join(" ") || undefined;
+
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     onChange(e);
 
   return (
     <label
-      htmlFor={`${name}-${value}`}
+      htmlFor={inputId}
       className={classnames(
         styles.container,
-        className,
+        className?.root,
         disabled && styles.disabled
       )}
+      style={style?.root}
     >
-      <div className={styles.radioWrapper}>
+      <div
+        className={classnames(styles.radioWrapper, className?.radioWrapper)}
+        style={style?.radioWrapper}
+      >
         <input
-          id={`${name}-${value}`}
-          name={`${name}-${value}`}
+          id={inputId}
+          name={name}
           type="radio"
           value={value}
           onChange={handleRadioChange}
           disabled={disabled}
           checked={checked}
+          aria-invalid={!!error}
+          aria-required={isRequired}
+          aria-describedby={describedBy}
+          className={styles.input}
           {...rest}
         />
         <span
+          aria-hidden="true"
           className={classnames(
             styles.checkedWrapper,
             checked ? styles.checked : styles.unchecked,
-            disabled && styles.checkedDisabled
+            disabled && styles.checkedDisabled,
+            className?.checkedWrapper
           )}
+          style={style?.checkedWrapper}
         >
           <span
             className={classnames(
               styles.innerDot,
-              checked ? styles.visible : styles.hidden
+              checked ? styles.visible : styles.hidden,
+              className?.innerDot
             )}
+            style={style?.innerDot}
           />
         </span>
         {error && (
-          <div className={styles.viewError}>
-            <IconErrorTriangle />
-            <span>{label}</span>
+          <div
+            id={errorId}
+            role="alert"
+            className={classnames(styles.viewError, className?.error)}
+            style={style?.error}
+          >
+            <IconErrorTriangle aria-hidden="true" />
+            <span>{error}</span>
           </div>
         )}
-        {popover && <div className={styles.popover}>{popover}</div>}
+        {popover && (
+          <div
+            id={popoverId}
+            role="tooltip"
+            className={classnames(styles.popover, className?.popover)}
+            style={style?.popover}
+          >
+            {popover}
+          </div>
+        )}
       </div>
       {label && (
-        <div className={styles.label}>
-          {label} {isRequired && <span>*</span>}
-        </div>
+        <span
+          className={classnames(styles.label, className?.label)}
+          style={style?.label}
+        >
+          {label} {isRequired && <span aria-hidden="true">*</span>}
+        </span>
       )}
     </label>
   );
 };
-
-const RadioGroup = (props: RadioGroupProps) => {
-  const {
-    options,
-    disabled,
-    name,
-    className,
-    value,
-    onChange,
-    isVertical = false,
-  } = props;
-
-  return (
-    <div
-      className={classnames(
-        styles.radioGroup,
-        isVertical && styles.vertical,
-        className
-      )}
-    >
-      {options.map((option) => (
-        <Radio
-          name={name}
-          key={option.value}
-          label={option.label}
-          value={option.value}
-          checked={value === option.value}
-          disabled={option.disabled || disabled}
-          onChange={onChange}
-        />
-      ))}
-    </div>
-  );
-};
-
-Radio.Group = RadioGroup;
-
-type InputProps = Omit<
-  JSX.IntrinsicElements["input"],
-  "onChange" | "checked" | "popover"
->;
-
-export interface RadioProps extends InputProps {
-  error?: any;
-  name?: string;
-  label?: string;
-  popover?: string;
-  checked?: boolean;
-  disabled?: boolean;
-  className?: string;
-  isRequired?: boolean;
-  value: number | string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export interface RadioGroupProps {
-  options: Array<{
-    label: string;
-    value: number | string;
-    disabled?: boolean;
-  }>;
-  disabled?: boolean;
-  name?: string;
-  className?: string;
-  value: number | string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  isVertical?: boolean;
-}

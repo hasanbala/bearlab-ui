@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/avatar",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "Bearlab UI Avatar Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=avatar rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=avatar rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -23,9 +23,12 @@
   "keywords": [
     "react",
     "ui",
-    "avatar",
     "component",
-    "bearlab"
+    "ui-library",
+    "avatar",
+    "profile-picture",
+    "bearlab",
+    "bearlab-ui"
   ],
   "author": "hasanbala",
   "license": "MIT",

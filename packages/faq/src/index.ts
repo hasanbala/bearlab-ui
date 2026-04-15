@@ -1,9 +1,18 @@
-export { FaqV1 } from "./faqOne";
-export { FaqV2 } from "./faqTwo";
-export { FaqV3 } from "./faqThree";
+export { FaqV1 } from "./faq-v1";
+export { FaqV2 } from "./faq-v2";
+export { FaqV3 } from "./faq-v3";
 
-export type { Props as FaqV1Props } from "./faqOne";
-export type { Props as FaqV2Props } from "./faqTwo";
-export type { Props as FaqV3Props } from "./faqThree";
-
-export { ICON_TYPE } from "./helpers";
+export type {
+  FaqProps,
+  FaqClassNames,
+  FaqV3Props,
+  FaqItemProps,
+  FaqV3ItemProps,
+  FaqIconTypeStringValues,
+  FaqData,
+  FaqItemV1ClassNames,
+  FaqItemV1Props,
+  FaqItemV1Styles,
+  FaqStyles,
+  FaqV1Props,
+} from "./types/faq.types";

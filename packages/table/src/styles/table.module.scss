@@ -1,0 +1,312 @@
+:root {
+  --bearlab-table-border-radius: 0.5rem; /* 8px */
+  --bearlab-table-border-width: 0.0625rem; /* 1px */
+  --bearlab-table-font-size: 0.875rem; /* 14px */
+  --bearlab-table-font-size-title: 1rem; /* 16px */
+  --bearlab-table-font-weight-header: 600;
+  --bearlab-table-font-weight-title: 600;
+  --bearlab-table-line-height: 1.5;
+  --bearlab-table-cell-padding-block: 0.75rem; /* 12px */
+  --bearlab-table-cell-padding-inline: 1rem; /* 16px */
+  --bearlab-table-title-margin-block-end: 0.75rem; /* 12px */
+  --bearlab-table-title-padding-block: 1rem; /* 16px */
+  --bearlab-table-title-padding-inline: 1.25rem; /* 20px */
+  --bearlab-table-row-transition: background-color 0.15s ease;
+  --bearlab-table-pagination-gap: 0.25rem; /* 4px */
+  --bearlab-table-pagination-padding-block: 0.75rem; /* 12px */
+  --bearlab-table-pagination-padding-inline: 1rem; /* 16px */
+  --bearlab-table-page-button-min-width: 2rem; /* 32px */
+  --bearlab-table-page-button-height: 2rem; /* 32px */
+  --bearlab-table-page-button-border-radius: 0.375rem; /* 6px */
+  --bearlab-table-page-button-font-size: 0.8125rem; /* 13px */
+  --bearlab-table-page-button-font-weight: 500;
+  --bearlab-table-record-info-font-size: 0.8125rem; /* 13px */
+  --bearlab-table-record-info-padding-block: 0.5rem; /* 8px */
+  --bearlab-table-record-info-padding-inline: 1.25rem; /* 20px */
+  --bearlab-table-page-info-font-size: 0.8125rem; /* 13px */
+  --bearlab-table-page-size-selector-width: 9rem; /* 144px */
+  --bearlab-main-table-width: 100%;
+  --bearlab-main-table-border-collapse: collapse;
+}
+
+:root[data-theme="light"] {
+  --bearlab-table-bg: #ffffff;
+  --bearlab-table-border-color: #e5e7eb;
+  --bearlab-table-outline-color: #93c5fd;
+  --bearlab-table-header-bg: #f9fafb;
+  --bearlab-table-header-color: #374151;
+  --bearlab-table-header-border-color: #e5e7eb;
+  --bearlab-table-body-color: #111827;
+  --bearlab-table-row-hover-bg: #f3f4f6;
+  --bearlab-table-row-clickable-cursor: pointer;
+  --bearlab-table-title-color: #111827;
+  --bearlab-table-title-border-color: #e5e7eb;
+  --bearlab-table-pagination-bg: #ffffff;
+  --bearlab-table-pagination-border-color: #e5e7eb;
+  --bearlab-table-page-button-bg: #ffffff;
+  --bearlab-table-page-button-color: #374151;
+  --bearlab-table-page-button-border-color: #d1d5db;
+  --bearlab-table-page-button-hover-bg: #f3f4f6;
+  --bearlab-table-page-button-hover-border-color: #9ca3af;
+  --bearlab-table-page-button-active-bg: #2563eb;
+  --bearlab-table-page-button-active-color: #ffffff;
+  --bearlab-table-page-button-active-border-color: #2563eb;
+  --bearlab-table-page-button-disabled-color: #9ca3af;
+  --bearlab-table-page-button-disabled-bg: #f9fafb;
+  --bearlab-table-page-button-disabled-border-color: #e5e7eb;
+  --bearlab-table-ellipsis-color: #6b7280;
+  --bearlab-table-page-info-color: #6b7280;
+  --bearlab-table-record-info-color: #6b7280;
+  --bearlab-table-record-info-border-color: #e5e7eb;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-table-bg: #1f2937;
+  --bearlab-table-border-color: #374151;
+  --bearlab-table-outline-color: #3b82f6;
+  --bearlab-table-header-bg: #111827;
+  --bearlab-table-header-color: #d1d5db;
+  --bearlab-table-header-border-color: #374151;
+  --bearlab-table-body-color: #f9fafb;
+  --bearlab-table-row-hover-bg: #374151;
+  --bearlab-table-row-clickable-cursor: pointer;
+  --bearlab-table-title-color: #f9fafb;
+  --bearlab-table-title-border-color: #374151;
+  --bearlab-table-pagination-bg: #1f2937;
+  --bearlab-table-pagination-border-color: #374151;
+  --bearlab-table-page-button-bg: #374151;
+  --bearlab-table-page-button-color: #d1d5db;
+  --bearlab-table-page-button-border-color: #4b5563;
+  --bearlab-table-page-button-hover-bg: #4b5563;
+  --bearlab-table-page-button-hover-border-color: #6b7280;
+  --bearlab-table-page-button-active-bg: #3b82f6;
+  --bearlab-table-page-button-active-color: #ffffff;
+  --bearlab-table-page-button-active-border-color: #3b82f6;
+  --bearlab-table-page-button-disabled-color: #4b5563;
+  --bearlab-table-page-button-disabled-bg: #111827;
+  --bearlab-table-page-button-disabled-border-color: #374151;
+  --bearlab-table-ellipsis-color: #6b7280;
+  --bearlab-table-page-info-color: #9ca3af;
+  --bearlab-table-record-info-color: #9ca3af;
+  --bearlab-table-record-info-border-color: #374151;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--bearlab-table-bg);
+  border: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-border-color);
+  border-radius: var(--bearlab-table-border-radius);
+  font-size: var(--bearlab-table-font-size);
+  line-height: var(--bearlab-table-line-height);
+  color: var(--bearlab-table-body-color);
+  overflow: hidden;
+}
+
+.mainTableContainer {
+  width: var(--bearlab-main-table-width);
+  border-collapse: var(--bearlab-main-table-border-collapse);
+  table-layout: auto;
+}
+
+.header {
+  padding-block: var(--bearlab-table-title-padding-block);
+  padding-inline: var(--bearlab-table-title-padding-inline);
+  border-block-end: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-title-border-color);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--bearlab-table-font-size-title);
+  font-weight: var(--bearlab-table-font-weight-title);
+  color: var(--bearlab-table-title-color);
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tableContainer {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: var(--bearlab-table-header-bg);
+}
+
+.headerCell {
+  padding-block: var(--bearlab-table-cell-padding-block);
+  padding-inline: var(--bearlab-table-cell-padding-inline);
+  font-weight: var(--bearlab-table-font-weight-header);
+  color: var(--bearlab-table-header-color);
+  text-align: start;
+  white-space: nowrap;
+  border-block-end: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-header-border-color);
+}
+
+.tableBody {
+  color: var(--bearlab-table-body-color);
+}
+
+.bodyRow {
+  transition: var(--bearlab-table-row-transition);
+
+  &:not(:last-child) {
+    border-block-end: var(--bearlab-table-border-width) solid
+      var(--bearlab-table-border-color);
+  }
+
+  &.clickable {
+    cursor: var(--bearlab-table-row-clickable-cursor);
+
+    &:hover {
+      background-color: var(--bearlab-table-row-hover-bg);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--bearlab-table-outline-color); /* 2px */
+      outline-offset: -0.125rem; /* -2px */
+    }
+  }
+}
+
+.bodyCell {
+  padding-block: var(--bearlab-table-cell-padding-block);
+  padding-inline: var(--bearlab-table-cell-padding-inline);
+  color: var(--bearlab-table-body-color);
+  vertical-align: middle;
+}
+
+.paginationWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--bearlab-table-pagination-gap);
+  padding-block: var(--bearlab-table-pagination-padding-block);
+  padding-inline: var(--bearlab-table-pagination-padding-inline);
+  border-block-start: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-pagination-border-color);
+  background-color: var(--bearlab-table-pagination-bg);
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: var(--bearlab-table-pagination-gap);
+  flex-wrap: wrap;
+
+  &.tabletControls {
+    gap: calc(var(--bearlab-table-pagination-gap) * 2);
+  }
+}
+
+.pageList {
+  display: flex;
+  align-items: center;
+  gap: var(--bearlab-table-pagination-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &.ghostPageList {
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+  }
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--bearlab-table-page-button-min-width);
+  height: var(--bearlab-table-page-button-height);
+  padding-inline: 0.5rem; /* 8px */
+  border-radius: var(--bearlab-table-page-button-border-radius);
+  border: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-page-button-border-color);
+  background-color: var(--bearlab-table-page-button-bg);
+  color: var(--bearlab-table-page-button-color);
+  font-size: var(--bearlab-table-page-button-font-size);
+  font-weight: var(--bearlab-table-page-button-font-weight);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+  text-decoration: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--bearlab-table-page-button-hover-bg);
+    border-color: var(--bearlab-table-page-button-hover-border-color);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--bearlab-table-outline-color); /* 2px */
+    outline-offset: 0.125rem; /* 2px */
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--bearlab-table-page-button-disabled-color);
+    background-color: var(--bearlab-table-page-button-disabled-bg);
+    border-color: var(--bearlab-table-page-button-disabled-border-color);
+  }
+}
+
+.pageButtonActive {
+  background-color: var(--bearlab-table-page-button-active-bg);
+  border-color: var(--bearlab-table-page-button-active-border-color);
+  color: var(--bearlab-table-page-button-active-color);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bearlab-table-page-button-active-bg);
+    border-color: var(--bearlab-table-page-button-active-border-color);
+  }
+}
+
+.pageButtonInactive {
+  background-color: var(--bearlab-table-page-button-bg);
+  color: var(--bearlab-table-page-button-color);
+}
+
+.prevButton {
+  transform: rotate(180deg);
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--bearlab-table-page-button-min-width);
+  height: var(--bearlab-table-page-button-height);
+  color: var(--bearlab-table-ellipsis-color);
+  font-size: var(--bearlab-table-page-button-font-size);
+  user-select: none;
+}
+
+.pageInfo {
+  font-size: var(--bearlab-table-page-info-font-size);
+  color: var(--bearlab-table-page-info-color);
+  white-space: nowrap;
+}
+
+.pageSizeSelector {
+  width: var(--bearlab-table-page-size-selector-width);
+}
+
+.recordInfo {
+  padding-block: var(--bearlab-table-record-info-padding-block);
+  padding-inline: var(--bearlab-table-record-info-padding-inline);
+  font-size: var(--bearlab-table-record-info-font-size);
+  color: var(--bearlab-table-record-info-color);
+  border-block-start: var(--bearlab-table-border-width) solid
+    var(--bearlab-table-record-info-border-color);
+}

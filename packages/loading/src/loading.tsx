@@ -1,22 +1,27 @@
-import React from "react";
 import classnames from "classnames";
-import styles from "./loading.module.scss";
-import { IconLoading } from "@bearlab/core";
+import { IconLoading } from "./assets/icons";
+import type { LoadingProps } from "./types/loading.types";
+import styles from "./styles/loading.module.scss";
 
 export const Loading = (props: LoadingProps) => {
   const { className, style, icon: Icon } = props;
 
-  const IconComponent = Icon || IconLoading;
+  const IconComponent = Icon ?? IconLoading;
 
   return (
-    <div className={classnames(styles.container, className)} style={style}>
-      <IconComponent className={styles.loading} />
+    <div
+      role="status"
+      aria-live="polite"
+      style={style?.root}
+      className={classnames(styles.container, className?.root)}
+    >
+      <IconComponent
+        style={style?.root}
+        aria-hidden="true"
+        focusable="false"
+        className={classnames(styles.loading, className?.icon)}
+      />
+      <span className={styles.srOnly}>Loading...</span>
     </div>
   );
 };
-
-export interface LoadingProps {
-  className?: string;
-  style?: React.CSSProperties;
-  icon?: React.ElementType;
-}

@@ -1,103 +1,112 @@
+import { useId } from "react";
 import classnames from "classnames";
-import { BUTTON_TYPE, BUTTON_VARIANT, HTML_TYPE, ICON_TYPE } from "./helpers";
+import type { ButtonProps } from "./types/button.types";
+import styles from "./styles/button.module.scss";
 import {
   IconAdd,
   IconArrow,
   IconArrowDown,
   IconArrowDown2,
-  IconArrowRight,
-  IconCopy,
   IconCross,
   IconDelete,
+  IconExport,
+  IconPing,
+  IconSearch,
+  IconUpdate,
+  IconArrowRight,
+  IconCopy,
   IconDocument,
   IconDots,
-  IconExport,
   IconFilter,
-  IconLoadingSpin,
   IconMinus,
-  IconPing,
   IconPlus,
-  IconSearch,
   IconTick,
-  IconUpdate,
-  PERMISSIONS,
-  type IPermissions,
-} from "@bearlab/core";
-import styles from "./button.module.scss";
+  IconLoadingSpin,
+} from "./assets/icons";
 
-export const Button = (props: Props) => {
+const BUTTON_ICONS = {
+  add: IconAdd,
+  arrow: IconArrow,
+  delete: IconDelete,
+  export: IconExport,
+  document: IconDocument,
+  update: IconUpdate,
+  search: IconSearch,
+  close: IconCross,
+  notify: IconPing,
+  arrow_down: IconArrowDown,
+  minus: IconMinus,
+  plus: IconPlus,
+  filter: IconFilter,
+  dots: IconDots,
+  arrow_down2: IconArrowDown2,
+  arrow_right: IconArrowRight,
+  tick: IconTick,
+  copy: IconCopy,
+  none: null,
+} as const;
+
+const DEFAULT_ICON_TYPE: ButtonProps["iconType"] = {
+  default: "none",
+  custom: null,
+};
+
+const resolveIconNode = (
+  iconType: NonNullable<ButtonProps["iconType"]>
+): React.ReactNode => {
+  if (iconType.custom) return iconType.custom;
+
+  const Icon = BUTTON_ICONS[iconType.default];
+  if (!Icon) return null;
+
+  return <Icon aria-hidden="true" focusable="false" />;
+};
+
+const LoadingSpinner = () => (
+  <div className={styles.progress} role="status" aria-label={"loading"}>
+    <IconLoadingSpin aria-hidden="true" focusable="false" />
+  </div>
+);
+
+export const Button = (props: ButtonProps) => {
   const {
     label,
     isLoading,
     className,
-    iconType = { default: ICON_TYPE.NONE, custom: null },
-    htmlType = HTML_TYPE.BUTTON,
+    iconType = DEFAULT_ICON_TYPE,
+    htmlType = "button",
     disabled,
     onClick,
     buttonType,
     variant,
-    iconTextReverse,
-    permission = PERMISSIONS.DEFAULT,
-    allAuths = {},
+    reverseIconText,
     style,
   } = props;
 
-  if (Object.keys(allAuths).length) {
-    const permissionList = Array.isArray(permission)
-      ? permission
-      : [permission];
-
-    const isValidPermission = permissionList.some(
-      (permission) => allAuths[permission as keyof IPermissions]
-    );
-
-    if (!isValidPermission) {
-      return null;
-    }
-
-    return;
-  }
-
-  const iconTypes = {
-    [ICON_TYPE.ADD]: <IconAdd />,
-    [ICON_TYPE.ARROW]: <IconArrow />,
-    [ICON_TYPE.DELETE]: <IconDelete />,
-    [ICON_TYPE.EXPORT]: <IconExport />,
-    [ICON_TYPE.DOCUMENT]: <IconDocument />,
-    [ICON_TYPE.UPDATE]: <IconUpdate />,
-    [ICON_TYPE.SEARCH]: <IconSearch />,
-    [ICON_TYPE.CLOSE]: <IconCross />,
-    [ICON_TYPE.NOTIFY]: <IconPing />,
-    [ICON_TYPE.ARROW_DOWN]: <IconArrowDown />,
-    [ICON_TYPE.MINUS]: <IconMinus />,
-    [ICON_TYPE.PLUS]: <IconPlus />,
-    [ICON_TYPE.FILTER]: <IconFilter />,
-    [ICON_TYPE.DOTS]: <IconDots />,
-    [ICON_TYPE.ARROW_DOWN2]: <IconArrowDown2 />,
-    [ICON_TYPE.ARROW_RIGHT]: <IconArrowRight />,
-    [ICON_TYPE.TICK]: <IconTick />,
-    [ICON_TYPE.COPY]: <IconCopy />,
-    [ICON_TYPE.NONE]: <></>,
-  };
+  const uid = useId();
+  const isDisabled = isLoading || disabled;
+  const isJustIcon = buttonType === "justIcon";
+  const isJustText = buttonType === "justText";
+  const isBothIconText = buttonType === "iconWithText";
+  const isCustomIcon = Boolean(iconType?.custom);
+  const popoverId = label ? `button-popover-${uid}` : undefined;
 
   const renderContent = () => {
-    if (isLoading) {
-      return (
-        <div className={styles.progress}>
-          <IconLoadingSpin />
-        </div>
-      );
-    }
-
-    if (buttonType == BUTTON_TYPE.JUST_TEXT) {
-      return <span>{label}</span>;
-    }
-
-    if (buttonType == BUTTON_TYPE.JUST_ICON) {
+    if (isLoading) return <LoadingSpinner />;
+    if (isJustText) return <span>{label}</span>;
+    if (isJustIcon) {
       return (
         <>
-          {iconType.custom || iconTypes[iconType.default]}
-          {label && <div className={styles.popover}>{label}</div>}
+          {resolveIconNode(iconType)}
+          {label && (
+            <div
+              aria-hidden="true"
+              style={style?.popover}
+              className={classnames(styles.popover, className?.popover)}
+            >
+              {label}
+            </div>
+          )}
         </>
       );
     }
@@ -105,7 +114,7 @@ export const Button = (props: Props) => {
     return (
       <>
         <span>{label}</span>
-        {iconType.custom || iconTypes[iconType.default]}
+        {resolveIconNode(iconType)}
       </>
     );
   };
@@ -117,61 +126,22 @@ export const Button = (props: Props) => {
       onClick={onClick}
       className={classnames(
         styles.container,
-        className,
-        buttonType == BUTTON_TYPE.JUST_ICON && styles.justIcon,
-        iconType.custom && styles.customIcon,
+        isJustIcon && styles.justIcon,
+        isBothIconText && styles.iconWithText,
+        isCustomIcon && styles.customIcon,
         isLoading && styles.loadingButton,
         disabled && styles.disabledButton,
         variant && styles[variant],
-        iconTextReverse && styles.iconTextReverse
+        reverseIconText && styles.reverseIconText,
+        className?.root
       )}
-      style={style}
+      style={style?.root}
+      aria-label={isJustIcon ? String(label) : undefined}
+      aria-describedby={isJustIcon && label ? popoverId : undefined}
+      aria-disabled={isDisabled}
+      aria-busy={isLoading}
     >
       {renderContent()}
     </button>
   );
 };
-
-export interface Props {
-  label: string | number;
-  isLoading?: boolean;
-  className?: string;
-  iconType?: {
-    default:
-      | ICON_TYPE.NONE
-      | ICON_TYPE.DELETE
-      | ICON_TYPE.ARROW
-      | ICON_TYPE.EXPORT
-      | ICON_TYPE.ADD
-      | ICON_TYPE.DOCUMENT
-      | ICON_TYPE.UPDATE
-      | ICON_TYPE.SEARCH
-      | ICON_TYPE.CLOSE
-      | ICON_TYPE.NOTIFY
-      | ICON_TYPE.ARROW_DOWN
-      | ICON_TYPE.MINUS
-      | ICON_TYPE.PLUS
-      | ICON_TYPE.FILTER
-      | ICON_TYPE.DOTS
-      | ICON_TYPE.ARROW_DOWN2
-      | ICON_TYPE.ARROW_RIGHT
-      | ICON_TYPE.TICK
-      | ICON_TYPE.COPY;
-    custom?: null | React.ReactElement;
-  };
-  buttonType:
-    | BUTTON_TYPE.ICON_WITH_TEXT
-    | BUTTON_TYPE.JUST_ICON
-    | BUTTON_TYPE.JUST_TEXT;
-  disabled?: boolean;
-  htmlType?: HTML_TYPE.BUTTON | HTML_TYPE.SUBMIT;
-  onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
-  iconTextReverse?: boolean;
-  variant?:
-    | BUTTON_VARIANT.PRIMARY
-    | BUTTON_VARIANT.SECONDARY
-    | BUTTON_VARIANT.TERTIARY;
-  permission?: string | string[];
-  allAuths?: any;
-  style?: React.CSSProperties;
-}

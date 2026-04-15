@@ -1,5 +1,5 @@
+import { useState, useId } from "react";
 import classnames from "classnames";
-import { JSX, useState } from "react";
 import {
   IconEyesClose,
   IconEyesOpen,
@@ -7,155 +7,182 @@ import {
   IconTick,
   IconSearch,
   IconErrorTriangle,
-} from "@bearlab/core";
-import styles from "./input.module.scss";
-import { useCopyByInput } from "@bearlab/hooks";
+} from "./assets/icons";
+import type { InputProps, IconType } from "./types/input.types";
+import styles from "./styles/input.module.scss";
+import { useCopy } from "./hooks/use-copy";
 
-export const Input = (props: Props) => {
+const renderIcon = (icon: IconType) => {
+  if (typeof icon === "string") return <>{icon}</>;
+  const IconComponent = icon;
+  return <IconComponent />;
+};
+
+export const Input = (props: InputProps) => {
   const {
     label,
     error,
-    onClick,
-    afterIcon,
-    isExistSearch,
-    isExistPassword,
-    className,
-    disabled,
-    type = "text",
     value,
-    isExistCopy,
+    style,
+    disabled,
+    afterIcon,
+    className,
     beforeIcon,
     isRequired,
+    isExistCopy,
+    isExistSearch,
+    type = "text",
+    isExistPassword,
+    onClick,
+    onSearch,
     ...rest
   } = props;
 
+  const inputId = useId();
+  const errorId = useId();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { isCopy, handleCopy } = useCopyByInput(value, disabled);
+  const { isCopy, handleCopy } = useCopy(value, disabled);
+  const hasError = Boolean(error);
+  const inputType =
+    type !== "password" || passwordVisible ? "text" : "password";
 
-  const renderPassord = () => {
-    if (passwordVisible) {
-      return (
-        <IconEyesClose
-          className={styles.eyes}
-          onClick={() => setPasswordVisible(!passwordVisible)}
-        />
-      );
-    }
-
-    return (
-      <IconEyesOpen
-        className={styles.eyes}
-        onClick={() => setPasswordVisible(!passwordVisible)}
-      />
-    );
-  };
-
-  const renderCopy = () => {
-    if (!isCopy) {
-      return <IconCopy />;
-    }
-
-    return <IconTick />;
-  };
-
-  const renderIcon = (
-    icon: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>
-  ) => {
-    if (typeof icon == "string") {
-      return <>{icon}</>;
-    }
-
-    const IconComponent = icon;
-    return <IconComponent />;
-  };
+  const togglePassword = () => setPasswordVisible((prev) => !prev);
 
   return (
     <div
+      style={style?.root}
       className={classnames(
         styles.container,
-        className,
-        disabled && styles.disabled
+        disabled && styles.disabled,
+        className?.root
       )}
     >
       {label && (
-        <div className={styles.label}>
-          {label} {isRequired && <span>*</span>}
-        </div>
+        <label
+          htmlFor={inputId}
+          style={style?.label}
+          className={classnames(styles.label, className?.label)}
+        >
+          {label} {isRequired && <span aria-hidden="true"> *</span>}
+        </label>
       )}
-      <div className={styles.inputWrapper}>
+      <div
+        style={style?.inputWrapper}
+        className={classnames(
+          styles.inputWrapper,
+          hasError && styles.inputWrapperError,
+          className?.inputWrapper
+        )}
+      >
+        <input
+          id={inputId}
+          value={value ?? ""}
+          type={inputType}
+          disabled={disabled}
+          aria-invalid={hasError || undefined}
+          aria-required={isRequired || undefined}
+          aria-describedby={hasError ? errorId : undefined}
+          className={classnames(
+            styles.input,
+            isExistSearch && styles.inputWithSearch,
+            isExistPassword && !isExistCopy && styles.inputWithPassword,
+            isExistCopy && !isExistPassword && styles.inputWithCopy,
+            isExistCopy && isExistPassword && styles.inputWithCopyAndPassword,
+            hasError && styles.inputError,
+            className?.input
+          )}
+          style={style?.input}
+          {...rest}
+        />
         {beforeIcon && (
-          <div className={classnames(styles.withIcon, styles.beforeIcon)}>
+          <div
+            aria-hidden="true"
+            style={style?.beforeIcon}
+            className={classnames(
+              styles.iconWrapper,
+              styles.beforeIcon,
+              className?.beforeIcon
+            )}
+          >
             {renderIcon(beforeIcon)}
           </div>
         )}
         {afterIcon && (
-          <div className={classnames(styles.withIcon, styles.afterIcon)}>
+          <div
+            aria-hidden="true"
+            className={classnames(
+              styles.iconWrapper,
+              styles.afterIcon,
+              className?.afterIcon
+            )}
+            style={style?.afterIcon}
+          >
             {renderIcon(afterIcon)}
           </div>
         )}
-        <input
-          value={value || ""}
-          type={type !== "password" || passwordVisible ? "text" : "password"}
-          disabled={disabled}
-          className={classnames(
-            isExistSearch && styles.existSearchInput,
-            isExistPassword && styles.existPasswordInput,
-            isExistCopy && styles.existCopyInput,
-            error && styles.error
-          )}
-          {...rest}
-        />
         {isExistPassword && (
-          <div className={styles.password}>{renderPassord()}</div>
+          <button
+            type="button"
+            aria-label={passwordVisible ? "Hide password" : "Show password"}
+            onClick={togglePassword}
+            className={classnames(
+              styles.passwordToggle,
+              isExistCopy && styles.passwordToggleWithCopy,
+              className?.passwordToggle
+            )}
+            style={style?.passwordToggle}
+          >
+            {passwordVisible ? (
+              <IconEyesClose aria-hidden="true" />
+            ) : (
+              <IconEyesOpen aria-hidden="true" />
+            )}
+          </button>
         )}
         {isExistCopy && (
-          <div
+          <button
+            type="button"
+            aria-label={isCopy ? "Copied" : "Copy to clipboard"}
             onClick={handleCopy}
+            disabled={disabled}
             className={classnames(
-              styles.withIcon,
+              styles.iconWrapper,
               styles.afterIcon,
-              styles.copy
+              styles.copyButton,
+              className?.copyButton
             )}
+            style={style?.copyButton}
           >
-            {renderCopy()}
-          </div>
+            {isCopy ? (
+              <IconTick aria-hidden="true" />
+            ) : (
+              <IconCopy aria-hidden="true" />
+            )}
+          </button>
         )}
         {isExistSearch && (
-          <IconSearch className={styles.searchIcon} onClick={onClick} />
+          <button
+            type="button"
+            aria-label="Search"
+            onClick={onSearch}
+            className={classnames(styles.searchButton, className?.searchButton)}
+            style={style?.searchButton}
+          >
+            <IconSearch aria-hidden="true" />
+          </button>
         )}
-        {error && (
-          <div className={styles.viewError}>
-            <IconErrorTriangle />
-            <span>{label}</span>
+        {hasError && (
+          <div
+            id={errorId}
+            role="alert"
+            style={style?.errorMessage}
+            className={classnames(styles.viewError, className?.errorMessage)}
+          >
+            <IconErrorTriangle aria-hidden="true" />
+            <span>{error}</span>
           </div>
         )}
       </div>
     </div>
   );
 };
-
-type InputProps = JSX.IntrinsicElements["input"];
-
-export interface Props extends InputProps {
-  error?: any;
-  name?: string;
-  value?: string | number;
-  label?: string;
-  className?: string;
-  disabled?: boolean;
-  maxLength?: number;
-  isRequired?: boolean;
-  placeholder?: string;
-  isExistCopy?: boolean;
-  isExistSearch?: boolean;
-  isExistPassword?: boolean;
-  type?: "text" | "password" | "email" | "tel";
-  ref?: React.Ref<HTMLInputElement> | undefined;
-  beforeIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  afterIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  onChange: (_val: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (_val: React.FocusEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onPaste?: React.ClipboardEventHandler<HTMLInputElement> | undefined;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement | HTMLOrSVGElement>) => void;
-}

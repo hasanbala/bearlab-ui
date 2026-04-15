@@ -1,0 +1,45 @@
+{
+  "name": "@bearlab/carousel",
+  "version": "1.0.0",
+  "description": "Bearlab UI Carousel Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=carousel rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "carousel",
+    "slider",
+    "gallery",
+    "bearlab",
+    "bearlab-ui"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/carousel"
+  },
+  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

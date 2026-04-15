@@ -1,0 +1,46 @@
+{
+  "name": "@bearlab/modal",
+  "version": "1.0.0",
+  "description": "Bearlab UI Modal Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=modal rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "modal",
+    "dialog",
+    "popup",
+    "alertdialog",
+    "bearlab",
+    "bearlab-ui"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/modal"
+  },
+  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

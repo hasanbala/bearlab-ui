@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/dropdown",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Bearlab UI Dropdown Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=dropdown rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=dropdown rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -24,9 +24,15 @@
   "keywords": [
     "react",
     "ui",
-    "dropdown",
     "component",
-    "bearlab"
+    "ui-library",
+    "dropdown",
+    "select",
+    "menu",
+    "popover",
+    "react-dropdown",
+    "bearlab",
+    "bearlab-ui"
   ],
   "author": "hasanbala",
   "license": "MIT",

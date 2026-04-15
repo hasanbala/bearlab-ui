@@ -1,2 +1,14 @@
 export { Select } from "./select";
-export type { Props as SelectProps } from "./select";
+export type {
+  OptionProps,
+  SearchProps,
+  SelectOption,
+  SelectProps,
+  OptionsProps,
+  OptionsPortalProps,
+  SelectedItemProps,
+  SelectedItemsProps,
+  SelectClassNames,
+  SelectMode,
+  SelectStyles,
+} from "./types/select.types";

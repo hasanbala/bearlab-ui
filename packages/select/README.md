@@ -1,197 +1,283 @@
 # @bearlab/select
 
-A modern, accessible, and customizable Select component for React applications with full TypeScript support and built-in theme compatibility.
+> Accessible, fully customizable Select component for React applications.
 
-## ✨ Features
-
-- 🎨 **Modern Design**: Clean, professional styling with rounded corners and subtle shadows
-- 🌓 **Theme Support**: Built-in light and dark theme compatibility
-- ♿ **Accessibility**: Fully accessible with proper ARIA attributes and keyboard navigation
-- 🔧 **TypeScript**: Complete type safety with TypeScript definitions
-- 🎯 **Customizable**: Flexible styling with CSS modules and custom class support
-- 📱 **Responsive**: Works seamlessly across all device sizes
-- ⚡ **Performance**: Lightweight and optimized for production use
-- 🎪 **Interactive States**: Hover, focus, disabled, and error states
-- 🔍 **Form Integration**: Perfect integration with form libraries like Formik, React Hook Form
-
-## 📦 Installation
-
-```bash
-npm install @bearlab/select
-```
-
-```bash
-yarn add @bearlab/select
-```
-
-## 🔗 Dependencies
-
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
-
-## 📚 API Reference
-
-### Props
-
-| Prop          | Type                                                | Required | Default              | Description                               |
-| ------------- | --------------------------------------------------- | -------- | -------------------- | ----------------------------------------- |
-| `name`        | `string`                                            | ✅       | -                    | The name attribute for the select element |
-| `value`       | `string`                                            | ✅       | -                    | The current selected value                |
-| `label`       | `string`                                            | ✅       | -                    | Label text displayed above the select     |
-| `options`     | `Option[]`                                          | ✅       | -                    | Array of options to display               |
-| `onChange`    | `(e: React.ChangeEvent<HTMLSelectElement>) => void` | ✅       | -                    | Callback fired when selection changes     |
-| `error`       | `any`                                               | ❌       | -                    | Error state/message to display            |
-| `className`   | `string`                                            | ❌       | -                    | Additional CSS classes                    |
-| `disabled`    | `boolean`                                           | ❌       | `false`              | Whether the select is disabled            |
-| `isRequired`  | `boolean`                                           | ❌       | `false`              | Shows required indicator (\*)             |
-| `placeholder` | `string`                                            | ❌       | `"Select an option"` | Placeholder text                          |
-
-### Option Interface
-
-```tsx
-interface Option {
-  value: string;
-  label: string;
-}
-```
-
-The component also accepts all standard HTML `select` element props through TypeScript's `JSX.IntrinsicElements["select"]`.
-
-## 🎯 Usage Examples
-
-### Basic Usage
-
-```tsx
-import { Select } from "@bearlab/select";
-
-const colors = [
-  { value: "red", label: "Red" },
-  { value: "green", label: "Green" },
-  { value: "blue", label: "Blue" },
-];
-
-<Select
-  name="color"
-  label="Favorite Color"
-  value={selectedColor}
-  options={colors}
-  onChange={handleColorChange}
-/>;
-```
-
-### With Error State
-
-```tsx
-<Select
-  name="category"
-  label="Category"
-  value={category}
-  options={categories}
-  onChange={handleCategoryChange}
-  error={errors.category}
-  isRequired
-/>
-```
-
-### Disabled State
-
-```tsx
-<Select
-  name="disabled-select"
-  label="Disabled Select"
-  value=""
-  options={options}
-  onChange={() => {}}
-  disabled
-/>
-```
-
-### With Custom Styling
-
-```tsx
-<Select
-  name="styled-select"
-  label="Styled Select"
-  value={value}
-  options={options}
-  onChange={handleChange}
-  className="my-custom-select"
-  placeholder="Choose wisely..."
-/>
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-The Select component comes with built-in support for light and dark themes. The theme is automatically detected based on the `data-theme` attribute on the HTML element.
-
-### Custom Styling
-
-You can customize the appearance by passing a `className` prop or by overriding the CSS custom properties:
-
-```scss
-.custom-select {
-  --select-border-radius: 12px;
-  --select-padding: 16px;
-}
-```
-
-## ♿ Accessibility
-
-The Select component is built with accessibility in mind:
-
-- **Keyboard Navigation**: Full support for keyboard navigation (Tab, Enter, Arrow keys)
-- **Screen Readers**: Proper labeling and ARIA attributes
-- **Focus Management**: Clear focus indicators that meet WCAG guidelines
-- **Color Contrast**: All color combinations meet WCAG AA standards
-- **Error Handling**: Error messages are properly associated with the form field
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
+[![npm version](https://img.shields.io/npm/v/@bearlab/select)](https://www.npmjs.com/package/@bearlab/select)
+[![license](https://img.shields.io/npm/l/@bearlab/select)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/select">📦 View on NPM</a>
-  </p>
-</div>
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Styling](#styling)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Single & Multiple selection** — toggle via `mode` prop
+- ✅ **Search capability** — built-in search filter for large option sets
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — manages `aria-expanded`, keyboard navigation, focus management
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+
+---
+
+## Installation
+
+```bash
+# npm
+npm install @bearlab/select
+
+# yarn
+yarn add @bearlab/select
+
+# pnpm
+pnpm add @bearlab/select
+```
+
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
+
+---
+
+## Usage
+
+```tsx
+import { Select } from "@bearlab/select";
+import { useState } from "react";
+
+export default function App() {
+  const [query, setQuery] = useState("");
+  const [options, setOptions] = useState([
+    { label: "Option 1", value: "1" },
+    { label: "Option 2", value: "2" },
+  ]);
+  const [selected, setSelected] = useState([]);
+
+  return (
+    <Select
+      label="Choose an option"
+      mode="multiple"
+      query={query}
+      setQuery={setQuery}
+      options={options}
+      setOptions={setOptions}
+      selectedItems={selected}
+      setSelectedItems={setSelected}
+      isLoading={false}
+      debouncedValue={query}
+    />
+  );
+}
+```
+
+---
+
+## Props
+
+| Prop               | Type                                    | Default      | Required | Description                                                                     |
+| ------------------ | --------------------------------------- | ------------ | -------- | ------------------------------------------------------------------------------- |
+| `options`          | `T[]`                                   | —            | ✅       | Array of options to display (where `T` extends [`SelectOption`](#selectoption)) |
+| `query`            | `string`                                | —            | ✅       | Current search query                                                            |
+| `setQuery`         | `(val: string) => void`                 | —            | ✅       | Search query setter                                                             |
+| `setOptions`       | `(val: T[]) => void`                    | —            | ✅       | Options state setter                                                            |
+| `selectedItems`    | `T[]`                                   | —            | ✅       | Currently selected items                                                        |
+| `setSelectedItems` | `(val: T[]) => void`                    | —            | ✅       | Setter for selected items                                                       |
+| `isLoading`        | `boolean`                               | —            | ✅       | Loading state indicator                                                         |
+| `debouncedValue`   | `string`                                | —            | ✅       | Debounced search query value                                                    |
+| `label`            | `string`                                | —            | ❌       | Field label                                                                     |
+| `mode`             | `"single" \| "multiple"`                | `"multiple"` | ❌       | Selection mode                                                                  |
+| `disabled`         | `boolean`                               | —            | ❌       | Disables the select                                                             |
+| `error`            | `any`                                   | —            | ❌       | Error message                                                                   |
+| `isRequired`       | `boolean`                               | —            | ❌       | Marks the field as required                                                     |
+| `optionZIndex`     | `number`                                | `8888`       | ❌       | Z-index for the dropdown portal                                                 |
+| `className`        | [`SelectClassNames`](#selectclassnames) | —            | ❌       | Per-slot className overrides                                                    |
+| `style`            | [`SelectStyles`](#selectstyles)         | —            | ❌       | Per-slot inline style overrides                                                 |
+
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner search input natively using `style?.search`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `SelectClassNames`
+
+| Slot            | Targets                                |
+| --------------- | -------------------------------------- |
+| `root`          | Outermost container `<div>`            |
+| `search`        | Inner search input/wrapper             |
+| `options`       | The dropdown list container            |
+| `option`        | Individual option item                 |
+| `selectedItems` | Wrapper for chosen items               |
+| `selectedItem`  | Individual chosen item (e.g. tag/chip) |
+
+```tsx
+<Select
+  //... required props
+  className={{
+    root: "my-select-root",
+    options: "my-select-dropdown",
+    option: "my-select-item",
+  }}
+/>
+```
+
+### `SelectStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Select
+  //... required props
+  style={{
+    root: { maxWidth: "400px" },
+    search: { borderColor: "blue" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Select` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-select-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-select-root-background: #ffffff;
+  --bearlab-select-options-border: 1px solid #d1d5db;
+  --bearlab-select-option-hover-bg: #f3f4f6;
+  --bearlab-select-selected-color: #2563eb;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **Keyboard Navigation** — Full support for `ArrowDown`, `ArrowUp`, `Enter`, `Escape`, and `Backspace` to navigate, select, and manage the dropdown options.
+- **Active Descendant Management** — Keeps track of focus dynamically via internal state (`activeIndex`) instead of hard focus moves.
+- **Dynamic Context** — Manages focus appropriately for a combo box select input ensuring screen readers announce options properly as they are navigated.
+
+---
+
+## TypeScript
+
+The `Select` component is generic, where **`T`** represents your option type. **`T` must extend `SelectOption`**.
+
+### `SelectOption`
+
+This is the base interface that all options must follow:
+
+```ts
+export interface SelectOption {
+  label: string; // The text displayed in the option
+  value: string | number; // The unique identifier for the option
+  image?: string; // Optional: URL for an image to display next to the label
+  disabled?: boolean; // Optional: Whether the specific option is disabled
+}
+```
+
+### Exported Types
+
+All types are exported from the package:
+
+```ts
+import type {
+  SelectProps,
+  SelectOption,
+  SelectClassNames,
+  SelectStyles,
+  SelectMode,
+} from "@bearlab/select";
+```
+
+### `SelectProps`
+
+```ts
+export interface SelectProps<T extends SelectOption> {
+  error?: any;
+  options: T[];
+  query: string;
+  label?: string;
+  mode?: SelectMode;
+  disabled?: boolean;
+  isLoading: boolean;
+  selectedItems: T[];
+  emptyText?: string;
+  showImage?: boolean;
+  isRequired?: boolean;
+  placeholder?: string;
+  style?: SelectStyles;
+  notFoundText?: string;
+  optionZIndex?: number;
+  debouncedValue: string;
+  showCheckbox?: boolean;
+  highlightMatch?: boolean;
+  className?: SelectClassNames;
+  setOptions: (val: T[]) => void;
+  setQuery: (val: string) => void;
+  onChange?: (selected: T[]) => void;
+  setSelectedItems: (selected: T[]) => void;
+}
+```
+
+### `SelectClassNames`
+
+```ts
+interface SelectClassNames {
+  search?: string;
+  option?: string;
+  options?: string;
+  root?: string;
+  selectedItem?: string;
+  selectedItems?: string;
+}
+```
+
+### `SelectStyles`
+
+```ts
+interface SelectStyles {
+  search?: React.CSSProperties;
+  option?: React.CSSProperties;
+  options?: React.CSSProperties;
+  root?: React.CSSProperties;
+  selectedItem?: React.CSSProperties;
+  selectedItems?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

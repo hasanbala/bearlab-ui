@@ -1,135 +1,63 @@
 # @bearlab/input
 
-A comprehensive, feature-rich input component for React applications with TypeScript support, including password visibility toggle, copy functionality, search integration, and flexible icon positioning.
+> Accessible, fully customizable Input component for React applications with built-in password, search, and copy features.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/input)](https://www.npmjs.com/package/@bearlab/input)
+[![license](https://img.shields.io/npm/l/@bearlab/input)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- ✅ **Password Visibility Toggle** - Built-in show/hide password functionality
-- 📋 **Copy to Clipboard** - One-click copy functionality with visual feedback
-- 🔍 **Search Integration** - Built-in search icon and functionality
-- 🎨 **Flexible Icon System** - Support for before/after icons with string or component
-- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
-- 🌙 **Dark Mode Support** - Seamless light/dark theme switching
-- ♿ **Fully Accessible** - WCAG compliant with proper ARIA attributes
-- 🎯 **Validation Support** - Built-in error handling and display
-- 📱 **Mobile Responsive** - Optimized for mobile devices
-- 🔧 **Highly Customizable** - Extensive styling options and configurations
-- ⚡ **Lightweight** - Minimal bundle size with tree-shaking support
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Built-in functionalities** — Native support for `password` toggle, `copy` to clipboard, and `search` features.
+- ✅ **Pre/Post icons** — Easy integration of inline icons via `beforeIcon` and `afterIcon`.
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides.
+- ✅ **Accessible by default** — `aria-invalid`, `aria-describedby`, label linkage (`htmlFor`), and `role="alert"` on errors.
+- ✅ **TypeScript-first** — fully typed props and slot interfaces.
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/input
-```
 
-```bash
+# yarn
 yarn add @bearlab/input
+
+# pnpm
+pnpm add @bearlab/input
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react` >= 16.8.0
-- `react-dom` >= 16.8.0
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `@bearlab/hooks` For handle copy by input
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop          | Type                                               | Default      | Description                                |
-| ------------- | -------------------------------------------------- | ------------ | ------------------------------------------ |
-| `label`       | `string`                                           | `undefined`  | Label text displayed above the input       |
-| `value`       | `string \| number`                                 | `undefined`  | The input value                            |
-| `onChange`    | `(e: React.ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when input value changes    |
-| `type`        | `"text" \| "password" \| "email" \| "tel"`         | `"text"`     | Input type                                 |
-| `placeholder` | `string`                                           | `undefined`  | Placeholder text                           |
-| `error`       | `any`                                              | `undefined`  | Error message to display                   |
-| `disabled`    | `boolean`                                          | `false`      | Whether the input is disabled              |
-| `isRequired`  | `boolean`                                          | `false`      | Shows required asterisk (\*) next to label |
-| `className`   | `string`                                           | `undefined`  | Additional CSS class for container         |
-| `maxLength`   | `number`                                           | `undefined`  | Maximum number of characters               |
-
-### Feature Props
-
-| Prop              | Type                                                | Default     | Description                          |
-| ----------------- | --------------------------------------------------- | ----------- | ------------------------------------ |
-| `isExistPassword` | `boolean`                                           | `false`     | Adds password visibility toggle      |
-| `isExistCopy`     | `boolean`                                           | `false`     | Adds copy to clipboard functionality |
-| `isExistSearch`   | `boolean`                                           | `false`     | Adds search icon                     |
-| `beforeIcon`      | `string \| React.FC<React.SVGProps<SVGSVGElement>>` | `undefined` | Icon displayed before the input      |
-| `afterIcon`       | `string \| React.FC<React.SVGProps<SVGSVGElement>>` | `undefined` | Icon displayed after the input       |
-
-### Event Handler Props
-
-| Prop        | Type                                                 | Description                           |
-| ----------- | ---------------------------------------------------- | ------------------------------------- |
-| `onBlur`    | `(e: React.FocusEvent<HTMLInputElement>) => void`    | Callback fired when input loses focus |
-| `onKeyDown` | `(e: React.KeyboardEvent<HTMLInputElement>) => void` | Callback fired on key press           |
-| `onPaste`   | `React.ClipboardEventHandler<HTMLInputElement>`      | Callback fired on paste event         |
-| `onClick`   | `(e: React.MouseEvent) => void`                      | Callback for search icon click        |
-
-### TypeScript Support
-
-The component is fully typed with TypeScript:
-
-```tsx
-export interface Props extends JSX.IntrinsicElements["input"] {
-  error?: any;
-  name?: string;
-  value?: string | number;
-  label?: string;
-  className?: string;
-  disabled?: boolean;
-  maxLength?: number;
-  isRequired?: boolean;
-  placeholder?: string;
-  isExistCopy?: boolean;
-  isExistSearch?: boolean;
-  isExistPassword?: boolean;
-  type?: "text" | "password" | "email" | "tel";
-  beforeIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  afterIcon?: string | React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  onChange: (val: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (val: React.FocusEvent<HTMLInputElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
-  onClick?: (e: React.MouseEvent) => void;
-}
-```
-
-### Icon System
-
-The component supports flexible icon positioning:
-
-- **beforeIcon**: Displayed on the left side with border separator
-- **afterIcon**: Displayed on the right side with border separator
-- **String icons**: Simple text/symbols (e.g., "@", "$", "%")
-- **Component icons**: React SVG components from `@bearlab/core`
-
-## 🎯 Usage Examples
-
-### Standard Text Input
+## Usage
 
 ```tsx
 import { Input } from "@bearlab/input";
-import { useState } from "react";
 
-function BasicExample() {
-  const [value, setValue] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
+export default function App() {
   return (
-    <Input
-      label="Full Name"
-      value={value}
-      onChange={handleChange}
-      placeholder="Enter your full name"
-    />
+    <Input label="Email Address" placeholder="Enter your email" isRequired />
   );
 }
 ```
@@ -140,7 +68,7 @@ function BasicExample() {
 import { Input } from "@bearlab/input";
 import { useState } from "react";
 
-function PasswordExample() {
+export default function App() {
   const [password, setPassword] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,308 +89,195 @@ function PasswordExample() {
 }
 ```
 
-### Copy to Clipboard Input
+---
 
-```tsx
-import { Input } from "@bearlab/input";
+## Props
 
-function CopyExample() {
-  const apiKey = "sk-1234567890abcdef";
+| Prop              | Type                                  | Default | Required | Description                                                         |
+| ----------------- | ------------------------------------- | ------- | -------- | ------------------------------------------------------------------- |
+| `label`           | `string`                              | —       | ❌       | Label text for the input                                            |
+| `error`           | `string`                              | —       | ❌       | Error message displayed below the input                             |
+| `beforeIcon`      | `IconType`                            | —       | ❌       | Icon rendered before the input text                                 |
+| `afterIcon`       | `IconType`                            | —       | ❌       | Icon rendered after the input text                                  |
+| `isExistSearch`   | `boolean`                             | `false` | ❌       | Renders a search button inside the input                            |
+| `isExistPassword` | `boolean`                             | `false` | ❌       | Enables password visibility toggle                                  |
+| `isExistCopy`     | `boolean`                             | `false` | ❌       | Enables copy-to-clipboard functionality                             |
+| `isRequired`      | `boolean`                             | `false` | ❌       | Marks the input as required (adds `*` to label and `aria-required`) |
+| `onSearch`        | `() => void`                          | —       | ❌       | Callback fired when the search button is clicked                    |
+| `className`       | [`InputClassNames`](#inputclassnames) | —       | ❌       | Per-slot className overrides                                        |
+| `style`           | [`InputStyles`](#inputstyles)         | —       | ❌       | Per-slot inline style overrides                                     |
 
-  return (
-    <Input
-      label="API Key"
-      value={apiKey}
-      onChange={() => {}} // Read-only
-      isExistCopy={true}
-      disabled={true}
-    />
-  );
-}
-```
-
-### Search Input
-
-```tsx
-import { Input } from "@bearlab/input";
-import { useState } from "react";
-
-function SearchExample() {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    console.log("Searching for:", searchQuery);
-    // Implement your search logic
-  };
-
-  return (
-    <Input
-      label="Search Products"
-      value={searchQuery}
-      onChange={handleChange}
-      placeholder="Type to search..."
-      isExistSearch={true}
-      onClick={handleSearch}
-    />
-  );
-}
-```
-
-### Input with Icons
-
-```tsx
-import { Input } from "@bearlab/input";
-import { IconUser, IconMail } from "@bearlab/core";
-import { useState } from "react";
-
-function IconExample() {
-  const [email, setEmail] = useState("");
-
-  return (
-    <div>
-      {/* With icon component */}
-      <Input
-        label="Email Address"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        beforeIcon={IconMail}
-        placeholder="Enter your email"
-      />
-
-      {/* With string icon */}
-      <Input
-        label="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        afterIcon="@"
-        placeholder="Enter username"
-      />
-    </div>
-  );
-}
-```
-
-### Form Validation
-
-```tsx
-import { Input } from "@bearlab/input";
-import { useState } from "react";
-
-function ValidationExample() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  const validateField = (name: string, value: string) => {
-    let error = "";
-
-    switch (name) {
-      case "email":
-        if (!value) {
-          error = "Email is required";
-        } else if (!/\S+@\S+\.\S+/.test(value)) {
-          error = "Invalid email format";
-        }
-        break;
-      case "password":
-        if (!value) {
-          error = "Password is required";
-        } else if (value.length < 8) {
-          error = "Password must be at least 8 characters";
-        }
-        break;
-      case "confirmPassword":
-        if (value !== formData.password) {
-          error = "Passwords do not match";
-        }
-        break;
-    }
-
-    setErrors((prev) => ({ ...prev, [name]: error }));
-  };
-
-  const handleChange =
-    (name: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setFormData((prev) => ({ ...prev, [name]: value }));
-      validateField(name, value);
-    };
-
-  return (
-    <form>
-      <Input
-        label="Email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange("email")}
-        error={errors.email}
-        isRequired
-        placeholder="Enter your email"
-      />
-
-      <Input
-        label="Password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange("password")}
-        error={errors.password}
-        isExistPassword={true}
-        isRequired
-        placeholder="Create a password"
-      />
-
-      <Input
-        label="Confirm Password"
-        type="password"
-        value={formData.confirmPassword}
-        onChange={handleChange("confirmPassword")}
-        error={errors.confirmPassword}
-        isExistPassword={true}
-        isRequired
-        placeholder="Confirm your password"
-      />
-    </form>
-  );
-}
-```
-
-### Complex Input with Multiple Features
-
-```tsx
-import { Input } from "@bearlab/input";
-import { IconLock } from "@bearlab/core";
-import { useState } from "react";
-
-function ComplexExample() {
-  const [secureData, setSecureData] = useState("encrypted-data-12345");
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      console.log("Enter pressed");
-    }
-  };
-
-  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.log("Paste blocked for security");
-  };
-
-  return (
-    <Input
-      label="Secure Token"
-      value={secureData}
-      onChange={(e) => setSecureData(e.target.value)}
-      beforeIcon={IconLock}
-      isExistCopy={true}
-      isExistPassword={true}
-      type="password"
-      maxLength={50}
-      onKeyDown={handleKeyDown}
-      onPaste={handlePaste}
-      className="secure-input"
-    />
-  );
-}
-```
-
-## 🎨 🎭 Styling
-
-### CSS Custom Properties
-
-```css
-.your-input-class {
-  --input-border-color: #e5e7eb;
-  --input-focus-color: #3b82f6;
-  --input-error-color: #ef4444;
-  --input-background: transparent;
-  --input-text-color: #374151;
-  --input-placeholder-color: #9ca3af;
-}
-```
-
-### Custom Styling
-
-```css
-.custom-input {
-  /* Container styling */
-}
-
-.custom-input .inputWrapper input {
-  border-radius: 12px;
-  border: 2px solid #e2e8f0;
-}
-
-.custom-input .label {
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.custom-input .withIcon {
-  background-color: #f8fafc;
-}
-```
-
-### Mobile Responsiveness
-
-The component includes mobile-specific optimizations:
-
-- Responsive label sizing
-- Touch-friendly icon areas
-- Optimized spacing for mobile devices
-- Hidden elements that don't work well on mobile
-
-## ♿ Accessibility
-
-- **ARIA Labels**: Proper labeling for screen readers
-- **Focus Management**: Visible focus indicators with proper contrast
-- **Keyboard Navigation**: Full keyboard support
-- **Error Announcements**: Screen reader announcements for validation errors
-- **Semantic HTML**: Proper form element structure
-- **Required Field Indicators**: Clear visual and programmatic required field marking
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
+_Note: Supports all native `React.InputHTMLAttributes<HTMLInputElement>` attributes (except native `className` and `style`)._
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/input">📦 View on NPM</a>
-  </p>
-</div>
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the wrapper utilizing `className?.inputWrapper` or style the actual input element natively using `style?.input`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `InputClassNames`
+
+| Slot             | Targets                                      |
+| ---------------- | -------------------------------------------- |
+| `root`           | Outermost container `<div>`                  |
+| `label`          | Label `<label>`                              |
+| `inputWrapper`   | Wrapper around the `<input>` element `<div>` |
+| `input`          | The actual `<input>` element                 |
+| `beforeIcon`     | Wrapper for the `beforeIcon`                 |
+| `afterIcon`      | Wrapper for the `afterIcon`                  |
+| `passwordToggle` | The password toggle `<button>`               |
+| `copyButton`     | The copy `<button>`                          |
+| `searchButton`   | The search `<button>`                        |
+| `errorMessage`   | The error message container `<div>`          |
+
+```tsx
+<Input
+  label="Username"
+  className={{
+    root: "my-input-root",
+    input: "my-custom-input",
+    label: "my-label-class",
+  }}
+/>
+```
+
+### `InputStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Input
+  label="Search"
+  isExistSearch
+  style={{
+    inputWrapper: { borderRadius: "12px", border: "1px solid #ccc" },
+    input: { padding: "10px" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Input` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-input-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-input-border-radius: 8px;
+  --bearlab-input-padding: 0.5rem 1rem;
+  --bearlab-input-background-color: #ffffff;
+  --bearlab-input-border-color: #e5e5e5;
+  --bearlab-input-text-color: #1a1a1a;
+  --bearlab-input-placeholder-color: #9ca3af;
+  --bearlab-input-error-color: #ef4444;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **Semantic Labeling** (`htmlFor` & `useId()`) — The `<label>` is implicitly connected to the `<input>` element logic. Screen readers will naturally announce the label text on input focus.
+- **`aria-invalid`** — Automatically applied when the `error` prop is present to explicitly alert screen readers of invalid input states.
+- **`aria-describedby`** — Dynamically attaches the `id` of the error message container to the input field, allowing screen readers to dictate the error explicitly when navigating.
+- **`aria-required`** — Corresponds with the `isRequired` prop for informative assistive support.
+- **`role="alert"`** — The error message container utilizes the alert role so errors are immediately announced dynamically as they occur.
+- **`aria-hidden="true"`** — Best-practice usage on decorative icons (`beforeIcon`, `afterIcon`) and visual symbols like the `isRequired` asterisk to prevent redundant screen reader verbosity. Toggles have adequate hidden symbols but retain active `aria-label` values.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  InputProps,
+  InputClassNames,
+  InputStyles,
+  IconType,
+} from "@bearlab/input";
+```
+
+### `InputProps`
+
+```ts
+interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "className" | "style"> {
+  label?: string;
+  error?: string;
+  beforeIcon?: IconType;
+  afterIcon?: IconType;
+  isExistSearch?: boolean;
+  isExistPassword?: boolean;
+  isExistCopy?: boolean;
+  isRequired?: boolean;
+  onSearch?: () => void;
+  className?: InputClassNames;
+  style?: InputStyles;
+}
+```
+
+### `IconType`
+
+```ts
+type IconType = string | React.ComponentType<React.SVGProps<SVGSVGElement>>;
+```
+
+### `InputClassNames`
+
+```ts
+interface InputClassNames {
+  root?: string;
+  label?: string;
+  inputWrapper?: string;
+  input?: string;
+  beforeIcon?: string;
+  afterIcon?: string;
+  passwordToggle?: string;
+  copyButton?: string;
+  searchButton?: string;
+  errorMessage?: string;
+}
+```
+
+### `InputStyles`
+
+```ts
+interface InputStyles {
+  root?: React.CSSProperties;
+  label?: React.CSSProperties;
+  inputWrapper?: React.CSSProperties;
+  input?: React.CSSProperties;
+  beforeIcon?: React.CSSProperties;
+  afterIcon?: React.CSSProperties;
+  passwordToggle?: React.CSSProperties;
+  copyButton?: React.CSSProperties;
+  searchButton?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

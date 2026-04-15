@@ -1,0 +1,250 @@
+:root {
+  --bearlab-input-height: 2.75rem; /* 44px */
+  --bearlab-input-border-radius: 0.5rem; /* 8px */
+  --bearlab-input-border-width: 0.0625rem; /* 1px */
+  --bearlab-input-padding-x: 1rem; /* 16px */
+  --bearlab-input-padding-y: 0.625rem; /* 10px */
+  --bearlab-input-font-size: 0.875rem; /* 14px */
+  --bearlab-input-label-font-size: 0.875rem; /* 14px */
+  --bearlab-input-label-font-weight: 600;
+  --bearlab-input-label-margin-bottom: 0.625rem; /* 10px */
+  --bearlab-input-icon-wrapper-width: 3.25rem; /* 52px */
+  --bearlab-input-icon-size: 1.25rem; /* 20px */
+  --bearlab-input-password-toggle-size: 1.375rem; /* 22px */
+  --bearlab-input-search-icon-size: 1.125rem; /* 18px */
+  --bearlab-input-error-font-size: 0.875rem; /* 14px */
+  --bearlab-input-error-bottom: -1.25rem; /* -20px */
+  --bearlab-input-error-icon-size: 0.75rem; /* 12px */
+  --bearlab-input-error-icon-gap: 0.5rem; /* 8px */
+  --bearlab-input-error-color: #f00438;
+  --bearlab-input-label-required-color: #f04438;
+  --bearlab-input-border-color-error: #f04438;
+  --bearlab-input-shadow-error: 0 0 0 0.1875rem #ffa4a4; /* 0 0 0 3px */
+  --bearlab-input-border-color-focus: #465fff;
+}
+
+:root[data-theme="light"] {
+  --bearlab-input-border-color: #d11e1e;
+  --bearlab-input-border-color-icon: #e5e7eb;
+  --bearlab-input-shadow: 0 0.0625rem 0.125rem 0 #1018280d; /* 0 1px 2px 0 */
+  --bearlab-input-shadow-focus: 0 0 0 0.1875rem #465fff21; /* 0 0 0 3px */
+  --bearlab-input-color: #1f2937;
+  --bearlab-input-placeholder-color: #98a2b3;
+  --bearlab-input-background: transparent;
+  --bearlab-input-label-color: #344054;
+  --bearlab-input-icon-color: currentColor;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-input-border-color: #374151;
+  --bearlab-input-border-color-icon: #374151;
+  --bearlab-input-shadow: 0 0.0625rem 0.125rem 0 #1018280d; /* 0 1px 2px 0 */
+  --bearlab-input-shadow-focus: 0 0 0 0.1875rem #465fff21; /* 0 0 0 3px */
+  --bearlab-input-color: #ffffffe6;
+  --bearlab-input-placeholder-color: #ffffff4d;
+  --bearlab-input-background: #111827;
+  --bearlab-input-label-color: #98a2b3;
+  --bearlab-input-icon-color: #98a2b3;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .label {
+    color: var(--bearlab-input-label-color);
+    font-size: var(--bearlab-input-label-font-size);
+    font-weight: var(--bearlab-input-label-font-weight);
+    margin-bottom: var(--bearlab-input-label-margin-bottom);
+
+    span {
+      color: var(--bearlab-input-label-required-color);
+    }
+  }
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  .input {
+    width: 100%;
+    height: var(--bearlab-input-height);
+    border-radius: var(--bearlab-input-border-radius);
+    border: var(--bearlab-input-border-width) solid
+      var(--bearlab-input-border-color);
+    appearance: none;
+    padding: var(--bearlab-input-padding-y) var(--bearlab-input-padding-x);
+    font-size: var(--bearlab-input-font-size);
+    background-color: var(--bearlab-input-background);
+    color: var(--bearlab-input-color);
+    box-shadow: var(--bearlab-input-shadow);
+    caret-color: var(--bearlab-input-border-color-focus);
+
+    &::placeholder {
+      color: var(--bearlab-input-placeholder-color);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--bearlab-input-border-color-focus);
+      box-shadow: var(--bearlab-input-shadow-focus);
+    }
+  }
+
+  .inputError {
+    border-color: var(--bearlab-input-border-color-error) !important;
+    box-shadow: var(--bearlab-input-shadow-error) !important;
+
+    &:focus {
+      border-color: var(--bearlab-input-border-color-error) !important;
+      box-shadow: var(--bearlab-input-shadow-error) !important;
+    }
+  }
+
+  .inputWithSearch {
+    padding-right: 3.125rem !important; /* 50px */
+  }
+
+  .inputWithPassword {
+    padding-right: 3.125rem !important; /* 50px */
+  }
+
+  .inputWithCopy {
+    padding-right: 3.75rem !important; /* 60px */
+  }
+
+  .inputWithCopyAndPassword {
+    padding-right: 5.875rem !important; /* 94px */
+  }
+
+  .iconWrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--bearlab-input-height);
+    width: var(--bearlab-input-icon-wrapper-width);
+    color: var(--bearlab-input-icon-color);
+
+    svg {
+      width: var(--bearlab-input-icon-size);
+      height: var(--bearlab-input-icon-size);
+    }
+  }
+
+  .beforeIcon {
+    left: 0;
+    border-right: var(--bearlab-input-border-width) solid
+      var(--bearlab-input-border-color-icon);
+    padding: 0 0.0625rem 0 0.1875rem; /* 0 1px 0 3px */
+
+    ~ .input {
+      padding-left: 3.75rem; /* 60px */
+    }
+  }
+
+  .afterIcon {
+    right: 0;
+    border-left: var(--bearlab-input-border-width) solid
+      var(--bearlab-input-border-color-icon);
+    padding: 0 0.125rem; /* 0 2px */
+  }
+
+  .inputWrapperError {
+    .beforeIcon {
+      border-right-color: var(--bearlab-input-border-color-error);
+    }
+
+    .afterIcon {
+      border-left-color: var(--bearlab-input-border-color-error);
+    }
+  }
+
+  .passwordToggle {
+    position: absolute;
+    right: 1.25rem; /* 20px */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--bearlab-input-password-toggle-size);
+    height: var(--bearlab-input-password-toggle-size);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--bearlab-input-icon-color);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .passwordToggleWithCopy {
+    right: 3.75rem; /* 60px */
+  }
+
+  .searchButton {
+    position: absolute;
+    right: 1.25rem; /* 20px */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--bearlab-input-icon-color);
+
+    svg {
+      width: var(--bearlab-input-search-icon-size);
+      height: var(--bearlab-input-search-icon-size);
+    }
+  }
+
+  .copyButton {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .viewError {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: var(--bearlab-input-error-bottom);
+    font-size: var(--bearlab-input-error-font-size);
+    width: max-content;
+    color: var(--bearlab-input-error-color);
+
+    svg {
+      margin-right: var(--bearlab-input-error-icon-gap);
+      width: var(--bearlab-input-error-icon-size);
+      height: var(--bearlab-input-error-icon-size);
+    }
+  }
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 48rem) {
+  /* 768px */
+  .label {
+    svg {
+      display: none;
+    }
+  }
+}

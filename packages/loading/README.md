@@ -1,278 +1,202 @@
 # @bearlab/loading
 
-A lightweight, accessible loading spinner component for React applications with smooth animations and flexible positioning.
+> Accessible, fully customizable Loading spinner component for React applications.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/loading)](https://www.npmjs.com/package/@bearlab/loading)
+[![license](https://img.shields.io/npm/l/@bearlab/loading)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- ✅ **Smooth Animation** - Optimized CSS animations with 60fps performance
-- 🎯 **Auto-Centered** - Automatically centers itself within its container
-- 📝 **TypeScript Ready** - Full TypeScript support with proper type definitions
-- 🔧 **Highly Customizable** - Easy styling with custom CSS classes
-- ⚡ **Lightweight** - Minimal bundle size (~1KB gzipped)
-- ♿ **Accessible** - Screen reader friendly with proper ARIA attributes
-- 🌙 **Theme Compatible** - Works seamlessly with light and dark themes
-- 📱 **Responsive** - Scales appropriately on all screen sizes
-- 🎨 **Modern Design** - Clean, professional loading indicator
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `role="status"`, `aria-live`, screen reader text
+- ✅ **Customizable Icon** — fully replace the default spinner with an SVG
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Zero layout opinion** — perfectly adapts to any parent container
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/loading
-```
 
-```bash
+# yarn
 yarn add @bearlab/loading
+
+# pnpm
+pnpm add @bearlab/loading
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type     | Default     | Description                             |
-| ----------- | -------- | ----------- | --------------------------------------- |
-| `className` | `string` | `undefined` | Additional CSS class for custom styling |
-
-### TypeScript Support
-
-The component is fully typed with TypeScript:
-
-```tsx
-export interface Props {
-  className?: string;
-}
-```
-
-## 🎯 Usage Examples
-
-### Simple Loading Spinner
+## Usage
 
 ```tsx
 import { Loading } from "@bearlab/loading";
 
-function App() {
+export default function App() {
   return (
-    <div style={{ position: "relative", height: "200px" }}>
+    <div className="container">
       <Loading />
     </div>
   );
 }
 ```
 
-### Conditional Loading
+---
 
-```tsx
-import { Loading } from "@bearlab/loading";
-import { useState, useEffect } from "react";
+## Props
 
-function DataFetcher() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetchData()
-      .then(setData)
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div style={{ position: "relative", height: "300px" }}>
-        <Loading />
-      </div>
-    );
-  }
-
-  return <div>{/* Your content */}</div>;
-}
-```
-
-### Custom Styled Loading
-
-```tsx
-import { Loading } from "@bearlab/loading";
-import "./custom-loading.css";
-
-function CustomLoading() {
-  return (
-    <div className="custom-loading-container">
-      <Loading className="custom-loading" />
-      <p>Loading your content...</p>
-    </div>
-  );
-}
-```
-
-```css
-/* custom-loading.css */
-.custom-loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
-}
-
-.custom-loading {
-  /* Override default positioning for inline use */
-  position: relative !important;
-  transform: none !important;
-  top: auto !important;
-  left: auto !important;
-  margin-bottom: 16px;
-}
-
-/* Custom size */
-.custom-loading svg {
-  width: 32px !important;
-  height: 32px !important;
-}
-
-/* Custom color */
-.custom-loading svg {
-  color: #3b82f6;
-}
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-### Default Behavior
-
-The Loading component:
-
-- Positions itself absolutely at the center of its nearest positioned parent
-- Uses a 24x24px spinning icon by default
-- Animates with a smooth 1-second rotation cycle
-- Has a high z-index (10003) to appear above other content
-
-### Custom Positioning
-
-#### Relative Positioning
-
-```css
-.custom-loading {
-  position: relative !important;
-  transform: none !important;
-  top: auto !important;
-  left: auto !important;
-}
-```
-
-#### Fixed Positioning
-
-```css
-.fixed-loading {
-  position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-}
-```
-
-### Custom Sizing
-
-```css
-/* Small spinner */
-.small-loading svg {
-  width: 16px !important;
-  height: 16px !important;
-}
-
-/* Large spinner */
-.large-loading svg {
-  width: 48px !important;
-  height: 48px !important;
-}
-```
-
-### Custom Colors
-
-```css
-/* Blue spinner */
-.blue-loading svg {
-  color: #3b82f6;
-}
-
-/* Success green spinner */
-.success-loading svg {
-  color: #10b981;
-}
-
-/* Warning orange spinner */
-.warning-loading svg {
-  color: #f59e0b;
-}
-```
-
-### Animation Customization
-
-```css
-/* Faster animation */
-.fast-loading svg {
-  animation-duration: 0.5s !important;
-}
-
-/* Slower animation */
-.slow-loading svg {
-  animation-duration: 2s !important;
-}
-
-/* Reverse animation */
-.reverse-loading svg {
-  animation-direction: reverse !important;
-}
-```
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
+| Prop        | Type                                  | Default       | Required | Description                                     |
+| ----------- | ------------------------------------- | ------------- | -------- | ----------------------------------------------- |
+| `icon`      | `React.ElementType`                   | `IconLoading` | ❌       | Custom SVG icon component to act as the spinner |
+| `className` | [`ClassNamesProps`](#classnamesprops) | —             | ❌       | Per-slot className overrides                    |
+| `style`     | [`StylesProps`](#stylesprops)         | —             | ❌       | Per-slot inline style overrides                 |
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/loading">📦 View on NPM</a>
-  </p>
-</div>
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner icon natively using `style?.icon`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `ClassNamesProps`
+
+| Slot   | Targets                           |
+| ------ | --------------------------------- |
+| `root` | Outermost container `<div>`       |
+| `icon` | The SVG spinner (`IconComponent`) |
+
+```tsx
+<Loading
+  className={{
+    root: "my-loading-root",
+    icon: "my-loading-icon",
+  }}
+/>
+```
+
+### `StylesProps`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Loading
+  style={{
+    root: { display: "flex", justifyContent: "center" },
+    icon: { color: "blue", width: "24px" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Loading` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-loading-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-loading-root-display: flex;
+  --bearlab-loading-icon-color: #1a1a1a;
+  --bearlab-loading-icon-size: 2rem;
+}
+
+[data-theme="dark"] {
+  --bearlab-loading-icon-color: #f1f1f1;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`role="status"`** — Semantically identifies the element as a status indicator.
+- **`aria-live="polite"`** — Adjusts context gracefully, notifying screen readers when the loading state changes without aggressively interrupting the user.
+- **Screen Reader Only Text** — Contains a visually hidden `.srOnly` `<span>` with the text `"Loading..."` for robust screen reader interpretation.
+- **`aria-hidden="true"` & `focusable="false"`** — Best-practice usage on the SVG icon to prevent redundant or confusing screen reader announcements and avoid trapping focus.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  LoadingProps,
+  ClassNamesProps,
+  StylesProps,
+} from "@bearlab/loading";
+```
+
+### LoadingProps
+
+```ts
+interface LoadingProps {
+  className?: ClassNamesProps;
+  style?: StylesProps;
+  icon?: ElementType;
+}
+```
+
+### ClassNamesProps
+
+```ts
+interface ClassNamesProps {
+  root?: string;
+  icon?: string;
+}
+```
+
+### StylesProps
+
+```ts
+interface StylesProps {
+  root?: React.CSSProperties;
+  icon?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

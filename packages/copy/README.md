@@ -1,195 +1,197 @@
 # @bearlab/copy
 
-A React component that displays text with a convenient copy-to-clipboard functionality. Features visual feedback, error handling, and theme support.
+> Accessible, fully customizable Copy component for React applications.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/copy)](https://www.npmjs.com/package/@bearlab/copy)
+[![license](https://img.shields.io/npm/l/@bearlab/copy)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- 📋 **One-Click Copy** - Copy text to clipboard with a single button click
-- ✅ **Visual Feedback** - Icon changes to checkmark after successful copy
-- 🎨 **Theme Support** - Built-in light/dark theme compatibility
-- 🚫 **Disabled State** - Prevent copying when needed
-- 📱 **Responsive Design** - Works seamlessly across different screen sizes
-- 🔧 **Customizable** - Easy styling with CSS modules and custom classes
-- ⚡ **TypeScript** - Full TypeScript support with comprehensive type definitions
-- 🔒 **Secure** - Uses modern Clipboard API with fallback handling
-- 💬 **Accessible** - Proper ARIA labels and keyboard navigation support
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `role="group"`, `aria-label`, `aria-controls`, `aria-pressed`
+- ✅ **Clipboard integration** — seamless copy-to-clipboard with visual feedback
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Zero layout opinion** — bring your own layout/wrapper
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/copy
-```
 
-```bash
+# yarn
 yarn add @bearlab/copy
+
+# pnpm
+pnpm add @bearlab/copy
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project. `@bearlab/button` is also required as a dependency.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/button` - For the copy button functionality
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type                                    | Default      | Description                                   |
-| ----------- | --------------------------------------- | ------------ | --------------------------------------------- |
-| `text`      | `string`                                | **Required** | The text content to be copied to clipboard    |
-| `label`     | `string`                                | `"Copy"`     | Accessible label for the copy button          |
-| `copyId`    | `string \| number \| null \| undefined` | `undefined`  | Unique identifier for the copy instance       |
-| `disabled`  | `boolean`                               | `false`      | Disables the copy functionality               |
-| `className` | `string`                                | `undefined`  | Additional CSS class names for custom styling |
-
-## 🎯 Usage Examples
-
-### Basic Usage
+## Usage
 
 ```tsx
 import { Copy } from "@bearlab/copy";
 
-function App() {
-  return <Copy text="Hello, World!" label="Copy text" />;
+export default function App() {
+  return <Copy text="npm install @bearlab/copy" label="Install command" />;
 }
 ```
-
-### API Keys or Tokens
-
-```tsx
-<Copy text="sk-1234567890abcdef..." label="Copy API key" copyId="api-key-123" />
-```
-
-### Code Snippets
-
-```tsx
-<Copy text={`npm install @bearlab/copy`} label="Copy install command" />
-```
-
-### With Custom Styling
-
-```tsx
-<Copy
-  text="Custom styled copy component"
-  className="my-custom-copy"
-  label="Copy"
-/>
-```
-
-### Disabled State
-
-```tsx
-<Copy text="This cannot be copied" disabled label="Copy disabled" />
-```
-
-### Handling Empty or Null Text
-
-```tsx
-// Shows "-" when text is empty or null
-<Copy
-  text=""
-  label="Copy empty text"
-/>
-
-<Copy
-  text={null}
-  label="Copy null text"
-/>
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-### CSS Variables
-
-```css
-.my-custom-copy {
-  --copy-text-padding: 16px;
-  --copy-border-radius: 12px;
-  --copy-font-size: 16px;
-  --copy-height: 48px;
-}
-```
-
-### Custom Styling
-
-```scss
-.my-custom-copy {
-  .text {
-    background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-    border: 2px dashed #ccc;
-    font-family: "Monaco", monospace;
-
-    &:hover {
-      border-color: #007bff;
-    }
-  }
-
-  // Style the copy button
-  button {
-    margin-left: 8px;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-}
-```
-
-## ♿ Accessibility
-
-- **ARIA Labels**: Copy button includes descriptive labels
-- **Keyboard Navigation**: Fully navigable with Tab key
-- **Screen Readers**: Compatible with screen reading software
-- **High Contrast**: Supports high contrast mode
-- **Focus Indicators**: Clear focus states for keyboard users
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/copy">📦 View on NPM</a>
-  </p>
-</div>
+## Props
+
+| Prop        | Type                                | Default  | Required | Description                                |
+| ----------- | ----------------------------------- | -------- | -------- | ------------------------------------------ |
+| `text`      | `string`                            | —        | ✅       | The content to be copied to the clipboard  |
+| `label`     | `string`                            | `"Copy"` | ❌       | Basic label, modifies ARIA announcements   |
+| `disabled`  | `boolean`                           | `false`  | ❌       | Disables the copy functionality and button |
+| `className` | [`CopyClassNames`](#copyclassnames) | —        | ❌       | Per-slot className overrides               |
+| `style`     | [`CopyStyles`](#copystyles)         | —        | ❌       | Per-slot inline style overrides            |
+
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner text natively using `style?.text`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `CopyClassNames`
+
+| Slot   | Targets                     |
+| ------ | --------------------------- |
+| `root` | Outermost container `<div>` |
+| `text` | Text element `<div>`        |
+
+```tsx
+<Copy
+  text="https://bearlab-ui.com"
+  className={{
+    root: "my-copy-root",
+    text: "my-copy-text",
+  }}
+/>
+```
+
+### `CopyStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Copy
+  text="C0D3-1234"
+  style={{
+    root: { borderRadius: "8px", border: "1px solid #eaeaea" },
+    text: { fontFamily: "monospace", color: "#333" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Copy` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-copy-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-copy-root-border-radius: 8px;
+  --bearlab-copy-root-background: #ffffff;
+  --bearlab-copy-text-color: #1a1a1a;
+  --bearlab-copy-text-font-size: 0.875rem;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`role="group"` & `aria-label`** — Provides context to the copy component cluster, acting as an interactive block.
+- **`aria-controls`** — Semantically links the copy button to the target text area dynamically using stable IDs (`useId()`).
+- **`aria-pressed`** — Indicates the active state when text is copied, alerting the screen reader to the state change.
+- **Dynamic `aria-label`** — The button updates its label to `"Copied to clipboard"` upon a successful copy action, granting clear auditory feedback to users.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type { CopyProps, CopyClassNames, CopyStyles } from "@bearlab/copy";
+```
+
+### `CopyProps`
+
+```ts
+interface CopyProps {
+  text: string;
+  label?: string;
+  disabled?: boolean;
+  className?: CopyClassNames;
+  style?: CopyStyles;
+}
+```
+
+### `CopyClassNames`
+
+```ts
+interface CopyClassNames {
+  root?: string;
+  text?: string;
+}
+```
+
+### `CopyStyles`
+
+```ts
+interface CopyStyles {
+  root?: React.CSSProperties;
+  text?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

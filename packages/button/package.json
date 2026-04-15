@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/button",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "Bearlab UI Button Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,11 +10,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=button rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=button rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.13",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
@@ -26,7 +25,8 @@
     "ui",
     "button",
     "component",
-    "bearlab"
+    "bearlab",
+    "bearlab-ui"
   ],
   "author": "hasanbala",
   "license": "MIT",

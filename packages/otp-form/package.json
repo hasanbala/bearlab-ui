@@ -1,0 +1,50 @@
+{
+  "name": "@bearlab/otp-form",
+  "version": "1.1.0",
+  "description": "Bearlab UI Otp-form Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/index.css",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=otp-form rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "otp",
+    "otp-form",
+    "one-time-password",
+    "verification-code",
+    "pin-input",
+    "2fa",
+    "two-factor-authentication",
+    "bearlab",
+    "bearlab-ui"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/otp-form"
+  },
+  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "808c60448876b34e78883c1d96cb7acca014474d"
+}

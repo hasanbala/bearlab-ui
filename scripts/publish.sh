@@ -93,14 +93,9 @@ build_packages() {
     # Clean first
     npm run clean >/dev/null 2>&1 || true
     
-    # Build core first, then components
-    if ! npm run build:core; then
-        error "Core build failed"
-        exit 1
-    fi
-    
-    if ! npm run build:components; then
-        error "Components build failed"
+    # Build all packages via standard build script
+    if ! npm run build; then
+        error "Build failed"
         exit 1
     fi
     

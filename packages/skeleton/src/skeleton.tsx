@@ -1,7 +1,19 @@
 import classnames from "classnames";
-import styles from "./skeleton.module.scss";
+import type { SkeletonProps } from "./types/skeleton.types";
+import { SkeletonArticle } from "./components/skeleton-article";
+import { SkeletonCard } from "./components/skeleton-card";
+import { SkeletonList } from "./components/skeleton-list";
+import { SkeletonDefault } from "./components/skeleton-default";
+import styles from "./styles/skeleton.module.scss";
 
-export const Skeleton = (props: Props) => {
+const VARIANT_MAP = {
+  article: SkeletonArticle,
+  card: SkeletonCard,
+  list: SkeletonList,
+  default: SkeletonDefault,
+} as const;
+
+export const Skeleton = (props: SkeletonProps) => {
   const {
     className,
     variant = "default",
@@ -10,151 +22,14 @@ export const Skeleton = (props: Props) => {
     style,
   } = props;
 
-  const renderLines = (count: number, withVariation: boolean = true) => {
-    return Array.from({ length: count }, (_, index) => (
-      <div
-        key={index}
-        className={classnames(
-          styles.line,
-          styles.skeleton,
-          !animated && styles.static
-        )}
-        style={
-          withVariation
-            ? {
-                width: `${Math.random() * 40 + 40}%`,
-                ...(index === count - 1 && { width: "70%" }),
-              }
-            : undefined
-        }
-      />
-    ));
-  };
-
-  const renderVariant = () => {
-    switch (variant) {
-      case "article":
-        return (
-          <>
-            <div className={styles.content}>
-              <div className={styles.header}>
-                <div
-                  className={classnames(
-                    styles.avatar,
-                    styles.skeleton,
-                    !animated && styles.static
-                  )}
-                />
-                <div className={styles.headerInfo}>
-                  <div
-                    className={classnames(
-                      styles.title,
-                      styles.skeleton,
-                      !animated && styles.static
-                    )}
-                  />
-                  <div
-                    className={classnames(
-                      styles.subtitle,
-                      styles.skeleton,
-                      !animated && styles.static
-                    )}
-                  />
-                </div>
-              </div>
-              <div className={styles.body}>{renderLines(3)}</div>
-            </div>
-          </>
-        );
-
-      case "card":
-        return (
-          <div className={styles.content}>
-            <div
-              className={classnames(
-                styles.image,
-                styles.skeleton,
-                !animated && styles.static
-              )}
-            />
-            <div className={styles.cardBody}>
-              <div
-                className={classnames(
-                  styles.cardTitle,
-                  styles.skeleton,
-                  !animated && styles.static
-                )}
-              />
-              {renderLines(2)}
-            </div>
-          </div>
-        );
-
-      case "list":
-        return (
-          <>
-            {Array.from({ length: lines || 4 }, (_, index) => (
-              <div key={index} className={styles.listItem}>
-                <div
-                  className={classnames(
-                    styles.listAvatar,
-                    styles.skeleton,
-                    !animated && styles.static
-                  )}
-                />
-                <div className={styles.listContent}>
-                  <div
-                    className={classnames(
-                      styles.listTitle,
-                      styles.skeleton,
-                      !animated && styles.static
-                    )}
-                  />
-                  <div
-                    className={classnames(
-                      styles.listSubtitle,
-                      styles.skeleton,
-                      !animated && styles.static
-                    )}
-                  />
-                </div>
-              </div>
-            ))}
-          </>
-        );
-
-      default:
-        return (
-          <>
-            {Array.from({ length: 2 }, (_, contentIndex) => (
-              <div key={contentIndex} className={styles.content}>
-                <div className={styles.section}>
-                  {renderLines(contentIndex === 0 ? 2 : lines)}
-                </div>
-                <div className={styles.section}>
-                  {renderLines(contentIndex === 0 ? 2 : lines)}
-                </div>
-              </div>
-            ))}
-          </>
-        );
-    }
-  };
+  const VariantComponent = VARIANT_MAP[variant];
 
   return (
     <div
       className={classnames(styles.container, styles[variant], className)}
       style={style}
     >
-      {renderVariant()}
+      <VariantComponent animated={animated} lines={lines} />
     </div>
   );
 };
-
-export interface Props {
-  className?: string;
-  variant?: "default" | "article" | "card" | "list";
-  lines?: number;
-  animated?: boolean;
-  style?: React.CSSProperties;
-}

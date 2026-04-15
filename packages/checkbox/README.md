@@ -1,226 +1,255 @@
 # @bearlab/checkbox
 
-A customizable and accessible React checkbox component with built-in error handling, tooltips, and theme support.
+> Accessible, fully customizable Checkbox component for React applications.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/checkbox)](https://www.npmjs.com/package/@bearlab/checkbox)
+[![license](https://img.shields.io/npm/l/@bearlab/checkbox)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- 🎯 **Fully Accessible** - Built with semantic HTML and proper ARIA attributes
-- 🎨 **Themeable** - Supports light/dark theme switching
-- ✨ **Interactive States** - Hover, focus, checked, and disabled states
-- 🚨 **Error Handling** - Built-in error display with icons
-- 💬 **Tooltip Support** - Popover tooltips on hover
-- 📱 **Responsive** - Works seamlessly across different screen sizes
-- ⚡ **TypeScript** - Full TypeScript support with comprehensive type definitions
-- 🎭 **Customizable** - Easy to style with CSS modules and custom classes
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `aria-checked`, `aria-invalid`, `aria-describedby`
+- ✅ **Built-in error & popover support** — easily provide contextual feedback
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Theme Ready** — full compatibility with light/dark contexts
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/checkbox
-```
 
-```bash
+# yarn
 yarn add @bearlab/checkbox
+
+# pnpm
+pnpm add @bearlab/checkbox
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `@bearlab/core` - For upload icons, style variables, utilities and theme support
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop         | Type                                             | Default      | Description                                    |
-| ------------ | ------------------------------------------------ | ------------ | ---------------------------------------------- |
-| `checked`    | `boolean`                                        | **Required** | Controls the checked state of the checkbox     |
-| `onChange`   | `(event: ChangeEvent<HTMLInputElement>) => void` | **Required** | Callback fired when the checkbox state changes |
-| `label`      | `string`                                         | `undefined`  | Label text displayed next to the checkbox      |
-| `disabled`   | `boolean`                                        | `false`      | Disables the checkbox interaction              |
-| `error`      | `any`                                            | `undefined`  | Error message to display below the checkbox    |
-| `isRequired` | `boolean`                                        | `false`      | Shows a red asterisk (\*) next to the label    |
-| `popover`    | `string`                                         | `undefined`  | Tooltip content shown on hover                 |
-| `className`  | `string`                                         | `undefined`  | Additional CSS class names                     |
-| `name`       | `string`                                         | `undefined`  | Name attribute for the input element           |
-
-## 🎯 Usage Examples
-
-### Basic Usage
+## Usage
 
 ```tsx
-import { Checkbox } from "@bearlab/checkbox";
 import { useState } from "react";
+import { Checkbox } from "@bearlab/checkbox";
 
-function App() {
-  const [isChecked, setIsChecked] = useState(false);
+export default function App() {
+  const [checked, setChecked] = useState(false);
+  const [checked2, setChecked2] = useState(false);
 
   return (
-    <Checkbox
-      checked={isChecked}
-      onChange={(e) => setIsChecked(e.target.checked)}
-      label="Accept terms and conditions"
-    />
+    <>
+      <Checkbox
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+        label="Accept terms and conditions"
+      />
+      <Checkbox
+        checked={checked2}
+        onChange={(e) => setChecked2(e.target.checked)}
+        label="Enable notifications"
+        popover="You will receive email notifications about important updates"
+      />
+    </>
   );
 }
 ```
 
-### With Required Field
+---
+
+## Props
+
+| Prop         | Type                                               | Default | Required | Description                                                         |
+| ------------ | -------------------------------------------------- | ------- | -------- | ------------------------------------------------------------------- |
+| `checked`    | `boolean`                                          | —       | ✅       | Whether the checkbox is checked                                     |
+| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | ✅       | Event handler called when the checked state changes                 |
+| `label`      | `string`                                           | —       | ❌       | Text label paired directly with the checkbox                        |
+| `error`      | `any`                                              | —       | ❌       | Error message rendered below the checkbox                           |
+| `isRequired` | `boolean`                                          | `false` | ❌       | Marks the field as required and appends an asterisk if label exists |
+| `disabled`   | `boolean`                                          | `false` | ❌       | Disables interaction with the checkbox                              |
+| `popover`    | `string \| React.ReactNode`                        | —       | ❌       | Tooltip or contextual info displayed alongside the checkbox         |
+| `className`  | [`CheckboxClassNames`](#checkboxclassnames)        | —       | ❌       | Per-slot className overrides                                        |
+| `style`      | [`CheckboxStyles`](#checkboxstyles)                | —       | ❌       | Per-slot inline style overrides                                     |
+| `...rest`    | `InputProps`                                       | —       | ❌       | Any standard HTML input props                                       |
+
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.checkboxWrapper`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `CheckboxClassNames`
+
+| Slot              | Targets                           |
+| ----------------- | --------------------------------- |
+| `root`            | Outermost container `<label>`     |
+| `checkboxWrapper` | Inner structural wrapper `<div>`  |
+| `iconChecked`     | Checked icon SVG                  |
+| `iconDisabled`    | Disabled icon SVG                 |
+| `viewError`       | Error message container `<div>`   |
+| `popover`         | Popover tooltip container `<div>` |
+| `label`           | Label text wrapper `<label>`      |
 
 ```tsx
 <Checkbox
-  checked={agreed}
-  onChange={(e) => setAgreed(e.target.checked)}
-  label="I agree to the privacy policy"
-  isRequired
+  checked={true}
+  onChange={() => {}}
+  label="Custom Option"
+  className={{
+    root: "custom-checkbox-root",
+    checkboxWrapper: "custom-checkbox-wrapper",
+    label: "custom-checkbox-label",
+  }}
 />
 ```
 
-### With Error State
+### `CheckboxStyles`
 
-```tsx
-<Checkbox
-  checked={hasError}
-  onChange={(e) => setHasError(e.target.checked)}
-  label="This field has an error"
-  error="Please accept the terms to continue"
-/>
-```
-
-### With Tooltip
-
-```tsx
-<Checkbox
-  checked={showTooltip}
-  onChange={(e) => setShowTooltip(e.target.checked)}
-  label="Enable notifications"
-  popover="You will receive email notifications about important updates"
-/>
-```
-
-### Disabled State
+All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Checkbox
   checked={false}
   onChange={() => {}}
-  label="This checkbox is disabled"
-  disabled
+  label="Styled Option"
+  style={{
+    root: { marginBottom: "1rem" },
+    label: { fontWeight: "bold" },
+  }}
 />
 ```
-
-### Custom Styling
-
-```tsx
-<Checkbox
-  checked={customStyled}
-  onChange={(e) => setCustomStyled(e.target.checked)}
-  label="Custom styled checkbox"
-  className="my-custom-checkbox"
-/>
-```
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-### CSS Variables
-
-The component uses CSS custom properties that can be overridden:
-
-```css
-.my-custom-checkbox {
-  --checkbox-size: 24px;
-  --checkbox-border-radius: 8px;
-  --checkbox-border-color: #custom-color;
-  --checkbox-checked-bg: #custom-blue;
-}
-```
-
-### Custom Classes
-
-You can target specific parts of the component:
-
-```scss
-.my-checkbox {
-  // Container styling
-  .checkboxWrapper {
-    // Checkbox wrapper styling
-
-    input {
-      // Input element styling
-    }
-  }
-
-  .label {
-    // Label styling
-  }
-
-  .popover {
-    // Tooltip styling
-  }
-
-  .viewError {
-    // Error message styling
-  }
-}
-```
-
-## ♿ Accessibility
-
-This component follows WAI-ARIA guidelines and includes:
-
-- Proper semantic HTML structure with `<label>` and `<input type="checkbox">`
-- Keyboard navigation support (Space to toggle, Tab to focus)
-- Screen reader compatibility
-- High contrast mode support
-- Focus indicators for keyboard users
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/checkbox">📦 View on NPM</a>
-  </p>
-</div>
+## Theme Management
+
+The `Checkbox` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-checkbox-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-checkbox-root-padding: 0.5rem;
+  --bearlab-checkbox-wrapper-border-radius: 4px;
+  --bearlab-checkbox-label-color: #1a1a1a;
+  --bearlab-checkbox-icon-color: #ffffff;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`type="checkbox"`** — Uses semantic native inputs inside structural wrappers for built-in keyboard navigation.
+- **`aria-checked`** — Mirrors the `checked` state to explicitly broadcast internal representation limits.
+- **`aria-invalid`, `aria-required`, `aria-disabled`** — Dynamically updates according to state to assure screen-reader synchronization.
+- **`aria-describedby`** — Semantically links the `input` to its specific error message and popover descriptions using dynamically generated, stable IDs (`useId()`).
+- **`aria-hidden="true"`, `focusable="false"`** — Best-practice usage on cosmetic SVGs (`IconChecked`, `IconDisabled`, `IconErrorTriangle`) to prevent redundant or confusing screen reader announcements.
+- **`<label htmlFor={id}>`** — Correct programmatic association of label tags, expanding the interactive click target.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  CheckboxProps,
+  CheckboxClassNames,
+  CheckboxStyles,
+} from "@bearlab/checkbox";
+```
+
+### `CheckboxClassNames`
+
+```ts
+interface CheckboxClassNames {
+  root?: string;
+  checkboxWrapper?: string;
+  iconChecked?: string;
+  iconDisabled?: string;
+  viewError?: string;
+  popover?: string;
+  label?: string;
+}
+```
+
+### `CheckboxStyles`
+
+```ts
+interface CheckboxStyles {
+  root?: React.CSSProperties;
+  checkboxWrapper?: React.CSSProperties;
+  iconChecked?: React.CSSProperties;
+  iconDisabled?: React.CSSProperties;
+  viewError?: React.CSSProperties;
+  popover?: React.CSSProperties;
+  label?: React.CSSProperties;
+}
+```
+
+### `CheckboxProps`
+
+```ts
+interface CheckboxProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    "popover" | "className" | "style"
+  > {
+  error?: any;
+  name?: string;
+  label?: string;
+  popover?: string | React.ReactNode;
+  checked: boolean;
+  disabled?: boolean;
+  className?: CheckboxClassNames;
+  style?: CheckboxStyles;
+  isRequired?: boolean;
+  onChange: (val: React.ChangeEvent<HTMLInputElement>) => void;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

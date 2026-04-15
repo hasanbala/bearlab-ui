@@ -1,211 +1,200 @@
 # @bearlab/skeleton
 
-A flexible and customizable skeleton loading component for React applications. Perfect for creating smooth loading states while your content is being fetched.
+> Accessible, fully customizable Skeleton component for React applications. To provide smooth loading states while content is being fetched.
 
-## ✨ Features
+[![npm version](https://img.shields.io/npm/v/@bearlab/skeleton)](https://www.npmjs.com/package/@bearlab/skeleton)
+[![license](https://img.shields.io/npm/l/@bearlab/skeleton)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
-- 🎨 **Multiple Variants**: Default, article, card, and list layouts
-- ⚡ **Animated or Static**: Toggle animation on/off
-- 🔧 **Customizable**: Configure number of lines and styling
-- 📱 **Responsive**: Works seamlessly across all screen sizes
-- 🎯 **TypeScript Support**: Full type safety included
-- 🎪 **Easy Integration**: Drop-in replacement for loading content
+---
 
-## 📦 Installation
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Variants](#variants)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **4 semantic variants** — `default`, `article`, `card`, `list`
+- ✅ **Animated by default** — smooth shimmer effect (`animated` prop)
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `aria-busy`, `aria-hidden` considerations
+- ✅ **TypeScript-first** — fully typed props and interfaces
+- ✅ **Zero layout opinion** — drop-in replacement layout/wrapper
+
+---
+
+## Installation
 
 ```bash
+# npm
 npm install @bearlab/skeleton
-```
 
-```bash
+# yarn
 yarn add @bearlab/skeleton
+
+# pnpm
+pnpm add @bearlab/skeleton
 ```
 
-## 🔗 Dependencies
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
 
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `classnames` - For conditional CSS class handling
+---
 
-## 📚 API Reference
-
-### Props
-
-| Prop        | Type                                         | Default     | Description                                             |
-| ----------- | -------------------------------------------- | ----------- | ------------------------------------------------------- |
-| `variant`   | `"default" \| "article" \| "card" \| "list"` | `"default"` | The skeleton layout variant                             |
-| `lines`     | `number`                                     | `4`         | Number of content lines to render (for default variant) |
-| `animated`  | `boolean`                                    | `true`      | Enable/disable shimmer animation                        |
-| `className` | `string`                                     | `undefined` | Additional CSS class names                              |
-
-### Variants
-
-### Default
-
-- Two content sections with configurable number of lines
-- Variable width lines for realistic appearance
-- Perfect for general text content
-
-### Article
-
-- Avatar placeholder
-- Title and subtitle placeholders
-- Body content with multiple lines
-- Great for blog posts or news articles
-
-### Card
-
-- Image placeholder
-- Card title
-- Content lines
-- Perfect for product cards or media items
-
-### List
-
-- Multiple list items (3 by default)
-- Each item has avatar and content placeholders
-- Ideal for user lists or comments
-
-### TypeScript Support
-
-Full TypeScript support with exported interfaces:
+## Usage
 
 ```tsx
-interface SkeletonProps {
-  className?: string;
-  variant?: "default" | "article" | "card" | "list";
-  lines?: number;
-  animated?: boolean;
-}
-```
+import { Skeleton } from "@bearlab/skeleton";
 
-## 🎯 Usage Examples
-
-### Basic Example
-
-```tsx
-import { Skeleton } from "your-skeleton-package-name";
-
-function MyComponent() {
-  const [loading, setLoading] = useState(true);
-
+export default function App() {
   return (
-    <div>{loading ? <Skeleton /> : <div>Your actual content here</div>}</div>
+    <Skeleton
+      variant="article"
+      animated={true}
+      lines={4}
+    />
   );
 }
 ```
 
-### Article Variant
+---
 
-Perfect for blog posts, news articles, or any content with author information:
+## Props
+
+| Prop | Type | Default | Required | Description |
+| ---- | ---- | ------- | -------- | ----------- |
+| `variant` | `"default" \| "article" \| "card" \| "list"` | `"default"` | ❌ | Visual and semantic layout variant of the skeleton |
+| `lines` | `number` | `4` | ❌ | Number of content lines to render (for default variant) |
+| `animated` | `boolean` | `true` | ❌ | Enable/disable shimmer animation |
+| `className` | `string \| SkeletonClassNames` | — | ❌ | Additional CSS class names or per-slot overrides |
+| `style` | `React.CSSProperties \| SkeletonStyles` | — | ❌ | Inline style or per-slot inline style overrides |
+
+---
+
+## Variants
+
+| Variant | Use case |
+| ------- | -------- |
+| `default` | General text content, fluid lines |
+| `article` | Blog posts, news articles with avatar and titles |
+| `card` | Product cards, image galleries, media items |
+| `list` | User lists, comments, repeating content |
 
 ```tsx
+<Skeleton variant="default" lines={6} />
 <Skeleton variant="article" />
-```
-
-### Card Variant
-
-Ideal for product cards, image galleries, or media content:
-
-```tsx
 <Skeleton variant="card" />
-```
-
-### List Variant
-
-Great for user lists, comments, or any repetitive content:
-
-```tsx
 <Skeleton variant="list" />
 ```
 
-### Custom Configuration
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `SkeletonClassNames`
+
+| Slot | Targets |
+| ---- | ------- |
+| `root` | Outermost container `<div>` |
+| `content` | Inner content wrapper / lines `<div>` |
 
 ```tsx
 <Skeleton
   variant="default"
-  lines={6}
-  animated={false}
-  className="my-custom-skeleton"
+  className={{
+    root: "my-skeleton-root",
+    content: "my-skeleton-content",
+  }}
 />
 ```
 
-## 🌙 Theme Support
+### `SkeletonStyles`
 
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-The component uses CSS modules for styling. You can override styles by:
-
-1. **Using className prop:**
+All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
-<Skeleton className="my-skeleton" />
+<Skeleton
+  variant="card"
+  style={{
+    root: { borderRadius: "12px" },
+    content: { height: "200px" },
+  }}
+/>
 ```
-
-2. **CSS Module override:**
-
-```css
-.my-skeleton {
-  /* Your custom styles */
-}
-
-.my-skeleton .line {
-  /* Override line styles */
-}
-```
-
-3. **Global CSS override:**
-
-```css
-/* Target specific elements */
-.skeleton-container .line {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-}
-```
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/skeleton">📦 View on NPM</a>
-  </p>
-</div>
+## Theme Management
+
+The `Skeleton` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-skeleton-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-skeleton-root-bg: #e0e0e0;
+  --bearlab-skeleton-content-shimmer-color: #f5f5f5;
+  --bearlab-skeleton-root-border-radius: 8px;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`aria-busy="true"`** — Informs assistive technologies that the content is currently loading or updating.
+- **`aria-hidden="true"`** — Applied to decorative loading elements to prevent screen readers from reading meaningless or confusing visual placeholders.
+- Provides fallback descriptive text or labels to ensure screen readers inform users that content will populate shortly.
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  SkeletonProps,
+  SkeletonVariant,
+} from "@bearlab/skeleton";
+```
+
+### `SkeletonVariant`
+
+```ts
+type SkeletonVariant = "default" | "article" | "card" | "list";
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

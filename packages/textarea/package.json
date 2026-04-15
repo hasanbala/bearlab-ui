@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/textarea",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "Bearlab UI Textarea Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,11 +10,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../ && PACKAGE_NAME=textarea rollup -c tools/rollup.config.component.js",
+    "build": "cd ../../ && PACKAGE_NAME=textarea rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/core": "^1.0.13",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
@@ -24,9 +23,12 @@
   "keywords": [
     "react",
     "ui",
-    "textarea",
     "component",
-    "bearlab"
+    "ui-library",
+    "textarea",
+    "multiline",
+    "bearlab",
+    "bearlab-ui"
   ],
   "author": "hasanbala",
   "license": "MIT",

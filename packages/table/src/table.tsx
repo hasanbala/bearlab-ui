@@ -1,35 +1,26 @@
-import { useEffect, useState } from "react";
-import {
-  MainTable,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "./mainTable";
+import { useId } from "react";
+import classnames from "classnames";
 import { Checkbox } from "@bearlab/checkbox";
 import { Radio } from "@bearlab/radio";
-import { Select } from "@bearlab/select";
-import {
-  Button,
-  BUTTON_TYPE,
-  ICON_TYPE,
-  BUTTON_VARIANT,
-} from "@bearlab/button";
-import classnames from "classnames";
-import styles from "./table.module.scss";
-import { useMediaQuery } from "@bearlab/hooks";
+import { useTable } from "./hooks/use-table";
+import { useMediaQuery } from "./hooks/use-media-query";
+import type { TableProps } from "./types/table.types";
+import { MainTable } from "./components/main-table";
+import { TableHeader } from "./components/table-header";
+import { TableBody } from "./components/table-body";
+import { TableRow } from "./components/table-row";
+import { TableCell } from "./components/table-cell";
+import styles from "./styles/table.module.scss";
+import { Button } from "@bearlab/button";
+import { getVisiblePages } from "./utils/get-visible-pages";
+import { getNestedValue } from "./utils/get-nested-value";
 
-export const Table = (props: Props) => {
+export const Table = (props: TableProps) => {
   const {
     title,
     dataSource,
     columns,
     className,
-    // showFilter = false,
-    // showSeeAll = false,
-    // showSearch = false,
-    // onFilterClick,
-    // onSeeAllClick,
     rowSelection,
     pagination = false,
     onRowClick,
@@ -42,32 +33,38 @@ export const Table = (props: Props) => {
     pageSizePlaceholder = "Select page size",
     maxVisiblePages = 6,
     onTableChange,
+    "aria-label": ariaLabel,
+    "aria-describedby": ariaDescribedBy,
     style,
   } = props;
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [filteredData, setFilteredData] =
-    useState<Record<string, any>[]>(dataSource);
+  const tableId = useId();
+  const titleId = useId();
+  const paginationId = useId();
 
-  const [initialPage, setInitialPage] = useState(currentPage);
+  const {
+    selectedRowKeys,
+    selectAll,
+    filteredData,
+    initialPage,
+    setInitialPage,
+    handleSelectAll,
+    handleRowSelect,
+  } = useTable({ dataSource, serverPagination, rowSelection, currentPage });
+
   const pageSize =
-    typeof pagination == "object" && pagination.pageSize
+    typeof pagination === "object" && pagination.pageSize
       ? pagination.pageSize
       : 5;
+
   const showPageNumbers =
-    typeof pagination == "object" ? pagination.showPageNumbers !== false : true;
+    typeof pagination === "object"
+      ? pagination.showPageNumbers !== false
+      : true;
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const mobileMinimize = useMediaQuery("(max-width: 540px)");
   const maxPages = isMobile ? 3 : maxVisiblePages;
-
-  const getNestedValue = (obj: Record<string, any>, path: string): any => {
-    return path.split(".").reduce((current, key) => {
-      return current && current[key] !== undefined ? current[key] : undefined;
-    }, obj);
-  };
 
   const indexOfLastItem = initialPage * pageSize;
   const indexOfFirstItem = indexOfLastItem - pageSize;
@@ -76,129 +73,64 @@ export const Table = (props: Props) => {
     : filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = serverPagination
-    ? Math.ceil((totalCount || 0) / pageSize)
+    ? Math.ceil((totalCount ?? 0) / pageSize)
     : Math.ceil(filteredData.length / pageSize);
 
   const dataToDisplay = pagination
     ? currentItems
     : serverPagination
-    ? dataSource
-    : filteredData;
+      ? dataSource
+      : filteredData;
 
-  useEffect(() => {
-    if (searchValue.trim() == "") {
-      setFilteredData(dataSource);
-    } else {
-      const filtered = dataSource.filter((record) => {
-        return Object.values(record).some((value) => {
-          const searchInValue = (val: any): boolean => {
-            if (val && typeof val === "string") {
-              return val.toLowerCase().includes(searchValue.toLowerCase());
-            }
-            if (val && typeof val === "object" && !Array.isArray(val)) {
-              return Object.values(val).some(searchInValue);
-            }
-            return false;
-          };
-          return searchInValue(value);
-        });
-      });
-      setFilteredData(filtered);
-    }
-
-    if (!serverPagination) {
-      setInitialPage(1);
-    }
-  }, [searchValue, dataSource, serverPagination]);
-
-  const handleSelectAll = () => {
-    const newSelectAll = !selectAll;
-    setSelectAll(newSelectAll);
-
-    const dataToSelect = serverPagination ? dataSource : filteredData;
-    const newSelectedRowKeys = newSelectAll
-      ? dataToSelect.map((record) => record["key"])
-      : [];
-
-    setSelectedRowKeys(newSelectedRowKeys);
-
-    if (rowSelection?.onChange) {
-      const selectedRows = newSelectedRowKeys
-        .map((key) => dataSource.find((record) => record["key"] == key))
-        .filter(Boolean) as Record<string, any>[];
-
-      rowSelection.onChange(newSelectedRowKeys, selectedRows);
-    }
-  };
-
-  const handleRowSelect = (record: Record<string, any>) => {
-    const key = record["key"];
-    let newSelectedRowKeys: string[];
-
-    if (rowSelection?.type == "radio") {
-      newSelectedRowKeys = [key];
-    } else {
-      newSelectedRowKeys = selectedRowKeys.includes(key)
-        ? selectedRowKeys.filter((k) => k !== key)
-        : [...selectedRowKeys, key];
-    }
-
-    setSelectedRowKeys(newSelectedRowKeys);
-
-    const dataToCheck = serverPagination ? dataSource : filteredData;
-    setSelectAll(
-      newSelectedRowKeys.length == dataToCheck.length &&
-        newSelectedRowKeys.length > 0
-    );
-
-    if (rowSelection?.onChange) {
-      const selectedRows = newSelectedRowKeys
-        .map((k) => dataSource.find((record) => record["key"] == k))
-        .filter(Boolean) as Record<string, any>[];
-
-      rowSelection.onChange(newSelectedRowKeys, selectedRows);
-    }
-  };
+  const totalRows = serverPagination ? (totalCount ?? 0) : filteredData.length;
 
   const onPageChange = (page: number, isPageSize?: boolean) => {
-    if (onTableChange)
+    if (onTableChange) {
       onTableChange(setInitialPage, page, pageSize, isPageSize);
+    }
+  };
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) onPageChange(page, false);
   };
 
   const renderSelectionColumn = () => {
-    if (!rowSelection) {
-      return null;
-    }
+    if (!rowSelection) return null;
 
     return {
       title:
-        rowSelection.type == "checkbox" ? (
+        rowSelection.type === "checkbox" ? (
           <Checkbox
             checked={selectAll}
-            onChange={handleSelectAll}
+            onChange={(e) =>
+              handleSelectAll(
+                (e.target as unknown as { checked: boolean }).checked
+              )
+            }
             disabled={disabled}
+            aria-label="Select all rows"
           />
-        ) : (
-          ""
-        ),
+        ) : null,
       key: "selection",
       dataIndex: "",
       render: (_: any, record: Record<string, any>) => {
         const isSelected = selectedRowKeys.includes(record["key"]);
 
-        return rowSelection.type == "checkbox" ? (
+        return rowSelection.type === "checkbox" ? (
           <Checkbox
             checked={isSelected}
             onChange={() => handleRowSelect(record)}
             disabled={disabled}
+            aria-label={`Select row ${record["key"]}`}
           />
         ) : (
           <Radio
-            name={record.key}
+            name={`${tableId}-row-selection`}
             value={record.key}
-            checked={selectedRowKeys[0] == record.key}
+            checked={selectedRowKeys[0] === record.key}
             onChange={() => handleRowSelect(record)}
             disabled={disabled}
+            aria-label={`Select row ${record["key"]}`}
           />
         );
       },
@@ -210,95 +142,62 @@ export const Table = (props: Props) => {
     : columns;
 
   const handleRowClick = (record: Record<string, any>) => {
-    if (disabled) {
-      return;
-    }
-
-    if (onRowClick) {
-      onRowClick(record);
-    }
-  };
-
-  const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page, false);
-    }
-  };
-
-  const getVisiblePages = (): (number | string)[] => {
-    if (totalPages <= maxPages) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    const pages: (number | string)[] = [];
-    const halfMaxPages = Math.floor(maxPages / 2);
-
-    pages.push(1);
-
-    let start: number;
-    let end: number;
-
-    if (currentPage <= halfMaxPages + 1) {
-      start = 2;
-      end = Math.min(maxPages - 1, totalPages - 1);
-    } else if (currentPage >= totalPages - halfMaxPages) {
-      start = Math.max(totalPages - maxPages + 2, 2);
-      end = totalPages - 1;
-    } else {
-      start = currentPage - halfMaxPages + 1;
-      end = currentPage + halfMaxPages - 1;
-    }
-
-    if (start > 2) {
-      pages.push("...");
-    }
-
-    for (let i = start; i <= end; i++) {
-      pages.push(i);
-    }
-
-    if (end < totalPages - 1) {
-      pages.push("...");
-    }
-
-    if (totalPages > 1) {
-      pages.push(totalPages);
-    }
-
-    return pages;
+    if (disabled) return;
+    onRowClick?.(record);
   };
 
   const renderPagination = () => {
-    if (!pagination || totalPages <= 1) {
-      return null;
-    }
+    if (!pagination || totalPages <= 1) return null;
 
-    const visiblePages = getVisiblePages();
-    const pageSizeSelectOptions = pageSizeOptions?.map((size) => ({
+    const visiblePages = getVisiblePages(totalPages, initialPage, maxPages);
+
+    const pageSizeSelectOptions = pageSizeOptions.map((size) => ({
       value: size.toString(),
       label: `${size} / page`,
     }));
 
     return (
-      <div className={styles.paginationWrapper}>
-        <div
+      <div
+        id={paginationId}
+        className={classnames(
+          styles.paginationWrapper,
+          className?.paginationWrapper
+        )}
+        style={style?.paginationWrapper}
+      >
+        <nav
+          aria-label="Table pagination"
           className={classnames(
             styles.paginationControls,
-            isMobile && styles.tabletControls
+            isMobile && styles.tabletControls,
+            className?.paginationControls
           )}
+          style={style?.paginationControls}
         >
           <Button
-            label=""
-            buttonType={BUTTON_TYPE.JUST_ICON}
-            iconType={{ default: ICON_TYPE.ARROW }}
+            label="Previous page"
+            buttonType="justIcon"
+            iconType={{ default: "arrow" }}
             onClick={() => goToPage(initialPage - 1)}
             disabled={disabled || initialPage === 1}
-            variant={BUTTON_VARIANT.SECONDARY}
-            className={classnames(styles.pageButton, styles.prevButton)}
-            iconTextReverse
+            variant="secondary"
+            aria-label="Go to previous page"
+            className={{
+              root: classnames(
+                styles.pageButton,
+                styles.prevButton,
+                className?.pageButton
+              ),
+            }}
+            reverseIconText
           />
           {mobileMinimize && (
-            <span className={styles.pageInfo}>
+            <span
+              aria-live="polite"
+              aria-atomic="true"
+              className={classnames(styles.pageInfo, className?.pageInfo)}
+              style={style?.pageInfo}
+            >
               Page {initialPage} of {totalPages}
             </span>
           )}
@@ -306,140 +205,212 @@ export const Table = (props: Props) => {
             <ul
               className={classnames(
                 styles.pageList,
-                mobileMinimize && styles.ghostPageList
+                mobileMinimize && styles.ghostPageList,
+                className?.pageList
               )}
+              style={style?.pageList}
+              aria-hidden={mobileMinimize}
             >
-              {visiblePages.map((page, idx) => (
-                <li key={`${page}-${idx}`}>
-                  <Button
-                    buttonType={BUTTON_TYPE.JUST_TEXT}
-                    label={page.toString()}
-                    onClick={() => goToPage(page as number)}
-                    disabled={disabled}
-                    className={classnames(
-                      styles.pageButton,
-                      initialPage === page && styles.pageButtonActive,
-                      initialPage !== page && styles.pageButtonInactive
-                    )}
-                  />
-                </li>
-              ))}
+              {visiblePages.map((page, idx) =>
+                page === "..." ? (
+                  <li key={`ellipsis-${idx}`} aria-hidden="true">
+                    <span
+                      className={classnames(
+                        styles.ellipsis,
+                        className?.ellipsis
+                      )}
+                      style={style?.ellipsis}
+                    >
+                      &hellip;
+                    </span>
+                  </li>
+                ) : (
+                  <li key={`page-${page}-${idx}`}>
+                    <Button
+                      buttonType="justText"
+                      label={String(page)}
+                      onClick={() => goToPage(page as number)}
+                      disabled={disabled}
+                      aria-label={`Go to page ${page}`}
+                      aria-current={initialPage === page ? "page" : undefined}
+                      className={{
+                        root: classnames(
+                          styles.pageButton,
+                          initialPage === page
+                            ? classnames(
+                                styles.pageButtonActive,
+                                className?.pageButtonActive
+                              )
+                            : classnames(
+                                styles.pageButtonInactive,
+                                className?.pageButtonInactive
+                              ),
+                          className?.pageButton
+                        ),
+                      }}
+                    />
+                  </li>
+                )
+              )}
             </ul>
           )}
           <Button
-            label=""
-            buttonType={BUTTON_TYPE.JUST_ICON}
-            iconType={{ default: ICON_TYPE.ARROW }}
+            label="Next page"
+            buttonType="justIcon"
+            iconType={{ default: "arrow" }}
             onClick={() => goToPage(initialPage + 1)}
             disabled={disabled || initialPage === totalPages}
-            variant={BUTTON_VARIANT.SECONDARY}
-            className={styles.pageButton}
+            variant="secondary"
+            aria-label="Go to next page"
+            className={{
+              root: classnames(styles.pageButton, className?.pageButton),
+            }}
           />
-        </div>
-        {showPageSizeSelector && pageSize && (
-          <Select
-            options={pageSizeSelectOptions}
-            placeholder={pageSizePlaceholder}
+        </nav>
+        {showPageSizeSelector && (
+          <select
             onChange={(e) => onPageChange(Number(e.target.value), true)}
             name="pageSize"
             value={pageSize.toString()}
-            label=""
-            className={styles.pageSizeSelector}
-          />
+            aria-label="Rows per page"
+            className={classnames(
+              styles.pageSizeSelector,
+              className?.pageSizeSelector
+            )}
+          >
+            {pageSizePlaceholder && (
+              <option value="" disabled>
+                {pageSizePlaceholder}
+              </option>
+            )}
+            {pageSizeSelectOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         )}
       </div>
     );
   };
 
   return (
-    <div className={classnames(styles.container, className)} style={style}>
-      {/* {(showFilter || showSeeAll || showSearch) && (
-        <div className={styles.header}>
-          {title && <h3 className={styles.title}>{title}</h3>}
-          <div className={styles.actionsWrapper}>
-            {showSearch && (
-              <Input
-                type="text"
-                isExistSearch
-                name="searchInput"
-                value={searchValue}
-                placeholder="Search..."
-                onChange={(e) => setSearchValue(e.target.value)}
-                disabled={disabled}
-              />
-            )}
-            {showFilter && (
-              <Button
-                label="Filter"
-                buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-                iconType={{ default: ICON_TYPE.FILTER }}
-                onClick={onFilterClick || (() => console.log("basti"))}
-                variant={BUTTON_VARIANT.SECONDARY}
-                disabled={disabled}
-              />
-            )}
-            {showSeeAll && (
-              <Button
-                label="See all"
-                buttonType={BUTTON_TYPE.JUST_TEXT}
-                onClick={onSeeAllClick || (() => console.log("basti"))}
-                variant={BUTTON_VARIANT.SECONDARY}
-                disabled={disabled}
-              />
-            )}
-          </div>
-        </div>
-      )} */}
-
+    <div
+      id={tableId}
+      className={classnames(styles.container, className?.root)}
+      style={style?.root}
+      role="region"
+      aria-labelledby={title ? titleId : undefined}
+      aria-label={!title ? ariaLabel : undefined}
+      aria-describedby={ariaDescribedBy}
+    >
       {title && (
-        <div className={styles.header}>
-          {title && <h3 className={styles.title}>{title}</h3>}
+        <div
+          className={classnames(styles.header, className?.header)}
+          style={style?.header}
+        >
+          <h3
+            id={titleId}
+            className={classnames(styles.title, className?.title)}
+            style={style?.title}
+          >
+            {title}
+          </h3>
         </div>
       )}
-
-      <div className={styles.tableWrapper}>
-        <MainTable className={styles.tableContainer}>
-          <TableHeader className={styles.tableHeader}>
+      <div
+        className={classnames(styles.tableWrapper, className?.tableWrapper)}
+        style={style?.tableWrapper}
+      >
+        <MainTable
+          className={classnames(
+            styles.tableContainer,
+            className?.tableContainer
+          )}
+          aria-labelledby={title ? titleId : undefined}
+          aria-label={!title ? ariaLabel : undefined}
+          aria-rowcount={totalRows}
+        >
+          <TableHeader
+            className={classnames(styles.tableHeader, className?.tableHeader)}
+          >
             <TableRow>
               {finalColumns.map((column: any) => (
                 <TableCell
                   key={column.key}
                   isHeader
-                  className={styles.headerCell}
-                  style={{ width: column.width }}
+                  scope="col"
+                  aria-sort={
+                    column.sortDirection === "asc"
+                      ? "ascending"
+                      : column.sortDirection === "desc"
+                        ? "descending"
+                        : column.sorter
+                          ? "none"
+                          : undefined
+                  }
+                  className={classnames(
+                    styles.headerCell,
+                    className?.headerCell
+                  )}
+                  style={{ width: column.width, ...style?.headerCell }}
                 >
                   {column.title}
                 </TableCell>
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody className={styles.tableBody}>
-            {dataToDisplay.map((record, index) => (
-              <TableRow key={index} onClick={() => handleRowClick(record)}>
-                {finalColumns.map((column: any) => (
-                  <TableCell
-                    key={`${record["key"]}-${column.key}`}
-                    className={styles.bodyCell}
-                    style={{ width: column.width }}
-                  >
-                    {column.render
-                      ? column.render(
-                          getNestedValue(record, column.dataIndex),
-                          record
-                        )
-                      : getNestedValue(record, column.dataIndex)}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+          <TableBody
+            className={classnames(styles.tableBody, className?.tableBody)}
+          >
+            {dataToDisplay.map((record, index) => {
+              const isSelected = selectedRowKeys.includes(record["key"]);
+              const isClickable = !!onRowClick && !disabled;
+
+              return (
+                <TableRow
+                  key={record["key"] ?? index}
+                  isClickable={isClickable}
+                  onClick={() => handleRowClick(record)}
+                  aria-selected={rowSelection ? isSelected : undefined}
+                  aria-rowindex={indexOfFirstItem + index + 2}
+                  className={classnames(
+                    styles.bodyRow,
+                    isClickable && styles.clickable,
+                    className?.bodyRow
+                  )}
+                >
+                  {finalColumns.map((column: any) => (
+                    <TableCell
+                      key={`${record["key"]}-${column.key}`}
+                      className={classnames(
+                        styles.bodyCell,
+                        className?.bodyCell
+                      )}
+                      style={{ width: column.width, ...style?.bodyCell }}
+                    >
+                      {column.render
+                        ? column.render(
+                            getNestedValue(record, column.dataIndex),
+                            record
+                          )
+                        : getNestedValue(record, column.dataIndex)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </MainTable>
       </div>
-
       {renderPagination()}
-
-      {totalCount && (
-        <div className={styles.recordInfo}>
+      {totalCount != null && (
+        <div
+          className={classnames(styles.recordInfo, className?.recordInfo)}
+          style={style?.recordInfo}
+          aria-live="polite"
+          aria-atomic="true"
+        >
           Showing {(currentPage - 1) * (pageSize || 10) + 1} to{" "}
           {Math.min(
             currentPage * (pageSize || 10),
@@ -451,53 +422,3 @@ export const Table = (props: Props) => {
     </div>
   );
 };
-
-export interface Props {
-  title?: string;
-  dataSource: Record<string, any>[];
-  columns: TableColumn[];
-  className?: string;
-  // showFilter?: boolean;
-  // showSeeAll?: boolean;
-  // showSearch?: boolean;
-  // onFilterClick?: () => void;
-  // onSeeAllClick?: () => void;
-  rowSelection?: {
-    type: "checkbox" | "radio";
-    onChange?: (
-      selectedRowKeys: string[],
-      selectedRows: Record<string, any>[]
-    ) => void;
-  };
-  pagination?:
-    | boolean
-    | {
-        pageSize?: number;
-        showPageNumbers?: boolean;
-      };
-  onRowClick?: (record: Record<string, any>) => void;
-  disabled?: boolean;
-  serverPagination?: boolean;
-  totalCount?: number;
-  currentPage?: number;
-  pageSizeOptions?: number[];
-  showPageSizeSelector?: boolean;
-  pageSizePlaceholder?: string;
-  onTableChange?: (
-    setInitialPage: React.Dispatch<React.SetStateAction<number>>,
-    page: number,
-    pageSize: number,
-    isPageSize?: boolean
-  ) => void;
-  maxVisiblePages?: number;
-  style?: React.CSSProperties;
-}
-
-interface TableColumn {
-  title: string;
-  dataIndex: string;
-  key: string;
-  render?: (text: any, record: any) => React.ReactNode;
-  sorter?: (a: any, b: any) => number;
-  width?: string | number;
-}

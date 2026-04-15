@@ -1,0 +1,413 @@
+:root {
+  --bearlab-carousel-slide-width-desktop: 63.75rem; /* 1020px */
+  --bearlab-carousel-slide-width-tablet: 37.5rem; /* 600px */
+  --bearlab-carousel-slide-gap: 1.25rem; /* 20px */
+  --bearlab-carousel-slide-radius: 1.25rem; /* 20px */
+  --bearlab-carousel-slide-inactive-scale: 0.88;
+  --bearlab-carousel-slide-height: 37.5rem; /* 600px */
+  --bearlab-carousel-slide-height-tablet: 26.25rem; /* 420px */
+  --bearlab-carousel-slide-height-mobile: 20rem; /* 320px */
+  --bearlab-carousel-transition-dur: 560ms;
+  --bearlab-carousel-transition-ease: cubic-bezier(0.45, 0.05, 0.15, 1);
+  --bearlab-carousel-container-padding: 2.5rem 0 3.5rem; /* 40px 0 56px */
+  --bearlab-carousel-track-margin-bottom: 1.875rem; /* 30px */
+  --bearlab-carousel-controls-inset: 0.875rem; /* 14px */
+  --bearlab-carousel-controls-gap: 0.5rem; /* 8px */
+  --bearlab-carousel-control-btn-size: 2.25rem; /* 36px */
+  --bearlab-carousel-control-btn-backdrop: blur(0.625rem); /* 10px */
+  --bearlab-carousel-control-icon-size: 1rem; /* 16px */
+  --bearlab-carousel-prompt-inset-x: 0.75rem; /* 12px */
+  --bearlab-carousel-prompt-bottom: 1.25rem; /* 20px */
+  --bearlab-carousel-prompt-font-size: 0.75rem; /* 12px */
+  --bearlab-carousel-prompt-padding: 0.875rem 0 0.875rem 0.75rem; /* 14px 0 14px 12px */
+  --bearlab-carousel-prompt-max-height: 11.25rem; /* 180px */
+  --bearlab-carousel-prompt-inner-gap: 0.625rem; /* 10px */
+  --bearlab-carousel-prompt-label-margin: 0.3125rem; /* 5px */
+  --bearlab-carousel-prompt-toggle-size: 3rem; /* 48px */
+  --bearlab-carousel-prompt-icon-size: 1.125rem; /* 18px */
+  --bearlab-carousel-scrollbar-size: 0.375rem; /* 6px */
+  --bearlab-carousel-nav-top-offset: 3.125rem; /* 50px */
+  --bearlab-carousel-nav-padding: 0 1.25rem; /* 0 20px */
+  --bearlab-carousel-nav-btn-size: 3rem; /* 48px */
+  --bearlab-carousel-nav-btn-size-mobile: 2.5rem; /* 40px */
+  --bearlab-carousel-nav-btn-backdrop: blur(0.75rem); /* 12px */
+  --bearlab-carousel-nav-icon-size: 1.25rem; /* 20px */
+  --bearlab-carousel-dots-gap: 0.625rem; /* 10px */
+  --bearlab-carousel-dots-padding: 0 1rem; /* 0 16px */
+  --bearlab-carousel-dots-height: 3.5rem; /* 56px */
+  --bearlab-carousel-dots-min-width: 11.25rem; /* 180px */
+  --bearlab-carousel-dot-size: 0.75rem; /* 12px */
+  --bearlab-carousel-dot-active-width: 2.5rem; /* 40px */
+  --bearlab-carousel-dot-fill-radius: 0.125rem; /* 2px */
+}
+
+:root[data-theme="light"] {
+  --bearlab-carousel-slide-active-shadow:
+    0 0.25rem 0.625rem rgba(0, 0, 0, 0.55),
+    0 0.125rem 1.625rem rgba(0, 0, 0, 0.3);
+  --bearlab-carousel-control-btn-bg: rgba(0, 0, 0, 0.45);
+  --bearlab-carousel-control-btn-bg-hover: rgba(0, 0, 0, 0.65);
+  --bearlab-carousel-control-btn-border: rgba(255, 255, 255, 0.2);
+  --bearlab-carousel-control-btn-color: rgba(255, 255, 255, 0.9);
+  --bearlab-carousel-prompt-bg: #000000bf;
+  --bearlab-carousel-prompt-label-color: rgba(255, 255, 255, 0.45);
+  --bearlab-carousel-prompt-text-color: rgba(255, 255, 255, 0.82);
+  --bearlab-carousel-prompt-icon-color: #fff;
+  --bearlab-carousel-nav-btn-bg: rgba(255, 255, 255, 0.08);
+  --bearlab-carousel-nav-btn-bg-hover: rgba(255, 255, 255, 0.16);
+  --bearlab-carousel-nav-btn-border: rgba(255, 255, 255, 0.15);
+  --bearlab-carousel-nav-btn-border-hover: rgba(255, 255, 255, 0.3);
+  --bearlab-carousel-nav-btn-color: rgba(255, 255, 255, 0.85);
+  --bearlab-carousel-dots-bg: #f2f4f7;
+  --bearlab-carousel-dots-shadow:
+    0 0.5rem 0.5rem rgba(130, 130, 130, 0.25),
+    0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+  --bearlab-carousel-dot-bg: #000;
+  --bearlab-carousel-dot-border: #fff;
+  --bearlab-carousel-dot-active-bg: #667085;
+  --bearlab-carousel-dot-fill-gradient: linear-gradient(
+    77.04deg,
+    #3186ff 6.99%,
+    #346bf1 45.46%,
+    #4fa0ff 88.2%
+  );
+}
+
+:root[data-theme="dark"] {
+  --bearlab-carousel-slide-active-shadow:
+    0 0.25rem 0.625rem rgba(0, 0, 0, 0.55),
+    0 0.125rem 1.625rem rgba(0, 0, 0, 0.3);
+  --bearlab-carousel-control-btn-bg: rgba(0, 0, 0, 0.45);
+  --bearlab-carousel-control-btn-bg-hover: rgba(0, 0, 0, 0.65);
+  --bearlab-carousel-control-btn-border: rgba(255, 255, 255, 0.2);
+  --bearlab-carousel-control-btn-color: rgba(255, 255, 255, 0.9);
+  --bearlab-carousel-prompt-bg: #000000bf;
+  --bearlab-carousel-prompt-label-color: rgba(255, 255, 255, 0.45);
+  --bearlab-carousel-prompt-text-color: rgba(255, 255, 255, 0.82);
+  --bearlab-carousel-prompt-icon-color: #fff;
+  --bearlab-carousel-nav-btn-bg: rgba(255, 255, 255, 0.08);
+  --bearlab-carousel-nav-btn-bg-hover: rgba(255, 255, 255, 0.16);
+  --bearlab-carousel-nav-btn-border: rgba(255, 255, 255, 0.15);
+  --bearlab-carousel-nav-btn-border-hover: rgba(255, 255, 255, 0.3);
+  --bearlab-carousel-nav-btn-color: rgba(255, 255, 255, 0.85);
+  --bearlab-carousel-dots-bg: color-mix(in oklab, #fff 4%, transparent);
+  --bearlab-carousel-dots-shadow:
+    0 0.5rem 0.5rem rgb(16 16 16 / 25%), 0 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+  --bearlab-carousel-dot-bg: #000;
+  --bearlab-carousel-dot-border: #bababa;
+  --bearlab-carousel-dot-active-bg: #667085;
+  --bearlab-carousel-dot-fill-gradient: linear-gradient(
+    77.04deg,
+    #3186ff 6.99%,
+    #346bf1 45.46%,
+    #4fa0ff 88.2%
+  );
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y;
+  padding: var(--bearlab-carousel-container-padding);
+
+  &.dragging {
+    cursor: grabbing;
+  }
+
+  &.noDrag {
+    cursor: default;
+  }
+
+  .track {
+    display: flex;
+    align-items: center;
+    will-change: transform;
+    transition: transform var(--bearlab-carousel-transition-dur)
+      var(--bearlab-carousel-transition-ease);
+    margin-bottom: var(--bearlab-carousel-track-margin-bottom);
+
+    &.noTransition {
+      transition: none;
+    }
+
+    &.trackHidden {
+      visibility: hidden;
+    }
+
+    .slide {
+      flex-shrink: 0;
+      width: var(--bearlab-carousel-slide-width-desktop);
+      height: var(--bearlab-carousel-slide-height);
+      margin: 0 calc(var(--bearlab-carousel-slide-gap) / 2);
+      border-radius: var(--bearlab-carousel-slide-radius);
+      overflow: hidden;
+      position: relative;
+      transform: scale(var(--bearlab-carousel-slide-inactive-scale));
+      transition:
+        transform var(--bearlab-carousel-transition-dur)
+          var(--bearlab-carousel-transition-ease),
+        opacity var(--bearlab-carousel-transition-dur)
+          var(--bearlab-carousel-transition-ease),
+        box-shadow var(--bearlab-carousel-transition-dur)
+          var(--bearlab-carousel-transition-ease);
+      will-change: transform, opacity;
+      cursor: pointer;
+
+      &.active {
+        transform: scale(1);
+        cursor: default;
+        box-shadow: var(--bearlab-carousel-slide-active-shadow);
+
+        &:hover {
+          .videoControls {
+            opacity: 1;
+          }
+        }
+      }
+
+      .media {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        pointer-events: none;
+      }
+
+      .videoControls {
+        position: absolute;
+        top: var(--bearlab-carousel-controls-inset);
+        right: var(--bearlab-carousel-controls-inset);
+        display: flex;
+        gap: var(--bearlab-carousel-controls-gap);
+        z-index: 5;
+        opacity: 0;
+        transition: opacity 220ms ease;
+
+        .controlBtn {
+          width: var(--bearlab-carousel-control-btn-size);
+          height: var(--bearlab-carousel-control-btn-size);
+          border-radius: 50%;
+          border: 1px solid var(--bearlab-carousel-control-btn-border);
+          background: var(--bearlab-carousel-control-btn-bg);
+          color: var(--bearlab-carousel-control-btn-color);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          backdrop-filter: var(--bearlab-carousel-control-btn-backdrop);
+          transition:
+            background 180ms ease,
+            transform 150ms ease;
+          padding: 0;
+
+          &:hover {
+            background: var(--bearlab-carousel-control-btn-bg-hover);
+            transform: scale(1.08);
+          }
+
+          &:active {
+            transform: scale(0.94);
+          }
+
+          svg {
+            width: var(--bearlab-carousel-control-icon-size);
+            height: var(--bearlab-carousel-control-icon-size);
+            flex-shrink: 0;
+          }
+        }
+      }
+
+      .promptOverlay {
+        position: absolute;
+        background: var(--bearlab-carousel-prompt-bg);
+        left: var(--bearlab-carousel-prompt-inset-x);
+        right: var(--bearlab-carousel-prompt-inset-x);
+        bottom: var(--bearlab-carousel-prompt-bottom);
+        transition: all 0.5s ease;
+        border-radius: var(--bearlab-carousel-slide-radius);
+
+        .promptInner {
+          display: flex;
+          align-items: center;
+          gap: var(--bearlab-carousel-prompt-inner-gap);
+
+          .promptTexts {
+            font-size: var(--bearlab-carousel-prompt-font-size);
+            flex: 1;
+            padding: var(--bearlab-carousel-prompt-padding);
+            max-height: var(--bearlab-carousel-prompt-max-height);
+
+            &::-webkit-scrollbar {
+              width: var(--bearlab-carousel-scrollbar-size);
+              height: var(--bearlab-carousel-scrollbar-size);
+            }
+
+            .promptLabel {
+              text-transform: uppercase;
+              color: var(--bearlab-carousel-prompt-label-color);
+              margin-bottom: var(--bearlab-carousel-prompt-label-margin);
+            }
+
+            .promptText {
+              color: var(--bearlab-carousel-prompt-text-color);
+            }
+          }
+
+          .truncation {
+            height: 100%;
+            overflow: auto;
+          }
+
+          .promptToggleBtn {
+            cursor: pointer;
+            height: stretch;
+            display: flex;
+            align-items: center;
+
+            button {
+              width: var(--bearlab-carousel-prompt-toggle-size);
+              height: var(--bearlab-carousel-prompt-toggle-size);
+              border: none;
+              background: transparent;
+              cursor: pointer;
+            }
+
+            svg {
+              width: var(--bearlab-carousel-prompt-icon-size);
+              height: var(--bearlab-carousel-prompt-icon-size);
+              color: var(--bearlab-carousel-prompt-icon-color);
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .nav {
+    position: absolute;
+    top: calc(50% - var(--bearlab-carousel-nav-top-offset));
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    padding: var(--bearlab-carousel-nav-padding);
+    z-index: 10;
+
+    .navBtn {
+      pointer-events: all;
+      width: var(--bearlab-carousel-nav-btn-size);
+      height: var(--bearlab-carousel-nav-btn-size);
+      border-radius: 50%;
+      border: 1px solid var(--bearlab-carousel-nav-btn-border);
+      background: var(--bearlab-carousel-nav-btn-bg);
+      backdrop-filter: var(--bearlab-carousel-nav-btn-backdrop);
+      color: var(--bearlab-carousel-nav-btn-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition:
+        background 200ms ease,
+        border-color 200ms ease,
+        transform 200ms ease;
+      padding: 0;
+      opacity: 1;
+
+      &:hover {
+        background: var(--bearlab-carousel-nav-btn-bg-hover);
+        border-color: var(--bearlab-carousel-nav-btn-border-hover);
+        transform: scale(1.08);
+      }
+
+      &:active {
+        transform: scale(0.94);
+      }
+
+      svg {
+        width: var(--bearlab-carousel-nav-icon-size);
+        height: var(--bearlab-carousel-nav-icon-size);
+      }
+    }
+  }
+
+  .dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--bearlab-carousel-dots-gap);
+    background-color: var(--bearlab-carousel-dots-bg);
+    padding: var(--bearlab-carousel-dots-padding);
+    height: var(--bearlab-carousel-dots-height);
+    width: fit-content;
+    margin: 0 auto;
+    border-radius: var(--bearlab-carousel-slide-radius);
+    min-width: var(--bearlab-carousel-dots-min-width);
+    box-shadow: var(--bearlab-carousel-dots-shadow);
+
+    .dot {
+      height: var(--bearlab-carousel-dot-size);
+      width: var(--bearlab-carousel-dot-size);
+      border-radius: 9999px;
+      overflow: hidden;
+      background: var(--bearlab-carousel-dot-bg);
+      border: 1px solid var(--bearlab-carousel-dot-border);
+      cursor: pointer;
+      transition:
+        width 320ms var(--bearlab-carousel-transition-ease),
+        background 320ms ease;
+      position: relative;
+      padding: 0;
+
+      &.activeDot {
+        width: var(--bearlab-carousel-dot-active-width);
+        background: var(--bearlab-carousel-dot-active-bg);
+      }
+
+      .dotFill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 0%;
+        background: var(--bearlab-carousel-dot-fill-gradient);
+        border-radius: var(--bearlab-carousel-dot-fill-radius);
+        animation: dotProgress linear forwards;
+      }
+    }
+  }
+
+  @keyframes dotProgress {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 64em) {
+  /* 1024px */
+  .slide {
+    width: var(--bearlab-carousel-slide-width-tablet);
+    height: var(--bearlab-carousel-slide-height-tablet);
+  }
+}
+
+@media (max-width: 40em) {
+  /* 640px */
+  .slide {
+    width: 88vw;
+    height: var(--bearlab-carousel-slide-height-mobile);
+  }
+
+  .navBtn {
+    width: var(--bearlab-carousel-nav-btn-size-mobile);
+    height: var(--bearlab-carousel-nav-btn-size-mobile);
+  }
+}

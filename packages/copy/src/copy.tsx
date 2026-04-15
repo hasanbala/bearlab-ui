@@ -1,68 +1,67 @@
+import { useCallback, useEffect, useId, useState } from "react";
 import classnames from "classnames";
-import { useState } from "react";
-import styles from "./copy.module.scss";
-import { Button, BUTTON_TYPE, ICON_TYPE } from "@bearlab/button";
+import { Button, type ButtonIconTypeValues } from "@bearlab/button";
+import styles from "./styles/copy.module.scss";
+import type { CopyProps } from "./types/copy.types";
 
-export const Copy = (props: Props) => {
-  const { text, className, label = "Copy", copyId, disabled, style } = props;
+export const Copy = (props: CopyProps) => {
+  const { text, className, label = "Copy", disabled, style } = props;
+
   const [isCopy, setIsCopy] = useState(false);
+  const generatedId = useId();
+  const textId = `copy-text-${generatedId}`;
 
-  const copyCode = () => {
-    if (disabled) {
-      return;
-    }
+  useEffect(() => {
+    if (!isCopy) return;
+    const timer = setTimeout(() => setIsCopy(false), 3000);
+    return () => clearTimeout(timer);
+  }, [isCopy]);
 
+  const copyCode = useCallback(() => {
     navigator.clipboard
       .writeText(text)
-      .then(() => {
-        setIsCopy(true);
-        new Promise(() =>
-          setTimeout(() => {
-            setIsCopy(false);
-          }, 3000)
-        );
-      })
-      .catch(() => console.warn("error", "An error occurred"));
-  };
+      .then(() => setIsCopy(true))
+      .catch(() => console.warn("Clipboard write failed"));
+  }, [text]);
 
-  const handleIcon = () => {
-    if (!copyId) {
-      return !isCopy ? ICON_TYPE.COPY : ICON_TYPE.TICK;
-    }
-
-    return isCopy ? ICON_TYPE.TICK : ICON_TYPE.COPY;
-  };
+  const displayText = text === "" || text == null ? "-" : text;
+  const iconType: ButtonIconTypeValues = isCopy ? "tick" : "copy";
+  const announceLabel = isCopy ? "Copied!" : label;
 
   return (
     <div
+      role="group"
+      aria-label={label}
+      style={style?.root}
       className={classnames(
         styles.container,
-        className,
-        disabled && styles.disabled
+        disabled && styles.disabled,
+        className?.root
       )}
-      style={style}
     >
-      <div className={styles.text}>
-        {text == "" || text == null ? "-" : text}
+      <div
+        id={textId}
+        style={style?.text}
+        aria-label={displayText === "-" ? "Empty" : displayText}
+        className={classnames(styles.text, className?.text)}
+        title={typeof displayText === "string" ? displayText : undefined}
+      >
+        {displayText}
       </div>
       {!disabled && (
         <Button
-          buttonType={BUTTON_TYPE.JUST_ICON}
-          label={label}
+          buttonType="justIcon"
+          label={announceLabel}
           disabled={disabled}
-          iconType={{ default: handleIcon() }}
+          iconType={{ default: iconType }}
+          aria-pressed={isCopy}
+          aria-controls={textId}
           onClick={copyCode}
+          aria-label={
+            isCopy ? "Copied to clipboard" : `${label}: ${displayText}`
+          }
         />
       )}
     </div>
   );
 };
-
-export interface Props {
-  text: string;
-  className?: string;
-  label?: string;
-  copyId?: string | number | null | undefined;
-  disabled?: boolean;
-  style?: React.CSSProperties;
-}

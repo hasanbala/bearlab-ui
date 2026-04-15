@@ -1,0 +1,195 @@
+@use "sass:color";
+
+:root {
+  --bearlab-accordion-gap: 0.75rem; /* 12px */
+  --bearlab-accordion-duration: 0.28s;
+  --bearlab-accordion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --bearlab-accordion-item-radius: 1rem; /* 16px */
+  --bearlab-accordion-item-border-width: 0.0625rem; /* 1px */
+  --bearlab-accordion-header-padding: 0.75rem 0.75rem 0.75rem 1.5rem; /* 12px 12px 12px 24px */
+  --bearlab-accordion-header-gap: 1.25rem; /* 20px */
+  --bearlab-accordion-button-min-size: 3rem; /* 48px */
+  --bearlab-accordion-title-font-size: 1.125rem; /* 18px */
+  --bearlab-accordion-content-padding: 1.75rem 1.5rem; /* 28px 24px */
+  --bearlab-accordion-content-font-size: 1rem; /* 16px */
+  --bearlab-accordion-content-line-height: 1.625rem; /* 26px */
+  --bearlab-accordion-icon-border-radius: 9999px;
+  --bearlab-accordion-icon-wrapper-size: 2.75rem; /* 44px */
+  --bearlab-accordion-icon-size: 1.5rem; /* 24px */
+  --bearlab-accordion-icon-border-width: 0.0625rem; /* 1px */
+}
+
+:root[data-theme="light"] {
+  --sidemenu-link-active-color: #465fff;
+  --bearlab-accordion-item-border-color: #e5e7eb;
+  --bearlab-accordion-item-border-color-open: #{color.adjust(
+      #e5e7eb,
+      $lightness: -6%
+    )};
+  --bearlab-accordion-item-bg: #fff;
+  --bearlab-accordion-item-shadow-open: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --bearlab-accordion-item-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --bearlab-accordion-header-bg-open: #eef2ff;
+  --bearlab-accordion-title-color: #1d2939;
+  --bearlab-accordion-title-color-open: var(--sidemenu-link-active-color);
+  --bearlab-accordion-icon-bg: #f3f4f6;
+  --bearlab-accordion-content-color: #6b7280;
+  --bearlab-accordion-icon-bg: transparent;
+  --bearlab-accordion-icon-bg-hover: #e4e7ec;
+  --bearlab-accordion-icon-border-color: #c6cad1;
+  --bearlab-accordion-icon-open-border-color: #8c93a0;
+}
+
+:root[data-theme="dark"] {
+  --sidemenu-link-active-color: #7592ff;
+  --bearlab-accordion-item-border-color: #1f2937;
+  --bearlab-accordion-item-border-color-open: #{color.adjust(
+      #1f2937,
+      $lightness: 8%
+    )};
+  --bearlab-accordion-item-bg: rgba(255, 255, 255, 0.03);
+  --bearlab-accordion-item-shadow-open: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --bearlab-accordion-item-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --bearlab-accordion-header-bg-open: rgba(255, 255, 255, 0.03);
+  --bearlab-accordion-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-accordion-title-color-open: var(--sidemenu-link-active-color);
+  --bearlab-accordion-icon-bg: rgba(255, 255, 255, 0.03);
+  --bearlab-accordion-content-color: #9ca3af;
+  --bearlab-accordion-icon-bg: transparent;
+  --bearlab-accordion-icon-bg-hover: rgba(102, 112, 133, 0.24);
+  --bearlab-accordion-icon-border-color: #5b5e62;
+  --bearlab-accordion-icon-open-border-color: #fff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bearlab-accordion-gap);
+
+  button {
+    all: unset;
+  }
+
+  &[data-open="true"] .accordionItem {
+    border-color: var(--bearlab-accordion-item-border-color-open);
+    box-shadow: var(--bearlab-accordion-item-shadow-open);
+  }
+
+  .accordionItem {
+    overflow: hidden;
+    border-radius: var(--bearlab-accordion-item-radius);
+    border: var(--bearlab-accordion-item-border-width) solid
+      var(--bearlab-accordion-item-border-color);
+    background-color: var(--bearlab-accordion-item-bg);
+    transition:
+      border-color var(--bearlab-accordion-duration)
+        var(--bearlab-accordion-easing),
+      box-shadow var(--bearlab-accordion-duration)
+        var(--bearlab-accordion-easing);
+
+    &:hover {
+      box-shadow: var(--bearlab-accordion-item-shadow-hover);
+    }
+
+    &[data-open="true"] .header {
+      background-color: var(--bearlab-accordion-header-bg-open);
+
+      .titleWrapper {
+        .title {
+          color: var(--bearlab-accordion-title-color-open);
+        }
+      }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--bearlab-accordion-header-padding);
+      gap: var(--bearlab-accordion-header-gap);
+      user-select: none;
+      transition: background-color var(--bearlab-accordion-duration)
+        var(--bearlab-accordion-easing);
+      width: stretch;
+      cursor: pointer;
+
+      button {
+        min-height: var(--bearlab-accordion-button-min-size);
+        min-width: var(--bearlab-accordion-button-min-size);
+      }
+
+      .titleWrapper {
+        flex: 1;
+        min-width: 0;
+
+        .title {
+          font-size: var(--bearlab-accordion-title-font-size);
+          color: var(--bearlab-accordion-title-color);
+          margin: 0;
+        }
+      }
+
+      .iconWrapper {
+        border-radius: var(--bearlab-accordion-icon-border-radius);
+        min-height: var(--bearlab-accordion-icon-wrapper-size);
+        min-width: var(--bearlab-accordion-icon-wrapper-size);
+        height: fit-content;
+        width: fit-content;
+        background-color: var(--bearlab-accordion-icon-bg);
+        border: var(--bearlab-accordion-icon-border-width) solid
+          var(--bearlab-accordion-icon-border-color);
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--bearlab-accordion-icon-bg-hover);
+        }
+
+        &:active {
+          transform: scale(0.94);
+        }
+
+        &.iconOpen {
+          border-color: var(--bearlab-accordion-icon-open-border-color);
+
+          .icon {
+            transform: rotate(180deg);
+          }
+        }
+
+        .icon {
+          width: var(--bearlab-accordion-icon-size);
+          height: var(--bearlab-accordion-icon-size);
+          transition: transform var(--bearlab-accordion-duration)
+            var(--bearlab-accordion-easing);
+        }
+      }
+    }
+
+    &[data-open="true"] .contentWrapper {
+      grid-template-rows: 1fr;
+    }
+
+    .contentWrapper {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows var(--bearlab-accordion-duration)
+        var(--bearlab-accordion-easing);
+
+      .contentInner {
+        overflow: hidden;
+
+        .text {
+          padding: var(--bearlab-accordion-content-padding);
+          font-size: var(--bearlab-accordion-content-font-size);
+          color: var(--bearlab-accordion-content-color);
+          line-height: var(--bearlab-accordion-content-line-height);
+          margin: 0;
+        }
+      }
+    }
+  }
+}

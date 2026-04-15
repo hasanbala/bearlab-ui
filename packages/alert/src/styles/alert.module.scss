@@ -1,0 +1,140 @@
+:root {
+  --bearlab-alert-radius: 0.75rem; /* 12px */
+  --bearlab-alert-padding: 1rem; /* 16px */
+  --bearlab-alert-gap: 0.75rem; /* 12px */
+  --bearlab-alert-border-width: 1px;
+  --bearlab-alert-icon-size: 1.5rem; /* 24px */
+  --bearlab-alert-icon-offset: -0.125rem;
+  --bearlab-alert-title-size: 0.875rem; /* 14px */
+  --bearlab-alert-title-weight: 600;
+  --bearlab-alert-title-mb: 0.25rem; /* 4px */
+  --bearlab-alert-desc-size: 0.875rem; /* 14px */
+  --bearlab-alert-link-size: 0.875rem; /* 14px */
+  --bearlab-alert-link-weight: 500;
+  --bearlab-alert-link-mt: 0.75rem; /* 12px */
+}
+
+:root[data-theme="light"] {
+  --bearlab-alert-title-color: #1d2939;
+  --bearlab-alert-desc-color: #667085;
+  --bearlab-alert-link-color: #667085;
+  --bearlab-alert-success-bg: #ecfdf3;
+  --bearlab-alert-success-border: #12b76a;
+  --bearlab-alert-success-icon: #12b76a;
+  --bearlab-alert-error-bg: #fef3f2;
+  --bearlab-alert-error-border: #f04438;
+  --bearlab-alert-error-icon: #f04438;
+  --bearlab-alert-warning-bg: #fffaeb;
+  --bearlab-alert-warning-border: #f79009;
+  --bearlab-alert-warning-icon: #f79009;
+  --bearlab-alert-info-bg: #f0f9ff;
+  --bearlab-alert-info-border: #0ba5ec;
+  --bearlab-alert-info-icon: #0ba5ec;
+}
+
+:root[data-theme="dark"] {
+  --bearlab-alert-title-color: #ffffffe6;
+  --bearlab-alert-desc-color: #a4aab7;
+  --bearlab-alert-link-color: #a4aab7;
+  --bearlab-alert-success-bg: #12b76a26;
+  --bearlab-alert-success-border: #12b76a4d;
+  --bearlab-alert-success-icon: #12b76a;
+  --bearlab-alert-error-bg: #f0443826;
+  --bearlab-alert-error-border: #f044384d;
+  --bearlab-alert-error-icon: #f04438;
+  --bearlab-alert-warning-bg: #f7900926;
+  --bearlab-alert-warning-border: #f790094d;
+  --bearlab-alert-warning-icon: #f79009;
+  --bearlab-alert-info-bg: #0ba5ec26;
+  --bearlab-alert-info-border: #0ba5ec4d;
+  --bearlab-alert-info-icon: #0ba5ec;
+}
+
+.container {
+  border-radius: var(--bearlab-alert-radius);
+  border: var(--bearlab-alert-border-width) solid transparent;
+  padding: var(--bearlab-alert-padding);
+
+  .content {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--bearlab-alert-gap);
+
+    .iconWrapper {
+      flex-shrink: 0;
+      margin-top: var(--bearlab-alert-icon-offset);
+      width: var(--bearlab-alert-icon-size);
+      height: var(--bearlab-alert-icon-size);
+
+      svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+
+    .title {
+      margin: 0 0 var(--bearlab-alert-title-mb) 0;
+      font-size: var(--bearlab-alert-title-size,);
+      font-weight: var(--bearlab-alert-title-weight);
+      color: var(--bearlab-alert-title-color);
+      line-height: 1.4;
+    }
+
+    .description {
+      margin: 0;
+      font-size: var(--bearlab-alert-desc-size);
+      color: var(--bearlab-alert-desc-color);
+      line-height: 1.5;
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: var(--bearlab-alert-link-mt);
+      font-size: var(--bearlab-alert-link-size);
+      font-weight: var(--bearlab-alert-link-weight);
+      color: var(--bearlab-alert-link-color);
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  &.successContainer {
+    background-color: var(--bearlab-alert-success-bg);
+    border-color: var(--bearlab-alert-success-border);
+
+    .iconWrapper {
+      color: var(--bearlab-alert-success-icon);
+    }
+  }
+
+  &.errorContainer {
+    background-color: var(--bearlab-alert-error-bg);
+    border-color: var(--bearlab-alert-error-border);
+
+    .iconWrapper {
+      color: var(--bearlab-alert-error-icon);
+    }
+  }
+
+  &.warningContainer {
+    background-color: var(--bearlab-alert-warning-bg);
+    border-color: var(--bearlab-alert-warning-border);
+
+    .iconWrapper {
+      color: var(--bearlab-alert-warning-icon);
+    }
+  }
+
+  &.infoContainer {
+    background-color: var(--bearlab-alert-info-bg);
+    border-color: var(--bearlab-alert-info-border);
+
+    .iconWrapper {
+      color: var(--bearlab-alert-info-icon);
+    }
+  }
+}

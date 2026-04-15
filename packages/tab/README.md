@@ -1,573 +1,231 @@
 # @bearlab/tab
 
-A flexible and customizable React tab component with support for icons, notifications, multiple layouts, and responsive design. Perfect for organizing content and creating intuitive navigation experiences. Part of the BearLab UI component library.
-
-## ✨ Features
-
-- **🎨 Two Action Types**: Button and underline tab styles
-- **📱 Layout Options**: Horizontal and vertical orientations
-- **🎯 Icon Support**: Add icons to tab headers for better UX
-- **🔔 Notifications**: Display notification badges on tabs
-- **🌗 Theme Support**: Built-in light and dark theme compatibility
-- **📱 Responsive Design**: Mobile-friendly with scrollable tabs
-- **♿ Accessibility**: Keyboard navigation and ARIA support
-- **🎭 Smooth Animations**: Elegant transitions between tabs
-- **🚀 Lightweight**: Minimal dependencies and optimized performance
-- **📝 TypeScript**: Full type safety and IntelliSense support
-
-## 📦 Installation
-
-```bash
-npm install @bearlab/tab
-```
-
-```bash
-yarn add @bearlab/tab
-```
-
-## 🔗 Dependencies
-
-- `react >= 16.8.0`
-- `react-dom >= 16.8.0`
-- `classnames`: For conditional CSS class handling
-
-## 📖 API Reference
-
-### Tab Props
-
-| Property     | Type                      | Default      | Description                           |
-| ------------ | ------------------------- | ------------ | ------------------------------------- |
-| `tabs`       | `TabItem[]`               | **Required** | Array of tab items to display         |
-| `actionType` | `"button" \| "underline"` | **Required** | Visual style of the tabs              |
-| `isVertical` | `boolean`                 | `false`      | Enable vertical layout (desktop only) |
-
-### TabItem Interface
-
-```tsx
-interface TabItem {
-  key: number; // Unique identifier for the tab
-  title: string; // Tab header text
-  content: string; // Tab content text
-  notify: number | null; // Notification badge count (null for no badge)
-  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | null; // Tab icon component
-}
-```
-
-### Types
-
-```tsx
-interface Props {
-  tabs: TabItem[];
-  actionType: "button" | "underline";
-  isVertical?: boolean;
-}
-```
-
-## 🎯 Usage Examples
-
-### Basic Button Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-
-const BasicTabs = () => {
-  const tabs = [
-    {
-      key: 0,
-      title: "Home",
-      content:
-        "Welcome to the home section. Here you can find an overview of your dashboard.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 1,
-      title: "Profile",
-      content: "Manage your profile settings and personal information.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 2,
-      title: "Settings",
-      content: "Configure your application preferences and account settings.",
-      notify: null,
-      icon: null,
-    },
-  ];
-
-  return <Tab tabs={tabs} actionType="button" />;
-};
-```
-
-### Underline Style Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-
-const UnderlineTabs = () => {
-  const tabs = [
-    {
-      key: 0,
-      title: "Analytics",
-      content:
-        "View detailed analytics and performance metrics for your account.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 1,
-      title: "Reports",
-      content: "Generate and download comprehensive reports.",
-      notify: 2,
-      icon: null,
-    },
-    {
-      key: 2,
-      title: "Exports",
-      content: "Export your data in various formats.",
-      notify: null,
-      icon: null,
-    },
-  ];
-
-  return <Tab tabs={tabs} actionType="underline" />;
-};
-```
-
-### Tabs with Icons and Notifications
-
-```tsx
-import { Tab } from "@bearlab/tab";
-import { HomeIcon, UserIcon, SettingsIcon, BellIcon } from "@your-icon-library";
-
-const IconTabs = () => {
-  const tabs = [
-    {
-      key: 0,
-      title: "Dashboard",
-      content: "Your main dashboard with key metrics and recent activity.",
-      notify: null,
-      icon: HomeIcon,
-    },
-    {
-      key: 1,
-      title: "Messages",
-      content: "View and manage your messages and communications.",
-      notify: 5,
-      icon: BellIcon,
-    },
-    {
-      key: 2,
-      title: "Profile",
-      content: "Update your profile information and account settings.",
-      notify: null,
-      icon: UserIcon,
-    },
-    {
-      key: 3,
-      title: "Settings",
-      content: "Configure application settings and preferences.",
-      notify: 1,
-      icon: SettingsIcon,
-    },
-  ];
-
-  return <Tab tabs={tabs} actionType="button" />;
-};
-```
-
-### Vertical Layout Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-
-const VerticalTabs = () => {
-  const tabs = [
-    {
-      key: 0,
-      title: "General",
-      content: "General settings and configurations for your account.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 1,
-      title: "Security",
-      content:
-        "Security settings including password and two-factor authentication.",
-      notify: 2,
-      icon: null,
-    },
-    {
-      key: 2,
-      title: "Notifications",
-      content: "Manage your notification preferences and email settings.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 3,
-      title: "Billing",
-      content: "View billing information and manage your subscription.",
-      notify: 1,
-      icon: null,
-    },
-  ];
-
-  return <Tab tabs={tabs} actionType="button" isVertical={true} />;
-};
-```
-
-### Dynamic Content Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-import { useState, useEffect } from "react";
-
-const DynamicTabs = () => {
-  const [notifications, setNotifications] = useState({
-    orders: 0,
-    messages: 0,
-    alerts: 0,
-  });
-
-  useEffect(() => {
-    // Simulate fetching notification counts
-    const fetchNotifications = async () => {
-      const counts = await api.getNotificationCounts();
-      setNotifications(counts);
-    };
-
-    fetchNotifications();
-  }, []);
-
-  const tabs = [
-    {
-      key: 0,
-      title: "Orders",
-      content: "View and manage your recent orders and order history.",
-      notify: notifications.orders > 0 ? notifications.orders : null,
-      icon: null,
-    },
-    {
-      key: 1,
-      title: "Messages",
-      content: "Read and respond to messages from customers and support.",
-      notify: notifications.messages > 0 ? notifications.messages : null,
-      icon: null,
-    },
-    {
-      key: 2,
-      title: "Alerts",
-      content: "Important alerts and notifications requiring your attention.",
-      notify: notifications.alerts > 0 ? notifications.alerts : null,
-      icon: null,
-    },
-  ];
-
-  return <Tab tabs={tabs} actionType="underline" />;
-};
-```
-
-### Admin Dashboard Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-import { ChartIcon, UsersIcon, SettingsIcon, ReportsIcon } from "@your-icons";
-
-const AdminDashboard = () => {
-  const tabs = [
-    {
-      key: 0,
-      title: "Analytics",
-      content: "View comprehensive analytics and key performance indicators.",
-      notify: null,
-      icon: ChartIcon,
-    },
-    {
-      key: 1,
-      title: "Users",
-      content: "Manage user accounts, permissions, and access controls.",
-      notify: 12,
-      icon: UsersIcon,
-    },
-    {
-      key: 2,
-      title: "Reports",
-      content: "Generate and schedule automated reports.",
-      notify: 3,
-      icon: ReportsIcon,
-    },
-    {
-      key: 3,
-      title: "System",
-      content: "Configure system settings and maintenance options.",
-      notify: null,
-      icon: SettingsIcon,
-    },
-  ];
-
-  return (
-    <div className="admin-panel">
-      <h1>Admin Dashboard</h1>
-      <Tab tabs={tabs} actionType="button" />
-    </div>
-  );
-};
-```
-
-### Mobile-Responsive Tabs
-
-```tsx
-import { Tab } from "@bearlab/tab";
-import { useMediaQuery } from "@your-hooks";
-
-const ResponsiveTabs = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
-
-  const tabs = [
-    {
-      key: 0,
-      title: "Overview",
-      content: "General overview and summary of your account.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 1,
-      title: "Activity",
-      content: "Recent activity and transaction history.",
-      notify: 8,
-      icon: null,
-    },
-    {
-      key: 2,
-      title: "Settings",
-      content: "Account settings and preferences.",
-      notify: null,
-      icon: null,
-    },
-    {
-      key: 3,
-      title: "Help",
-      content: "Help documentation and support resources.",
-      notify: null,
-      icon: null,
-    },
-  ];
-
-  return (
-    <Tab
-      tabs={tabs}
-      actionType={isMobile ? "underline" : "button"}
-      isVertical={!isMobile}
-    />
-  );
-};
-```
-
-## 🎨 Action Types
-
-### Button Style
-
-The default button style provides a clean, card-like appearance with rounded corners and subtle shadows.
-
-**Best for:**
-
-- Dashboard interfaces
-- Settings panels
-- Content management systems
-- Applications requiring clear visual separation
-
-```tsx
-<Tab tabs={tabs} actionType="button" />
-```
-
-### Underline Style
-
-A minimal style with bottom borders that's perfect for content-focused interfaces.
-
-**Best for:**
-
-- Product pages
-- Documentation sites
-- Blog interfaces
-- Content-heavy applications
-
-```tsx
-<Tab tabs={tabs} actionType="underline" />
-```
-
-## 📱 Layout Options
-
-### Horizontal Layout (Default)
-
-Tabs are arranged horizontally with scrollable overflow on mobile devices.
-
-```tsx
-<Tab
-  tabs={tabs}
-  actionType="button"
-  // isVertical defaults to false
-/>
-```
-
-### Vertical Layout
-
-Available on desktop screens (768px+), tabs are arranged vertically on the left side.
-
-```tsx
-<Tab tabs={tabs} actionType="button" isVertical={true} />
-```
-
-**Note:** Vertical layout automatically falls back to horizontal on mobile devices.
-
-## 🌙 Theme Support
-
-The component automatically supports dark theme. When the `data-theme="dark"` attribute is added to the HTML element, it automatically switches to dark theme colors.
-
-```html
-<html data-theme="dark">
-  <!-- Dark theme active -->
-</html>
-```
-
-## 🎨 🎭 Styling
-
-### Color Scheme
-
-| Element                | Light Theme                 | Dark Theme                  | Purpose             |
-| ---------------------- | --------------------------- | --------------------------- | ------------------- |
-| **Active Tab**         | White background, dark text | Dark background, light text | Current selection   |
-| **Inactive Tab**       | Transparent, gray text      | Transparent, muted text     | Available options   |
-| **Border**             | Light gray                  | Dark gray                   | Visual separation   |
-| **Notification Badge** | Blue background             | Blue with transparency      | Attention indicator |
-
-### Custom Styling
-
-Override default styles using CSS:
-
-```css
-/* Custom tab container */
-.custom-tabs {
-  --tab-border-radius: 16px;
-  --tab-padding: 16px 20px;
-  --tab-gap: 12px;
-}
-
-/* Custom button styles */
-.custom-tabs .header nav button {
-  font-weight: 600;
-  font-size: 15px;
-  min-height: 44px;
-}
-
-/* Custom notification badges */
-.custom-tabs .header nav button span {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-weight: 600;
-}
-
-/* Custom underline style */
-.custom-tabs.underLine nav button.active {
-  border-bottom-width: 3px;
-  border-color: #3b82f6;
-}
-```
-
-### CSS Custom Properties
-
-```css
-.tab-container {
-  --tab-active-bg: #ffffff;
-  --tab-active-color: #1f2937;
-  --tab-inactive-color: #6b7280;
-  --tab-border-color: #e5e7eb;
-  --tab-notification-bg: #3b82f6;
-  --tab-notification-color: #ffffff;
-}
-```
-
-## ♿ Accessibility
-
-The Tab component is built with accessibility in mind:
-
-## 📱 Responsive Behavior
-
-The Tab component adapts to different screen sizes:
-
-### Desktop (>768px)
-
-- Full-width horizontal tabs or vertical sidebar layout
-- Hover effects and animations
-- All features available
-
-### Mobile (<768px)
-
-- Horizontal scrollable tabs
-- Touch-friendly tap targets
-- Vertical layout disabled (falls back to horizontal)
-- Optimized spacing and typography
-
-### Responsive Example
-
-```css
-/* Custom responsive behavior */
-@media (max-width: 768px) {
-  .tab-container .header nav {
-    padding: 2px;
-    gap: 4px;
-  }
-
-  .tab-container .header nav button {
-    padding: 10px 16px;
-    font-size: 14px;
-    min-width: 80px;
-  }
-
-  .tab-container .content {
-    padding: 16px;
-  }
-}
-```
-
-## 🛜 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ iOS Safari
-- ✅ Android Chrome
-
-## 🤝 Contributing
-
-To contribute to the project:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Create a Pull Request
-
-## 📄 License and 👨‍💻 Author
-
-MIT © [hasanbala](https://github.com/hasanbala)
-
-**Hasan Bala** - [@hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.
-
-Feel free to open an [issue](https://github.com/hasanbala/bearlab-ui/issues) for questions or feedback! ⭐
+> Accessible, fully customizable Tab component for React applications.
+
+[![npm version](https://img.shields.io/npm/v/@bearlab/tab)](https://www.npmjs.com/package/@bearlab/tab)
+[![license](https://img.shields.io/npm/l/@bearlab/tab)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue)](https://www.typescriptlang.org/)
 
 ---
 
-<div align="center">
-  <p>Made with ❤️ by the Bearlab team</p>
-  <p>
-    <a href="https://github.com/hasanbala/bearlab-ui">⭐ Star us on GitHub</a> •
-    <a href="https://www.npmjs.com/package/@bearlab/tab">📦 View on NPM</a>
-  </p>
-</div>
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Props](#props)
+- [Slot-based Customization](#slot-based-customization)
+- [Theme Management](#theme-management)
+- [Design Tokens (Customization)](#design-tokens-customization)
+- [Accessibility](#accessibility)
+- [TypeScript](#typescript)
+- [Changelog](#changelog)
+
+---
+
+## Features
+
+- ✅ **Horizontal or Vertical Layouts** — Support for both orientations
+- ✅ **Visual variants** — `button` or `underline` visual styles for tab items
+- ✅ **Notifications** — Render a badge/notification inside tab items
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Accessible by default** — `role="tablist"`, `role="tab"`, `aria-selected`
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+
+---
+
+## Installation
+
+```bash
+# npm
+npm install @bearlab/tab
+
+# yarn
+yarn add @bearlab/tab
+
+# pnpm
+pnpm add @bearlab/tab
+```
+
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
+
+---
+
+## Usage
+
+```tsx
+import { Tab } from "@bearlab/tab";
+
+const myTabs = [
+  { key: 1, title: "Profile", content: "Profile Information", notify: null, icon: null },
+  { key: 2, title: "Settings", content: "User Settings", notify: 3, icon: null },
+];
+
+export default function App() {
+  return (
+    <Tab
+      tabs={myTabs}
+      actionType="underline"
+    />
+  );
+}
+```
+
+---
+
+## Props
+
+| Prop         | Type                                    | Default | Required | Description                                     |
+| ------------ | --------------------------------------- | ------- | -------- | ----------------------------------------------- |
+| `tabs`       | [`TabItem[]`](#tabitem)                 | —       | ✅       | Configuration array for rendering tabs          |
+| `actionType` | `"button" \| "underline"`               | —       | ✅       | Visual styling type for the tab triggers        |
+| `isVertical` | `boolean`                               | `false` | ❌       | Whether the tabs should be arranged vertically  |
+| `className`  | [`TabClassNames`](#tabclassnames)       | —       | ❌       | Per-slot className overrides                    |
+| `style`      | [`TabStyles`](#tabstyles)               | —       | ❌       | Per-slot inline style overrides                 |
+
+---
+
+## Slot-based Customization
+
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+
+For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+
+### `TabClassNames`
+
+| Slot      | Targets                                 |
+| --------- | --------------------------------------- |
+| `root`    | Outermost container `<div>`             |
+| `header`  | Header wrapper `<div>`                  |
+| `nav`     | The correct semantic `<nav>` wrapper    |
+| `button`  | Individual tab trigger button           |
+| `notify`  | Notification badge indicator            |
+| `content` | The wrapper for active tab panel content|
+
+```tsx
+<Tab
+  tabs={myTabs}
+  actionType="button"
+  className={{
+    root: "my-tab-root",
+    button: "my-tab-button",
+    content: "my-tab-content",
+  }}
+/>
+```
+
+### `TabStyles`
+
+All slots also accept inline `React.CSSProperties` via the `style` prop:
+
+```tsx
+<Tab
+  tabs={myTabs}
+  actionType="underline"
+  style={{
+    root: { gap: "1rem" },
+    nav: { borderBottom: "1px solid #ccc" },
+  }}
+/>
+```
+
+---
+
+## Theme Management
+
+The `Tab` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+---
+
+## Design Tokens (Customization)
+
+Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-tab-[element]-[property]` format, you can globally style the component across your application:
+
+```css
+:root,
+[data-theme="light"] {
+  --bearlab-tab-root-gap: 16px;
+  --bearlab-tab-button-padding: 0.5rem 1rem;
+  --bearlab-tab-button-active-bg: #e0e0e0;
+  --bearlab-tab-content-padding: 1.5rem;
+}
+```
+
+---
+
+## Accessibility
+
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+
+- **`role="tablist"`** — Identifies the element that serves as the container for a set of tabs.
+- **`role="tab"` & `role="tabpanel"`** — Associates the trigger button with its corresponding content panel.
+- **`aria-selected`** — Indicates the currently active tab.
+- **`aria-controls` & `aria-labelledby`** — Provide a semantic connection tying the tab and its content panel together for screen readers.
+- **`aria-orientation`** — Set to `"vertical" | "horizontal"` depending on the `isVertical` prop.
+- **Keyboard Navigation** — Should be navigable using proper tab-index and keyboard patterns (Arrow keys/Tab).
+
+---
+
+## TypeScript
+
+All types are exported from the package:
+
+```ts
+import type {
+  TabProps,
+  TabItem,
+  TabActionType,
+  TabClassNames,
+  TabStyles,
+} from "@bearlab/tab";
+```
+
+### `TabItem`
+
+```ts
+interface TabItem {
+  key: number;
+  title: string;
+  content: string;
+  notify: number | null;
+  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | null;
+}
+```
+
+### `TabClassNames`
+
+```ts
+interface TabClassNames {
+  root?: string;
+  header?: string;
+  nav?: string;
+  button?: string;
+  notify?: string;
+  content?: string;
+}
+```
+
+### `TabStyles`
+
+```ts
+interface TabStyles {
+  root?: React.CSSProperties;
+  header?: React.CSSProperties;
+  nav?: React.CSSProperties;
+  button?: React.CSSProperties;
+  notify?: React.CSSProperties;
+  content?: React.CSSProperties;
+}
+```
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+## License
+
+MIT © [hasanbala](https://github.com/hasanbala)

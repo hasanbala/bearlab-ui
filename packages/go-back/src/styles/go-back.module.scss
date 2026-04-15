@@ -1,0 +1,13 @@
+:root {
+  --bearlab-go-back-container-margin-bottom: 1.875rem; /* 30px */
+  --bearlab-go-back-icon-transform: rotate(180deg);
+}
+
+.container {
+  width: max-content;
+  margin-bottom: var(--bearlab-go-back-container-margin-bottom);
+
+  svg {
+    transform: var(--bearlab-go-back-icon-transform);
+  }
+}
