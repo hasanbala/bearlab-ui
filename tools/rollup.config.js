@@ -54,10 +54,6 @@ export default [
       typescript({
         outputToFilesystem: true,
         tsconfig: path.join(packagePath, "tsconfig.json"),
-        declaration: true,
-        declarationDir: path.join(packagePath, "dist/types"),
-        outDir: path.join(packagePath, "dist"),
-        rootDir: path.join(packagePath, "src"),
         compilerOptions: {
           baseUrl: rootPath,
           skipLibCheck: true,
@@ -68,8 +64,8 @@ export default [
             "@bearlab/checkbox": [path.join(rootPath, "packages/checkbox")],
             "@bearlab/copy": [path.join(rootPath, "packages/copy")],
             "@bearlab/dropzone": [path.join(rootPath, "packages/dropzone")],
-            "@bearlab/file-input": [path.join(rootPath, "packages/fileInput")],
-            "@bearlab/go-back": [path.join(rootPath, "packages/goBack")],
+            "@bearlab/file-input": [path.join(rootPath, "packages/file-input")],
+            "@bearlab/go-back": [path.join(rootPath, "packages/go-back")],
             "@bearlab/input": [path.join(rootPath, "packages/input")],
             "@bearlab/loading": [path.join(rootPath, "packages/loading")],
             "@bearlab/otp-form": [path.join(rootPath, "packages/otp-form")],
