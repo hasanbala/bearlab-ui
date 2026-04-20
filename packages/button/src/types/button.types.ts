@@ -3,9 +3,25 @@ export type ButtonHtmlType = "button" | "submit";
 export type ButtonVariant =
   | "primary"
   | "secondary"
-  | "tertiary"
+  | "secondary-success"
+  | "secondary-error"
+  | "secondary-warning"
+  | "secondary-info"
+  | "secondary-dark"
   | "liquid-holographic"
-  | "liquid-tinted";
+  | "liquid-tinted"
+  | "light-success"
+  | "light-error"
+  | "light-warning"
+  | "light-info"
+  | "light-light"
+  | "light-dark"
+  | "solid-success"
+  | "solid-error"
+  | "solid-warning"
+  | "solid-info"
+  | "solid-light"
+  | "solid-dark";
 
 export type ButtonIconTypeValues =
   | "none"

@@ -1,16 +1,19 @@
-import { useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { IconChevronDown, IconLoaderCircle } from "../assets/icons";
 import {
   QuerySelectSearchProps,
   QuerySelectOption,
 } from "../types/query-select.types";
+import { useVisibleItemsCount } from "../hooks/use-visible-items-count";
+import { SelectionInlineItems } from "./selection-inline-items";
 import styles from "../styles/query-select.module.scss";
 
 export const Search = <T extends QuerySelectOption>(
   props: QuerySelectSearchProps<T>
 ) => {
   const {
+    mode,
     query,
     error,
     style,
@@ -18,35 +21,49 @@ export const Search = <T extends QuerySelectOption>(
     disabled,
     className,
     listboxId,
+    minLength,
     isLoading,
     placeholder,
     activeOptionId,
     debouncedValue,
     isDropdownVisible,
-    minLength,
+    selectionDisplay,
+    containerWidth,
+    selectedItems,
     setQuery,
+    onChange,
     onKeyDown,
-    setOptions,
     setIsDropdownVisible,
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const ghostRef = useRef<HTMLSpanElement>(null);
+  const [inputWidth, setInputWidth] = useState(0);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useLayoutEffect(() => {
+    if (!ghostRef.current) return;
+    setInputWidth(ghostRef.current.offsetWidth);
+  }, [query]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value);
-    if (!e.target.value) setOptions([]);
-  };
+
+  const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
+    selectedItems,
+    containerWidth,
+    inputWidth,
+    selectionDisplay
+  );
 
   const isTyping =
     isLoading ||
-    (query !== debouncedValue &&
-      query.trim().length >= minLength!);
+    (query !== debouncedValue && query.trim().length >= minLength!);
 
   return (
     <div
       style={style?.search}
       className={classnames(
-        styles.searchContainer,
+        styles.searchWrapper,
         {
           [styles.error]: error,
         },
@@ -61,10 +78,25 @@ export const Search = <T extends QuerySelectOption>(
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
+      {mode === "multiple" && selectionDisplay === "inline" && (
+        <SelectionInlineItems
+          style={style}
+          disabled={disabled}
+          className={className}
+          visibleCount={visibleCount}
+          selectedItems={selectedItems}
+          ref={selectedItemsRef}
+          setSelectedItems={onChange ?? (() => {})}
+        />
+      )}
       <div data-value={query || placeholder} className={styles.inputWrapper}>
+        <span ref={ghostRef} className={styles.inputGhost} aria-hidden="true">
+          {query || placeholder || " "}
+        </span>
         <input
           type="text"
           name="search"
+          role="combobox"
           autoComplete="off"
           aria-haspopup="listbox"
           aria-autocomplete="list"
@@ -80,6 +112,14 @@ export const Search = <T extends QuerySelectOption>(
           aria-activedescendant={activeOptionId}
           onKeyDown={onKeyDown}
           onChange={handleInputChange}
+          style={
+            selectionDisplay === "inline"
+              ? {
+                  width: inputWidth || undefined,
+                  maxWidth: containerWidth - 100,
+                }
+              : undefined
+          }
         />
       </div>
       <div

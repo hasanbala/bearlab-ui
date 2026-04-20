@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import type { UseTable, UseTableReturn } from "../types/table.types";
 import { resolveRows } from "../utils/resolve-rows";
-import { searchInValue } from "../utils/search-in-value";
 
 export const useTable = ({
   dataSource,
@@ -11,69 +10,71 @@ export const useTable = ({
 }: UseTable): UseTableReturn => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [searchValue] = useState("");
-  const [filteredData, setFilteredData] = useState(dataSource);
   const [initialPage, setInitialPage] = useState(currentPage);
 
-  useEffect(() => {
-    if (searchValue.trim() === "") {
-      setFilteredData(dataSource);
-    } else {
-      const searchLower = searchValue.toLowerCase();
-      const filtered = dataSource.filter((record) =>
-        Object.values(record).some((value) => searchInValue(value, searchLower))
-      );
-      setFilteredData(filtered);
-    }
+  const filteredData = useMemo(() => dataSource, [dataSource]);
 
+  useEffect(() => {
+    setInitialPage(currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
     if (!serverPagination) {
       setInitialPage(1);
     }
-  }, [searchValue, dataSource, serverPagination]);
+  }, [dataSource, serverPagination]);
 
-  const handleSelectAll = (checked: boolean) => {
-    setSelectAll(checked);
+  const handleSelectAll = useCallback(
+    (checked: boolean) => {
+      setSelectAll(checked);
 
-    const dataToSelect = serverPagination ? dataSource : filteredData;
-    const newSelectedRowKeys = checked
-      ? dataToSelect.map((record) => record["key"])
-      : [];
+      const dataToSelect = serverPagination ? dataSource : filteredData;
+      const newSelectedRowKeys = checked
+        ? dataToSelect.map((record) => record["key"])
+        : [];
 
-    setSelectedRowKeys(newSelectedRowKeys);
+      setSelectedRowKeys(newSelectedRowKeys);
 
-    if (rowSelection?.onChange) {
-      const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
-      rowSelection.onChange(newSelectedRowKeys, selectedRows);
-    }
-  };
+      if (rowSelection?.onChange) {
+        const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
+        rowSelection.onChange(newSelectedRowKeys, selectedRows);
+      }
+    },
+    [serverPagination, dataSource, filteredData, rowSelection]
+  );
 
-  const handleRowSelect = (record: Record<string, any>) => {
-    const key = record["key"];
-    const newSelectedRowKeys =
-      rowSelection?.type === "radio"
-        ? [key]
-        : selectedRowKeys.includes(key)
-          ? selectedRowKeys.filter((k) => k !== key)
-          : [...selectedRowKeys, key];
+  const handleRowSelect = useCallback(
+    (record: Record<string, any>) => {
+      const key = record["key"];
 
-    setSelectedRowKeys(newSelectedRowKeys);
+      setSelectedRowKeys((prev) => {
+        const newSelectedRowKeys =
+          rowSelection?.type === "radio"
+            ? [key]
+            : prev.includes(key)
+              ? prev.filter((k) => k !== key)
+              : [...prev, key];
 
-    const dataToCheck = serverPagination ? dataSource : filteredData;
-    setSelectAll(
-      newSelectedRowKeys.length === dataToCheck.length &&
-        newSelectedRowKeys.length > 0
-    );
+        const dataToCheck = serverPagination ? dataSource : filteredData;
+        setSelectAll(
+          newSelectedRowKeys.length === dataToCheck.length &&
+            newSelectedRowKeys.length > 0
+        );
 
-    if (rowSelection?.onChange) {
-      const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
-      rowSelection.onChange(newSelectedRowKeys, selectedRows);
-    }
-  };
+        if (rowSelection?.onChange) {
+          const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
+          rowSelection.onChange(newSelectedRowKeys, selectedRows);
+        }
+
+        return newSelectedRowKeys;
+      });
+    },
+    [rowSelection, serverPagination, dataSource, filteredData]
+  );
 
   return {
     selectedRowKeys,
     selectAll,
-    searchValue,
     filteredData,
     initialPage,
     setInitialPage,

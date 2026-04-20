@@ -60,24 +60,33 @@ import { ModalRoot } from "@bearlab/modal";
 
 export default function App({ children }: { children: React.ReactNode }) {
   return (
-    <RootLayout>
+    <div>
       {children}
+      {/* Required for imperative modal calls */}
       <ModalRoot />
-    </RootLayout>
+    </div>
   );
 }
 
-import { Modal } from "@bearlab/modal";
+// component.tsx
+import { useState } from "react";
+import { Modal, ModalFooter, useModal } from "@bearlab/modal";
 
-export default function Home() {
+export default function MyComponent() {
   const [isOpen, setIsOpen] = useState(false);
   const deleteModal = useModal();
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    // delete logic
+    deleteModal.closeModal();
+  };
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)}>Open Modal</button>
+      <button onClick={() => setIsOpen(true)}>Default Modal</button>
+      <button onClick={deleteModal.openModal}>Controlled Modal</button>
+
+      {/* Declarative usage */}
       <Modal
         isOpen={isOpen}
         onCancel={() => setIsOpen(false)}
@@ -87,20 +96,31 @@ export default function Home() {
       >
         <p>Are you sure you want to proceed with this action?</p>
       </Modal>
+
+      {/* usage with ModalFooter */}
       <Modal
         isOpen={deleteModal.isOpen}
-        handleCancel={deleteModal.closeModal}
-        title="Delete"
-        animation={"fade"}
-        zIndex={10050}
-        classNames={{ content: styles.customContent }}
-        styles={{ header: { paddingBottom: 0 } }}
+        onCancel={deleteModal.closeModal}
+        title="Delete Record"
+        animation="fade"
       >
-        <p>Content</p>
+        <p>This will permanently delete the selected item.</p>
         <ModalFooter
-          handleCancel={deleteModal.closeModal}
-          handleConfirm={handleDelete}
+          onCancel={deleteModal.closeModal}
+          onConfirm={handleDelete}
+          confirmLabel="Delete"
+          alertType="error"
         />
+      </Modal>
+
+      {/* usage with Loading state */}
+      <Modal
+        isOpen={false} // toggle this to test
+        onCancel={() => {}}
+        title="Processing..."
+        loading={true}
+      >
+        <p>This content will be hidden while loading is true.</p>
       </Modal>
     </>
   );
@@ -144,7 +164,7 @@ modalStore.open({
 | `title`     | `string`                                            | —           | ✅       | Heading text rendered inside the modal header                |
 | `children`  | `React.ReactNode`                                   | —           | ✅       | Main content of the modal                                    |
 | `subTitle`  | `string`                                            | —           | ❌       | Subtitle text rendered below the title                       |
-| `loading`   | `boolean`                                           | `false`     | ❌       | Displays a loading state within the modal body               |
+| `loading`   | `boolean`                                           | `false`     | ❌       | Displays a standard loading spinner (using `@bearlab/loading`) |
 | `type`      | `"default" \| "alert" \| "fullscreen"`              | `"default"` | ❌       | Structural type of the modal layout                          |
 | `alertType` | `"success" \| "info" \| "error" \| "warning"`       | `"info"`    | ❌       | Semantic intent used when `type` is `"alert"`                |
 | `animation` | `"fade" \| "zoom" \| "slide" \| "flip" \| "bounce"` | `"zoom"`    | ❌       | Animation style used for mounting/unmounting                 |

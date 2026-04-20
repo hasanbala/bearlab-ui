@@ -36,8 +36,6 @@ export interface InputProps extends Omit<
   error?: string;
   beforeIcon?: IconType;
   afterIcon?: IconType;
-  isExistSearch?: boolean;
-  isExistPassword?: boolean;
   isExistCopy?: boolean;
   isRequired?: boolean;
   onSearch?: () => void;

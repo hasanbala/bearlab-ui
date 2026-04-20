@@ -1,28 +1,20 @@
-:root {
-  --bearlab-modal-footer-margin-top: 1.875rem; /* 30px */
-  --bearlab-modal-footer-gap: 1.25rem; /* 20px */
-}
-
-:root[data-theme="light"] {
-  --bearlab-modal-footer-success-bg: #12b76a;
-  --bearlab-modal-footer-info-bg: #0ba5ec;
-  --bearlab-modal-footer-warning-bg: #f79009;
-  --bearlab-modal-footer-error-bg: #f00438;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-modal-footer-success-bg: #12b76a;
-  --bearlab-modal-footer-info-bg: #0ba5ec;
-  --bearlab-modal-footer-warning-bg: #f79009;
-  --bearlab-modal-footer-error-bg: #f00438;
-}
-
 .footer {
+  --_modal-footer-margin-top: var(
+    --bearlab-modal-footer-margin-top,
+    1.875rem
+  ); /* 30px */
+  --_modal-footer-gap: var(--bearlab-modal-footer-gap, 1.25rem); /* 20px */
+
+  --_modal-footer-bg-success: var(--bearlab-modal-footer-bg-success, #12b76a);
+  --_modal-footer-bg-info: var(--bearlab-modal-footer-bg-info, #0ba5ec);
+  --_modal-footer-bg-warning: var(--bearlab-modal-footer-bg-warning, #f79009);
+  --_modal-footer-bg-error: var(--bearlab-modal-footer-bg-error, #f00438);
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: var(--bearlab-modal-footer-margin-top);
-  gap: var(--bearlab-modal-footer-gap);
+  margin-top: var(--_modal-footer-margin-top);
+  gap: var(--_modal-footer-gap);
 
   button {
     width: fit-content;
@@ -34,20 +26,30 @@
 }
 
 .alertFooter {
+  --_modal-footer-margin-top: var(
+    --bearlab-modal-footer-margin-top,
+    1.875rem
+  ); /* 30px */
+
+  --_modal-footer-bg-success: var(--bearlab-modal-footer-bg-success, #12b76a);
+  --_modal-footer-bg-info: var(--bearlab-modal-footer-bg-info, #0ba5ec);
+  --_modal-footer-bg-warning: var(--bearlab-modal-footer-bg-warning, #f79009);
+  --_modal-footer-bg-error: var(--bearlab-modal-footer-bg-error, #f00438);
+
   display: flex;
   justify-content: center;
-  margin-top: var(--bearlab-modal-footer-margin-top);
+  margin-top: var(--_modal-footer-margin-top);
 
   .success {
-    background-color: var(--bearlab-modal-footer-success-bg);
+    background-color: var(--_modal-footer-bg-success);
   }
   .info {
-    background-color: var(--bearlab-modal-footer-info-bg);
+    background-color: var(--_modal-footer-bg-info);
   }
   .warning {
-    background-color: var(--bearlab-modal-footer-warning-bg);
+    background-color: var(--_modal-footer-bg-warning);
   }
   .error {
-    background-color: var(--bearlab-modal-footer-error-bg);
+    background-color: var(--_modal-footer-bg-error);
   }
 }

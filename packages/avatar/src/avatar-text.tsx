@@ -32,7 +32,7 @@ export const AvatarText = (props: AvatarTextProps) => {
       role="img"
     >
       <span
-        className={classnames(styles.label, className?.label)}
+        className={classnames(styles.avatarLabel, className?.label)}
         style={style?.label}
         aria-hidden="true"
       >

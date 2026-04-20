@@ -27,10 +27,11 @@
 ## Features
 
 - ✅ **Single & Multiple selection** — toggle via `mode` prop
-- ✅ **Search capability** — built-in search filter for large option sets
+- ✅ **Optional search** — opt-in via `searchable` prop, with local or async filtering
+- ✅ **Flexible value** — accepts `T`, `T[]`, `string`, `number`, or `null`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Accessible by default** — manages `aria-expanded`, keyboard navigation, focus management
-- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **TypeScript-first** — discriminated union types for type-safe `onChange` per mode
 
 ---
 
@@ -53,57 +54,130 @@ pnpm add @bearlab/select
 
 ## Usage
 
+### Simple single select (default)
+
 ```tsx
 import { Select } from "@bearlab/select";
 import { useState } from "react";
 
+const currencies = [
+  { label: "USD", value: "usd" },
+  { label: "EUR", value: "eur" },
+  { label: "TRY", value: "try" },
+];
+
 export default function App() {
-  const [query, setQuery] = useState("");
-  const [options, setOptions] = useState([
-    { label: "Option 1", value: "1" },
-    { label: "Option 2", value: "2" },
-  ]);
-  const [selected, setSelected] = useState([]);
+  const [currency, setCurrency] = useState<string | null>(null);
 
   return (
     <Select
-      label="Choose an option"
-      mode="multiple"
-      query={query}
-      setQuery={setQuery}
-      options={options}
-      setOptions={setOptions}
-      selectedItems={selected}
-      setSelectedItems={setSelected}
-      isLoading={false}
-      debouncedValue={query}
+      options={currencies}
+      value={currency}
+      onChange={(item) => setCurrency(item?.value ?? null)}
+      label="Currency"
+      placeholder="Select currency"
     />
   );
 }
+```
+
+### Single select with search
+
+```tsx
+<Select
+  options={currencies}
+  value={currency}
+  onChange={(item) => setCurrency(item?.value ?? null)}
+  searchable
+  label="Currency"
+/>
+```
+
+### Multiple select
+
+```tsx
+import { Select, SelectOption } from "@bearlab/select";
+import { useState } from "react";
+
+const tags = [
+  { label: "React", value: "react" },
+  { label: "Vue", value: "vue" },
+  { label: "Angular", value: "angular" },
+];
+
+export default function App() {
+  const [selected, setSelected] = useState<SelectOption[]>([]);
+
+  return (
+    <Select
+      options={tags}
+      value={selected}
+      onChange={setSelected}
+      mode="multiple"
+      label="Tags"
+    />
+  );
+}
+```
+
+### Multiple select with async search
+
+```tsx
+<Select
+  options={searchResults}
+  value={selectedUsers}
+  onChange={setSelectedUsers}
+  mode="multiple"
+  searchable
+  onSearch={handleSearch}
+  isLoading={isSearching}
+  label="Users"
+/>
+```
+
+### With Formik
+
+```tsx
+import { useFormik } from "formik";
+
+const { values, setFieldValue } = useFormik({ ... });
+
+<Select
+  options={currencies}
+  value={values.currency}
+  onChange={(item) => setFieldValue("currency", item?.value ?? "")}
+  label="Currency"
+  placeholder="Select currency"
+/>
 ```
 
 ---
 
 ## Props
 
-| Prop               | Type                                    | Default      | Required | Description                                                                     |
-| ------------------ | --------------------------------------- | ------------ | -------- | ------------------------------------------------------------------------------- |
-| `options`          | `T[]`                                   | —            | ✅       | Array of options to display (where `T` extends [`SelectOption`](#selectoption)) |
-| `query`            | `string`                                | —            | ✅       | Current search query                                                            |
-| `setQuery`         | `(val: string) => void`                 | —            | ✅       | Search query setter                                                             |
-| `setOptions`       | `(val: T[]) => void`                    | —            | ✅       | Options state setter                                                            |
-| `selectedItems`    | `T[]`                                   | —            | ✅       | Currently selected items                                                        |
-| `setSelectedItems` | `(val: T[]) => void`                    | —            | ✅       | Setter for selected items                                                       |
-| `isLoading`        | `boolean`                               | —            | ✅       | Loading state indicator                                                         |
-| `debouncedValue`   | `string`                                | —            | ✅       | Debounced search query value                                                    |
-| `label`            | `string`                                | —            | ❌       | Field label                                                                     |
-| `mode`             | `"single" \| "multiple"`                | `"multiple"` | ❌       | Selection mode                                                                  |
-| `disabled`         | `boolean`                               | —            | ❌       | Disables the select                                                             |
-| `error`            | `any`                                   | —            | ❌       | Error message                                                                   |
-| `isRequired`       | `boolean`                               | —            | ❌       | Marks the field as required                                                     |
-| `optionZIndex`     | `number`                                | `8888`       | ❌       | Z-index for the dropdown portal                                                 |
-| `className`        | [`SelectClassNames`](#selectclassnames) | —            | ❌       | Per-slot className overrides                                                    |
-| `style`            | [`SelectStyles`](#selectstyles)         | —            | ❌       | Per-slot inline style overrides                                                 |
+| Prop             | Type                                    | Default                      | Required | Description                                                                     |
+| ---------------- | --------------------------------------- | ---------------------------- | -------- | ------------------------------------------------------------------------------- |
+| `options`        | `T[]`                                   | —                            | ✅       | Array of options to display (where `T` extends [`SelectOption`](#selectoption)) |
+| `value`          | `T \| T[] \| string \| number \| null`  | —                            | ❌       | Current value — primitives are resolved against `options` automatically         |
+| `onChange`       | see [TypeScript](#selectprops)          | —                            | ❌       | Called when selection changes                                                   |
+| `mode`           | `"single" \| "multiple"`                | `"single"`                   | ❌       | Selection mode                                                                  |
+| `searchable`     | `boolean`                               | single→`false`, multi→`true` | ❌       | Enables the search input                                                        |
+| `onSearch`       | `(query: string) => void`               | —                            | ❌       | Async search callback — when provided, local filtering is disabled              |
+| `isLoading`      | `boolean`                               | `false`                      | ❌       | Shows loading indicator during async search                                     |
+| `label`          | `string`                                | —                            | ❌       | Field label                                                                     |
+| `name`           | `string`                                | —                            | ❌       | Form field name                                                                 |
+| `disabled`       | `boolean`                               | —                            | ❌       | Disables the select                                                             |
+| `error`          | `any`                                   | —                            | ❌       | Error message                                                                   |
+| `isRequired`     | `boolean`                               | —                            | ❌       | Marks the field as required                                                     |
+| `placeholder`    | `string`                                | `"Select..."`                | ❌       | Placeholder text                                                                |
+| `emptyText`      | `string`                                | `"There is no options"`      | ❌       | Text when options array is empty                                                |
+| `notFoundText`   | `string`                                | `"No result found"`          | ❌       | Text when search yields no results                                              |
+| `showImage`      | `boolean`                               | `true`                       | ❌       | Show option images                                                              |
+| `showCheckbox`   | `boolean`                               | single→`false`, multi→`true` | ❌       | Show selection checkboxes                                                       |
+| `highlightMatch` | `boolean`                               | matches `searchable`         | ❌       | Highlight matching text in options                                              |
+| `optionZIndex`   | `number`                                | `8888`                       | ❌       | Z-index for the dropdown portal                                                 |
+| `className`      | [`SelectClassNames`](#selectclassnames) | —                            | ❌       | Per-slot className overrides                                                    |
+| `style`          | [`SelectStyles`](#selectstyles)         | —                            | ❌       | Per-slot inline style overrides                                                 |
 
 ---
 
@@ -211,37 +285,36 @@ import type {
   SelectClassNames,
   SelectStyles,
   SelectMode,
+  SingleSelectProps,
+  MultipleSelectProps,
+  SelectValue,
+  SingleValue,
+  MultipleValue,
 } from "@bearlab/select";
 ```
 
 ### `SelectProps`
 
+The props use a **discriminated union** on the `mode` prop for type-safe `onChange` signatures:
+
 ```ts
-export interface SelectProps<T extends SelectOption> {
-  error?: any;
-  options: T[];
-  query: string;
-  label?: string;
-  mode?: SelectMode;
-  disabled?: boolean;
-  isLoading: boolean;
-  selectedItems: T[];
-  emptyText?: string;
-  showImage?: boolean;
-  isRequired?: boolean;
-  placeholder?: string;
-  style?: SelectStyles;
-  notFoundText?: string;
-  optionZIndex?: number;
-  debouncedValue: string;
-  showCheckbox?: boolean;
-  highlightMatch?: boolean;
-  className?: SelectClassNames;
-  setOptions: (val: T[]) => void;
-  setQuery: (val: string) => void;
-  onChange?: (selected: T[]) => void;
-  setSelectedItems: (selected: T[]) => void;
+// Single mode (default)
+interface SingleSelectProps<T extends SelectOption> {
+  mode?: "single";
+  value?: T | string | number | null;
+  onChange?: (value: T | null) => void;
+  // ...base props
 }
+
+// Multiple mode
+interface MultipleSelectProps<T extends SelectOption> {
+  mode: "multiple";
+  value?: T[] | string[] | number[];
+  onChange?: (value: T[]) => void;
+  // ...base props
+}
+
+type SelectProps<T> = SingleSelectProps<T> | MultipleSelectProps<T>;
 ```
 
 ### `SelectClassNames`

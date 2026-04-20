@@ -1,19 +1,23 @@
-import { useId } from "react";
+import { useId, useMemo, useCallback } from "react";
 import classnames from "classnames";
 import { Checkbox } from "@bearlab/checkbox";
 import { Radio } from "@bearlab/radio";
 import { useTable } from "./hooks/use-table";
 import { useMediaQuery } from "./hooks/use-media-query";
-import type { TableProps } from "./types/table.types";
+import type {
+  TableProps,
+  FinalColumn,
+  SelectionColumn,
+} from "./types/table.types";
 import { MainTable } from "./components/main-table";
 import { TableHeader } from "./components/table-header";
 import { TableBody } from "./components/table-body";
 import { TableRow } from "./components/table-row";
 import { TableCell } from "./components/table-cell";
+import { TableEmpty } from "./components/table-empty";
+import { TablePagination } from "./components/table-pagination";
 import styles from "./styles/table.module.scss";
-import { Button } from "@bearlab/button";
-import { getVisiblePages } from "./utils/get-visible-pages";
-import { getNestedValue } from "./utils/get-nested-value";
+import { TableRecord } from "./components/table-record";
 
 export const Table = (props: TableProps) => {
   const {
@@ -35,6 +39,10 @@ export const Table = (props: TableProps) => {
     onTableChange,
     "aria-label": ariaLabel,
     "aria-describedby": ariaDescribedBy,
+    emptyTitle = "No records found",
+    emptyDescription = "There are no records to display at the moment.",
+    renderPageInfo,
+    renderTotalInfo,
     style,
   } = props;
 
@@ -68,33 +76,53 @@ export const Table = (props: TableProps) => {
 
   const indexOfLastItem = initialPage * pageSize;
   const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentItems = serverPagination
-    ? dataSource
-    : filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = serverPagination
-    ? Math.ceil((totalCount ?? 0) / pageSize)
-    : Math.ceil(filteredData.length / pageSize);
+  const currentItems = useMemo(
+    () =>
+      serverPagination
+        ? dataSource
+        : filteredData.slice(indexOfFirstItem, indexOfLastItem),
+    [
+      serverPagination,
+      dataSource,
+      filteredData,
+      indexOfFirstItem,
+      indexOfLastItem,
+    ]
+  );
 
-  const dataToDisplay = pagination
-    ? currentItems
-    : serverPagination
-      ? dataSource
-      : filteredData;
+  const totalPages = useMemo(
+    () =>
+      serverPagination
+        ? Math.ceil((totalCount ?? 0) / pageSize)
+        : Math.ceil(filteredData.length / pageSize),
+    [serverPagination, totalCount, pageSize, filteredData.length]
+  );
+
+  const dataToDisplay = useMemo(
+    () =>
+      pagination ? currentItems : serverPagination ? dataSource : filteredData,
+    [pagination, currentItems, serverPagination, dataSource, filteredData]
+  );
 
   const totalRows = serverPagination ? (totalCount ?? 0) : filteredData.length;
 
-  const onPageChange = (page: number, isPageSize?: boolean) => {
-    if (onTableChange) {
-      onTableChange(setInitialPage, page, pageSize, isPageSize);
-    }
-  };
+  const onPageChange = useCallback(
+    (page: number, isPageSize?: boolean) => {
+      setInitialPage(page);
+      onTableChange?.(page, pageSize, isPageSize);
+    },
+    [onTableChange, setInitialPage, pageSize]
+  );
 
-  const goToPage = (page: number) => {
-    if (page >= 1 && page <= totalPages) onPageChange(page, false);
-  };
+  const goToPage = useCallback(
+    (page: number) => {
+      if (page >= 1 && page <= totalPages) onPageChange(page, false);
+    },
+    [totalPages, onPageChange]
+  );
 
-  const renderSelectionColumn = () => {
+  const selectionColumn = useMemo((): SelectionColumn | null => {
     if (!rowSelection) return null;
 
     return {
@@ -135,164 +163,29 @@ export const Table = (props: TableProps) => {
         );
       },
     };
-  };
+  }, [
+    rowSelection,
+    selectAll,
+    selectedRowKeys,
+    disabled,
+    tableId,
+    handleSelectAll,
+    handleRowSelect,
+  ]);
 
-  const finalColumns = rowSelection
-    ? [renderSelectionColumn(), ...columns]
-    : columns;
+  const finalColumns = useMemo(
+    (): (FinalColumn | null)[] =>
+      selectionColumn ? [selectionColumn, ...columns] : columns,
+    [selectionColumn, columns]
+  );
 
-  const handleRowClick = (record: Record<string, any>) => {
-    if (disabled) return;
-    onRowClick?.(record);
-  };
-
-  const renderPagination = () => {
-    if (!pagination || totalPages <= 1) return null;
-
-    const visiblePages = getVisiblePages(totalPages, initialPage, maxPages);
-
-    const pageSizeSelectOptions = pageSizeOptions.map((size) => ({
-      value: size.toString(),
-      label: `${size} / page`,
-    }));
-
-    return (
-      <div
-        id={paginationId}
-        className={classnames(
-          styles.paginationWrapper,
-          className?.paginationWrapper
-        )}
-        style={style?.paginationWrapper}
-      >
-        <nav
-          aria-label="Table pagination"
-          className={classnames(
-            styles.paginationControls,
-            isMobile && styles.tabletControls,
-            className?.paginationControls
-          )}
-          style={style?.paginationControls}
-        >
-          <Button
-            label="Previous page"
-            buttonType="justIcon"
-            iconType={{ default: "arrow" }}
-            onClick={() => goToPage(initialPage - 1)}
-            disabled={disabled || initialPage === 1}
-            variant="secondary"
-            aria-label="Go to previous page"
-            className={{
-              root: classnames(
-                styles.pageButton,
-                styles.prevButton,
-                className?.pageButton
-              ),
-            }}
-            reverseIconText
-          />
-          {mobileMinimize && (
-            <span
-              aria-live="polite"
-              aria-atomic="true"
-              className={classnames(styles.pageInfo, className?.pageInfo)}
-              style={style?.pageInfo}
-            >
-              Page {initialPage} of {totalPages}
-            </span>
-          )}
-          {showPageNumbers && (
-            <ul
-              className={classnames(
-                styles.pageList,
-                mobileMinimize && styles.ghostPageList,
-                className?.pageList
-              )}
-              style={style?.pageList}
-              aria-hidden={mobileMinimize}
-            >
-              {visiblePages.map((page, idx) =>
-                page === "..." ? (
-                  <li key={`ellipsis-${idx}`} aria-hidden="true">
-                    <span
-                      className={classnames(
-                        styles.ellipsis,
-                        className?.ellipsis
-                      )}
-                      style={style?.ellipsis}
-                    >
-                      &hellip;
-                    </span>
-                  </li>
-                ) : (
-                  <li key={`page-${page}-${idx}`}>
-                    <Button
-                      buttonType="justText"
-                      label={String(page)}
-                      onClick={() => goToPage(page as number)}
-                      disabled={disabled}
-                      aria-label={`Go to page ${page}`}
-                      aria-current={initialPage === page ? "page" : undefined}
-                      className={{
-                        root: classnames(
-                          styles.pageButton,
-                          initialPage === page
-                            ? classnames(
-                                styles.pageButtonActive,
-                                className?.pageButtonActive
-                              )
-                            : classnames(
-                                styles.pageButtonInactive,
-                                className?.pageButtonInactive
-                              ),
-                          className?.pageButton
-                        ),
-                      }}
-                    />
-                  </li>
-                )
-              )}
-            </ul>
-          )}
-          <Button
-            label="Next page"
-            buttonType="justIcon"
-            iconType={{ default: "arrow" }}
-            onClick={() => goToPage(initialPage + 1)}
-            disabled={disabled || initialPage === totalPages}
-            variant="secondary"
-            aria-label="Go to next page"
-            className={{
-              root: classnames(styles.pageButton, className?.pageButton),
-            }}
-          />
-        </nav>
-        {showPageSizeSelector && (
-          <select
-            onChange={(e) => onPageChange(Number(e.target.value), true)}
-            name="pageSize"
-            value={pageSize.toString()}
-            aria-label="Rows per page"
-            className={classnames(
-              styles.pageSizeSelector,
-              className?.pageSizeSelector
-            )}
-          >
-            {pageSizePlaceholder && (
-              <option value="" disabled>
-                {pageSizePlaceholder}
-              </option>
-            )}
-            {pageSizeSelectOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
-    );
-  };
+  const handleRowClick = useCallback(
+    (record: Record<string, any>) => {
+      if (disabled) return;
+      onRowClick?.(record);
+    },
+    [disabled, onRowClick]
+  );
 
   return (
     <div
@@ -363,47 +256,74 @@ export const Table = (props: TableProps) => {
           <TableBody
             className={classnames(styles.tableBody, className?.tableBody)}
           >
-            {dataToDisplay.map((record, index) => {
-              const isSelected = selectedRowKeys.includes(record["key"]);
-              const isClickable = !!onRowClick && !disabled;
-
-              return (
-                <TableRow
-                  key={record["key"] ?? index}
-                  isClickable={isClickable}
-                  onClick={() => handleRowClick(record)}
-                  aria-selected={rowSelection ? isSelected : undefined}
-                  aria-rowindex={indexOfFirstItem + index + 2}
-                  className={classnames(
-                    styles.bodyRow,
-                    isClickable && styles.clickable,
-                    className?.bodyRow
-                  )}
+            {dataToDisplay.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={finalColumns.length}
+                  className={classnames(styles.bodyCell, className?.bodyCell)}
+                  style={{ padding: 0 }}
                 >
-                  {finalColumns.map((column: any) => (
-                    <TableCell
-                      key={`${record["key"]}-${column.key}`}
-                      className={classnames(
-                        styles.bodyCell,
-                        className?.bodyCell
-                      )}
-                      style={{ width: column.width, ...style?.bodyCell }}
-                    >
-                      {column.render
-                        ? column.render(
-                            getNestedValue(record, column.dataIndex),
-                            record
-                          )
-                        : getNestedValue(record, column.dataIndex)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })}
+                  <TableEmpty
+                    title={emptyTitle}
+                    description={emptyDescription}
+                    className={{
+                      root: className?.emptyState,
+                      icon: className?.emptyIcon,
+                      title: className?.emptyTitle,
+                      description: className?.emptyDescription,
+                    }}
+                    style={{
+                      root: style?.emptyState,
+                      icon: style?.emptyIcon,
+                      title: style?.emptyTitle,
+                      description: style?.emptyDescription,
+                    }}
+                  />
+                </TableCell>
+              </TableRow>
+            ) : (
+              dataToDisplay.map((record, index) => (
+                <TableRecord
+                  key={record["key"] ?? index}
+                  record={record}
+                  index={index}
+                  selectedRowKeys={selectedRowKeys}
+                  onRowClick={onRowClick}
+                  disabled={disabled}
+                  rowSelection={rowSelection}
+                  finalColumns={finalColumns}
+                  cnBodyRow={className?.bodyRow}
+                  cnBodyCell={className?.bodyCell}
+                  style={style?.bodyCell}
+                  handleRowClick={handleRowClick}
+                  indexOfFirstItem={indexOfFirstItem}
+                />
+              ))
+            )}
           </TableBody>
         </MainTable>
       </div>
-      {renderPagination()}
+      {pagination && totalPages > 1 && (
+        <TablePagination
+          paginationId={paginationId}
+          totalPages={totalPages}
+          initialPage={initialPage}
+          maxPages={maxPages}
+          isMobile={isMobile}
+          mobileMinimize={mobileMinimize}
+          disabled={disabled}
+          showPageNumbers={showPageNumbers}
+          showPageSizeSelector={showPageSizeSelector}
+          pageSize={pageSize}
+          pageSizeOptions={pageSizeOptions}
+          pageSizePlaceholder={pageSizePlaceholder}
+          goToPage={goToPage}
+          onPageChange={onPageChange}
+          renderPageInfo={renderPageInfo}
+          className={className}
+          style={style}
+        />
+      )}
       {totalCount != null && (
         <div
           className={classnames(styles.recordInfo, className?.recordInfo)}
@@ -411,12 +331,25 @@ export const Table = (props: TableProps) => {
           aria-live="polite"
           aria-atomic="true"
         >
-          Showing {(currentPage - 1) * (pageSize || 10) + 1} to{" "}
-          {Math.min(
-            currentPage * (pageSize || 10),
-            serverPagination ? totalCount : filteredData.length
-          )}{" "}
-          of {serverPagination ? totalCount : filteredData.length} entries
+          {renderTotalInfo ? (
+            renderTotalInfo(
+              (currentPage - 1) * (pageSize || 10) + 1,
+              Math.min(
+                currentPage * (pageSize || 10),
+                serverPagination ? (totalCount ?? 0) : filteredData.length
+              ),
+              totalRows
+            )
+          ) : (
+            <>
+              Showing {(currentPage - 1) * (pageSize || 10) + 1} to{" "}
+              {Math.min(
+                currentPage * (pageSize || 10),
+                serverPagination ? (totalCount ?? 0) : filteredData.length
+              )}{" "}
+              of {totalRows} entries
+            </>
+          )}
         </div>
       )}
     </div>

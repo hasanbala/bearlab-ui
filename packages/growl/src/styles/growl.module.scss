@@ -1,78 +1,157 @@
-:root {
-  --bearlab-growl-container-max-width: 25rem; /* 400px */
-  --bearlab-growl-container-gap: 0.625rem; /* 10px */
-  --bearlab-growl-container-offset: 1.25rem; /* 20px */
-  --bearlab-growl-container-offset-mobile: 0.75rem; /* 12px */
-  --bearlab-growl-item-padding-block: 0.875rem; /* 14px */
-  --bearlab-growl-item-padding-inline: 1rem; /* 16px */
-  --bearlab-growl-item-gap: 0.75rem; /* 12px */
-  --bearlab-growl-item-border-radius: 0.5rem; /* 8px */
-  --bearlab-growl-item-border-width: 0.25rem; /* 4px */
-  --bearlab-growl-item-shadow:
-    0 4px 16px rgba(16, 24, 40, 0.1), 0 1px 4px rgba(16, 24, 40, 0.06);
-  --bearlab-growl-icon-size: 1.875rem; /* 30px */
-  --bearlab-growl-body-gap: 0.125rem; /* 2px */
-  --bearlab-growl-title-font-size: 0.875rem; /* 14px */
-  --bearlab-growl-title-font-weight: 600;
-  --bearlab-growl-message-font-size: 0.8125rem; /* 13px */
-  --bearlab-growl-close-size: 1.5625rem; /* 25px */
-  --bearlab-growl-close-hover-opacity: 0.8;
-  --bearlab-growl-progress-height: 0.1875rem; /* 3px */
-  --bearlab-growl-progress-border-radius: 0 0.125rem 0 0; /* 0 2px 0 0 */
-  --bearlab-growl-colored-border-color: rgba(255, 255, 255, 0.8);
-  --bearlab-growl-colored-title-color: #ffffff;
-  --bearlab-growl-colored-message-color: rgba(255, 255, 255, 0.85);
-  --bearlab-growl-colored-progress-bg: rgba(255, 255, 255, 0.8);
-  --bearlab-growl-colored-success-bg: #12b76a;
-  --bearlab-growl-colored-error-bg: #f04438;
-  --bearlab-growl-colored-warning-bg: #fd853a;
-  --bearlab-growl-colored-info-bg: #465fff;
-}
-
-:root[data-theme="light"] {
-  --bearlab-growl-item-shadow:
-    0 4px 16px rgba(16, 24, 40, 0.1), 0 1px 4px rgba(16, 24, 40, 0.06);
-  --bearlab-growl-success-bg: #f0fdf6;
-  --bearlab-growl-success-border-color: #12b76a;
-  --bearlab-growl-success-text-color: #039855;
-  --bearlab-growl-success-progress-bg: #12b76a;
-  --bearlab-growl-error-bg: #fff1f0;
-  --bearlab-growl-error-border-color: #f04438;
-  --bearlab-growl-error-text-color: #d92d20;
-  --bearlab-growl-error-progress-bg: #f04438;
-  --bearlab-growl-warning-bg: #fffaeb;
-  --bearlab-growl-warning-border-color: #f79009;
-  --bearlab-growl-warning-text-color: #d36803;
-  --bearlab-growl-warning-progress-bg: #f79009;
-  --bearlab-growl-info-bg: #ecf3ff;
-  --bearlab-growl-info-border-color: #465fff;
-  --bearlab-growl-info-text-color: #465fff;
-  --bearlab-growl-info-progress-bg: #465fff;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-growl-item-bg: #0f1828;
-  --bearlab-growl-item-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3);
-  --bearlab-growl-title-color: #f9fafb;
-  --bearlab-growl-message-color: #98a2b3;
-  --bearlab-growl-success-border-color: #12b76a;
-  --bearlab-growl-success-progress-bg: #12b76a;
-  --bearlab-growl-error-border-color: #f04438;
-  --bearlab-growl-error-progress-bg: #f04438;
-  --bearlab-growl-warning-border-color: #f79009;
-  --bearlab-growl-warning-progress-bg: #f79009;
-  --bearlab-growl-info-border-color: #7592ff;
-  --bearlab-growl-info-progress-bg: #7592ff;
-}
-
 .container {
+  --_growl-container-max-width: var(
+    --bearlab-growl-container-max-width,
+    25rem
+  ); /* 400px */
+  --_growl-container-gap: var(
+    --bearlab-growl-container-gap,
+    0.625rem
+  ); /* 10px */
+  --_growl-container-offset: var(
+    --bearlab-growl-container-offset,
+    1.25rem
+  ); /* 20px */
+  --_growl-container-offset-mobile: var(
+    --bearlab-growl-container-offset-mobile,
+    0.75rem
+  ); /* 12px */
+  --_growl-item-padding-block: var(
+    --bearlab-growl-item-padding-block,
+    0.875rem
+  ); /* 14px */
+  --_growl-item-padding-inline: var(
+    --bearlab-growl-item-padding-inline,
+    1rem
+  ); /* 16px */
+  --_growl-item-gap: var(--bearlab-growl-item-gap, 0.75rem); /* 12px */
+  --_growl-item-border-radius: var(
+    --bearlab-growl-item-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_growl-item-border-width: var(
+    --bearlab-growl-item-border-width,
+    0.25rem
+  ); /* 4px */
+  --_growl-icon-size: var(--bearlab-growl-icon-size, 1.875rem); /* 30px */
+  --_growl-body-gap: var(--bearlab-growl-body-gap, 0.125rem); /* 2px */
+  --_growl-title-font-size: var(
+    --bearlab-growl-title-font-size,
+    0.875rem
+  ); /* 14px */
+  --_growl-title-font-weight: var(--bearlab-growl-title-font-weight, 600);
+  --_growl-message-font-size: var(
+    --bearlab-growl-message-font-size,
+    0.8125rem
+  ); /* 13px */
+  --_growl-close-size: var(--bearlab-growl-close-size, 1.5625rem); /* 25px */
+  --_growl-close-opacity-hover: var(--bearlab-growl-close-opacity-hover, 0.8);
+  --_growl-progress-height: var(
+    --bearlab-growl-progress-height,
+    0.1875rem
+  ); /* 3px */
+  --_growl-progress-border-radius: var(
+    --bearlab-growl-progress-border-radius,
+    0 0.125rem 0 0
+  ); /* 0 2px 0 0 */
+
+  --_growl-colored-border-color: var(
+    --bearlab-growl-colored-border-color,
+    rgba(255, 255, 255, 0.8)
+  );
+  --_growl-colored-title-color: var(
+    --bearlab-growl-colored-title-color,
+    #ffffff
+  );
+  --_growl-colored-message-color: var(
+    --bearlab-growl-colored-message-color,
+    rgba(255, 255, 255, 0.85)
+  );
+  --_growl-colored-progress-bg: var(
+    --bearlab-growl-colored-progress-bg,
+    rgba(255, 255, 255, 0.8)
+  );
+  --_growl-colored-bg-success: var(--bearlab-growl-colored-bg-success, #12b76a);
+  --_growl-colored-bg-error: var(--bearlab-growl-colored-bg-error, #f04438);
+  --_growl-colored-bg-warning: var(--bearlab-growl-colored-bg-warning, #fd853a);
+  --_growl-colored-bg-info: var(--bearlab-growl-colored-bg-info, #465fff);
+
+  --_growl-item-shadow: var(
+    --bearlab-growl-item-shadow,
+    0 4px 16px rgba(16, 24, 40, 0.1),
+    0 1px 4px rgba(16, 24, 40, 0.06)
+  );
+  --_growl-bg-success: var(--bearlab-growl-bg-success, #f0fdf6);
+  --_growl-border-color-success: var(
+    --bearlab-growl-border-color-success,
+    #12b76a
+  );
+  --_growl-text-color-success: var(--bearlab-growl-text-color-success, #039855);
+  --_growl-progress-bg-success: var(
+    --bearlab-growl-progress-bg-success,
+    #12b76a
+  );
+  --_growl-bg-error: var(--bearlab-growl-bg-error, #fff1f0);
+  --_growl-border-color-error: var(--bearlab-growl-border-color-error, #f04438);
+  --_growl-text-color-error: var(--bearlab-growl-text-color-error, #d92d20);
+  --_growl-progress-bg-error: var(--bearlab-growl-progress-bg-error, #f04438);
+  --_growl-bg-warning: var(--bearlab-growl-bg-warning, #fffaeb);
+  --_growl-border-color-warning: var(
+    --bearlab-growl-border-color-warning,
+    #f79009
+  );
+  --_growl-text-color-warning: var(--bearlab-growl-text-color-warning, #d36803);
+  --_growl-progress-bg-warning: var(
+    --bearlab-growl-progress-bg-warning,
+    #f79009
+  );
+  --_growl-bg-info: var(--bearlab-growl-bg-info, #ecf3ff);
+  --_growl-border-color-info: var(--bearlab-growl-border-color-info, #465fff);
+  --_growl-text-color-info: var(--bearlab-growl-text-color-info, #465fff);
+  --_growl-progress-bg-info: var(--bearlab-growl-progress-bg-info, #465fff);
+
+  --_growl-item-bg: transparent;
+  --_growl-title-color: inherit;
+  --_growl-message-color: inherit;
+
+  :global([data-theme="dark"]) & {
+    --_growl-item-bg: var(--bearlab-growl-item-bg, #0f1828);
+    --_growl-item-shadow: var(
+      --bearlab-growl-item-shadow,
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 1px 4px rgba(0, 0, 0, 0.3)
+    );
+    --_growl-title-color: var(--bearlab-growl-title-color, #f9fafb);
+    --_growl-message-color: var(--bearlab-growl-message-color, #98a2b3);
+    --_growl-border-color-success: var(
+      --bearlab-growl-border-color-success,
+      #12b76a
+    );
+    --_growl-progress-bg-success: var(
+      --bearlab-growl-progress-bg-success,
+      #12b76a
+    );
+    --_growl-border-color-error: var(
+      --bearlab-growl-border-color-error,
+      #f04438
+    );
+    --_growl-border-color-warning: var(
+      --bearlab-growl-border-color-warning,
+      #f79009
+    );
+    --_growl-progress-bg-warning: var(
+      --bearlab-growl-progress-bg-warning,
+      #f79009
+    );
+    --_growl-border-color-info: var(--bearlab-growl-border-color-info, #7592ff);
+    --_growl-progress-bg-info: var(--bearlab-growl-progress-bg-info, #7592ff);
+  }
+
   position: fixed;
   z-index: 10001;
   display: flex;
   flex-direction: column;
-  gap: var(--bearlab-growl-container-gap);
-  max-width: var(--bearlab-growl-container-max-width);
+  gap: var(--_growl-container-gap);
+  max-width: var(--_growl-container-max-width);
   width: 100%;
   pointer-events: none;
 
@@ -81,40 +160,40 @@
   }
 
   &.topRight {
-    top: var(--bearlab-growl-container-offset);
-    right: var(--bearlab-growl-container-offset);
+    top: var(--_growl-container-offset);
+    right: var(--_growl-container-offset);
     align-items: flex-end;
   }
 
   &.topLeft {
-    top: var(--bearlab-growl-container-offset);
-    left: var(--bearlab-growl-container-offset);
+    top: var(--_growl-container-offset);
+    left: var(--_growl-container-offset);
     align-items: flex-start;
   }
 
   &.topCenter {
-    top: var(--bearlab-growl-container-offset);
+    top: var(--_growl-container-offset);
     left: 50%;
     transform: translateX(-50%);
     align-items: center;
   }
 
   &.bottomRight {
-    bottom: var(--bearlab-growl-container-offset);
-    right: var(--bearlab-growl-container-offset);
+    bottom: var(--_growl-container-offset);
+    right: var(--_growl-container-offset);
     align-items: flex-end;
     flex-direction: column-reverse;
   }
 
   &.bottomLeft {
-    bottom: var(--bearlab-growl-container-offset);
-    left: var(--bearlab-growl-container-offset);
+    bottom: var(--_growl-container-offset);
+    left: var(--_growl-container-offset);
     align-items: flex-start;
     flex-direction: column-reverse;
   }
 
   &.bottomCenter {
-    bottom: var(--bearlab-growl-container-offset);
+    bottom: var(--_growl-container-offset);
     left: 50%;
     transform: translateX(-50%);
     align-items: center;
@@ -234,16 +313,15 @@
   .growl {
     display: flex;
     align-items: center;
-    gap: var(--bearlab-growl-item-gap);
-    padding: var(--bearlab-growl-item-padding-block)
-      var(--bearlab-growl-item-padding-inline);
-    border-radius: var(--bearlab-growl-item-border-radius);
-    border-left: var(--bearlab-growl-item-border-width) solid transparent;
+    gap: var(--_growl-item-gap);
+    padding: var(--_growl-item-padding-block) var(--_growl-item-padding-inline);
+    border-radius: var(--_growl-item-border-radius);
+    border-left: var(--_growl-item-border-width) solid transparent;
     position: relative;
     overflow: hidden;
     pointer-events: all;
     width: 100%;
-    box-shadow: var(--bearlab-growl-item-shadow);
+    box-shadow: var(--_growl-item-shadow);
   }
 
   .animDefault {
@@ -305,8 +383,8 @@
 
   .themeLight {
     &.success {
-      background: var(--bearlab-growl-success-bg);
-      border-color: var(--bearlab-growl-success-border-color);
+      background: var(--_growl-bg-success);
+      border-color: var(--_growl-border-color-success);
 
       svg {
         filter: brightness(0) saturate(100%) invert(60%) sepia(60%)
@@ -315,8 +393,8 @@
     }
 
     &.error {
-      background: var(--bearlab-growl-error-bg);
-      border-color: var(--bearlab-growl-error-border-color);
+      background: var(--_growl-bg-error);
+      border-color: var(--_growl-border-color-error);
 
       svg {
         filter: brightness(0) saturate(100%) invert(40%) sepia(89%)
@@ -325,8 +403,8 @@
     }
 
     &.warning {
-      background: var(--bearlab-growl-warning-bg);
-      border-color: var(--bearlab-growl-warning-border-color);
+      background: var(--_growl-bg-warning);
+      border-color: var(--_growl-border-color-warning);
 
       svg {
         filter: brightness(0) saturate(100%) invert(77%) sepia(41%)
@@ -335,8 +413,8 @@
     }
 
     &.info {
-      background: var(--bearlab-growl-info-bg);
-      border-color: var(--bearlab-growl-info-border-color);
+      background: var(--_growl-bg-info);
+      border-color: var(--_growl-border-color-info);
 
       svg {
         filter: brightness(0) saturate(100%) invert(50%) sepia(83%)
@@ -346,47 +424,47 @@
 
     &.success .title,
     &.success .message {
-      color: var(--bearlab-growl-success-text-color);
+      color: var(--_growl-text-color-success);
     }
 
     &.error .title,
     &.error .message {
-      color: var(--bearlab-growl-error-text-color);
+      color: var(--_growl-text-color-error);
     }
 
     &.warning .title,
     &.warning .message {
-      color: var(--bearlab-growl-warning-text-color);
+      color: var(--_growl-text-color-warning);
     }
 
     &.info .title,
     &.info .message {
-      color: var(--bearlab-growl-info-text-color);
+      color: var(--_growl-text-color-info);
     }
 
     &.success .progress {
-      background: var(--bearlab-growl-success-progress-bg);
+      background: var(--_growl-progress-bg-success);
     }
 
     &.error .progress {
-      background: var(--bearlab-growl-error-progress-bg);
+      background: var(--_growl-progress-bg-error);
     }
 
     &.warning .progress {
-      background: var(--bearlab-growl-warning-progress-bg);
+      background: var(--_growl-progress-bg-warning);
     }
 
     &.info .progress {
-      background: var(--bearlab-growl-info-progress-bg);
+      background: var(--_growl-progress-bg-info);
     }
   }
 
   .themeDark {
-    background: var(--bearlab-growl-item-bg);
-    box-shadow: var(--bearlab-growl-item-shadow);
+    background: var(--_growl-item-bg);
+    box-shadow: var(--_growl-item-shadow);
 
     &.success {
-      border-color: var(--bearlab-growl-success-border-color);
+      border-color: var(--_growl-border-color-success);
 
       svg {
         filter: brightness(0) saturate(100%) invert(60%) sepia(60%)
@@ -395,11 +473,11 @@
     }
 
     &.error {
-      border-color: var(--bearlab-growl-error-border-color);
+      border-color: var(--_growl-border-color-error);
     }
 
     &.warning {
-      border-color: var(--bearlab-growl-warning-border-color);
+      border-color: var(--_growl-border-color-warning);
 
       svg {
         filter: brightness(0) saturate(100%) invert(77%) sepia(41%)
@@ -408,7 +486,7 @@
     }
 
     &.info {
-      border-color: var(--bearlab-growl-info-border-color);
+      border-color: var(--_growl-border-color-info);
 
       svg {
         filter: brightness(0) saturate(100%) invert(60%) sepia(9%)
@@ -417,32 +495,32 @@
     }
 
     .title {
-      color: var(--bearlab-growl-title-color);
+      color: var(--_growl-title-color);
     }
 
     .message {
-      color: var(--bearlab-growl-message-color);
+      color: var(--_growl-message-color);
     }
 
     &.success .progress {
-      background: var(--bearlab-growl-success-progress-bg);
+      background: var(--_growl-progress-bg-success);
     }
 
     &.error .progress {
-      background: var(--bearlab-growl-error-progress-bg);
+      background: var(--_growl-progress-bg-error);
     }
 
     &.warning .progress {
-      background: var(--bearlab-growl-warning-progress-bg);
+      background: var(--_growl-progress-bg-warning);
     }
 
     &.info .progress {
-      background: var(--bearlab-growl-info-progress-bg);
+      background: var(--_growl-progress-bg-info);
     }
   }
 
   .themeColored {
-    border-left-color: var(--bearlab-growl-colored-border-color);
+    border-left-color: var(--_growl-colored-border-color);
 
     svg {
       filter: brightness(0) saturate(100%) invert(100%) sepia(97%) saturate(12%)
@@ -450,37 +528,37 @@
     }
 
     &.success {
-      background: var(--bearlab-growl-colored-success-bg);
+      background: var(--_growl-colored-bg-success);
     }
 
     &.error {
-      background: var(--bearlab-growl-colored-error-bg);
+      background: var(--_growl-colored-bg-error);
     }
 
     &.warning {
-      background: var(--bearlab-growl-colored-warning-bg);
+      background: var(--_growl-colored-bg-warning);
     }
 
     &.info {
-      background: var(--bearlab-growl-colored-info-bg);
+      background: var(--_growl-colored-bg-info);
     }
 
     .title {
-      color: var(--bearlab-growl-colored-title-color);
+      color: var(--_growl-colored-title-color);
     }
 
     .message {
-      color: var(--bearlab-growl-colored-message-color);
+      color: var(--_growl-colored-message-color);
     }
 
     .progress {
-      background: var(--bearlab-growl-colored-progress-bg);
+      background: var(--_growl-colored-progress-bg);
     }
   }
 
   .iconWrapper {
-    width: var(--bearlab-growl-icon-size);
-    height: var(--bearlab-growl-icon-size);
+    width: var(--_growl-icon-size);
+    height: var(--_growl-icon-size);
 
     svg {
       width: 100%;
@@ -492,27 +570,27 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--bearlab-growl-body-gap);
+    gap: var(--_growl-body-gap);
     min-width: 0;
 
     .title {
-      font-size: var(--bearlab-growl-title-font-size);
-      font-weight: var(--bearlab-growl-title-font-weight);
+      font-size: var(--_growl-title-font-size);
+      font-weight: var(--_growl-title-font-weight);
     }
 
     .message {
-      font-size: var(--bearlab-growl-message-font-size);
+      font-size: var(--_growl-message-font-size);
     }
   }
 
   .close {
-    width: var(--bearlab-growl-close-size);
-    height: var(--bearlab-growl-close-size);
+    width: var(--_growl-close-size);
+    height: var(--_growl-close-size);
     transition: opacity 0.15s;
     cursor: pointer;
 
     &:hover {
-      opacity: var(--bearlab-growl-close-hover-opacity);
+      opacity: var(--_growl-close-opacity-hover);
     }
 
     svg {
@@ -525,8 +603,8 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    height: var(--bearlab-growl-progress-height);
-    border-radius: var(--bearlab-growl-progress-border-radius);
+    height: var(--_growl-progress-height);
+    border-radius: var(--_growl-progress-border-radius);
     animation: progress linear forwards;
   }
 
@@ -877,9 +955,9 @@
     &.topRight,
     &.topLeft,
     &.topCenter {
-      top: var(--bearlab-growl-container-offset-mobile);
-      right: var(--bearlab-growl-container-offset-mobile);
-      left: var(--bearlab-growl-container-offset-mobile);
+      top: var(--_growl-container-offset-mobile);
+      right: var(--_growl-container-offset-mobile);
+      left: var(--_growl-container-offset-mobile);
       transform: none;
       align-items: stretch;
     }
@@ -887,9 +965,9 @@
     &.bottomRight,
     &.bottomLeft,
     &.bottomCenter {
-      bottom: var(--bearlab-growl-container-offset-mobile);
-      right: var(--bearlab-growl-container-offset-mobile);
-      left: var(--bearlab-growl-container-offset-mobile);
+      bottom: var(--_growl-container-offset-mobile);
+      right: var(--_growl-container-offset-mobile);
+      left: var(--_growl-container-offset-mobile);
       transform: none;
       align-items: stretch;
     }

@@ -1,72 +1,113 @@
-:root {
-  --bearlab-radio-size: 1.25rem /* 20px */;
-  --bearlab-radio-border-width: 0.078125rem /* 1.25px */;
-  --bearlab-radio-dot-size: 0.5rem /* 8px */;
-  --bearlab-radio-gap: 0.75rem /* 12px */;
-  --bearlab-radio-font-size: 0.875rem /* 14px */;
-  --bearlab-radio-font-weight: 500;
-  --bearlab-radio-label-font-size: 0.875rem /* 14px */;
-  --bearlab-radio-label-font-weight: 600;
-  --bearlab-radio-group-gap: 0.625rem /* 10px */;
-  --bearlab-radio-popover-border-radius: 0.5rem /* 8px */;
-  --bearlab-radio-popover-padding: 0.75rem /* 12px */;
-  --bearlab-radio-popover-font-size: 0.8125rem /* 13px */;
-  --bearlab-radio-popover-font-weight: 500;
-  --bearlab-radio-popover-top: -2.8125rem /* -45px */;
-  --bearlab-radio-popover-z-index: 9999;
-  --bearlab-radio-error-font-size: 0.875rem /* 14px */;
-  --bearlab-radio-error-icon-size: 0.75rem /* 12px */;
-  --bearlab-radio-error-icon-gap: 0.5rem /* 8px */;
-  --bearlab-radio-error-bottom: -1.25rem /* -20px */;
-  --bearlab-radio-focus-outline-width: 0.125rem /* 2px */;
-  --bearlab-radio-focus-outline-offset: 0.125rem /* 2px */;
-  --bearlab-radio-disabled-opacity: 0.6;
-}
-
-:root[data-theme="light"] {
-  --bearlab-radio-color: #374151;
-  --bearlab-radio-label-color: #344054;
-  --bearlab-radio-required-color: #f04438;
-  --bearlab-radio-checked-bg: #465fff;
-  --bearlab-radio-checked-border-color: #465fff;
-  --bearlab-radio-unchecked-bg: transparent;
-  --bearlab-radio-unchecked-border-color: #d1d5db;
-  --bearlab-radio-disabled-bg: #f3f4f6;
-  --bearlab-radio-disabled-border-color: #e5e7eb;
-  --bearlab-radio-dot-color: #fff;
-  --bearlab-radio-popover-bg: #fff;
-  --bearlab-radio-popover-color: #344054;
-  --bearlab-radio-error-color: #f00438;
-  --bearlab-radio-focus-color: #465fff;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-radio-color: #e5e7eb;
-  --bearlab-radio-label-color: #98a2b3;
-  --bearlab-radio-required-color: #f04438;
-  --bearlab-radio-checked-bg: #465fff;
-  --bearlab-radio-checked-border-color: #465fff;
-  --bearlab-radio-unchecked-bg: transparent;
-  --bearlab-radio-unchecked-border-color: #374151;
-  --bearlab-radio-disabled-bg: #374151;
-  --bearlab-radio-disabled-border-color: #374151;
-  --bearlab-radio-dot-color: #fff;
-  --bearlab-radio-popover-bg: #fff;
-  --bearlab-radio-popover-color: #344054;
-  --bearlab-radio-error-color: #f00438;
-  --bearlab-radio-focus-color: #465fff;
-}
-
 .container {
+  --_radio-size: var(--bearlab-radio-size, 1.25rem); /* 20px */
+  --_radio-border-width: var(
+    --bearlab-radio-border-width,
+    0.078125rem
+  ); /* 1.25px */
+  --_radio-dot-size: var(--bearlab-radio-dot-size, 0.5rem); /* 8px */
+  --_radio-gap: var(--bearlab-radio-gap, 0.75rem); /* 12px */
+  --_radio-font-size: var(--bearlab-radio-font-size, 0.875rem); /* 14px */
+  --_radio-font-weight: var(--bearlab-radio-font-weight, 500);
+  --_radio-label-font-size: var(
+    --bearlab-radio-label-font-size,
+    0.875rem
+  ); /* 14px */
+  --_radio-label-font-weight: var(--bearlab-radio-label-font-weight, 600);
+  --_radio-popover-border-radius: var(
+    --bearlab-radio-popover-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_radio-popover-padding: var(
+    --bearlab-radio-popover-padding,
+    0.75rem
+  ); /* 12px */
+  --_radio-popover-font-size: var(
+    --bearlab-radio-popover-font-size,
+    0.8125rem
+  ); /* 13px */
+  --_radio-popover-font-weight: var(--bearlab-radio-popover-font-weight, 500);
+  --_radio-popover-top: var(
+    --bearlab-radio-popover-top,
+    -2.8125rem
+  ); /* -45px */
+  --_radio-popover-z-index: var(--bearlab-radio-popover-z-index, 9999);
+  --_radio-font-size-error: var(
+    --bearlab-radio-font-size-error,
+    0.875rem
+  ); /* 14px */
+  --_radio-icon-size-error: var(
+    --bearlab-radio-icon-size-error,
+    0.75rem
+  ); /* 12px */
+  --_radio-icon-gap-error: var(
+    --bearlab-radio-icon-gap-error,
+    0.5rem
+  ); /* 8px */
+  --_radio-bottom-error: var(
+    --bearlab-radio-bottom-error,
+    -1.25rem
+  ); /* -20px */
+  --_radio-outline-width-focus: var(
+    --bearlab-radio-outline-width-focus,
+    0.125rem
+  ); /* 2px */
+  --_radio-focus-outline-offset: var(
+    --bearlab-radio-focus-outline-offset,
+    0.125rem
+  ); /* 2px */
+  --_radio-opacity-disabled: var(--bearlab-radio-opacity-disabled, 0.6);
+
+  --_radio-color: var(--bearlab-radio-color, #374151);
+  --_radio-label-color: var(--bearlab-radio-label-color, #344054);
+  --_radio-required-color: var(--bearlab-radio-required-color, #f04438);
+  --_radio-bg-checked: var(--bearlab-radio-bg-checked, #465fff);
+  --_radio-border-color-checked: var(
+    --bearlab-radio-border-color-checked,
+    #465fff
+  );
+  --_radio-bg-unchecked: var(--bearlab-radio-bg-unchecked, transparent);
+  --_radio-border-color-unchecked: var(
+    --bearlab-radio-border-color-unchecked,
+    #d1d5db
+  );
+  --_radio-bg-disabled: var(--bearlab-radio-bg-disabled, #f3f4f6);
+  --_radio-border-color-disabled: var(
+    --bearlab-radio-border-color-disabled,
+    #e5e7eb
+  );
+  --_radio-dot-color: var(--bearlab-radio-dot-color, #fff);
+  --_radio-popover-bg: var(--bearlab-radio-popover-bg, #fff);
+  --_radio-popover-color: var(--bearlab-radio-popover-color, #344054);
+  --_radio-color-error: var(--bearlab-radio-color-error, #f00438);
+  --_radio-color-focus: var(--bearlab-radio-color-focus, #465fff);
+
+  :global([data-theme="dark"]) & {
+    --_radio-color: var(--bearlab-radio-color, #e5e7eb);
+    --_radio-label-color: var(--bearlab-radio-label-color, #98a2b3);
+    --_radio-border-color-checked: var(
+      --bearlab-radio-border-color-checked,
+      #465fff
+    );
+    --_radio-border-color-unchecked: var(
+      --bearlab-radio-border-color-unchecked,
+      #374151
+    );
+    --_radio-bg-disabled: var(--bearlab-radio-bg-disabled, #374151);
+    --_radio-border-color-disabled: var(
+      --bearlab-radio-border-color-disabled,
+      #374151
+    );
+  }
+
   position: relative;
   display: flex;
   cursor: pointer;
   user-select: none;
   align-items: center;
-  gap: var(--bearlab-radio-gap);
-  font-size: var(--bearlab-radio-font-size);
-  font-weight: var(--bearlab-radio-font-weight);
-  color: var(--bearlab-radio-color);
+  gap: var(--_radio-gap);
+  font-size: var(--_radio-font-size);
+  font-weight: var(--_radio-font-weight);
+  color: var(--_radio-color);
 
   &:hover .popover,
   &:focus-within .popover {
@@ -82,38 +123,37 @@
 
 .input {
   position: absolute;
-  width: 0.0625rem /* 1px */;
-  height: 0.0625rem /* 1px */;
+  width: 0.0625rem; /* 1px */
+  height: 0.0625rem; /* 1px */
   padding: 0;
-  margin: -0.0625rem /* -1px */;
+  margin: -0.0625rem; /* -1px */
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
 
   &:focus-visible ~ .checkedWrapper {
-    outline: var(--bearlab-radio-focus-outline-width) solid
-      var(--bearlab-radio-focus-color);
-    outline-offset: var(--bearlab-radio-focus-outline-offset);
+    outline: var(--_radio-outline-width-focus) solid var(--_radio-color-focus);
+    outline-offset: var(--_radio-focus-outline-offset);
   }
 }
 
 .checkedWrapper {
   display: flex;
-  width: var(--bearlab-radio-size);
-  height: var(--bearlab-radio-size);
+  width: var(--_radio-size);
+  height: var(--_radio-size);
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   border-style: solid;
-  border-width: var(--bearlab-radio-border-width);
+  border-width: var(--_radio-border-width);
 }
 
 .innerDot {
-  width: var(--bearlab-radio-dot-size);
-  height: var(--bearlab-radio-dot-size);
+  width: var(--_radio-dot-size);
+  height: var(--_radio-dot-size);
   border-radius: 50%;
-  background-color: var(--bearlab-radio-dot-color);
+  background-color: var(--_radio-dot-color);
 }
 
 .visible {
@@ -125,48 +165,48 @@
 }
 
 .checked {
-  border-color: var(--bearlab-radio-checked-border-color);
-  background-color: var(--bearlab-radio-checked-bg);
+  border-color: var(--_radio-border-color-checked);
+  background-color: var(--_radio-bg-checked);
 }
 
 .unchecked {
-  background-color: var(--bearlab-radio-unchecked-bg);
-  border-color: var(--bearlab-radio-unchecked-border-color);
+  background-color: var(--_radio-bg-unchecked);
+  border-color: var(--_radio-border-color-unchecked);
 }
 
 .checkedDisabled {
-  background-color: var(--bearlab-radio-disabled-bg);
-  border-color: var(--bearlab-radio-disabled-border-color);
+  background-color: var(--_radio-bg-disabled);
+  border-color: var(--_radio-border-color-disabled);
 }
 
-.label {
-  color: var(--bearlab-radio-label-color);
-  font-size: var(--bearlab-radio-label-font-size);
-  font-weight: var(--bearlab-radio-label-font-weight);
+.radioLabel {
+  color: var(--_radio-label-color);
+  font-size: var(--_radio-label-font-size);
+  font-weight: var(--_radio-label-font-weight);
   min-width: fit-content;
 
   span {
-    color: var(--bearlab-radio-required-color);
+    color: var(--_radio-required-color);
   }
 }
 
 .popover {
   position: absolute;
   display: none;
-  background-color: var(--bearlab-radio-popover-bg);
-  border-radius: var(--bearlab-radio-popover-border-radius);
-  padding: var(--bearlab-radio-popover-padding);
-  color: var(--bearlab-radio-popover-color);
-  z-index: var(--bearlab-radio-popover-z-index);
-  font-weight: var(--bearlab-radio-popover-font-weight);
-  font-size: var(--bearlab-radio-popover-font-size);
+  background-color: var(--_radio-popover-bg);
+  border-radius: var(--_radio-popover-border-radius);
+  padding: var(--_radio-popover-padding);
+  color: var(--_radio-popover-color);
+  z-index: var(--_radio-popover-z-index);
+  font-weight: var(--_radio-popover-font-weight);
+  font-size: var(--_radio-popover-font-size);
   box-shadow:
     0 0.0625rem /* 1px */ 0.0625rem /* 1px */ 0 rgba(162, 184, 191, 0.274),
     0 -0.0625rem /* -1px */ 0.0625rem /* 1px */ 0.0625rem /* 1px */
       rgba(196, 205, 222, 0.119) inset,
     0 0 0 0.0625rem /* 1px */ rgba(197, 206, 225, 0.383) inset;
   width: max-content;
-  top: var(--bearlab-radio-popover-top);
+  top: var(--_radio-popover-top);
 }
 
 .viewError {
@@ -174,24 +214,26 @@
   align-items: center;
   position: absolute;
   left: 0;
-  bottom: var(--bearlab-radio-error-bottom);
-  font-size: var(--bearlab-radio-error-font-size);
+  bottom: var(--_radio-bottom-error);
+  font-size: var(--_radio-font-size-error);
   width: max-content;
 
   svg {
-    margin-right: var(--bearlab-radio-error-icon-gap);
-    width: var(--bearlab-radio-error-icon-size);
-    height: var(--bearlab-radio-error-icon-size);
+    margin-right: var(--_radio-icon-gap-error);
+    width: var(--_radio-icon-size-error);
+    height: var(--_radio-icon-size-error);
   }
 
   span {
-    color: var(--bearlab-radio-error-color);
+    color: var(--_radio-color-error);
   }
 }
 
 .radioGroup {
+  --_radio-group-gap: var(--bearlab-radio-group-gap, 0.625rem); /* 10px */
+
   display: flex;
-  gap: var(--bearlab-radio-group-gap);
+  gap: var(--_radio-group-gap);
 
   &.vertical {
     flex-direction: column;
@@ -199,7 +241,7 @@
 }
 
 .disabled {
-  opacity: var(--bearlab-radio-disabled-opacity);
+  opacity: var(--_radio-opacity-disabled);
   cursor: not-allowed;
   pointer-events: none;
 }

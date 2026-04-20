@@ -30,10 +30,10 @@ export interface CheckboxProps extends InputProps {
   name?: string;
   label?: string;
   popover?: string | React.ReactNode;
-  checked: boolean;
+  checked?: boolean;
   disabled?: boolean;
   className?: CheckboxClassNames;
   style?: CheckboxStyles;
   isRequired?: boolean;
-  onChange: (_val: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (_val: React.ChangeEvent<HTMLInputElement>) => void;
 }

@@ -100,7 +100,7 @@ export const Radio = (props: RadioProps) => {
       </div>
       {label && (
         <span
-          className={classnames(styles.label, className?.label)}
+          className={classnames(styles.radioLabel, className?.label)}
           style={style?.label}
         >
           {label} {isRequired && <span aria-hidden="true">*</span>}

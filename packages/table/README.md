@@ -31,6 +31,7 @@
 - ✅ **Responsive Design** — Adjusts naturally to mobile viewports with specialized table controls
 - ✅ **TypeScript-first** — Fully typed columns, records, and configuration options
 - ✅ **Zero layout opinion** — Bring your own layout/wrapper
+- ✅ **Internationalization** — Customizable render props for all data-driven labels (pagination info, record counts)
 
 ---
 
@@ -106,6 +107,10 @@ export default function App() {
 | `disabled`             | `boolean`                                   | `false`              | ❌       | Disables interactivity within the table (selection, pagination, row clicks) |
 | `className`            | [`TableClassNames`](#tableclassnames)       | —                    | ❌       | Per-slot className overrides                                                |
 | `style`                | [`TableStyles`](#tablestyles)               | —                    | ❌       | Per-slot inline style overrides                                             |
+| `renderPageInfo`       | `(page, total) => React.ReactNode`          | —                    | ❌       | Customize the "Page X of Y" label                                           |
+| `renderTotalInfo`      | `(from, to, total) => React.ReactNode`      | —                                                  | ❌       | Customize the "Showing X to Y of Z entries" label                           |
+| `emptyTitle`           | `string`                                    | `"No records found"`                               | ❌       | Title displayed when the table is empty                                     |
+| `emptyDescription`     | `string`                                    | `"There are no records to display at the moment."` | ❌       | Description displayed below the title when the table is empty               |
 
 ---
 
@@ -165,6 +170,30 @@ All slots also accept inline `React.CSSProperties` natively via the `style` prop
     tableContainer: { borderCollapse: "separate", borderSpacing: "10px" },
     headerCell: { backgroundColor: "#f4f4f4" },
   }}
+/>
+```
+
+---
+
+## Internationalization (i18n)
+
+The `Table` component allows you to customize and localize all hardcoded labels using optional render props. If not provided, it defaults to English.
+
+```tsx
+<Table
+  dataSource={data}
+  columns={columns}
+  // Custom pagination info (e.g. Turkish)
+  renderPageInfo={(current, total) =>
+    `${total} sayfa arasından ${current}. sayfa`
+  }
+  // Custom record info
+  renderTotalInfo={(from, to, total) =>
+    `${total} kayıttan ${from}-${to} arasındakiler listeleniyor`
+  }
+  // Custom empty state
+  emptyTitle="Kayıt bulunamadı"
+  emptyDescription="Aramanıza uygun herhangi bir veri bulunamamıştır."
 />
 ```
 

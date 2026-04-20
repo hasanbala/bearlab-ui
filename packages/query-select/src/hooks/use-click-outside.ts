@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 
 export const useClickOutside = (
   onClose: () => void,
+  selectionDisplay: "card" | "inline",
+  setContainerWidth: React.Dispatch<React.SetStateAction<number>>,
   ignoreRef?: React.RefObject<HTMLElement | null>
 ) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,6 +23,16 @@ export const useClickOutside = (
     return () =>
       document.removeEventListener("mousedown", handleMouseDown, true);
   }, [onClose, ignoreRef]);
+
+  useEffect(() => {
+    if (!containerRef.current || selectionDisplay === "card") return;
+
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width);
+    });
+    resizeObserver.observe(containerRef.current);
+    return () => resizeObserver.disconnect();
+  }, [setContainerWidth]);
 
   return { containerRef };
 };

@@ -26,6 +26,7 @@ export const FileInput = (props: FileInputProps) => {
   const inputId = externalId ?? generatedId;
   const errorId = `file-input-${inputId}-error`;
   const helperTextId = `file-input-${inputId}-helper`;
+  const hasError = Boolean(error);
 
   const describedByIds = [
     error ? errorId : null,
@@ -42,7 +43,7 @@ export const FileInput = (props: FileInputProps) => {
       {label && (
         <label
           htmlFor={inputId}
-          className={classnames(styles.label, className?.label)}
+          className={classnames(styles.fileInputLabel, className?.label)}
           style={style?.label}
         >
           {label}
@@ -65,18 +66,18 @@ export const FileInput = (props: FileInputProps) => {
           capture={capture}
           className={classnames(
             styles.input,
-            error && styles.inputError,
+            hasError && styles.error,
             disabled && styles.inputDisabled,
             className?.input
           )}
           style={style?.input}
           onChange={onChange}
-          aria-invalid={!!error}
+          aria-invalid={hasError}
           aria-required={isRequired}
           aria-describedby={describedByIds || undefined}
           aria-disabled={disabled}
         />
-        {helperText && !error && (
+        {helperText && !hasError && (
           <p
             id={helperTextId}
             className={classnames(styles.helperText, className?.helperText)}
@@ -85,20 +86,17 @@ export const FileInput = (props: FileInputProps) => {
             {helperText}
           </p>
         )}
-        {error && (
-          <p
+        {hasError && (
+          <div
             id={errorId}
-            role="alert"
+            role="status"
             aria-live="polite"
-            className={classnames(styles.errorText, className?.errorText)}
-            style={style?.errorText}
+            style={style?.errorMessage}
+            className={classnames(styles.viewError, className?.errorMessage)}
           >
-            <IconErrorTriangle
-              aria-hidden="true"
-              className={styles.errorIcon}
-            />
+            <IconErrorTriangle aria-hidden="true" />
             <span>{label}</span>
-          </p>
+          </div>
         )}
       </div>
     </div>

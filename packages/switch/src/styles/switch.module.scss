@@ -1,66 +1,114 @@
-:root {
-  --bearlab-switch-gap: 0.75rem; /* 12px */
-  --bearlab-switch-font-size: 0.875rem; /* 14px */
-  --bearlab-switch-width: 2.5rem; /* 40px */
-  --bearlab-switch-height: 1.25rem; /* 20px */
-  --bearlab-switch-border-radius: 999px;
-  --bearlab-switch-border-width: 0.0625rem; /* 1px */
-  --bearlab-switch-transition: all 0.2s ease;
-  --bearlab-switch-toggle-size: 1rem; /* 16px */
-  --bearlab-switch-toggle-active-translate: 1.3125rem; /* 21px */
-  --bearlab-switch-toggle-inactive-translate: 0.0625rem; /* 1px */
-  --bearlab-switch-disabled-opacity: 0.6;
-  --bearlab-switch-label-font-size: 0.875rem; /* 14px */
-  --bearlab-switch-label-font-weight: 600;
-  --bearlab-switch-popover-border-radius: 0.5rem; /* 8px */
-  --bearlab-switch-popover-padding: 0.75rem; /* 12px */
-  --bearlab-switch-popover-font-size: 0.8125rem; /* 13px */
-  --bearlab-switch-popover-font-weight: 500;
-  --bearlab-switch-popover-top: -2.8125rem; /* -45px */
-  --bearlab-switch-popover-left: -0.875rem; /* -14px */
-  --bearlab-switch-error-font-size: 0.875rem; /* 14px */
-  --bearlab-switch-error-bottom: -1.25rem; /* -20px */
-  --bearlab-switch-error-icon-size: 0.75rem; /* 12px */
-  --bearlab-switch-error-icon-margin: 0.5rem; /* 8px */
-}
-
-:root[data-theme="light"] {
-  --bearlab-switch-container-color: #374151;
-  --bearlab-switch-checked-bg: #465fff;
-  --bearlab-switch-checked-border-color: #465fff;
-  --bearlab-switch-unchecked-bg: #d1d5db;
-  --bearlab-switch-unchecked-border-color: #d1d5db;
-  --bearlab-switch-toggle-color: #ffffff;
-  --bearlab-switch-label-color: #344054;
-  --bearlab-switch-label-required-color: #f04438;
-  --bearlab-switch-popover-bg: #ffffff;
-  --bearlab-switch-popover-color: #344054;
-  --bearlab-switch-error-color: #f00438;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-switch-container-color: #9ca3af;
-  --bearlab-switch-checked-bg: #465fff;
-  --bearlab-switch-checked-border-color: #465fff;
-  --bearlab-switch-unchecked-bg: #374151;
-  --bearlab-switch-unchecked-border-color: #374151;
-  --bearlab-switch-toggle-color: #ffffff;
-  --bearlab-switch-label-color: #98a2b3;
-  --bearlab-switch-label-required-color: #f04438;
-  --bearlab-switch-popover-bg: #ffffff;
-  --bearlab-switch-popover-color: #344054;
-  --bearlab-switch-error-color: #f00438;
-}
-
 .container {
+  --_switch-gap: var(--bearlab-switch-gap, 0.75rem); /* 12px */
+  --_switch-font-size: var(--bearlab-switch-font-size, 0.875rem); /* 14px */
+  --_switch-width: var(--bearlab-switch-width, 2.5rem); /* 40px */
+  --_switch-height: var(--bearlab-switch-height, 1.25rem); /* 20px */
+  --_switch-border-radius: var(--bearlab-switch-border-radius, 999px);
+  --_switch-border-width: var(
+    --bearlab-switch-border-width,
+    0.0625rem
+  ); /* 1px */
+  --_switch-transition: var(--bearlab-switch-transition, all 0.2s ease);
+  --_switch-toggle-size: var(--bearlab-switch-toggle-size, 1rem); /* 16px */
+  --_switch-toggle-active-translate: var(
+    --bearlab-switch-toggle-active-translate,
+    1.3125rem
+  ); /* 21px */
+  --_switch-toggle-inactive-translate: var(
+    --bearlab-switch-toggle-inactive-translate,
+    0.0625rem
+  ); /* 1px */
+  --_switch-opacity-disabled: var(--bearlab-switch-opacity-disabled, 0.6);
+  --_switch-label-font-size: var(
+    --bearlab-switch-label-font-size,
+    0.875rem
+  ); /* 14px */
+  --_switch-label-font-weight: var(--bearlab-switch-label-font-weight, 600);
+  --_switch-popover-border-radius: var(
+    --bearlab-switch-popover-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_switch-popover-padding: var(
+    --bearlab-switch-popover-padding,
+    0.75rem
+  ); /* 12px */
+  --_switch-popover-font-size: var(
+    --bearlab-switch-popover-font-size,
+    0.8125rem
+  ); /* 13px */
+  --_switch-popover-font-weight: var(--bearlab-switch-popover-font-weight, 500);
+  --_switch-popover-top: var(
+    --bearlab-switch-popover-top,
+    -2.8125rem
+  ); /* -45px */
+  --_switch-popover-left: var(
+    --bearlab-switch-popover-left,
+    -0.875rem
+  ); /* -14px */
+  --_switch-font-size-error: var(
+    --bearlab-switch-font-size-error,
+    0.875rem
+  ); /* 14px */
+  --_switch-bottom-error: var(
+    --bearlab-switch-bottom-error,
+    -1.25rem
+  ); /* -20px */
+  --_switch-icon-size-error: var(
+    --bearlab-switch-icon-size-error,
+    0.75rem
+  ); /* 12px */
+  --_switch-icon-margin-error: var(
+    --bearlab-switch-icon-margin-error,
+    0.5rem
+  ); /* 8px */
+
+  --_switch-container-color: var(--bearlab-switch-container-color, #374151);
+  --_switch-bg-checked: var(--bearlab-switch-bg-checked, #465fff);
+  --_switch-border-color-checked: var(
+    --bearlab-switch-border-color-checked,
+    #465fff
+  );
+  --_switch-bg-unchecked: var(--bearlab-switch-bg-unchecked, #d1d5db);
+  --_switch-border-color-unchecked: var(
+    --bearlab-switch-border-color-unchecked,
+    #d1d5db
+  );
+  --_switch-toggle-color: var(--bearlab-switch-toggle-color, #ffffff);
+  --_switch-label-color: var(--bearlab-switch-label-color, #344054);
+  --_switch-label-required-color: var(
+    --bearlab-switch-label-required-color,
+    #f04438
+  );
+  --_switch-popover-bg: var(--bearlab-switch-popover-bg, #ffffff);
+  --_switch-popover-color: var(--bearlab-switch-popover-color, #344054);
+  --_switch-color-error: var(--bearlab-switch-color-error, #f00438);
+
+  :global([data-theme="dark"]) & {
+    --_switch-container-color: var(--bearlab-switch-container-color, #9ca3af);
+    --_switch-border-color-checked: var(
+      --bearlab-switch-border-color-checked,
+      #465fff
+    );
+    --_switch-bg-unchecked: var(--bearlab-switch-bg-unchecked, #374151);
+    --_switch-border-color-unchecked: var(
+      --bearlab-switch-border-color-unchecked,
+      #374151
+    );
+    --_switch-label-color: var(--bearlab-switch-label-color, #98a2b3);
+    --_switch-label-required-color: var(
+      --bearlab-switch-label-required-color,
+      #f04438
+    );
+  }
+
   position: relative;
   display: flex;
   cursor: pointer;
   user-select: none;
   align-items: center;
-  gap: var(--bearlab-switch-gap);
-  font-size: var(--bearlab-switch-font-size);
-  color: var(--bearlab-switch-container-color);
+  gap: var(--_switch-gap);
+  font-size: var(--_switch-font-size);
+  color: var(--_switch-container-color);
 
   &:hover {
     .popover {
@@ -86,81 +134,81 @@
     .slider {
       display: flex;
       align-items: center;
-      width: var(--bearlab-switch-width);
-      height: var(--bearlab-switch-height);
-      border-radius: var(--bearlab-switch-border-radius);
-      transition: var(--bearlab-switch-transition);
+      width: var(--_switch-width);
+      height: var(--_switch-height);
+      border-radius: var(--_switch-border-radius);
+      transition: var(--_switch-transition);
       position: relative;
 
       .toggle {
         position: absolute;
-        width: var(--bearlab-switch-toggle-size);
-        height: var(--bearlab-switch-toggle-size);
+        width: var(--_switch-toggle-size);
+        height: var(--_switch-toggle-size);
         border-radius: 50%;
-        transition: var(--bearlab-switch-transition);
-        background-color: var(--bearlab-switch-toggle-color);
+        transition: var(--_switch-transition);
+        background-color: var(--_switch-toggle-color);
       }
 
       .toggleActive {
-        transform: translateX(var(--bearlab-switch-toggle-active-translate));
+        transform: translateX(var(--_switch-toggle-active-translate));
       }
 
       .toggleInactive {
-        transform: translateX(var(--bearlab-switch-toggle-inactive-translate));
+        transform: translateX(var(--_switch-toggle-inactive-translate));
       }
     }
 
     .checked {
-      background-color: var(--bearlab-switch-checked-bg);
-      border: var(--bearlab-switch-border-width) solid
-        var(--bearlab-switch-checked-border-color);
+      background-color: var(--_switch-bg-checked);
+      border: var(--_switch-border-width) solid
+        var(--_switch-border-color-checked);
     }
 
     .unchecked {
-      background-color: var(--bearlab-switch-unchecked-bg);
-      border: var(--bearlab-switch-border-width) solid
-        var(--bearlab-switch-unchecked-border-color);
+      background-color: var(--_switch-bg-unchecked);
+      border: var(--_switch-border-width) solid
+        var(--_switch-border-color-unchecked);
     }
 
     .sliderDisabled {
-      opacity: var(--bearlab-switch-disabled-opacity);
+      opacity: var(--_switch-opacity-disabled);
       cursor: not-allowed;
       pointer-events: none;
     }
 
     .popover {
-      left: var(--bearlab-switch-popover-left);
+      left: var(--_switch-popover-left);
     }
   }
 
-  .label {
-    font-size: var(--bearlab-switch-label-font-size);
-    color: var(--bearlab-switch-label-color);
-    font-weight: var(--bearlab-switch-label-font-weight);
+  .switchLabel {
+    font-size: var(--_switch-label-font-size);
+    color: var(--_switch-label-color);
+    font-weight: var(--_switch-label-font-weight);
     width: max-content;
 
     span {
-      color: var(--bearlab-switch-label-required-color);
+      color: var(--_switch-label-required-color);
     }
   }
 
   .popover {
     position: absolute;
     display: none;
-    background-color: var(--bearlab-switch-popover-bg);
-    border-radius: var(--bearlab-switch-popover-border-radius);
-    padding: var(--bearlab-switch-popover-padding);
-    color: var(--bearlab-switch-popover-color);
+    background-color: var(--_switch-popover-bg);
+    border-radius: var(--_switch-popover-border-radius);
+    padding: var(--_switch-popover-padding);
+    color: var(--_switch-popover-color);
     z-index: 9999;
-    font-weight: var(--bearlab-switch-popover-font-weight);
-    font-size: var(--bearlab-switch-popover-font-size);
+    font-weight: var(--_switch-popover-font-weight);
+    font-size: var(--_switch-popover-font-size);
     box-shadow:
       0 0.0625rem 0.0625rem 0 rgba(162, 184, 191, 0.274),
       /* 1px 1px */ 0 -0.0625rem 0.0625rem 0.0625rem rgba(196, 205, 222, 0.119)
         inset,
       /* -1px 1px 1px */ 0 0 0 0.0625rem rgba(197, 206, 225, 0.383) inset; /* 1px */
     width: max-content;
-    top: var(--bearlab-switch-popover-top);
+    top: var(--_switch-popover-top);
   }
 
   .viewError {
@@ -168,24 +216,24 @@
     align-items: center;
     position: absolute;
     left: 0;
-    bottom: var(--bearlab-switch-error-bottom);
-    font-size: var(--bearlab-switch-error-font-size);
+    bottom: var(--_switch-bottom-error);
+    font-size: var(--_switch-font-size-error);
     width: max-content;
 
     svg {
-      margin-right: var(--bearlab-switch-error-icon-margin);
-      width: var(--bearlab-switch-error-icon-size);
-      height: var(--bearlab-switch-error-icon-size);
+      margin-right: var(--_switch-icon-margin-error);
+      width: var(--_switch-icon-size-error);
+      height: var(--_switch-icon-size-error);
     }
 
     span {
-      color: var(--bearlab-switch-error-color);
+      color: var(--_switch-color-error);
     }
   }
 }
 
 .disabled {
-  opacity: var(--bearlab-switch-disabled-opacity);
+  opacity: var(--bearlab-switch-opacity-disabled, 0.6);
   cursor: not-allowed;
   pointer-events: none;
 }

@@ -1,13 +1,17 @@
-:root {
-  --bearlab-go-back-container-margin-bottom: 1.875rem; /* 30px */
-  --bearlab-go-back-icon-transform: rotate(180deg);
-}
-
 .container {
+  --_go-back-container-margin-bottom: var(
+    --bearlab-go-back-container-margin-bottom,
+    1.875rem
+  ); /* 30px */
+  --_go-back-icon-transform: var(
+    --bearlab-go-back-icon-transform,
+    rotate(180deg)
+  );
+
   width: max-content;
-  margin-bottom: var(--bearlab-go-back-container-margin-bottom);
+  margin-bottom: var(--_go-back-container-margin-bottom);
 
   svg {
-    transform: var(--bearlab-go-back-icon-transform);
+    transform: var(--_go-back-icon-transform);
   }
 }

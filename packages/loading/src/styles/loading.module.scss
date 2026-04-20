@@ -1,27 +1,30 @@
-:root {
-  --bearlab-loading-container-width: 1.5rem; /* 24px */
-  --bearlab-loading-container-height: 1.5rem; /* 24px */
-  --bearlab-loading-icon-z-index: 10003;
-  --bearlab-loading-animation-duration: 1s;
-}
-
 .container {
+  --_loading-container-width: var(
+    --bearlab-loading-container-width,
+    1.5rem
+  ); /* 24px */
+  --_loading-container-height: var(
+    --bearlab-loading-container-height,
+    1.5rem
+  ); /* 24px */
+  --_loading-icon-z-index: var(--bearlab-loading-icon-z-index, 10003);
+  --_loading-animation-duration: var(--bearlab-loading-animation-duration, 1s);
+
   top: 50%;
   left: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
-  height: var(--bearlab-loading-container-height);
-  width: var(--bearlab-loading-container-width);
+  height: var(--_loading-container-height);
+  width: var(--_loading-container-width);
 
   .loading {
     height: 100%;
     width: 100%;
     overflow: hidden;
     position: relative;
-    z-index: var(--bearlab-loading-icon-z-index);
-    animation: spin var(--bearlab-loading-animation-duration) linear infinite;
-    -webkit-animation: var(--bearlab-loading-animation-duration) spin linear
-      infinite;
+    z-index: var(--_loading-icon-z-index);
+    animation: spin var(--_loading-animation-duration) linear infinite;
+    -webkit-animation: var(--_loading-animation-duration) spin linear infinite;
 
     @keyframes spin {
       0% {

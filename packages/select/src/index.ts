@@ -11,4 +11,9 @@ export type {
   SelectClassNames,
   SelectMode,
   SelectStyles,
+  SingleSelectProps,
+  MultipleSelectProps,
+  SelectValue,
+  SingleValue,
+  MultipleValue,
 } from "./types/select.types";

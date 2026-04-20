@@ -1,99 +1,155 @@
-:root {
-  --bearlab-badge-container-gap: 0.25rem; /* 4px */
-  --bearlab-badge-container-padding: 0.125rem 0.625rem; /* 2px 10px */
-  --bearlab-badge-container-border-radius: 9999px;
-  --bearlab-badge-container-font-weight: 600;
-  --bearlab-badge-start-icon-margin-right: 0.25rem; /* 4px */
-  --bearlab-badge-start-icon-width: 0.75rem; /* 12px */
-  --bearlab-badge-end-icon-margin-left: 0.25rem; /* 4px */
-  --bearlab-badge-end-icon-width: 0.75rem; /* 12px */
-  --bearlab-badge-small-font-size: 0.75rem; /* 12px */
-  --bearlab-badge-medium-font-size: 0.875rem; /* 14px */
-}
-
-:root[data-theme="light"] {
-  --bearlab-badge-light-primary-bg: #ecf3ff;
-  --bearlab-badge-light-primary-color: #465fff;
-  --bearlab-badge-light-success-bg: #ecfdf3;
-  --bearlab-badge-light-success-color: #039855;
-  --bearlab-badge-light-error-bg: #fef3f2;
-  --bearlab-badge-light-error-color: #d92d20;
-  --bearlab-badge-light-warning-bg: #fffaeb;
-  --bearlab-badge-light-warning-color: #d36803;
-  --bearlab-badge-light-info-bg: #f0f9ff;
-  --bearlab-badge-light-info-color: #0ba5ec;
-  --bearlab-badge-light-light-bg: #f2f4f7;
-  --bearlab-badge-light-light-color: #344054;
-  --bearlab-badge-light-dark-bg: #667085;
-  --bearlab-badge-light-dark-color: #fff;
-  --bearlab-badge-solid-primary-bg: #465fff;
-  --bearlab-badge-solid-primary-color: #fff;
-  --bearlab-badge-solid-success-bg: #12b76a;
-  --bearlab-badge-solid-success-color: #fff;
-  --bearlab-badge-solid-error-bg: #f04438;
-  --bearlab-badge-solid-error-color: #fff;
-  --bearlab-badge-solid-warning-bg: #f79009;
-  --bearlab-badge-solid-warning-color: #fff;
-  --bearlab-badge-solid-info-bg: #0ba5ec;
-  --bearlab-badge-solid-info-color: #fff;
-  --bearlab-badge-solid-light-bg: #98a2b3;
-  --bearlab-badge-solid-light-color: #fff;
-  --bearlab-badge-solid-dark-bg: #344054;
-  --bearlab-badge-solid-dark-color: #fff;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-badge-light-primary-bg: color-mix(
-    in oklab,
-    #465fff 15%,
-    transparent
-  );
-  --bearlab-badge-light-primary-color: #7592ff;
-  --bearlab-badge-light-success-bg: color-mix(
-    in oklab,
-    #12b76a 15%,
-    transparent
-  );
-  --bearlab-badge-light-success-color: #12b76a;
-  --bearlab-badge-light-error-bg: color-mix(in oklab, #f04438 15%, transparent);
-  --bearlab-badge-light-error-color: #f04438;
-
-  --bearlab-badge-light-warning-bg: color-mix(
-    in oklab,
-    #f79009 15%,
-    transparent
-  );
-  --bearlab-badge-light-warning-color: #fd853a;
-  --bearlab-badge-light-info-bg: color-mix(in oklab, #0ba5ec 15%, transparent);
-  --bearlab-badge-light-info-color: #0ba5ec;
-  --bearlab-badge-light-light-bg: color-mix(in oklab, #fff 5%, transparent);
-  --bearlab-badge-light-light-color: color-mix(in oklab, #fff 80%, transparent);
-  --bearlab-badge-light-dark-bg: color-mix(in oklab, #fff 5%, transparent);
-  --bearlab-badge-light-dark-color: #fff;
-  --bearlab-badge-solid-primary-bg: #465fff;
-  --bearlab-badge-solid-primary-color: #fff;
-  --bearlab-badge-solid-success-bg: #12b76a;
-  --bearlab-badge-solid-success-color: #fff;
-  --bearlab-badge-solid-error-bg: #f04438;
-  --bearlab-badge-solid-error-color: #fff;
-  --bearlab-badge-solid-warning-bg: #f79009;
-  --bearlab-badge-solid-warning-color: #fff;
-  --bearlab-badge-solid-info-bg: #0ba5ec;
-  --bearlab-badge-solid-info-color: #fff;
-  --bearlab-badge-solid-light-bg: color-mix(in oklab, #fff 5%, transparent);
-  --bearlab-badge-solid-light-color: color-mix(in oklab, #fff 80%, transparent);
-  --bearlab-badge-solid-dark-bg: #344054;
-  --bearlab-badge-solid-dark-color: #fff;
-}
-
 .container {
+  --_badge-container-gap: var(--bearlab-badge-container-gap, 0.25rem); /* 4px */
+  --_badge-container-padding: var(
+    --bearlab-badge-container-padding,
+    0.125rem 0.625rem
+  ); /* 2px 10px */
+  --_badge-container-border-radius: var(
+    --bearlab-badge-container-border-radius,
+    9999px
+  );
+  --_badge-container-font-weight: var(
+    --bearlab-badge-container-font-weight,
+    600
+  );
+  --_badge-start-icon-margin-right: var(
+    --bearlab-badge-start-icon-margin-right,
+    0.25rem
+  ); /* 4px */
+  --_badge-start-icon-width: var(
+    --bearlab-badge-start-icon-width,
+    0.75rem
+  ); /* 12px */
+  --_badge-end-icon-margin-left: var(
+    --bearlab-badge-end-icon-margin-left,
+    0.25rem
+  ); /* 4px */
+  --_badge-end-icon-width: var(
+    --bearlab-badge-end-icon-width,
+    0.75rem
+  ); /* 12px */
+  --_badge-small-font-size: var(
+    --bearlab-badge-small-font-size,
+    0.75rem
+  ); /* 12px */
+  --_badge-medium-font-size: var(
+    --bearlab-badge-medium-font-size,
+    0.875rem
+  ); /* 14px */
+
+  --_badge-light-primary-bg: var(--bearlab-badge-light-primary-bg, #ecf3ff);
+  --_badge-light-primary-color: var(
+    --bearlab-badge-light-primary-color,
+    #465fff
+  );
+  --_badge-light-bg-success: var(--bearlab-badge-light-bg-success, #ecfdf3);
+  --_badge-light-color-success: var(
+    --bearlab-badge-light-color-success,
+    #039855
+  );
+  --_badge-light-bg-error: var(--bearlab-badge-light-bg-error, #fef3f2);
+  --_badge-light-color-error: var(--bearlab-badge-light-color-error, #d92d20);
+  --_badge-light-bg-warning: var(--bearlab-badge-light-bg-warning, #fffaeb);
+  --_badge-light-color-warning: var(
+    --bearlab-badge-light-color-warning,
+    #d36803
+  );
+  --_badge-light-bg-info: var(--bearlab-badge-light-bg-info, #f0f9ff);
+  --_badge-light-color-info: var(--bearlab-badge-light-color-info, #0ba5ec);
+  --_badge-light-light-bg: var(--bearlab-badge-light-light-bg, #f2f4f7);
+  --_badge-light-light-color: var(--bearlab-badge-light-light-color, #344054);
+  --_badge-light-dark-bg: var(--bearlab-badge-light-dark-bg, #667085);
+  --_badge-light-dark-color: var(--bearlab-badge-light-dark-color, #fff);
+  --_badge-solid-primary-bg: var(--bearlab-badge-solid-primary-bg, #465fff);
+  --_badge-solid-primary-color: var(--bearlab-badge-solid-primary-color, #fff);
+  --_badge-solid-bg-success: var(--bearlab-badge-solid-bg-success, #12b76a);
+  --_badge-solid-color-success: var(--bearlab-badge-solid-color-success, #fff);
+  --_badge-solid-bg-error: var(--bearlab-badge-solid-bg-error, #f04438);
+  --_badge-solid-color-error: var(--bearlab-badge-solid-color-error, #fff);
+  --_badge-solid-bg-warning: var(--bearlab-badge-solid-bg-warning, #f79009);
+  --_badge-solid-color-warning: var(--bearlab-badge-solid-color-warning, #fff);
+  --_badge-solid-bg-info: var(--bearlab-badge-solid-bg-info, #0ba5ec);
+  --_badge-solid-color-info: var(--bearlab-badge-solid-color-info, #fff);
+  --_badge-solid-light-bg: var(--bearlab-badge-solid-light-bg, #98a2b3);
+  --_badge-solid-light-color: var(--bearlab-badge-solid-light-color, #fff);
+  --_badge-solid-dark-bg: var(--bearlab-badge-solid-dark-bg, #344054);
+  --_badge-solid-dark-color: var(--bearlab-badge-solid-dark-color, #fff);
+
+  :global([data-theme="dark"]) & {
+    --_badge-light-primary-bg: var(
+      --bearlab-badge-light-primary-bg,
+      color-mix(in oklab, #465fff 15%, transparent)
+    );
+    --_badge-light-primary-color: var(
+      --bearlab-badge-light-primary-color,
+      #7592ff
+    );
+    --_badge-light-bg-success: var(
+      --bearlab-badge-light-bg-success,
+      color-mix(in oklab, #12b76a 15%, transparent)
+    );
+    --_badge-light-color-success: var(
+      --bearlab-badge-light-color-success,
+      #12b76a
+    );
+    --_badge-light-bg-error: var(
+      --bearlab-badge-light-bg-error,
+      color-mix(in oklab, #f04438 15%, transparent)
+    );
+    --_badge-light-color-error: var(--bearlab-badge-light-color-error, #f04438);
+    --_badge-light-bg-warning: var(
+      --bearlab-badge-light-bg-warning,
+      color-mix(in oklab, #f79009 15%, transparent)
+    );
+    --_badge-light-color-warning: var(
+      --bearlab-badge-light-color-warning,
+      #fd853a
+    );
+    --_badge-light-bg-info: var(
+      --bearlab-badge-light-bg-info,
+      color-mix(in oklab, #0ba5ec 15%, transparent)
+    );
+    --_badge-light-light-bg: var(
+      --bearlab-badge-light-light-bg,
+      color-mix(in oklab, #fff 5%, transparent)
+    );
+    --_badge-light-light-color: var(
+      --bearlab-badge-light-light-color,
+      color-mix(in oklab, #fff 80%, transparent)
+    );
+    --_badge-light-dark-bg: var(
+      --bearlab-badge-light-dark-bg,
+      color-mix(in oklab, #fff 5%, transparent)
+    );
+    --_badge-solid-primary-color: var(
+      --bearlab-badge-solid-primary-color,
+      #fff
+    );
+    --_badge-solid-color-success: var(
+      --bearlab-badge-solid-color-success,
+      #fff
+    );
+    --_badge-solid-color-warning: var(
+      --bearlab-badge-solid-color-warning,
+      #fff
+    );
+    --_badge-solid-light-bg: var(
+      --bearlab-badge-solid-light-bg,
+      color-mix(in oklab, #fff 5%, transparent)
+    );
+    --_badge-solid-light-color: var(
+      --bearlab-badge-solid-light-color,
+      color-mix(in oklab, #fff 80%, transparent)
+    );
+  }
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--bearlab-badge-container-gap);
-  padding: var(--bearlab-badge-container-padding);
-  border-radius: var(--bearlab-badge-container-border-radius);
-  font-weight: var(--bearlab-badge-container-font-weight);
+  gap: var(--_badge-container-gap);
+  padding: var(--_badge-container-padding);
+  border-radius: var(--_badge-container-border-radius);
+  font-weight: var(--_badge-container-font-weight);
   width: fit-content;
 
   svg {
@@ -102,146 +158,146 @@
   }
 
   .startIcon {
-    margin-right: var(--bearlab-badge-start-icon-margin-right);
-    width: var(--bearlab-badge-start-icon-width);
+    margin-right: var(--_badge-start-icon-margin-right);
+    width: var(--_badge-start-icon-width);
   }
 
   .endIcon {
-    margin-left: var(--bearlab-badge-end-icon-margin-left);
-    width: var(--bearlab-badge-end-icon-width);
+    margin-left: var(--_badge-end-icon-margin-left);
+    width: var(--_badge-end-icon-width);
   }
 
   &.small {
-    font-size: var(--bearlab-badge-small-font-size);
+    font-size: var(--_badge-small-font-size);
   }
 
   &.medium {
-    font-size: var(--bearlab-badge-medium-font-size);
+    font-size: var(--_badge-medium-font-size);
   }
 
   &.lightPrimary {
-    background-color: var(--bearlab-badge-light-primary-bg);
-    color: var(--bearlab-badge-light-primary-color);
+    background-color: var(--_badge-light-primary-bg);
+    color: var(--_badge-light-primary-color);
 
     svg {
-      fill: var(--bearlab-badge-light-primary-color);
+      fill: var(--_badge-light-primary-color);
     }
   }
 
   &.lightSuccess {
-    background-color: var(--bearlab-badge-light-success-bg);
-    color: var(--bearlab-badge-light-success-color);
+    background-color: var(--_badge-light-bg-success);
+    color: var(--_badge-light-color-success);
 
     svg {
-      fill: var(--bearlab-badge-light-success-color);
+      fill: var(--_badge-light-color-success);
     }
   }
 
   &.lightError {
-    background-color: var(--bearlab-badge-light-error-bg);
-    color: var(--bearlab-badge-light-error-color);
+    background-color: var(--_badge-light-bg-error);
+    color: var(--_badge-light-color-error);
 
     svg {
-      fill: var(--bearlab-badge-light-error-color);
+      fill: var(--_badge-light-color-error);
     }
   }
 
   &.lightWarning {
-    background-color: var(--bearlab-badge-light-warning-bg);
-    color: var(--bearlab-badge-light-warning-color);
+    background-color: var(--_badge-light-bg-warning);
+    color: var(--_badge-light-color-warning);
 
     svg {
-      fill: var(--bearlab-badge-light-warning-color);
+      fill: var(--_badge-light-color-warning);
     }
   }
 
   &.lightInfo {
-    background-color: var(--bearlab-badge-light-info-bg);
-    color: var(--bearlab-badge-light-info-color);
+    background-color: var(--_badge-light-bg-info);
+    color: var(--_badge-light-color-info);
 
     svg {
-      fill: var(--bearlab-badge-light-info-color);
+      fill: var(--_badge-light-color-info);
     }
   }
 
   &.lightLight {
-    background-color: var(--bearlab-badge-light-light-bg);
-    color: var(--bearlab-badge-light-light-color);
+    background-color: var(--_badge-light-light-bg);
+    color: var(--_badge-light-light-color);
 
     svg {
-      fill: var(--bearlab-badge-light-light-color);
+      fill: var(--_badge-light-light-color);
     }
   }
 
   &.lightDark {
-    background-color: var(--bearlab-badge-light-dark-bg);
-    color: var(--bearlab-badge-light-dark-color);
+    background-color: var(--_badge-light-dark-bg);
+    color: var(--_badge-light-dark-color);
 
     svg {
-      fill: var(--bearlab-badge-light-dark-color);
+      fill: var(--_badge-light-dark-color);
     }
   }
 
   &.solidPrimary {
-    background-color: var(--bearlab-badge-solid-primary-bg);
-    color: var(--bearlab-badge-solid-primary-color);
+    background-color: var(--_badge-solid-primary-bg);
+    color: var(--_badge-solid-primary-color);
 
     svg {
-      fill: var(--bearlab-badge-solid-primary-color);
+      fill: var(--_badge-solid-primary-color);
     }
   }
 
   &.solidSuccess {
-    background-color: var(--bearlab-badge-solid-success-bg);
-    color: var(--bearlab-badge-solid-success-color);
+    background-color: var(--_badge-solid-bg-success);
+    color: var(--_badge-solid-color-success);
 
     svg {
-      fill: var(--bearlab-badge-solid-success-color);
+      fill: var(--_badge-solid-color-success);
     }
   }
 
   &.solidError {
-    background-color: var(--bearlab-badge-solid-error-bg);
-    color: var(--bearlab-badge-solid-error-color);
+    background-color: var(--_badge-solid-bg-error);
+    color: var(--_badge-solid-color-error);
 
     svg {
-      fill: var(--bearlab-badge-solid-error-color);
+      fill: var(--_badge-solid-color-error);
     }
   }
 
   &.solidWarning {
-    background-color: var(--bearlab-badge-solid-warning-bg);
-    color: var(--bearlab-badge-solid-warning-color);
+    background-color: var(--_badge-solid-bg-warning);
+    color: var(--_badge-solid-color-warning);
 
     svg {
-      fill: var(--bearlab-badge-solid-warning-color);
+      fill: var(--_badge-solid-color-warning);
     }
   }
 
   &.solidInfo {
-    background-color: var(--bearlab-badge-solid-info-bg);
-    color: var(--bearlab-badge-solid-info-color);
+    background-color: var(--_badge-solid-bg-info);
+    color: var(--_badge-solid-color-info);
 
     svg {
-      fill: var(--bearlab-badge-solid-info-color);
+      fill: var(--_badge-solid-color-info);
     }
   }
 
   &.solidLight {
-    background-color: var(--bearlab-badge-solid-light-bg);
-    color: var(--bearlab-badge-solid-light-color);
+    background-color: var(--_badge-solid-light-bg);
+    color: var(--_badge-solid-light-color);
 
     svg {
-      fill: var(--bearlab-badge-solid-light-color);
+      fill: var(--_badge-solid-light-color);
     }
   }
 
   &.solidDark {
-    background-color: var(--bearlab-badge-solid-dark-bg);
-    color: var(--bearlab-badge-solid-dark-color);
+    background-color: var(--_badge-solid-dark-bg);
+    color: var(--_badge-solid-dark-color);
 
     svg {
-      fill: var(--bearlab-badge-solid-dark-color);
+      fill: var(--_badge-solid-dark-color);
     }
   }
 }

@@ -49,6 +49,7 @@ export const Checkbox = (props: CheckboxProps) => {
           type="checkbox"
           checked={checked}
           disabled={disabled}
+          onChange={onChange}
           required={isRequired}
           aria-checked={checked}
           aria-disabled={disabled}
@@ -88,7 +89,7 @@ export const Checkbox = (props: CheckboxProps) => {
         <label
           htmlFor={id}
           style={style?.label}
-          className={classnames(styles.label, className?.label)}
+          className={classnames(styles.checkboxLabel, className?.label)}
         >
           {label}{" "}
           {isRequired && (

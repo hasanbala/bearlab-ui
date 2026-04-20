@@ -26,7 +26,7 @@
 
 ## Features
 
-- ✅ **Multiple semantic variants** — `primary`, `secondary`, `tertiary`, `liquid-holographic`, `liquid-tinted`
+- ✅ **Dynamic Variant & Color Architecture** — decouples variant (`solid`, `outline`) from color (`primary`, `success`) for infinite scalabilty
 - ✅ **Slot-based `className` & `style` API** — granular styling for root and popover layouts
 - ✅ **Accessible by default** — dynamic `aria-label`, `aria-describedby`, `aria-disabled`, `aria-busy`
 - ✅ **Flexible content types** — `justText`, `justIcon`, `iconWithText`
@@ -63,7 +63,8 @@ export default function App() {
     <>
       <Button
         buttonType="justText"
-        variant="primary"
+        variant="solid"
+        color="primary"
         label="Submit"
         onClick={() => console.log("Clicked!")}
       />
@@ -81,7 +82,8 @@ export default function App() {
         buttonType={"iconWithText"}
         iconType={{ default: "notify" }}
         onClick={() => console.log("Clicked")}
-        variant={"secondary"}
+        variant={"outline"}
+        color={"secondary"}
       />
       <Button
         label="Test 2"
@@ -116,7 +118,8 @@ export default function App() {
 | ----------------- | ------------------------------------------------- | ---------- | -------- | -------------------------------------------------- |
 | `label`           | `string \| number`                                | —          | ✅       | Text content or label of the button                |
 | `buttonType`      | `"iconWithText" \| "justIcon" \| "justText"`      | —          | ✅       | Determines the layout structure of the button      |
-| `variant`         | [`ButtonVariant`](#buttonvariant)                 | —          | ❌       | Visual styling variant of the button               |
+| `variant`         | [`ButtonVariant`](#buttonvariant)                 | `"solid"`  | ❌       | Visual styling variant of the button               |
+| `color`           | [`ButtonColor`](#buttoncolor)                     | `"primary"`| ❌       | Semantic color palette of the button               |
 | `htmlType`        | `"button" \| "submit"`                            | `"button"` | ❌       | Native HTML button type attribute                  |
 | `isLoading`       | `boolean`                                         | `false`    | ❌       | Displays a loading spinner and disables the button |
 | `disabled`        | `boolean`                                         | `false`    | ❌       | Disables the button completely                     |
@@ -128,18 +131,30 @@ export default function App() {
 
 ---
 
-## Variants
+## Variants & Colors
 
+The button uses a **decoupled architecture**, separating structural variants from semantic colors.
+
+### Core Variants
 | Variant              | Description                                  |
 | -------------------- | -------------------------------------------- |
-| `primary`            | Main call-to-action buttons                  |
-| `secondary`          | Alternative generic actions                  |
-| `tertiary`           | Subtle actions without prominent backgrounds |
+| `solid`              | Main call-to-action buttons (Default)        |
+| `outline`            | Alternative generic actions                  |
+| `ghost`              | Subtle actions without prominent backgrounds |
+| `light`              | Tinted background with colored text          |
 | `liquid-holographic` | High-impact, visually rich actions           |
-| `liquid-tinted`      | Subtle, tinted background variations         |
+| `liquid-tinted`      | Subtle, glassmorphism variations             |
+
+### Semantic Colors
+Available for all standard variants: `primary` (Default), `secondary`, `success`, `error`, `warning`, `info`, `dark`, `light`.
 
 ```tsx
-<Button buttonType="justText" variant="primary" label="Primary Action" />
+<Button buttonType="justText" variant="solid" color="primary" label="Primary Action" />
+<Button buttonType="justText" variant="outline" color="secondary" label="Secondary Action" />
+<Button buttonType="justText" variant="light" color="success" label="Success Action" />
+```tsx
+<Button buttonType="justText" variant="solid"
+        color="primary" label="Primary Action" />
 <Button buttonType="justText" variant="secondary" label="Secondary Action" />
 <Button buttonType="justText" variant="tertiary" label="Tertiary Action" />
 ```
@@ -274,11 +289,26 @@ type ButtonHtmlType = "button" | "submit";
 
 ```ts
 type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "tertiary"
+  | "solid"
+  | "outline"
+  | "ghost"
+  | "light"
   | "liquid-holographic"
   | "liquid-tinted";
+```
+
+### `ButtonColor`
+
+```ts
+type ButtonColor =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "error"
+  | "warning"
+  | "info"
+  | "dark"
+  | "light";
 ```
 
 ### `ButtonIconTypeValues`

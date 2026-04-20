@@ -1,42 +1,131 @@
-:root {
-  --bearlab-otp-form-subHeader-font-size: 0.875rem; /* 14px */
-  --bearlab-otp-form-subHeader-margin-bottom: 0.375rem; /* 6px */
-  --bearlab-otp-form-inputs-gap: 0.5rem; /* 8px */
-  --bearlab-otp-form-input-height: 2.75rem; /* 44px */
-  --bearlab-otp-form-input-font-size: 1.25rem; /* 20px */
-  --bearlab-otp-form-input-padding: 0.625rem 1rem; /* 10px 16px */
-  --bearlab-otp-form-input-font-weight: 600;
-}
-
-:root[data-theme="light"] {
-  --bearlab-otp-form-subHeader-color: #344054;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-otp-form-subHeader-color: #98a2b3;
-}
-
 .container {
+  --_otp-form-subHeader-font-size: var(
+    --bearlab-otp-form-subHeader-font-size,
+    0.875rem
+  ); /* 14px */
+  --_otp-form-subHeader-margin-bottom: var(
+    --bearlab-otp-form-subHeader-margin-bottom,
+    0.375rem
+  ); /* 6px */
+  --_otp-form-subHeader-color: var(--bearlab-otp-form-subHeader-color, #344054);
+  --_otp-form-inputs-gap: var(--bearlab-otp-form-inputs-gap, 0.5rem); /* 8px */
+
+  /* Input Variables */
+  --_otp-form-input-height: var(
+    --bearlab-otp-form-input-height,
+    2.75rem
+  ); /* 44px */
+  --_otp-form-input-font-size: var(
+    --bearlab-otp-form-input-font-size,
+    1.25rem
+  ); /* 20px */
+  --_otp-form-input-padding: var(
+    --bearlab-otp-form-input-padding,
+    0.625rem 1rem
+  ); /* 10px 16px */
+  --_otp-form-input-font-weight: var(--bearlab-otp-form-input-font-weight, 600);
+  --_otp-form-input-border-radius: var(
+    --bearlab-otp-form-input-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_otp-form-input-border-width: var(
+    --bearlab-otp-form-input-border-width,
+    0.125rem
+  ); /* 2px */
+  --_otp-form-input-border-color: var(
+    --bearlab-otp-form-input-border-color,
+    #e4e7ec
+  );
+  --_otp-form-input-border-color-focus: var(
+    --bearlab-otp-form-input-border-color-focus,
+    #465fff
+  );
+  --_otp-form-input-shadow: var(
+    --bearlab-otp-form-input-shadow,
+    0 0.0625rem 0.125rem 0 #1018280d
+  );
+  --_otp-form-input-shadow-focus: var(
+    --bearlab-otp-form-input-shadow-focus,
+    0 0 0 0.1875rem #465fff21
+  );
+  --_otp-form-input-background: var(
+    --bearlab-otp-form-input-background,
+    transparent
+  );
+  --_otp-form-input-color: var(--bearlab-otp-form-input-color, #1f2937);
+  --_otp-form-input-placeholder-color: var(
+    --bearlab-otp-form-input-placeholder-color,
+    #98a2b3
+  );
+
+  :global([data-theme="dark"]) & {
+    --_otp-form-subHeader-color: var(
+      --bearlab-otp-form-subHeader-color,
+      #98a2b3
+    );
+    --_otp-form-input-border-color: var(
+      --bearlab-otp-form-input-border-color,
+      #1d2939
+    );
+    --_otp-form-input-shadow: var(
+      --bearlab-otp-form-input-shadow,
+      0 0.0625rem 0.125rem 0 #1018280d
+    );
+    --_otp-form-input-color: var(--bearlab-otp-form-input-color, #ffffffe6);
+    --_otp-form-input-placeholder-color: var(
+      --bearlab-otp-form-input-placeholder-color,
+      #ffffff4d
+    );
+    --_otp-form-input-background: var(--bearlab-otp-form-input-background, #111827);
+  }
+
   .subHeader {
-    font-size: var(--bearlab-otp-form-subHeader-font-size);
-    margin-bottom: var(--bearlab-otp-form-subHeader-margin-bottom);
+    font-size: var(--_otp-form-subHeader-font-size);
+    margin-bottom: var(--_otp-form-subHeader-margin-bottom);
     text-align: start;
-    color: var(--bearlab-otp-form-subHeader-color);
+    color: var(--_otp-form-subHeader-color);
   }
 
   .inputs {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--bearlab-otp-form-inputs-gap);
+    gap: var(--_otp-form-inputs-gap);
 
     input {
-      height: var(--bearlab-otp-form-input-height);
+      height: var(--_otp-form-input-height);
       width: 100%;
-      font-size: var(--bearlab-otp-form-input-font-size);
-      padding: var(--bearlab-otp-form-input-padding);
-      font-weight: var(--bearlab-otp-form-input-font-weight);
+      font-size: var(--_otp-form-input-font-size);
+      padding: var(--_otp-form-input-padding);
+      font-weight: var(--_otp-form-input-font-weight);
       text-align: center;
+
+      /* Added styles to match Input component */
+      border-radius: var(--_otp-form-input-border-radius);
+      border: var(--_otp-form-input-border-width) solid var(--_otp-form-input-border-color);
+      background-color: var(--_otp-form-input-background);
+      color: var(--_otp-form-input-color);
+      box-shadow: var(--_otp-form-input-shadow);
+      appearance: none;
+      caret-color: var(--_otp-form-input-border-color-focus);
+      transition:
+        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:focus {
+        outline: none;
+        border-color: var(--_otp-form-input-border-color-focus);
+        box-shadow: var(--_otp-form-input-shadow-focus);
+      }
+
+      &::placeholder {
+        color: var(--_otp-form-input-placeholder-color);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
 }

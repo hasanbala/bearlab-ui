@@ -37,7 +37,7 @@ const THEME_CLASSES: Record<GrowlTheme, string> = {
 
 const getNotificationClass = (item: GrowlItem, leaving: boolean): string =>
   classnames(
-    styles.notification,
+    styles.growl,
     ANIM_CLASSES[item.animation ?? DEFAULT_ANIMATION],
     THEME_CLASSES[item.theme ?? DEFAULT_THEME],
     {

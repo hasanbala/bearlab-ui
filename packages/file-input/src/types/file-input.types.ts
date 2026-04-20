@@ -4,7 +4,7 @@ export interface FileInputClassNames {
   root?: string;
   label?: string;
   input?: string;
-  errorText?: string;
+  errorMessage?: string;
   helperText?: string;
 }
 
@@ -12,7 +12,7 @@ export interface FileInputStyles {
   root?: React.CSSProperties;
   label?: React.CSSProperties;
   input?: React.CSSProperties;
-  errorText?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
   helperText?: React.CSSProperties;
 }
 

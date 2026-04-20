@@ -1,136 +1,201 @@
-:root {
-  --bearlab-avatar-icon-xsmall-size: 1.5rem; /* 24px */
-  --bearlab-avatar-icon-small-size: 2rem; /* 32px */
-  --bearlab-avatar-icon-medium-size: 2.5rem; /* 40px */
-  --bearlab-avatar-icon-large-size: 3rem; /* 48px */
-  --bearlab-avatar-icon-xlarge-size: 3.5rem; /* 56px */
-  --bearlab-avatar-icon-xxlarge-size: 4rem; /* 64px */
-  --bearlab-avatar-icon-status-xsmall-size: 0.375rem; /* 6px  */
-  --bearlab-avatar-icon-status-small-size: 0.5rem; /* 8px  */
-  --bearlab-avatar-icon-status-medium-size: 0.625rem; /* 10px */
-  --bearlab-avatar-icon-status-large-size: 0.75rem; /* 12px */
-  --bearlab-avatar-icon-status-xlarge-size: 0.875rem; /* 14px */
-  --bearlab-avatar-icon-status-xxlarge-size: 1rem; /* 16px */
-  --bearlab-avatar-icon-status-border-width: 0.09375rem; /* 1.5px */
-  --bearlab-avatar-icon-border-radius: 9999px;
-  --bearlab-avatar-icon-status-border-radius: 9999px;
-}
-
-:root[data-theme="light"] {
-  --bearlab-avatar-icon-status-border-color: #fff;
-  --bearlab-avatar-icon-status-online-bg: #12b76a;
-  --bearlab-avatar-icon-status-offline-bg: #f97066;
-  --bearlab-avatar-icon-status-busy-bg: #f79009;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-avatar-icon-status-border-color: #111827;
-  --bearlab-avatar-icon-status-online-bg: #12b76a;
-  --bearlab-avatar-icon-status-offline-bg: #f97066;
-  --bearlab-avatar-icon-status-busy-bg: #f79009;
-}
-
 .container {
+  --_avatar-icon-xsmall-size: var(
+    --bearlab-avatar-icon-xsmall-size,
+    1.5rem
+  ); /* 24px */
+  --_avatar-icon-small-size: var(
+    --bearlab-avatar-icon-small-size,
+    2rem
+  ); /* 32px */
+  --_avatar-icon-medium-size: var(
+    --bearlab-avatar-icon-medium-size,
+    2.5rem
+  ); /* 40px */
+  --_avatar-icon-large-size: var(
+    --bearlab-avatar-icon-large-size,
+    3rem
+  ); /* 48px */
+  --_avatar-icon-xlarge-size: var(
+    --bearlab-avatar-icon-xlarge-size,
+    3.5rem
+  ); /* 56px */
+  --_avatar-icon-xxlarge-size: var(
+    --bearlab-avatar-icon-xxlarge-size,
+    4rem
+  ); /* 64px */
+  --_avatar-icon-status-xsmall-size: var(
+    --bearlab-avatar-icon-status-xsmall-size,
+    0.375rem
+  ); /* 6px  */
+  --_avatar-icon-status-small-size: var(
+    --bearlab-avatar-icon-status-small-size,
+    0.5rem
+  ); /* 8px  */
+  --_avatar-icon-status-medium-size: var(
+    --bearlab-avatar-icon-status-medium-size,
+    0.625rem
+  ); /* 10px */
+  --_avatar-icon-status-large-size: var(
+    --bearlab-avatar-icon-status-large-size,
+    0.75rem
+  ); /* 12px */
+  --_avatar-icon-status-xlarge-size: var(
+    --bearlab-avatar-icon-status-xlarge-size,
+    0.875rem
+  ); /* 14px */
+  --_avatar-icon-status-xxlarge-size: var(
+    --bearlab-avatar-icon-status-xxlarge-size,
+    1rem
+  ); /* 16px */
+  --_avatar-icon-status-border-width: var(
+    --bearlab-avatar-icon-status-border-width,
+    0.09375rem
+  ); /* 1.5px */
+  --_avatar-icon-border-radius: var(
+    --bearlab-avatar-icon-border-radius,
+    9999px
+  );
+  --_avatar-icon-status-border-radius: var(
+    --bearlab-avatar-icon-status-border-radius,
+    9999px
+  );
+
+  --_avatar-icon-status-border-color: var(
+    --bearlab-avatar-icon-status-border-color,
+    #fff
+  );
+  --_avatar-icon-status-bg-online: var(
+    --bearlab-avatar-icon-status-bg-online,
+    #12b76a
+  );
+  --_avatar-icon-status-bg-offline: var(
+    --bearlab-avatar-icon-status-bg-offline,
+    #f97066
+  );
+  --_avatar-icon-status-bg-busy: var(
+    --bearlab-avatar-icon-status-bg-busy,
+    #f79009
+  );
+
+  :global([data-theme="dark"]) & {
+    --_avatar-icon-status-border-color: var(
+      --bearlab-avatar-icon-status-border-color,
+      #111827
+    );
+    --_avatar-icon-status-bg-online: var(
+      --bearlab-avatar-icon-status-bg-online,
+      #12b76a
+    );
+    --_avatar-icon-status-bg-offline: var(
+      --bearlab-avatar-icon-status-bg-offline,
+      #f97066
+    );
+    --_avatar-icon-status-bg-busy: var(
+      --bearlab-avatar-icon-status-bg-busy,
+      #f79009
+    );
+  }
+
   position: relative;
-  border-radius: var(--bearlab-avatar-icon-border-radius);
+  border-radius: var(--_avatar-icon-border-radius);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--bearlab-avatar-icon-border-radius);
+    border-radius: var(--_avatar-icon-border-radius);
   }
 
   &.xsmall {
-    width: var(--bearlab-avatar-icon-xsmall-size);
-    height: var(--bearlab-avatar-icon-xsmall-size);
-    max-width: var(--bearlab-avatar-icon-xsmall-size);
+    width: var(--_avatar-icon-xsmall-size);
+    height: var(--_avatar-icon-xsmall-size);
+    max-width: var(--_avatar-icon-xsmall-size);
   }
 
   &.small {
-    width: var(--bearlab-avatar-icon-small-size);
-    height: var(--bearlab-avatar-icon-small-size);
-    max-width: var(--bearlab-avatar-icon-small-size);
+    width: var(--_avatar-icon-small-size);
+    height: var(--_avatar-icon-small-size);
+    max-width: var(--_avatar-icon-small-size);
   }
 
   &.medium {
-    width: var(--bearlab-avatar-icon-medium-size);
-    height: var(--bearlab-avatar-icon-medium-size);
-    max-width: var(--bearlab-avatar-icon-medium-size);
+    width: var(--_avatar-icon-medium-size);
+    height: var(--_avatar-icon-medium-size);
+    max-width: var(--_avatar-icon-medium-size);
   }
 
   &.large {
-    width: var(--bearlab-avatar-icon-large-size);
-    height: var(--bearlab-avatar-icon-large-size);
-    max-width: var(--bearlab-avatar-icon-large-size);
+    width: var(--_avatar-icon-large-size);
+    height: var(--_avatar-icon-large-size);
+    max-width: var(--_avatar-icon-large-size);
   }
 
   &.xlarge {
-    width: var(--bearlab-avatar-icon-xlarge-size);
-    height: var(--bearlab-avatar-icon-xlarge-size);
-    max-width: var(--bearlab-avatar-icon-xlarge-size);
+    width: var(--_avatar-icon-xlarge-size);
+    height: var(--_avatar-icon-xlarge-size);
+    max-width: var(--_avatar-icon-xlarge-size);
   }
 
   &.xxlarge {
-    width: var(--bearlab-avatar-icon-xxlarge-size);
-    height: var(--bearlab-avatar-icon-xxlarge-size);
-    max-width: var(--bearlab-avatar-icon-xxlarge-size);
+    width: var(--_avatar-icon-xxlarge-size);
+    height: var(--_avatar-icon-xxlarge-size);
+    max-width: var(--_avatar-icon-xxlarge-size);
   }
 
   .status {
     position: absolute;
     bottom: 0;
     right: 0;
-    border-radius: var(--bearlab-avatar-icon-status-border-radius);
-    border: var(--bearlab-avatar-icon-status-border-width) solid
-      var(--bearlab-avatar-icon-status-border-color);
+    border-radius: var(--_avatar-icon-status-border-radius);
+    border: var(--_avatar-icon-status-border-width) solid
+      var(--_avatar-icon-status-border-color);
 
     &.xsmall {
-      width: var(--bearlab-avatar-icon-status-xsmall-size);
-      height: var(--bearlab-avatar-icon-status-xsmall-size);
-      max-width: var(--bearlab-avatar-icon-status-xsmall-size);
+      width: var(--_avatar-icon-status-xsmall-size);
+      height: var(--_avatar-icon-status-xsmall-size);
+      max-width: var(--_avatar-icon-status-xsmall-size);
     }
 
     &.small {
-      width: var(--bearlab-avatar-icon-status-small-size);
-      height: var(--bearlab-avatar-icon-status-small-size);
-      max-width: var(--bearlab-avatar-icon-status-small-size);
+      width: var(--_avatar-icon-status-small-size);
+      height: var(--_avatar-icon-status-small-size);
+      max-width: var(--_avatar-icon-status-small-size);
     }
 
     &.medium {
-      width: var(--bearlab-avatar-icon-status-medium-size);
-      height: var(--bearlab-avatar-icon-status-medium-size);
-      max-width: var(--bearlab-avatar-icon-status-medium-size);
+      width: var(--_avatar-icon-status-medium-size);
+      height: var(--_avatar-icon-status-medium-size);
+      max-width: var(--_avatar-icon-status-medium-size);
     }
 
     &.large {
-      width: var(--bearlab-avatar-icon-status-large-size);
-      height: var(--bearlab-avatar-icon-status-large-size);
-      max-width: var(--bearlab-avatar-icon-status-large-size);
+      width: var(--_avatar-icon-status-large-size);
+      height: var(--_avatar-icon-status-large-size);
+      max-width: var(--_avatar-icon-status-large-size);
     }
 
     &.xlarge {
-      width: var(--bearlab-avatar-icon-status-xlarge-size);
-      height: var(--bearlab-avatar-icon-status-xlarge-size);
-      max-width: var(--bearlab-avatar-icon-status-xlarge-size);
+      width: var(--_avatar-icon-status-xlarge-size);
+      height: var(--_avatar-icon-status-xlarge-size);
+      max-width: var(--_avatar-icon-status-xlarge-size);
     }
 
     &.xxlarge {
-      width: var(--bearlab-avatar-icon-status-xxlarge-size);
-      height: var(--bearlab-avatar-icon-status-xxlarge-size);
-      max-width: var(--bearlab-avatar-icon-status-xxlarge-size);
+      width: var(--_avatar-icon-status-xxlarge-size);
+      height: var(--_avatar-icon-status-xxlarge-size);
+      max-width: var(--_avatar-icon-status-xxlarge-size);
     }
 
     &.online {
-      background-color: var(--bearlab-avatar-icon-status-online-bg);
+      background-color: var(--_avatar-icon-status-bg-online);
     }
 
     &.offline {
-      background-color: var(--bearlab-avatar-icon-status-offline-bg);
+      background-color: var(--_avatar-icon-status-bg-offline);
     }
 
     &.busy {
-      background-color: var(--bearlab-avatar-icon-status-busy-bg);
+      background-color: var(--_avatar-icon-status-bg-busy);
     }
   }
 }

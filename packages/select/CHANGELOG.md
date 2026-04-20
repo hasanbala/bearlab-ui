@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/select@1.1.0...@bearlab/select@1.2.0) (2026-04-16)
+
+### ⚠ BREAKING CHANGES
+
+- **Removed required props:** `query`, `setQuery`, `debouncedValue`, `setOptions`, `selectedItems`, `setSelectedItems` — all search state is now managed internally.
+- **`isLoading`** is now optional (defaults to `false`).
+- **`mode`** default changed from `"multiple"` to `"single"`.
+- **`onChange` signature** now uses a discriminated union:
+  - Single mode: `(value: T | null) => void`
+  - Multiple mode: `(value: T[]) => void`
+
+### Features
+
+- **`searchable` prop** — opt-in search input (`false` for single, `true` for multiple by default).
+- **Flexible `value` prop** — accepts `T`, `T[]`, `string`, `number`, or `null`. Primitives auto-resolve against the `options` array.
+- **Local filtering** — when `searchable` is enabled without `onSearch`, options are filtered locally.
+- **`showCheckbox` / `highlightMatch` smart defaults** — derive from `mode` automatically.
+
+### Bug Fixes
+
+- Fixed `updateSelected` (undefined function call) in keyboard Backspace handler.
+
+
+
+
+
 ## [1.0.11](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/select@1.0.10...@bearlab/select@1.0.11) (2025-09-17)
 
 **Note:** Version bump only for package @bearlab/select

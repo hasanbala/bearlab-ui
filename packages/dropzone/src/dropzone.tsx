@@ -58,9 +58,8 @@ export const Dropzone = (props: DropzoneProps) => {
           style={style?.icon}
           aria-hidden="true"
         >
-          <IconUpload />
+          <IconUpload height={24} width={24} />
         </div>
-
         <div className={styles.description}>
           <p
             className={classnames(styles.title, className?.title)}
@@ -68,14 +67,12 @@ export const Dropzone = (props: DropzoneProps) => {
           >
             {title}
           </p>
-
           <p
             className={classnames(styles.subtitle, className?.subtitle)}
             style={style?.subtitle}
           >
             {subTitle}
           </p>
-
           <span
             className={classnames(styles.browse, className?.browse)}
             style={style?.browse}
@@ -91,7 +88,7 @@ export const Dropzone = (props: DropzoneProps) => {
           accept={accept}
           disabled={isLoading}
           onChange={handleInputChange}
-          aria-hidden="true"
+          onClick={(e) => e.stopPropagation()}
           tabIndex={-1}
           className={classnames(styles.input, className?.input)}
           style={style?.input}

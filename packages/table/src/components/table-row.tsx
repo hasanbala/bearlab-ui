@@ -1,7 +1,8 @@
-import type { KeyboardEvent } from "react";
+import React from "react";
 import type { TableRowProps } from "../types/table.types";
+import type { KeyboardEvent } from "react";
 
-export const TableRow = (props: TableRowProps) => {
+export const TableRow = React.memo((props: TableRowProps) => {
   const {
     children,
     className,
@@ -31,4 +32,6 @@ export const TableRow = (props: TableRowProps) => {
       {children}
     </tr>
   );
-};
+});
+
+TableRow.displayName = "TableRow";

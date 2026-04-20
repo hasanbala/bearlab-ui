@@ -192,11 +192,13 @@ export const useCarousel = ({
     if (containerWidthOverride !== undefined) return;
     const el = rootRef.current;
     if (!el) return;
-    setMeasuredWidth(el.getBoundingClientRect().width);
+    setMeasuredWidth(
+      Math.min(window.innerWidth, el.getBoundingClientRect().width)
+    );
 
     const ro = new ResizeObserver(([entry]) => {
       setIsResizing(true);
-      setMeasuredWidth(entry.contentRect.width);
+      setMeasuredWidth(Math.min(window.innerWidth, entry.contentRect.width));
 
       if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
       resizeTimerRef.current = setTimeout(() => {

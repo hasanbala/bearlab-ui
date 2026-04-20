@@ -129,8 +129,8 @@ export const Button = (props: ButtonProps) => {
         isJustIcon && styles.justIcon,
         isBothIconText && styles.iconWithText,
         isCustomIcon && styles.customIcon,
-        isLoading && styles.loadingButton,
-        disabled && styles.disabledButton,
+        isLoading && styles.loading,
+        disabled && styles.disabled,
         variant && styles[variant],
         reverseIconText && styles.reverseIconText,
         className?.root

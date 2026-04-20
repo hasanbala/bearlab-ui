@@ -117,38 +117,38 @@ export default function App() {
 
 ## Props
 
-| Prop              | Type                            | Default     | Required | Description                                                        |
-| ----------------- | ------------------------------- | ----------- | -------- | ------------------------------------------------------------------ |
-| `format`          | `TagFormat`                     | —           | ✅       | Validation mode: `"domain"`, `"email"`, or `"custom"`              |
-| `value`           | `TagItem[]`                     | —           | ✅       | Controlled list of tag items                                       |
-| `inputValue`      | `string`                        | —           | ✅       | Controlled value of the text input                                 |
-| `onChange`        | `(items: TagItem[]) => void`    | —           | ✅       | Fires when the tag list changes                                    |
-| `onInputChange`   | `(value: string) => void`       | —           | ✅       | Fires on every keystroke inside the text input                     |
-| `label`           | `string`                        | —           | ❌       | Visible label for the field                                        |
-| `placeholder`     | `string`                        | auto        | ❌       | Input placeholder; auto-generated from `format` if omitted         |
-| `helperText`      | `string`                        | —           | ❌       | Descriptive helper text rendered below the input                   |
-| `error`           | `boolean \| string`             | —           | ❌       | Error state; pass a string to display an error message             |
-| `disabled`        | `boolean`                       | `false`     | ❌       | Disables all interactions                                          |
-| `isRequired`      | `boolean`                       | `false`     | ❌       | Marks the field as required (`aria-required`)                      |
-| `maxItems`        | `number`                        | —           | ❌       | Maximum number of allowed tags; shows a live counter when set      |
-| `allowDuplicates` | `boolean`                       | `false`     | ❌       | When `true`, duplicate values are permitted                        |
-| `formatLabel`     | `string`                        | —           | ❌       | Custom label for the item type when `format="custom"`              |
-| `validate`        | `(value: string) => boolean`    | —           | ❌       | Custom validation function used when `format="custom"`             |
-| `onAdd`           | `(item: TagItem) => void`       | —           | ❌       | Fires when a tag is successfully added                             |
-| `onRemove`        | `(item: TagItem) => void`       | —           | ❌       | Fires when a tag is removed                                        |
-| `onError`         | `(value: string) => void`       | —           | ❌       | Fires when a value fails validation                                |
-| `className`       | [`TagInputClassNames`](#tagInputclassnames) | — | ❌    | Per-slot className overrides                                       |
-| `style`           | [`TagInputStyles`](#taginputstyles) | —      | ❌       | Per-slot inline style overrides                                    |
+| Prop              | Type                                        | Default | Required | Description                                                   |
+| ----------------- | ------------------------------------------- | ------- | -------- | ------------------------------------------------------------- |
+| `format`          | `TagFormat`                                 | —       | ✅       | Validation mode: `"domain"`, `"email"`, or `"custom"`         |
+| `value`           | `TagItem[]`                                 | —       | ✅       | Controlled list of tag items                                  |
+| `inputValue`      | `string`                                    | —       | ✅       | Controlled value of the text input                            |
+| `onChange`        | `(items: TagItem[]) => void`                | —       | ✅       | Fires when the tag list changes                               |
+| `onInputChange`   | `(value: string) => void`                   | —       | ✅       | Fires on every keystroke inside the text input                |
+| `label`           | `string`                                    | —       | ❌       | Visible label for the field                                   |
+| `placeholder`     | `string`                                    | auto    | ❌       | Input placeholder; auto-generated from `format` if omitted    |
+| `helperText`      | `string`                                    | —       | ❌       | Descriptive helper text rendered below the input              |
+| `error`           | `boolean \| string`                         | —       | ❌       | Error state; pass a string to display an error message        |
+| `disabled`        | `boolean`                                   | `false` | ❌       | Disables all interactions                                     |
+| `isRequired`      | `boolean`                                   | `false` | ❌       | Marks the field as required (`aria-required`)                 |
+| `maxItems`        | `number`                                    | —       | ❌       | Maximum number of allowed tags; shows a live counter when set |
+| `allowDuplicates` | `boolean`                                   | `false` | ❌       | When `true`, duplicate values are permitted                   |
+| `formatLabel`     | `string`                                    | —       | ❌       | Custom label for the item type when `format="custom"`         |
+| `validate`        | `(value: string) => boolean`                | —       | ❌       | Custom validation function used when `format="custom"`        |
+| `onAdd`           | `(item: TagItem) => void`                   | —       | ❌       | Fires when a tag is successfully added                        |
+| `onRemove`        | `(item: TagItem) => void`                   | —       | ❌       | Fires when a tag is removed                                   |
+| `onError`         | `(value: string) => void`                   | —       | ❌       | Fires when a value fails validation                           |
+| `className`       | [`TagInputClassNames`](#tagInputclassnames) | —       | ❌       | Per-slot className overrides                                  |
+| `style`           | [`TagInputStyles`](#taginputstyles)         | —       | ❌       | Per-slot inline style overrides                               |
 
 ---
 
 ## Tag Formats
 
-| Format     | Built-in validation                     | `formatLabel` default |
-| ---------- | --------------------------------------- | --------------------- |
-| `email`    | RFC-compliant email address             | `"email address"`     |
-| `domain`   | Valid domain name (e.g. `example.com`)  | `"domain"`            |
-| `custom`   | Requires a `validate` function          | `"item"`              |
+| Format   | Built-in validation                    | `formatLabel` default |
+| -------- | -------------------------------------- | --------------------- |
+| `email`  | RFC-compliant email address            | `"email address"`     |
+| `domain` | Valid domain name (e.g. `example.com`) | `"domain"`            |
+| `custom` | Requires a `validate` function         | `"item"`              |
 
 Each submitted tag receives a `status` of `"valid"` or `"invalid"`, rendered with distinct visual states.
 
@@ -168,17 +168,17 @@ For example, you can target the root container via `className?.root` or style th
 
 ### `TagInputClassNames`
 
-| Slot          | Targets                                      |
-| ------------- | -------------------------------------------- |
-| `root`        | Outermost container `<div>`                  |
-| `list`        | Tag list + input field wrapper `<div>`       |
-| `input`       | The text `<input>` element                   |
-| `tag`         | Individual tag chip `<span>`                 |
-| `tagValid`    | Valid tag chip modifier                      |
-| `tagInvalid`  | Invalid tag chip modifier                    |
-| `tagLabel`    | Tag label text `<span>`                      |
-| `tagRemove`   | Tag remove button `<button>`                 |
-| `helperText`  | Helper/error text `<div>`                    |
+| Slot         | Targets                                |
+| ------------ | -------------------------------------- |
+| `root`       | Outermost container `<div>`            |
+| `list`       | Tag list + input field wrapper `<div>` |
+| `input`      | The text `<input>` element             |
+| `tag`        | Individual tag chip `<span>`           |
+| `tagValid`   | Valid tag chip modifier                |
+| `tagInvalid` | Invalid tag chip modifier              |
+| `tagLabel`   | Tag label text `<span>`                |
+| `tagRemove`  | Tag remove button `<button>`           |
+| `helperText` | Helper/error text `<div>`              |
 
 ```tsx
 <TagInput
@@ -226,7 +226,9 @@ The `TagInput` component features a robust theme architecture. It is fully compa
 
 ```html
 <!-- Apply to <html> or any parent element -->
-<html data-theme="dark">...</html>
+<html data-theme="dark">
+  ...
+</html>
 ```
 
 ---
@@ -272,7 +274,7 @@ This component demonstrates **best-practice** accessibility, fully adhering to *
 - **`aria-describedby`** — links the input and group to the helper/error text element using a stable, auto-generated ID (`useId()`).
 - **`aria-live="assertive"`** on the error container — immediately announces validation errors to screen reader users without delay.
 - **`aria-live="polite"`** on the helper text and item counter — announces non-critical updates without interrupting the user.
-- **`role="status"` + `aria-live="assertive"` + `aria-atomic="true"`** — a visually hidden live region announces tag additions and removals to assistive technologies (e.g. *"example.com added"*, *"example.com removed"*).
+- **`role="status"` + `aria-live="assertive"` + `aria-atomic="true"`** — a visually hidden live region announces tag additions and removals to assistive technologies (e.g. _"example.com added"_, _"example.com removed"_).
 - **`aria-hidden="true"`** — applied to decorative icons (e.g. the error triangle) to prevent redundant announcements.
 - **Keyboard interactions:**
   - **`Enter` / `Tab`** — commits the current input value as a new tag.
@@ -332,6 +334,7 @@ interface TagInputClassNames {
   tagLabel?: string;
   tagRemove?: string;
   helperText?: string;
+  label?: string;
 }
 ```
 
@@ -348,6 +351,7 @@ interface TagInputStyles {
   tagLabel?: React.CSSProperties;
   tagRemove?: React.CSSProperties;
   helperText?: React.CSSProperties;
+  label?: React.CSSProperties;
 }
 ```
 

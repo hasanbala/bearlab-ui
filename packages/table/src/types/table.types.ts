@@ -19,6 +19,10 @@ export interface TableClassNames {
   ellipsis?: string;
   pageSizeSelector?: string;
   recordInfo?: string;
+  emptyState?: string;
+  emptyIcon?: string;
+  emptyTitle?: string;
+  emptyDescription?: string;
 }
 
 export interface TableStyles {
@@ -42,6 +46,10 @@ export interface TableStyles {
   ellipsis?: React.CSSProperties;
   pageSizeSelector?: React.CSSProperties;
   recordInfo?: React.CSSProperties;
+  emptyState?: React.CSSProperties;
+  emptyIcon?: React.CSSProperties;
+  emptyTitle?: React.CSSProperties;
+  emptyDescription?: React.CSSProperties;
 }
 
 export type SortDirection = "asc" | "desc" | "none";
@@ -69,6 +77,15 @@ export interface TablePagination {
   showPageNumbers?: boolean;
 }
 
+export interface SelectionColumn {
+  title: React.ReactNode | null;
+  key: string;
+  dataIndex: string;
+  render: (_: any, record: Record<string, any>) => React.ReactNode;
+}
+
+export type FinalColumn = SelectionColumn | TableColumn;
+
 export interface TableProps {
   title?: string;
   dataSource: Record<string, any>[];
@@ -87,13 +104,20 @@ export interface TableProps {
   pageSizePlaceholder?: string;
   maxVisiblePages?: number;
   onTableChange?: (
-    setInitialPage: React.Dispatch<React.SetStateAction<number>>,
     page: number,
     pageSize: number,
     isPageSize?: boolean
   ) => void;
   "aria-label"?: string;
   "aria-describedby"?: string;
+  emptyTitle?: string;
+  emptyDescription?: string;
+  renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
+  renderTotalInfo?: (
+    from: number,
+    to: number,
+    total: number
+  ) => React.ReactNode;
 }
 
 export interface MainTableProps {
@@ -116,6 +140,8 @@ export interface TableCellProps {
   className?: string;
   style?: React.CSSProperties;
   "aria-sort"?: "ascending" | "descending" | "none" | "other";
+  colSpan?: number;
+  rowSpan?: number;
 }
 
 export interface TableHeaderProps {
@@ -141,11 +167,80 @@ export interface UseTable {
 
 export interface UseTableReturn {
   selectAll: boolean;
-  searchValue: string;
   initialPage: number;
   selectedRowKeys: string[];
   filteredData: Record<string, any>[];
   setInitialPage: React.Dispatch<React.SetStateAction<number>>;
   handleSelectAll: (checked: boolean) => void;
   handleRowSelect: (record: Record<string, any>) => void;
+}
+
+export interface TableEmptyProps {
+  title?: string;
+  description?: string;
+  className?: {
+    root?: string;
+    content?: string;
+    title?: string;
+    description?: string;
+    icon?: string;
+  };
+  style?: {
+    root?: React.CSSProperties;
+    content?: React.CSSProperties;
+    title?: React.CSSProperties;
+    description?: React.CSSProperties;
+    icon?: React.CSSProperties;
+  };
+}
+
+export interface PaginationNumberProps {
+  className?: TableClassNames;
+  page: number | string;
+  idx: number;
+  initialPage: number;
+  goToPage: (page: number) => void;
+  disabled?: boolean;
+}
+
+export interface TableRecordProps {
+  record: Record<string, any>;
+  index: number;
+  selectedRowKeys: string[];
+  onRowClick?: (record: Record<string, any>) => void;
+  disabled?: boolean;
+  rowSelection?: RowSelection;
+  finalColumns: (FinalColumn | null)[];
+  cnBodyRow?: string;
+  cnBodyCell?: string;
+  style?: React.CSSProperties;
+  handleRowClick: (record: Record<string, any>) => void;
+  indexOfFirstItem: number;
+}
+
+export interface RecordCellProps {
+  record: Record<string, any>;
+  column: TableColumn;
+  cnBodyCell?: string;
+  style?: React.CSSProperties;
+}
+
+export interface TablePaginationComponentProps {
+  paginationId: string;
+  totalPages: number;
+  initialPage: number;
+  maxPages: number;
+  isMobile: boolean;
+  mobileMinimize: boolean;
+  disabled?: boolean;
+  showPageNumbers: boolean;
+  showPageSizeSelector?: boolean;
+  pageSize: number;
+  pageSizeOptions: number[];
+  pageSizePlaceholder?: string;
+  goToPage: (page: number) => void;
+  onPageChange: (page: number, isPageSize?: boolean) => void;
+  renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
+  className?: TableClassNames;
+  style?: TableStyles;
 }

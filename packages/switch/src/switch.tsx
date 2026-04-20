@@ -95,7 +95,7 @@ export const Switch = (props: SwitchProps) => {
       </div>
       {label && (
         <span
-          className={classnames(styles.label, className?.label)}
+          className={classnames(styles.switchLabel, className?.label)}
           style={style?.label}
         >
           {label}

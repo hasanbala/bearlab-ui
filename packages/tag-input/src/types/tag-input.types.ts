@@ -18,6 +18,8 @@ export interface TagInputClassNames {
   tagRemove?: string;
   tagInvalid?: string;
   helperText?: string;
+  errorMessage?: string;
+  label?: string;
 }
 
 export interface TagInputStyles {
@@ -30,6 +32,8 @@ export interface TagInputStyles {
   root?: React.CSSProperties;
   tagInvalid?: React.CSSProperties;
   helperText?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
+  label?: React.CSSProperties;
 }
 
 export interface TagInputProps {

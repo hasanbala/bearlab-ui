@@ -1,13 +1,19 @@
 export { QuerySelect } from "./query-select";
 export type {
+  SelectMode,
+  SelectionDisplay,
+  QuerySelectOption,
+  QuerySelectProps,
+  SingleQuerySelectProps,
+  MultipleQuerySelectProps,
   QuerySelectOptionProps,
   QuerySelectOptionsPortalProps,
   QuerySelectOptionsProps,
-  QuerySelectProps,
   QuerySelectSearchProps,
-  QuerySelectSelectedItemsProps,
-  QuerySelectSelectedItemProps,
-  QuerySelectOption,
+  QuerySelectSelectionCardItemsProps,
+  QuerySelectSelectionCardItemProps,
+  QuerySelectSelectionInlineItemProps,
+  QuerySelectSelectionInlineItemsProps,
   QuerySelectClassNames,
   QuerySelectStyles,
 } from "./types/query-select.types";

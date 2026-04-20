@@ -1,6 +1,7 @@
+import React from "react";
 import type { TableCellProps } from "../types/table.types";
 
-export const TableCell = (props: TableCellProps) => {
+export const TableCell = React.memo((props: TableCellProps) => {
   const {
     children,
     isHeader = false,
@@ -8,6 +9,8 @@ export const TableCell = (props: TableCellProps) => {
     className,
     style,
     "aria-sort": ariaSort,
+    colSpan,
+    rowSpan,
   } = props;
 
   if (isHeader) {
@@ -17,6 +20,8 @@ export const TableCell = (props: TableCellProps) => {
         className={className}
         style={style}
         aria-sort={ariaSort}
+        colSpan={colSpan}
+        rowSpan={rowSpan}
       >
         {children}
       </th>
@@ -24,8 +29,15 @@ export const TableCell = (props: TableCellProps) => {
   }
 
   return (
-    <td className={className} style={style}>
+    <td
+      className={className}
+      style={style}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+    >
       {children}
     </td>
   );
-};
+});
+
+TableCell.displayName = "TableCell";

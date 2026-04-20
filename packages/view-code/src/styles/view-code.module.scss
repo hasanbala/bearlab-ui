@@ -1,100 +1,306 @@
-:root {
-  --bearlab-code-block-container-radius: 1rem; /* 16px */
-  --bearlab-code-block-container-border-width: 0.0625rem; /* 1px */
-  --bearlab-code-block-gutter-width: 3rem; /* 48px */
-  --bearlab-code-block-header-padding-y: 0.625rem; /* 10px */
-  --bearlab-code-block-header-padding-x: 1rem; /* 16px */
-  --bearlab-code-block-header-gap: 0.5rem; /* 8px */
-  --bearlab-code-block-header-min-height: 2.5rem; /* 40px */
-  --bearlab-code-block-header-left-gap: 0.625rem; /* 10px */
-  --bearlab-code-block-badge-padding-y: 0.1875rem; /* 3px */
-  --bearlab-code-block-badge-padding-x: 0.5625rem; /* 9px */
-  --bearlab-code-block-badge-radius: 0.375rem; /* 6px */
-  --bearlab-code-block-badge-font-size: 0.6875rem; /* 11px */
-  --bearlab-code-block-badge-gap: 0.3125rem; /* 5px */
-  --bearlab-code-block-filename-font-size: 0.75rem; /* 12px */
-  --bearlab-code-block-copy-btn-padding-y: 0.25rem; /* 4px */
-  --bearlab-code-block-copy-btn-padding-x: 0.625rem; /* 10px */
-  --bearlab-code-block-copy-btn-radius: 0.375rem; /* 6px */
-  --bearlab-code-block-copy-btn-font-size: 0.6875rem; /* 11px */
-  --bearlab-code-block-copy-btn-gap: 0.3125rem; /* 5px */
-  --bearlab-code-block-scrollbar-height: 0.375rem; /* 6px */
-  --bearlab-code-block-scrollbar-radius: 0.1875rem; /* 3px */
-  --bearlab-code-block-gutter-padding-y: 0.625rem; /* 10px */
-  --bearlab-code-block-gutter-padding-x-start: 1rem; /* 16px */
-  --bearlab-code-block-gutter-padding-x-end: 0.875rem; /* 14px */
-  --bearlab-code-block-line-number-font-size: 0.875rem; /* 14px */
-  --bearlab-code-block-line-number-line-height: 1.25rem; /* 20px */
-  --bearlab-code-block-pre-padding-y: 0.625rem; /* 10px */
-  --bearlab-code-block-pre-padding-x: 1.5rem; /* 24px */
-  --bearlab-code-block-code-font-size: 0.875rem; /* 14px */
-  --bearlab-code-block-code-line-height: 1.25rem; /* 20px */
-  --bearlab-code-block-code-tab-size: 2;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-code-block-container-bg: #282c34;
-  --bearlab-code-block-container-border-color: #1d2939;
-  --bearlab-code-block-header-bg: #21252b;
-  --bearlab-code-block-header-border-color: #181a1f;
-  --bearlab-code-block-gutter-bg: #282c34;
-  --bearlab-code-block-gutter-border-color: #181a1f;
-  --bearlab-code-block-text-color: #abb2bf;
-  --bearlab-code-block-gutter-text-color: #495162;
-  --bearlab-code-block-tok-keyword-color: #c678dd;
-  --bearlab-code-block-tok-string-color: #98c379;
-  --bearlab-code-block-tok-comment-color: #5c6370;
-  --bearlab-code-block-tok-number-color: #d19a66;
-  --bearlab-code-block-tok-function-color: #61afef;
-  --bearlab-code-block-tok-type-color: #e5c07b;
-  --bearlab-code-block-tok-property-color: #e06c75;
-  --bearlab-code-block-tok-operator-color: #56b6c2;
-  --bearlab-code-block-tok-decorator-color: #61afef;
-  --bearlab-code-block-badge-bg: #2c313a;
-  --bearlab-code-block-badge-text-color: #abb2bf;
-  --bearlab-code-block-copy-btn-bg: #2c313a;
-  --bearlab-code-block-copy-btn-text-color: #8f8f8f;
-  --bearlab-code-block-copy-btn-hover-bg: #2c313a;
-  --bearlab-code-block-copy-btn-hover-text-color: #d9d9d9;
-  --bearlab-code-block-copy-btn-ok-text-color: #98c379;
-  --bearlab-code-block-filename-text-color: #636d83;
-  --bearlab-code-block-scrollbar-color: #3e4451;
-}
-
-:root[data-theme="light"] {
-  --bearlab-code-block-container-bg: #fafafa;
-  --bearlab-code-block-container-border-color: #e0e0e0;
-  --bearlab-code-block-header-bg: #f0f0f0;
-  --bearlab-code-block-header-border-color: #e0e0e0;
-  --bearlab-code-block-gutter-bg: #f5f5f5;
-  --bearlab-code-block-gutter-border-color: #e0e0e0;
-  --bearlab-code-block-text-color: #383a42;
-  --bearlab-code-block-gutter-text-color: #9d9d9f;
-  --bearlab-code-block-tok-keyword-color: #a626a4;
-  --bearlab-code-block-tok-string-color: #50a14f;
-  --bearlab-code-block-tok-comment-color: #a0a1a7;
-  --bearlab-code-block-tok-number-color: #986801;
-  --bearlab-code-block-tok-function-color: #4078f2;
-  --bearlab-code-block-tok-type-color: #c18401;
-  --bearlab-code-block-tok-property-color: #e45649;
-  --bearlab-code-block-tok-operator-color: #0184bc;
-  --bearlab-code-block-tok-decorator-color: #4078f2;
-  --bearlab-code-block-badge-bg: #e8e8e8;
-  --bearlab-code-block-badge-text-color: #383a42;
-  --bearlab-code-block-copy-btn-bg: #e8e8e8;
-  --bearlab-code-block-copy-btn-text-color: #696969;
-  --bearlab-code-block-copy-btn-hover-bg: #dcdcdc;
-  --bearlab-code-block-copy-btn-hover-text-color: #222222;
-  --bearlab-code-block-copy-btn-ok-text-color: #50a14f;
-  --bearlab-code-block-filename-text-color: #696c77;
-  --bearlab-code-block-scrollbar-color: #c0c0c0;
-}
-
 .container {
-  border-radius: var(--bearlab-code-block-container-radius);
-  border: var(--bearlab-code-block-container-border-width) solid
-    var(--bearlab-code-block-container-border-color);
-  background-color: var(--bearlab-code-block-container-bg);
+  --_code-block-container-radius: var(
+    --bearlab-code-block-container-radius,
+    1rem
+  ); /* 16px */
+  --_code-block-container-border-width: var(
+    --bearlab-code-block-container-border-width,
+    0.0625rem
+  ); /* 1px */
+  --_code-block-gutter-width: var(
+    --bearlab-code-block-gutter-width,
+    3rem
+  ); /* 48px */
+  --_code-block-header-padding-y: var(
+    --bearlab-code-block-header-padding-y,
+    0.625rem
+  ); /* 10px */
+  --_code-block-header-padding-x: var(
+    --bearlab-code-block-header-padding-x,
+    1rem
+  ); /* 16px */
+  --_code-block-header-gap: var(
+    --bearlab-code-block-header-gap,
+    0.5rem
+  ); /* 8px */
+  --_code-block-header-min-height: var(
+    --bearlab-code-block-header-min-height,
+    2.5rem
+  ); /* 40px */
+  --_code-block-header-left-gap: var(
+    --bearlab-code-block-header-left-gap,
+    0.625rem
+  ); /* 10px */
+  --_code-block-badge-padding-y: var(
+    --bearlab-code-block-badge-padding-y,
+    0.1875rem
+  ); /* 3px */
+  --_code-block-badge-padding-x: var(
+    --bearlab-code-block-badge-padding-x,
+    0.5625rem
+  ); /* 9px */
+  --_code-block-badge-radius: var(
+    --bearlab-code-block-badge-radius,
+    0.375rem
+  ); /* 6px */
+  --_code-block-badge-font-size: var(
+    --bearlab-code-block-badge-font-size,
+    0.6875rem
+  ); /* 11px */
+  --_code-block-badge-gap: var(
+    --bearlab-code-block-badge-gap,
+    0.3125rem
+  ); /* 5px */
+  --_code-block-filename-font-size: var(
+    --bearlab-code-block-filename-font-size,
+    0.75rem
+  ); /* 12px */
+  --_code-block-copy-btn-padding-y: var(
+    --bearlab-code-block-copy-btn-padding-y,
+    0.25rem
+  ); /* 4px */
+  --_code-block-copy-btn-padding-x: var(
+    --bearlab-code-block-copy-btn-padding-x,
+    0.625rem
+  ); /* 10px */
+  --_code-block-copy-btn-radius: var(
+    --bearlab-code-block-copy-btn-radius,
+    0.375rem
+  ); /* 6px */
+  --_code-block-copy-btn-font-size: var(
+    --bearlab-code-block-copy-btn-font-size,
+    0.6875rem
+  ); /* 11px */
+  --_code-block-copy-btn-gap: var(
+    --bearlab-code-block-copy-btn-gap,
+    0.3125rem
+  ); /* 5px */
+  --_code-block-scrollbar-height: var(
+    --bearlab-code-block-scrollbar-height,
+    0.375rem
+  ); /* 6px */
+  --_code-block-scrollbar-radius: var(
+    --bearlab-code-block-scrollbar-radius,
+    0.1875rem
+  ); /* 3px */
+  --_code-block-gutter-padding-y: var(
+    --bearlab-code-block-gutter-padding-y,
+    0.625rem
+  ); /* 10px */
+  --_code-block-gutter-padding-x-start: var(
+    --bearlab-code-block-gutter-padding-x-start,
+    1rem
+  ); /* 16px */
+  --_code-block-gutter-padding-x-end: var(
+    --bearlab-code-block-gutter-padding-x-end,
+    0.875rem
+  ); /* 14px */
+  --_code-block-line-number-font-size: var(
+    --bearlab-code-block-line-number-font-size,
+    0.875rem
+  ); /* 14px */
+  --_code-block-line-number-line-height: var(
+    --bearlab-code-block-line-number-line-height,
+    1.25rem
+  ); /* 20px */
+  --_code-block-pre-padding-y: var(
+    --bearlab-code-block-pre-padding-y,
+    0.625rem
+  ); /* 10px */
+  --_code-block-pre-padding-x: var(
+    --bearlab-code-block-pre-padding-x,
+    1.5rem
+  ); /* 24px */
+  --_code-block-code-font-size: var(
+    --bearlab-code-block-code-font-size,
+    0.875rem
+  ); /* 14px */
+  --_code-block-code-line-height: var(
+    --bearlab-code-block-code-line-height,
+    1.25rem
+  ); /* 20px */
+  --_code-block-code-tab-size: var(--bearlab-code-block-code-tab-size, 2);
+
+  --_code-block-container-bg: var(--bearlab-code-block-container-bg, #fafafa);
+  --_code-block-container-border-color: var(
+    --bearlab-code-block-container-border-color,
+    #e0e0e0
+  );
+  --_code-block-header-bg: var(--bearlab-code-block-header-bg, #f0f0f0);
+  --_code-block-header-border-color: var(
+    --bearlab-code-block-header-border-color,
+    #e0e0e0
+  );
+  --_code-block-gutter-bg: var(--bearlab-code-block-gutter-bg, #f5f5f5);
+  --_code-block-gutter-border-color: var(
+    --bearlab-code-block-gutter-border-color,
+    #e0e0e0
+  );
+  --_code-block-text-color: var(--bearlab-code-block-text-color, #383a42);
+  --_code-block-gutter-text-color: var(
+    --bearlab-code-block-gutter-text-color,
+    #9d9d9f
+  );
+  --_code-block-tok-keyword-color: var(
+    --bearlab-code-block-tok-keyword-color,
+    #a626a4
+  );
+  --_code-block-tok-string-color: var(
+    --bearlab-code-block-tok-string-color,
+    #50a14f
+  );
+  --_code-block-tok-comment-color: var(
+    --bearlab-code-block-tok-comment-color,
+    #a0a1a7
+  );
+  --_code-block-tok-number-color: var(
+    --bearlab-code-block-tok-number-color,
+    #986801
+  );
+  --_code-block-tok-function-color: var(
+    --bearlab-code-block-tok-function-color,
+    #4078f2
+  );
+  --_code-block-tok-type-color: var(
+    --bearlab-code-block-tok-type-color,
+    #c18401
+  );
+  --_code-block-tok-property-color: var(
+    --bearlab-code-block-tok-property-color,
+    #e45649
+  );
+  --_code-block-tok-operator-color: var(
+    --bearlab-code-block-tok-operator-color,
+    #0184bc
+  );
+  --_code-block-tok-decorator-color: var(
+    --bearlab-code-block-tok-decorator-color,
+    #4078f2
+  );
+  --_code-block-badge-bg: var(--bearlab-code-block-badge-bg, #e8e8e8);
+  --_code-block-badge-text-color: var(
+    --bearlab-code-block-badge-text-color,
+    #383a42
+  );
+  --_code-block-copy-btn-bg: var(--bearlab-code-block-copy-btn-bg, #e8e8e8);
+  --_code-block-copy-btn-text-color: var(
+    --bearlab-code-block-copy-btn-text-color,
+    #696969
+  );
+  --_code-block-copy-btn-bg-hover: var(
+    --bearlab-code-block-copy-btn-bg-hover,
+    #dcdcdc
+  );
+  --_code-block-copy-btn-text-color-hover: var(
+    --bearlab-code-block-copy-btn-text-color-hover,
+    #222222
+  );
+  --_code-block-copy-btn-ok-text-color: var(
+    --bearlab-code-block-copy-btn-ok-text-color,
+    #50a14f
+  );
+  --_code-block-filename-text-color: var(
+    --bearlab-code-block-filename-text-color,
+    #696c77
+  );
+  --_code-block-scrollbar-color: var(
+    --bearlab-code-block-scrollbar-color,
+    #c0c0c0
+  );
+
+  :global([data-theme="dark"]) & {
+    --_code-block-container-bg: var(--bearlab-code-block-container-bg, #282c34);
+    --_code-block-container-border-color: var(
+      --bearlab-code-block-container-border-color,
+      #1d2939
+    );
+    --_code-block-header-bg: var(--bearlab-code-block-header-bg, #21252b);
+    --_code-block-header-border-color: var(
+      --bearlab-code-block-header-border-color,
+      #181a1f
+    );
+    --_code-block-gutter-bg: var(--bearlab-code-block-gutter-bg, #282c34);
+    --_code-block-gutter-border-color: var(
+      --bearlab-code-block-gutter-border-color,
+      #181a1f
+    );
+    --_code-block-text-color: var(--bearlab-code-block-text-color, #abb2bf);
+    --_code-block-gutter-text-color: var(
+      --bearlab-code-block-gutter-text-color,
+      #495162
+    );
+    --_code-block-tok-keyword-color: var(
+      --bearlab-code-block-tok-keyword-color,
+      #c678dd
+    );
+    --_code-block-tok-string-color: var(
+      --bearlab-code-block-tok-string-color,
+      #98c379
+    );
+    --_code-block-tok-comment-color: var(
+      --bearlab-code-block-tok-comment-color,
+      #5c6370
+    );
+    --_code-block-tok-number-color: var(
+      --bearlab-code-block-tok-number-color,
+      #d19a66
+    );
+    --_code-block-tok-function-color: var(
+      --bearlab-code-block-tok-function-color,
+      #61afef
+    );
+    --_code-block-tok-type-color: var(
+      --bearlab-code-block-tok-type-color,
+      #e5c07b
+    );
+    --_code-block-tok-property-color: var(
+      --bearlab-code-block-tok-property-color,
+      #e06c75
+    );
+    --_code-block-tok-operator-color: var(
+      --bearlab-code-block-tok-operator-color,
+      #56b6c2
+    );
+    --_code-block-tok-decorator-color: var(
+      --bearlab-code-block-tok-decorator-color,
+      #61afef
+    );
+    --_code-block-badge-bg: var(--bearlab-code-block-badge-bg, #2c313a);
+    --_code-block-badge-text-color: var(
+      --bearlab-code-block-badge-text-color,
+      #abb2bf
+    );
+    --_code-block-copy-btn-bg: var(--bearlab-code-block-copy-btn-bg, #2c313a);
+    --_code-block-copy-btn-text-color: var(
+      --bearlab-code-block-copy-btn-text-color,
+      #8f8f8f
+    );
+    --_code-block-copy-btn-bg-hover: var(
+      --bearlab-code-block-copy-btn-bg-hover,
+      #2c313a
+    );
+    --_code-block-copy-btn-text-color-hover: var(
+      --bearlab-code-block-copy-btn-text-color-hover,
+      #d9d9d9
+    );
+    --_code-block-copy-btn-ok-text-color: var(
+      --bearlab-code-block-copy-btn-ok-text-color,
+      #98c379
+    );
+    --_code-block-filename-text-color: var(
+      --bearlab-code-block-filename-text-color,
+      #636d83
+    );
+    --_code-block-scrollbar-color: var(
+      --bearlab-code-block-scrollbar-color,
+      #3e4451
+    );
+  }
+
+  border-radius: var(--_code-block-container-radius);
+  border: var(--_code-block-container-border-width) solid
+    var(--_code-block-container-border-color);
+  background-color: var(--_code-block-container-bg);
   overflow: hidden;
   letter-spacing: 0;
   font-family:
@@ -110,32 +316,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--bearlab-code-block-header-padding-y)
-    var(--bearlab-code-block-header-padding-x);
-  background-color: var(--bearlab-code-block-header-bg);
-  border-bottom: var(--bearlab-code-block-container-border-width) solid
-    var(--bearlab-code-block-header-border-color);
-  gap: var(--bearlab-code-block-header-gap);
-  min-height: var(--bearlab-code-block-header-min-height);
+  padding: var(--_code-block-header-padding-y)
+    var(--_code-block-header-padding-x);
+  background-color: var(--_code-block-header-bg);
+  border-bottom: var(--_code-block-container-border-width) solid
+    var(--_code-block-header-border-color);
+  gap: var(--_code-block-header-gap);
+  min-height: var(--_code-block-header-min-height);
 }
 
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: var(--bearlab-code-block-header-left-gap);
+  gap: var(--_code-block-header-left-gap);
   min-width: 0;
 }
 
 .langBadge {
   display: inline-flex;
   align-items: center;
-  gap: var(--bearlab-code-block-badge-gap);
-  padding: var(--bearlab-code-block-badge-padding-y)
-    var(--bearlab-code-block-badge-padding-x);
-  border-radius: var(--bearlab-code-block-badge-radius);
-  background-color: var(--bearlab-code-block-badge-bg);
-  color: var(--bearlab-code-block-badge-text-color);
-  font-size: var(--bearlab-code-block-badge-font-size);
+  gap: var(--_code-block-badge-gap);
+  padding: var(--_code-block-badge-padding-y) var(--_code-block-badge-padding-x);
+  border-radius: var(--_code-block-badge-radius);
+  background-color: var(--_code-block-badge-bg);
+  color: var(--_code-block-badge-text-color);
+  font-size: var(--_code-block-badge-font-size);
   font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
@@ -147,8 +352,8 @@
 }
 
 .filename {
-  font-size: var(--bearlab-code-block-filename-font-size);
-  color: var(--bearlab-code-block-filename-text-color);
+  font-size: var(--_code-block-filename-font-size);
+  color: var(--_code-block-filename-text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -158,14 +363,14 @@
 .copyBtn {
   display: inline-flex;
   align-items: center;
-  gap: var(--bearlab-code-block-copy-btn-gap);
-  padding: var(--bearlab-code-block-copy-btn-padding-y)
-    var(--bearlab-code-block-copy-btn-padding-x);
-  border-radius: var(--bearlab-code-block-copy-btn-radius);
-  border: var(--bearlab-code-block-container-border-width) solid transparent;
-  background: var(--bearlab-code-block-copy-btn-bg);
-  color: var(--bearlab-code-block-copy-btn-text-color);
-  font-size: var(--bearlab-code-block-copy-btn-font-size);
+  gap: var(--_code-block-copy-btn-gap);
+  padding: var(--_code-block-copy-btn-padding-y)
+    var(--_code-block-copy-btn-padding-x);
+  border-radius: var(--_code-block-copy-btn-radius);
+  border: var(--_code-block-container-border-width) solid transparent;
+  background: var(--_code-block-copy-btn-bg);
+  color: var(--_code-block-copy-btn-text-color);
+  font-size: var(--_code-block-copy-btn-font-size);
   font-family: inherit;
   cursor: pointer;
   transition:
@@ -179,12 +384,12 @@
   }
 
   &:hover {
-    background: var(--bearlab-code-block-copy-btn-hover-bg);
-    color: var(--bearlab-code-block-copy-btn-hover-text-color);
+    background: var(--_code-block-copy-btn-bg-hover);
+    color: var(--_code-block-copy-btn-text-color-hover);
   }
 
   &.copied {
-    color: var(--bearlab-code-block-copy-btn-ok-text-color);
+    color: var(--_code-block-copy-btn-ok-text-color);
     pointer-events: none;
   }
 }
@@ -195,7 +400,7 @@
   position: relative;
 
   &::-webkit-scrollbar {
-    height: var(--bearlab-code-block-scrollbar-height);
+    height: var(--_code-block-scrollbar-height);
   }
 
   &::-webkit-scrollbar-track {
@@ -203,8 +408,8 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--bearlab-code-block-scrollbar-color);
-    border-radius: var(--bearlab-code-block-scrollbar-radius);
+    background: var(--_code-block-scrollbar-color);
+    border-radius: var(--_code-block-scrollbar-radius);
   }
 }
 
@@ -212,30 +417,28 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding: var(--bearlab-code-block-gutter-padding-y)
-    var(--bearlab-code-block-gutter-padding-x-end)
-    var(--bearlab-code-block-gutter-padding-y)
-    var(--bearlab-code-block-gutter-padding-x-start);
-  background-color: var(--bearlab-code-block-gutter-bg);
-  border-right: var(--bearlab-code-block-container-border-width) solid
-    var(--bearlab-code-block-gutter-border-color);
+  padding: var(--_code-block-gutter-padding-y)
+    var(--_code-block-gutter-padding-x-end) var(--_code-block-gutter-padding-y)
+    var(--_code-block-gutter-padding-x-start);
+  background-color: var(--_code-block-gutter-bg);
+  border-right: var(--_code-block-container-border-width) solid
+    var(--_code-block-gutter-border-color);
   user-select: none;
   flex-shrink: 0;
-  min-width: var(--bearlab-code-block-gutter-width);
+  min-width: var(--_code-block-gutter-width);
 }
 
 .lineNumber {
   display: block;
-  font-size: var(--bearlab-code-block-line-number-font-size);
-  line-height: var(--bearlab-code-block-line-number-line-height);
-  color: var(--bearlab-code-block-gutter-text-color);
+  font-size: var(--_code-block-line-number-font-size);
+  line-height: var(--_code-block-line-number-line-height);
+  color: var(--_code-block-gutter-text-color);
   font-variant-numeric: tabular-nums;
 }
 
 .pre {
   margin: 0;
-  padding: var(--bearlab-code-block-pre-padding-y)
-    var(--bearlab-code-block-pre-padding-x);
+  padding: var(--_code-block-pre-padding-y) var(--_code-block-pre-padding-x);
   overflow: visible;
   flex: 1;
   min-width: 0;
@@ -243,38 +446,38 @@
 
 .code {
   display: block;
-  font-size: var(--bearlab-code-block-code-font-size);
-  line-height: var(--bearlab-code-block-code-line-height);
-  color: var(--bearlab-code-block-text-color);
+  font-size: var(--_code-block-code-font-size);
+  line-height: var(--_code-block-code-line-height);
+  color: var(--_code-block-text-color);
   white-space: pre;
-  tab-size: var(--bearlab-code-block-code-tab-size);
+  tab-size: var(--_code-block-code-tab-size);
 
   :global(.tok-keyword) {
-    color: var(--bearlab-code-block-tok-keyword-color);
+    color: var(--_code-block-tok-keyword-color);
   }
   :global(.tok-string) {
-    color: var(--bearlab-code-block-tok-string-color);
+    color: var(--_code-block-tok-string-color);
   }
   :global(.tok-comment) {
-    color: var(--bearlab-code-block-tok-comment-color);
+    color: var(--_code-block-tok-comment-color);
   }
   :global(.tok-number) {
-    color: var(--bearlab-code-block-tok-number-color);
+    color: var(--_code-block-tok-number-color);
   }
   :global(.tok-function) {
-    color: var(--bearlab-code-block-tok-function-color);
+    color: var(--_code-block-tok-function-color);
   }
   :global(.tok-type) {
-    color: var(--bearlab-code-block-tok-type-color);
+    color: var(--_code-block-tok-type-color);
   }
   :global(.tok-property) {
-    color: var(--bearlab-code-block-tok-property-color);
+    color: var(--_code-block-tok-property-color);
   }
   :global(.tok-operator) {
-    color: var(--bearlab-code-block-tok-operator-color);
+    color: var(--_code-block-tok-operator-color);
   }
   :global(.tok-decorator) {
-    color: var(--bearlab-code-block-tok-decorator-color);
+    color: var(--_code-block-tok-decorator-color);
   }
 }
 

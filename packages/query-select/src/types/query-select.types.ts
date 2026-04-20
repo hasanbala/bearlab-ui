@@ -1,3 +1,6 @@
+export type SelectMode = "single" | "multiple";
+export type SelectionDisplay = "card" | "inline";
+
 export interface QuerySelectOption {
   label: string;
   image?: string;
@@ -5,69 +8,101 @@ export interface QuerySelectOption {
   value: string | number;
 }
 
-export interface QuerySelectProps<T extends QuerySelectOption> {
+export type SingleValue<T extends QuerySelectOption> =
+  | T
+  | string
+  | number
+  | null;
+
+export type MultipleValue<T extends QuerySelectOption> =
+  | T[]
+  | string[]
+  | number[];
+
+export type QuerySelectValue<T extends QuerySelectOption> =
+  | SingleValue<T>
+  | MultipleValue<T>;
+
+export interface BaseQuerySelectProps<T extends QuerySelectOption> {
   error?: any;
-  query: string;
   label?: string;
   disabled?: boolean;
-  selectedItems: T[];
   delayTime?: number;
   emptyText?: string;
+  minLength?: number;
   showImage?: boolean;
   isRequired?: boolean;
   placeholder?: string;
   notFoundText?: string;
+  optionZIndex?: number;
   showCheckbox?: boolean;
   highlightMatch?: boolean;
   noSelectionText?: string;
-  queryPlaceholder?: string;
-  persistedItems?: T[];
-  minLength?: number;
   style?: QuerySelectStyles;
   className?: QuerySelectClassNames;
-  onChange?: (selected: T[]) => void;
-  setQuery: (value: string) => void;
+  selectionDisplay?: SelectionDisplay;
   onSearch: (query: string) => Promise<T[]>;
-  setSelectedItems: (selected: T[]) => void;
-  onPersistedItemsChange?: (recorded: T[]) => void;
 }
 
-export interface QuerySelectSelectedItemsProps<T extends QuerySelectOption> {
+export interface SingleQuerySelectProps<
+  T extends QuerySelectOption,
+> extends BaseQuerySelectProps<T> {
+  mode?: "single";
+  value?: SingleValue<T>;
+  onChange?: (value: T | null) => void;
+}
+
+export interface MultipleQuerySelectProps<
+  T extends QuerySelectOption,
+> extends BaseQuerySelectProps<T> {
+  mode: "multiple";
+  value?: MultipleValue<T>;
+  onChange?: (value: T[]) => void;
+}
+
+export type QuerySelectProps<T extends QuerySelectOption> =
+  | SingleQuerySelectProps<T>
+  | MultipleQuerySelectProps<T>;
+
+export interface QuerySelectSelectionCardItemsProps<
+  T extends QuerySelectOption,
+> {
   disabled?: boolean;
   selectedItems: T[];
   noSelectionText?: string;
-  persistedItems?: T[];
   style?: QuerySelectStyles;
   className?: QuerySelectClassNames;
-  setSelectedItems: (selected: T[]) => void;
-  onPersistedItemsChange?: (recorded: T[]) => void;
+  onRemoveSelect: (val: T[]) => void;
 }
 
-export interface QuerySelectSelectedItemProps {
+export interface QuerySelectSelectionInlineItemProps {
   title: string;
   disabled?: boolean;
-  value: string | number;
-  isRecorded: boolean | undefined;
-  style?: QuerySelectStyles;
-  className?: QuerySelectClassNames;
+  value?: string | number;
+  style?: React.CSSProperties;
+  className?: string;
   onRemove?: (item: string | number) => void;
 }
 
 export interface QuerySelectSearchProps<T extends QuerySelectOption> {
+  error?: any;
   query: string;
   inputId: string;
-  error?: any;
+  mode: SelectMode;
   listboxId: string;
+  selectedItems: T[];
+  minLength?: number;
   disabled?: boolean;
   isLoading: boolean;
   placeholder: string;
   debouncedValue: string;
-  isDropdownVisible: boolean;
-  minLength?: number;
+  containerWidth: number;
   style?: QuerySelectStyles;
-  activeOptionId: string | undefined;
+  isDropdownVisible: boolean;
   className?: QuerySelectClassNames;
-  setOptions: (val: T[]) => void;
+  activeOptionId: string | undefined;
+  selectionDisplay: SelectionDisplay;
+  onChange?: (val: T[]) => void;
   setQuery: (val: string) => void;
   setIsDropdownVisible: (val: boolean) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -115,6 +150,18 @@ export interface QuerySelectOptionsPortalProps {
   disabled?: boolean;
   children: React.ReactNode;
   anchorRef: React.RefObject<HTMLElement | null>;
+  optionZIndex: number;
+}
+
+export interface QuerySelectSelectionInlineItemsProps<
+  T extends QuerySelectOption,
+> {
+  disabled?: boolean;
+  selectedItems: T[];
+  style?: QuerySelectStyles;
+  visibleCount: number;
+  className?: QuerySelectClassNames;
+  setSelectedItems: (val: T[]) => void;
 }
 
 export interface QuerySelectClassNames {
@@ -122,8 +169,11 @@ export interface QuerySelectClassNames {
   option?: string;
   options?: string;
   root?: string;
-  selectedItem?: string;
-  selectedItems?: string;
+  selectionCardItem?: string;
+  selectionCardItems?: string;
+  selectionCardWrapper?: string;
+  selectionInlineItems?: string;
+  selectionInlineItem?: string;
 }
 
 export interface QuerySelectStyles {
@@ -131,6 +181,18 @@ export interface QuerySelectStyles {
   option?: React.CSSProperties;
   options?: React.CSSProperties;
   root?: React.CSSProperties;
-  selectedItem?: React.CSSProperties;
-  selectedItems?: React.CSSProperties;
+  selectionCardItem?: React.CSSProperties;
+  selectionCardItems?: React.CSSProperties;
+  selectionCardWrapper?: React.CSSProperties;
+  selectionInlineItems?: React.CSSProperties;
+  selectionInlineItem?: React.CSSProperties;
+}
+
+export interface QuerySelectSelectionCardItemProps {
+  title: string;
+  disabled?: boolean;
+  value?: string | number;
+  style?: React.CSSProperties;
+  className?: string;
+  onRemove?: (item: string | number) => void;
 }

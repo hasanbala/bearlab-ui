@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import classnames from "classnames";
 import type { OTPFormProps } from "./types/otp-form.types";
 import { useOtpForm } from "./hooks/use-otp-form";
@@ -23,6 +24,12 @@ export const OTPForm = (props: OTPFormProps) => {
     isNumeric,
     length,
   });
+
+  useEffect(() => {
+    if (inputsRef.current[0]) {
+      inputsRef.current[0].focus();
+    }
+  }, []);
 
   return (
     <div

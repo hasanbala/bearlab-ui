@@ -44,11 +44,10 @@ export const Options = <T extends QuerySelectOption>(
   if (!isDropdownVisible) return null;
 
   const hasOptions = options.length > 0;
-  const loading = isLoading || false;
-  const hasQuery = query.trim().length > minLength!;
+  const hasQuery = query.trim().length > (minLength ?? 3);
 
   const renderContent = () => {
-    if (loading && hasQuery) {
+    if (isLoading && hasQuery) {
       return (
         <div
           role="status"
@@ -109,7 +108,7 @@ export const Options = <T extends QuerySelectOption>(
       className={classnames(
         styles.selectOptionsContainer,
         {
-          [styles.centeredOptions]: !hasOptions || (loading && hasQuery),
+          [styles.centeredOptions]: !hasOptions || (isLoading && hasQuery),
         },
         className?.options
       )}

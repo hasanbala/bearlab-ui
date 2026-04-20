@@ -1,4 +1,4 @@
-import { ReactComponent as IconCross } from "./icons/error2.svg";
+import { ReactComponent as IconCross } from "./icons/cross.svg";
 import { ReactComponent as IconError2 } from "./icons/error2.svg";
 import { ReactComponent as IconInfo2 } from "./icons/info2.svg";
 import { ReactComponent as IconSuccess } from "./icons/success.svg";

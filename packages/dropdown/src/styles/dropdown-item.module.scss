@@ -1,40 +1,65 @@
-:root {
-  --bearlab-dropdown-item-padding-y: 0.5rem; /* 8px  */
-  --bearlab-dropdown-item-padding-x: 1rem; /* 16px */
-  --bearlab-dropdown-item-font-size: 0.875rem; /* 14px */
-  --bearlab-dropdown-item-font-weight: 500;
-  --bearlab-dropdown-item-border-radius: 0.5rem; /* 8px  */
-  --bearlab-dropdown-item-focus-ring-color: #465fff;
-  --bearlab-dropdown-item-focus-ring-offset: 2px;
-  --bearlab-dropdown-item-disabled-opacity: 0.5;
-}
-
-:root[data-theme="light"] {
-  --bearlab-dropdown-item-color: #344054;
-  --bearlab-dropdown-item-bg: #ffffff;
-  --bearlab-dropdown-item-color-hover: #101828;
-  --bearlab-dropdown-item-bg-hover: #f2f4f7;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-dropdown-item-color: #98a2b3;
-  --bearlab-dropdown-item-bg: #1a2231;
-  --bearlab-dropdown-item-color-hover: #d1d5db;
-  --bearlab-dropdown-item-bg-hover: rgba(255, 255, 255, 0.05);
-}
-
 .dropdownItemContainer {
+  --_dropdown-item-padding-y: var(
+    --bearlab-dropdown-item-padding-y,
+    0.5rem
+  ); /* 8px  */
+  --_dropdown-item-padding-x: var(
+    --bearlab-dropdown-item-padding-x,
+    1rem
+  ); /* 16px */
+  --_dropdown-item-font-size: var(
+    --bearlab-dropdown-item-font-size,
+    0.875rem
+  ); /* 14px */
+  --_dropdown-item-font-weight: var(--bearlab-dropdown-item-font-weight, 500);
+  --_dropdown-item-border-radius: var(
+    --bearlab-dropdown-item-border-radius,
+    0.5rem
+  ); /* 8px  */
+  --_dropdown-item-ring-color-focus: var(
+    --bearlab-dropdown-item-ring-color-focus,
+    #465fff
+  );
+  --_dropdown-item-focus-ring-offset: var(
+    --bearlab-dropdown-item-focus-ring-offset,
+    2px
+  );
+  --_dropdown-item-opacity-disabled: var(
+    --bearlab-dropdown-item-opacity-disabled,
+    0.5
+  );
+
+  --_dropdown-item-color: var(--bearlab-dropdown-item-color, #344054);
+  --_dropdown-item-bg: var(--bearlab-dropdown-item-bg, #ffffff);
+  --_dropdown-item-color-hover: var(
+    --bearlab-dropdown-item-color-hover,
+    #101828
+  );
+  --_dropdown-item-bg-hover: var(--bearlab-dropdown-item-bg-hover, #f2f4f7);
+
+  :global([data-theme="dark"]) & {
+    --_dropdown-item-color: var(--bearlab-dropdown-item-color, #98a2b3);
+    --_dropdown-item-bg: var(--bearlab-dropdown-item-bg, #1a2231);
+    --_dropdown-item-color-hover: var(
+      --bearlab-dropdown-item-color-hover,
+      #d1d5db
+    );
+    --_dropdown-item-bg-hover: var(
+      --bearlab-dropdown-item-bg-hover,
+      rgba(255, 255, 255, 0.05)
+    );
+  }
+
   display: block;
   width: 100%;
   text-align: left;
-  padding: var(--bearlab-dropdown-item-padding-y)
-    var(--bearlab-dropdown-item-padding-x);
-  font-size: var(--bearlab-dropdown-item-font-size);
-  font-weight: var(--bearlab-dropdown-item-font-weight);
-  color: var(--bearlab-dropdown-item-color);
-  background-color: var(--bearlab-dropdown-item-bg);
+  padding: var(--_dropdown-item-padding-y) var(--_dropdown-item-padding-x);
+  font-size: var(--_dropdown-item-font-size);
+  font-weight: var(--_dropdown-item-font-weight);
+  color: var(--_dropdown-item-color);
+  background-color: var(--_dropdown-item-bg);
   border: none;
-  border-radius: var(--bearlab-dropdown-item-border-radius);
+  border-radius: var(--_dropdown-item-border-radius);
   cursor: pointer;
   text-decoration: none;
   transition:
@@ -42,18 +67,18 @@
     color 150ms ease;
 
   &:hover:not([aria-disabled="true"]):not(:disabled) {
-    background-color: var(--bearlab-dropdown-item-bg-hover);
-    color: var(--bearlab-dropdown-item-color-hover);
+    background-color: var(--_dropdown-item-bg-hover);
+    color: var(--_dropdown-item-color-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--bearlab-dropdown-item-focus-ring-color);
-    outline-offset: var(--bearlab-dropdown-item-focus-ring-offset);
+    outline: 2px solid var(--_dropdown-item-ring-color-focus);
+    outline-offset: var(--_dropdown-item-focus-ring-offset);
   }
 
   &[aria-disabled="true"],
   &:disabled {
-    opacity: var(--bearlab-dropdown-item-disabled-opacity);
+    opacity: var(--_dropdown-item-opacity-disabled);
     cursor: not-allowed;
     pointer-events: none;
   }

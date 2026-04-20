@@ -30,10 +30,7 @@ export const Input = (props: InputProps) => {
     beforeIcon,
     isRequired,
     isExistCopy,
-    isExistSearch,
     type = "text",
-    isExistPassword,
-    onClick,
     onSearch,
     ...rest
   } = props;
@@ -45,6 +42,7 @@ export const Input = (props: InputProps) => {
   const hasError = Boolean(error);
   const inputType =
     type !== "password" || passwordVisible ? "text" : "password";
+  const hasPassword = type == "password";
 
   const togglePassword = () => setPasswordVisible((prev) => !prev);
 
@@ -61,7 +59,7 @@ export const Input = (props: InputProps) => {
         <label
           htmlFor={inputId}
           style={style?.label}
-          className={classnames(styles.label, className?.label)}
+          className={classnames(styles.inputLabel, className?.label)}
         >
           {label} {isRequired && <span aria-hidden="true"> *</span>}
         </label>
@@ -70,30 +68,10 @@ export const Input = (props: InputProps) => {
         style={style?.inputWrapper}
         className={classnames(
           styles.inputWrapper,
-          hasError && styles.inputWrapperError,
+          hasError && styles.error,
           className?.inputWrapper
         )}
       >
-        <input
-          id={inputId}
-          value={value ?? ""}
-          type={inputType}
-          disabled={disabled}
-          aria-invalid={hasError || undefined}
-          aria-required={isRequired || undefined}
-          aria-describedby={hasError ? errorId : undefined}
-          className={classnames(
-            styles.input,
-            isExistSearch && styles.inputWithSearch,
-            isExistPassword && !isExistCopy && styles.inputWithPassword,
-            isExistCopy && !isExistPassword && styles.inputWithCopy,
-            isExistCopy && isExistPassword && styles.inputWithCopyAndPassword,
-            hasError && styles.inputError,
-            className?.input
-          )}
-          style={style?.input}
-          {...rest}
-        />
         {beforeIcon && (
           <div
             aria-hidden="true"
@@ -120,7 +98,7 @@ export const Input = (props: InputProps) => {
             {renderIcon(afterIcon)}
           </div>
         )}
-        {isExistPassword && (
+        {hasPassword && (
           <button
             type="button"
             aria-label={passwordVisible ? "Hide password" : "Show password"}
@@ -160,7 +138,7 @@ export const Input = (props: InputProps) => {
             )}
           </button>
         )}
-        {isExistSearch && (
+        {onSearch && (
           <button
             type="button"
             aria-label="Search"
@@ -171,10 +149,30 @@ export const Input = (props: InputProps) => {
             <IconSearch aria-hidden="true" />
           </button>
         )}
+        <input
+          id={inputId}
+          value={value ?? ""}
+          type={inputType}
+          disabled={disabled}
+          aria-invalid={hasError || undefined}
+          aria-required={isRequired || undefined}
+          aria-describedby={hasError ? errorId : undefined}
+          className={classnames(
+            styles.input,
+            onSearch && styles.inputWithSearch,
+            hasPassword && !isExistCopy && styles.inputWithPassword,
+            isExistCopy && !hasPassword && styles.inputWithCopy,
+            isExistCopy && hasPassword && styles.inputWithCopyAndPassword,
+            className?.input
+          )}
+          style={style?.input}
+          {...rest}
+        />
         {hasError && (
           <div
             id={errorId}
-            role="alert"
+            role="status"
+            aria-live="polite"
             style={style?.errorMessage}
             className={classnames(styles.viewError, className?.errorMessage)}
           >

@@ -7,31 +7,52 @@ export interface SelectOption {
   value: string | number;
 }
 
-export interface SelectProps<T extends SelectOption> {
-  error?: any;
+export type SingleValue<T extends SelectOption> = T | string | number | null;
+
+export type MultipleValue<T extends SelectOption> = T[] | string[] | number[];
+
+export type SelectValue<T extends SelectOption> =
+  | SingleValue<T>
+  | MultipleValue<T>;
+
+interface BaseSelectProps<T extends SelectOption> {
   options: T[];
-  query: string;
+  name?: string;
   label?: string;
-  mode?: SelectMode;
+  error?: any;
   disabled?: boolean;
-  isLoading: boolean;
-  selectedItems: T[];
-  emptyText?: string;
-  showImage?: boolean;
   isRequired?: boolean;
   placeholder?: string;
-  style?: SelectStyles;
+  emptyText?: string;
   notFoundText?: string;
-  optionZIndex?: number;
-  debouncedValue: string;
+  isLoading?: boolean;
+  showImage?: boolean;
   showCheckbox?: boolean;
   highlightMatch?: boolean;
+  optionZIndex?: number;
+  style?: SelectStyles;
   className?: SelectClassNames;
-  setOptions: (val: T[]) => void;
-  setQuery: (val: string) => void;
-  onChange?: (selected: T[]) => void;
-  setSelectedItems: (selected: T[]) => void;
 }
+
+export interface SingleSelectProps<
+  T extends SelectOption,
+> extends BaseSelectProps<T> {
+  mode?: "single";
+  value?: SingleValue<T>;
+  onChange?: (value: T | null) => void;
+}
+
+export interface MultipleSelectProps<
+  T extends SelectOption,
+> extends BaseSelectProps<T> {
+  mode: "multiple";
+  value?: MultipleValue<T>;
+  onChange?: (value: T[]) => void;
+}
+
+export type SelectProps<T extends SelectOption> =
+  | SingleSelectProps<T>
+  | MultipleSelectProps<T>;
 
 export interface OptionProps {
   name: string;
@@ -54,9 +75,9 @@ export interface OptionsProps<T extends SelectOption> {
   options: T[];
   query: string;
   mode: SelectMode;
-  isLoading: boolean;
-  listboxId: string;
   disabled?: boolean;
+  isLoading?: boolean;
+  listboxId: string;
   emptyText?: string;
   selectedItems: T[];
   showImage?: boolean;
@@ -66,6 +87,7 @@ export interface OptionsProps<T extends SelectOption> {
   showCheckbox?: boolean;
   highlightMatch?: boolean;
   className?: SelectClassNames;
+  isDropdownVisible: boolean;
   onSelect: (item: T) => void;
 }
 
@@ -76,17 +98,16 @@ export interface SearchProps<T extends SelectOption> {
   listboxId: string;
   selectedItems: T[];
   disabled?: boolean;
-  isLoading: boolean;
+  isLoading?: boolean;
   placeholder: string;
   style?: SelectStyles;
-  debouncedValue: string;
   containerWidth: number;
   isDropdownVisible: boolean;
   className?: SelectClassNames;
   activeOptionId: string | undefined;
-  setOptions: (val: T[]) => void;
+  mode: SelectMode;
   setQuery: (val: string) => void;
-  setSelectedItems: (val: T[]) => void;
+  onChange?: (val: T[]) => void;
   setIsDropdownVisible: (val: boolean) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
@@ -97,7 +118,6 @@ export interface SelectedItemsProps<T extends SelectOption> {
   style?: SelectStyles;
   visibleCount: number;
   className?: SelectClassNames;
-  selectedItemsRef: React.RefObject<HTMLDivElement | null>;
   setSelectedItems: (val: T[]) => void;
 }
 
@@ -105,7 +125,7 @@ export interface SelectedItemProps {
   title: string;
   disabled?: boolean;
   className?: string;
-  id?: number | string;
+  value?: number | string;
   style?: React.CSSProperties;
   onRemove?: (val: number | string) => void;
 }

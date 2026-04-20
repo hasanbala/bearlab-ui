@@ -11,6 +11,7 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
     query,
     style,
     error,
+    mode,
     inputId,
     disabled,
     listboxId,
@@ -19,13 +20,11 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
     placeholder,
     selectedItems,
     containerWidth,
-    debouncedValue,
     activeOptionId,
     isDropdownVisible,
     setQuery,
     onKeyDown,
-    setOptions,
-    setSelectedItems,
+    onChange,
     setIsDropdownVisible,
   } = props;
 
@@ -33,15 +32,15 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
   const ghostRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-    if (!e.target.value) setOptions([]);
-  };
-
   useLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
   }, [query]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.value.trim()) return;
+    setQuery(e.target.value);
+  };
 
   const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
     selectedItems,
@@ -49,14 +48,11 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
     inputWidth
   );
 
-  const isTyping =
-    isLoading || (query !== debouncedValue && query.trim().length > 0);
-
   return (
     <div
       style={style?.search}
       className={classnames(
-        styles.searchContainer,
+        styles.searchWrapper,
         {
           [styles.error]: error,
         },
@@ -71,16 +67,18 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
-      <SelectedItems
-        style={style}
-        disabled={disabled}
-        className={className}
-        visibleCount={visibleCount}
-        selectedItems={selectedItems}
-        selectedItemsRef={selectedItemsRef}
-        setSelectedItems={setSelectedItems}
-      />
-      <div className={styles.inputWrapper} data-value={query || placeholder}>
+      {mode === "multiple" && (
+        <SelectedItems
+          style={style}
+          disabled={disabled}
+          className={className}
+          visibleCount={visibleCount}
+          selectedItems={selectedItems}
+          ref={selectedItemsRef}
+          setSelectedItems={onChange ?? (() => {})}
+        />
+      )}
+      <div data-value={query || placeholder} className={styles.inputWrapper}>
         <span ref={ghostRef} className={styles.inputGhost} aria-hidden="true">
           {query || placeholder || " "}
         </span>
@@ -90,7 +88,7 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
           role="combobox"
           autoComplete="off"
           aria-haspopup="listbox"
-          aria-autocomplete="list"
+          aria-autocomplete={"list"}
           id={inputId}
           value={query}
           ref={inputRef}
@@ -111,11 +109,11 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
       </div>
       <div
         className={classnames(styles.arrowIcon, {
-          [styles.activeArrowIcon]: isDropdownVisible && !isTyping,
+          [styles.activeArrowIcon]: isDropdownVisible && !isLoading,
         })}
         aria-hidden="true"
       >
-        {isTyping ? (
+        {isLoading ? (
           <IconLoaderCircle className={styles.loadingIcon} />
         ) : (
           <IconChevronDown />

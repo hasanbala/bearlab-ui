@@ -1,204 +1,635 @@
-:root {
-  --bearlab-pricing-transition-speed: 200ms;
-  --bearlab-pricing-card-radius: 1rem; /* 16px */
-  --bearlab-pricing-btn-radius: 0.5rem; /* 8px */
-  --bearlab-pricing-switch-radius: 624.9375rem; /* 9999px */
-  --bearlab-pricing-badge-radius: 0.5rem; /* 8px */
-  --bearlab-pricing-pack-icon-wrapper-radius: 0.65625rem; /* 10.5px */
-  --bearlab-pricing-header-max-width: 26.25rem; /* 420px */
-  --bearlab-pricing-title-font-size: 1.875rem; /* 30px */
-  --bearlab-pricing-title-font-weight: 700;
-  --bearlab-pricing-title-margin-bottom: 1.75rem; /* 28px */
-  --bearlab-pricing-switch-margin-bottom: 2.5rem; /* 40px */
-  --bearlab-pricing-switch-padding: 0.25rem; /* 4px */
-  --bearlab-pricing-switch-button-height: 2.75rem; /* 44px */
-  --bearlab-pricing-switch-button-width: 7.5rem; /* 120px */
-  --bearlab-pricing-switch-button-font-size: 1rem; /* 16px */
-  --bearlab-pricing-switch-button-active-font-weight: 600;
-  --bearlab-pricing-switch-indicator-height: 2.75rem; /* 44px */
-  --bearlab-pricing-switch-indicator-width: 7.5rem; /* 120px */
-  --bearlab-pricing-grid-gap: 1.25rem; /* 20px */
-  --bearlab-pricing-grid-gap-lg: 1.5rem; /* 24px */
-  --bearlab-pricing-grid-three-gap: 0.75rem; /* 12px */
-  --bearlab-pricing-card-border-width: 0.0625rem; /* 1px */
-  --bearlab-pricing-card-padding: 1.5rem; /* 24px */
-  --bearlab-pricing-card-padding-lg: 2rem; /* 32px */
-  --bearlab-pricing-card-hover-transform: translateY(-0.25rem); /* -4px */
-  --bearlab-pricing-card-active-transform: translateY(-0.125rem); /* -2px */
-  --bearlab-pricing-pack-title-font-size: 1.25rem; /* 20px */
-  --bearlab-pricing-pack-title-font-weight: 600;
-  --bearlab-pricing-pack-title-margin-bottom: 0.75rem; /* 12px */
-  --bearlab-pricing-price-font-size: 2.25rem; /* 36px */
-  --bearlab-pricing-price-two-font-size: 2.25rem; /* 36px */
-  --bearlab-pricing-price-three-font-size: 1.875rem; /* 30px */
-  --bearlab-pricing-price-font-weight: 700;
-  --bearlab-pricing-price-three-margin-top: 1rem; /* 16px */
-  --bearlab-pricing-price-three-margin-bottom: 0.125rem; /* 2px */
-  --bearlab-pricing-price-group-gap: 0.125rem; /* 2px */
-  --bearlab-pricing-price-row-margin-bottom: 0.25rem; /* 4px */
-  --bearlab-pricing-price-period-font-size: 0.875rem; /* 14px */
-  --bearlab-pricing-price-period-margin-bottom: 0.25rem; /* 4px */
-  --bearlab-pricing-price-period-three-margin-bottom: 1.5rem; /* 24px */
-  --bearlab-pricing-pack-description-font-size: 0.875rem; /* 14px */
-  --bearlab-pricing-pack-description-three-margin-top: 0.25rem; /* 4px */
-  --bearlab-pricing-original-price-font-size: 1.125rem; /* 18px */
-  --bearlab-pricing-original-price-font-weight: 600;
-  --bearlab-pricing-divider-height: 0.0625rem; /* 1px */
-  --bearlab-pricing-divider-margin-y: 1.5rem; /* 24px */
-  --bearlab-pricing-feature-list-gap: 0.75rem; /* 12px */
-  --bearlab-pricing-feature-list-margin-bottom: 2rem; /* 32px */
-  --bearlab-pricing-feature-item-font-size: 0.875rem; /* 14px */
-  --bearlab-pricing-feature-item-gap: 0.75rem; /* 12px */
-  --bearlab-pricing-button-height: 3rem; /* 48px */
-  --bearlab-pricing-button-three-height: 2.75rem; /* 44px */
-  --bearlab-pricing-button-padding-y: 0.875rem; /* 14px */
-  --bearlab-pricing-button-font-size: 0.875rem; /* 14px */
-  --bearlab-pricing-button-font-weight: 500;
-  --bearlab-pricing-pack-icon-wrapper-size: 3.5rem; /* 56px */
-  --bearlab-pricing-card-two-header-margin-bottom: 0.25rem; /* 4px */
-  --bearlab-pricing-badge-font-size: 0.75rem; /* 12px */
-  --bearlab-pricing-badge-font-weight: 600;
-  --bearlab-pricing-badge-letter-spacing: 0.02em;
-  --bearlab-pricing-badge-padding-y: 0.25rem; /* 4px */
-  --bearlab-pricing-badge-padding-x: 0.75rem; /* 12px */
-  --bearlab-pricing-badge-top: 1rem; /* 16px */
-  --bearlab-pricing-badge-right: 1rem; /* 16px */
-  --bearlab-pricing-focus-outline-width: 0.125rem; /* 2px */
-  --bearlab-pricing-focus-outline-offset: 0.125rem; /* 2px */
-  --bearlab-pricing-card-focus-outline-offset: 0.1875rem; /* 3px */
-  --bearlab-pricing-switch-indicator-shadow: 0 0.0625rem 0.125rem #0f172a; /* 1px 2px */
-  --bearlab-pricing-card-hover-shadow: 0 0.25rem 0.75rem #0000004d; /* 4px 12px */
-  --bearlab-pricing-card-active-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.2); /* 12px 32px */
-  --bearlab-pricing-card-two-active-shadow: 0 0.75rem 2rem #3b82f626; /* 12px 32px */
-  --bearlab-pricing-card-three-active-shadow: 0 0.75rem 2rem
-    rgba(59, 130, 246, 0.25); /* 12px 32px */
-  --bearlab-pricing-button-shadow: 0 0.0625rem 0.125rem #0f172a; /* 1px 2px */
-}
-
-[data-theme="light"] {
-  --bearlab-pricing-focus-color: #465fff;
-  --bearlab-pricing-title-color: #1d2939;
-  --bearlab-pricing-switch-wrapper-bg: #e5e7eb;
-  --bearlab-pricing-switch-indicator-bg: #fff;
-  --bearlab-pricing-switch-button-color: #6b7280;
-  --bearlab-pricing-switch-button-hover-color: #374151;
-  --bearlab-pricing-switch-button-active-color: #1f2937;
-  --bearlab-pricing-card-border-color: #e5e7eb;
-  --bearlab-pricing-card-hover-border-color: #d1d5db;
-  --bearlab-pricing-card-one-bg: transparent;
-  --bearlab-pricing-card-one-divider-bg: #e5e7eb;
-  --bearlab-pricing-pack-title-color: #1d2939;
-  --bearlab-pricing-price-color: #1d2939;
-  --bearlab-pricing-price-period-color: #6b7280;
-  --bearlab-pricing-price-period-two-color: #667080;
-  --bearlab-pricing-price-period-three-color: #667085;
-  --bearlab-pricing-pack-description-color: #6b7280;
-  --bearlab-pricing-pack-description-three-color: #667085;
-  --bearlab-pricing-original-price-color: #9ca3af;
-  --bearlab-pricing-original-price-active-color: #d1d5db;
-  --bearlab-pricing-divider-bg: #e5e7eb;
-  --bearlab-pricing-feature-item-color: #6b7280;
-  --bearlab-pricing-feature-item-active-color: #ffffffcc;
-  --bearlab-pricing-feature-icon-included-color: #22c55e;
-  --bearlab-pricing-feature-icon-excluded-color: #ef4444;
-  --bearlab-pricing-card-two-feature-item-active-color: #6b7280;
-  --bearlab-pricing-card-active-bg: #1f2937;
-  --bearlab-pricing-card-active-border-color: #1f2937;
-  --bearlab-pricing-card-active-pack-title-color: #fff;
-  --bearlab-pricing-card-active-price-color: #fff;
-  --bearlab-pricing-card-active-price-period-color: #ffffffb3;
-  --bearlab-pricing-card-active-pack-description-color: #ffffffb3;
-  --bearlab-pricing-button-one-bg: #1f2937;
-  --bearlab-pricing-button-one-color: #fff;
-  --bearlab-pricing-button-one-hover-bg: #465fff;
-  --bearlab-pricing-button-active-bg: #465fff;
-  --bearlab-pricing-button-active-color: #fff;
-  --bearlab-pricing-button-active-hover-bg: #3641f5;
-  --bearlab-pricing-card-two-bg: #fff;
-  --bearlab-pricing-card-two-active-border-color: #465fff;
-  --bearlab-pricing-card-two-divider-bg: #e5e7eb;
-  --bearlab-pricing-pack-title-two-color: #1d2939;
-  --bearlab-pricing-price-two-color: #1d2939;
-  --bearlab-pricing-pack-icon-wrapper-bg: #ecf3ff;
-  --bearlab-pricing-pack-icon-color: #465fff;
-  --bearlab-pricing-button-two-bg: #1d2939;
-  --bearlab-pricing-button-two-color: #fff;
-  --bearlab-pricing-button-two-hover-bg: #465fff;
-  --bearlab-pricing-button-two-active-bg: #465fff;
-  --bearlab-pricing-button-two-active-hover-bg: #4f46e5;
-  --bearlab-pricing-card-three-bg: #fff;
-  --bearlab-pricing-card-three-active-bg: #465fff;
-  --bearlab-pricing-card-three-active-border-color: #465fff;
-  --bearlab-pricing-badge-color: #fff;
-  --bearlab-pricing-badge-bg: color-mix(in oklab, #fff 20%, transparent);
-  --bearlab-pricing-button-three-active-bg: #fff;
-  --bearlab-pricing-button-three-active-color: #1d2939;
-  --bearlab-pricing-button-three-active-hover-bg: #f9fafb;
-}
-
-[data-theme="dark"] {
-  --bearlab-pricing-focus-color: #465fff;
-  --bearlab-pricing-title-color: #ffffffe6;
-  --bearlab-pricing-switch-wrapper-bg: #1f2937;
-  --bearlab-pricing-switch-indicator-bg: #ffffff1a;
-  --bearlab-pricing-switch-button-color: #9ca3af;
-  --bearlab-pricing-switch-button-hover-color: #ffffffb3;
-  --bearlab-pricing-switch-button-active-color: #ffffffe6;
-  --bearlab-pricing-card-border-color: #1f2937;
-  --bearlab-pricing-card-hover-border-color: #454745;
-  --bearlab-pricing-card-one-bg: color-mix(in oklab, #fff 3%, transparent);
-  --bearlab-pricing-card-one-divider-bg: #1f2937;
-  --bearlab-pricing-pack-title-color: #ffffffe6;
-  --bearlab-pricing-price-color: #ffffffe6;
-  --bearlab-pricing-price-period-color: #9ca3af;
-  --bearlab-pricing-price-period-two-color: #9ca3af;
-  --bearlab-pricing-price-period-three-color: #9ca3af;
-  --bearlab-pricing-pack-description-color: #9ca3af;
-  --bearlab-pricing-pack-description-three-color: #9ca3af;
-  --bearlab-pricing-original-price-color: #9ca3af;
-  --bearlab-pricing-original-price-active-color: #d1d5db;
-  --bearlab-pricing-divider-bg: #1f2937;
-  --bearlab-pricing-feature-item-color: #9ca3af;
-  --bearlab-pricing-feature-item-active-color: #ffffffcc;
-  --bearlab-pricing-feature-icon-included-color: #10b981;
-  --bearlab-pricing-feature-icon-excluded-color: #f87171;
-  --bearlab-pricing-card-two-feature-item-active-color: #6b7280;
-  --bearlab-pricing-card-active-bg: color-mix(in oklab, #fff 10%, transparent);
-  --bearlab-pricing-card-active-border-color: color-mix(
-    in oklab,
-    #fff 10%,
-    transparent
+.container,
+.gridTwo,
+.gridThree {
+  --_pricing-transition-speed: var(--bearlab-pricing-transition-speed, 200ms);
+  --_pricing-card-radius: var(--bearlab-pricing-card-radius, 1rem); /* 16px */
+  --_pricing-btn-radius: var(--bearlab-pricing-btn-radius, 0.5rem); /* 8px */
+  --_pricing-switch-radius: var(
+    --bearlab-pricing-switch-radius,
+    624.9375rem
+  ); /* 9999px */
+  --_pricing-badge-radius: var(
+    --bearlab-pricing-badge-radius,
+    0.5rem
+  ); /* 8px */
+  --_pricing-pack-icon-wrapper-radius: var(
+    --bearlab-pricing-pack-icon-wrapper-radius,
+    0.65625rem
+  ); /* 10.5px */
+  --_pricing-header-max-width: var(
+    --bearlab-pricing-header-max-width,
+    26.25rem
+  ); /* 420px */
+  --_pricing-title-font-size: var(
+    --bearlab-pricing-title-font-size,
+    1.875rem
+  ); /* 30px */
+  --_pricing-title-font-weight: var(--bearlab-pricing-title-font-weight, 700);
+  --_pricing-title-margin-bottom: var(
+    --bearlab-pricing-title-margin-bottom,
+    1.75rem
+  ); /* 28px */
+  --_pricing-switch-margin-bottom: var(
+    --bearlab-pricing-switch-margin-bottom,
+    2.5rem
+  ); /* 40px */
+  --_pricing-switch-padding: var(
+    --bearlab-pricing-switch-padding,
+    0.25rem
+  ); /* 4px */
+  --_pricing-switch-button-height: var(
+    --bearlab-pricing-switch-button-height,
+    2.75rem
+  ); /* 44px */
+  --_pricing-switch-button-width: var(
+    --bearlab-pricing-switch-button-width,
+    7.5rem
+  ); /* 120px */
+  --_pricing-switch-button-font-size: var(
+    --bearlab-pricing-switch-button-font-size,
+    1rem
+  ); /* 16px */
+  --_pricing-switch-button-active-font-weight: var(
+    --bearlab-pricing-switch-button-active-font-weight,
+    600
   );
-  --bearlab-pricing-card-active-pack-title-color: #fff;
-  --bearlab-pricing-card-active-price-color: #fff;
-  --bearlab-pricing-card-active-price-period-color: #ffffffb3;
-  --bearlab-pricing-card-active-pack-description-color: #ffffffb3;
-  --bearlab-pricing-button-one-bg: #1f2937;
-  --bearlab-pricing-button-one-color: #fff;
-  --bearlab-pricing-button-one-hover-bg: #465fff;
-  --bearlab-pricing-button-active-bg: #465fff;
-  --bearlab-pricing-button-active-color: #fff;
-  --bearlab-pricing-button-active-hover-bg: #3641f5;
-  --bearlab-pricing-card-two-bg: #ffffff08;
-  --bearlab-pricing-card-two-active-border-color: #465fff;
-  --bearlab-pricing-card-two-divider-bg: #1d2939;
-  --bearlab-pricing-pack-title-two-color: #ffffffe6;
-  --bearlab-pricing-price-two-color: #ffffffe6;
-  --bearlab-pricing-pack-icon-wrapper-bg: #ecf3ff;
-  --bearlab-pricing-pack-icon-color: #465fff;
-  --bearlab-pricing-button-two-bg: #ffffff1a;
-  --bearlab-pricing-button-two-color: #fff;
-  --bearlab-pricing-button-two-hover-bg: #465fff;
-  --bearlab-pricing-button-two-active-bg: #465fff;
-  --bearlab-pricing-button-two-active-hover-bg: #3641f5;
-  --bearlab-pricing-card-three-bg: #ffffff08;
-  --bearlab-pricing-card-three-active-bg: #465fff;
-  --bearlab-pricing-card-three-active-border-color: #465fff;
-  --bearlab-pricing-badge-color: #fff;
-  --bearlab-pricing-badge-bg: color-mix(in oklab, #fff 20%, transparent);
-  --bearlab-pricing-button-three-active-bg: #fff;
-  --bearlab-pricing-button-three-active-color: #1d2939;
-  --bearlab-pricing-button-three-active-hover-bg: #f9fafb;
+  --_pricing-switch-indicator-height: var(
+    --bearlab-pricing-switch-indicator-height,
+    2.75rem
+  ); /* 44px */
+  --_pricing-switch-indicator-width: var(
+    --bearlab-pricing-switch-indicator-width,
+    7.5rem
+  ); /* 120px */
+  --_pricing-grid-gap: var(--bearlab-pricing-grid-gap, 1.25rem); /* 20px */
+  --_pricing-grid-gap-lg: var(--bearlab-pricing-grid-gap-lg, 1.5rem); /* 24px */
+  --_pricing-grid-three-gap: var(
+    --bearlab-pricing-grid-three-gap,
+    0.75rem
+  ); /* 12px */
+  --_pricing-card-border-width: var(
+    --bearlab-pricing-card-border-width,
+    0.0625rem
+  ); /* 1px */
+  --_pricing-card-padding: var(
+    --bearlab-pricing-card-padding,
+    1.5rem
+  ); /* 24px */
+  --_pricing-card-padding-lg: var(
+    --bearlab-pricing-card-padding-lg,
+    2rem
+  ); /* 32px */
+  --_pricing-card-hover-transform: var(
+    --bearlab-pricing-card-hover-transform,
+    translateY(-0.25rem)
+  ); /* -4px */
+  --_pricing-card-active-transform: var(
+    --bearlab-pricing-card-active-transform,
+    translateY(-0.125rem)
+  ); /* -2px */
+  --_pricing-pack-title-font-size: var(
+    --bearlab-pricing-pack-title-font-size,
+    1.25rem
+  ); /* 20px */
+  --_pricing-pack-title-font-weight: var(
+    --bearlab-pricing-pack-title-font-weight,
+    600
+  );
+  --_pricing-pack-title-margin-bottom: var(
+    --bearlab-pricing-pack-title-margin-bottom,
+    0.75rem
+  ); /* 12px */
+  --_pricing-price-font-size: var(
+    --bearlab-pricing-price-font-size,
+    2.25rem
+  ); /* 36px */
+  --_pricing-price-two-font-size: var(
+    --bearlab-pricing-price-two-font-size,
+    2.25rem
+  ); /* 36px */
+  --_pricing-price-three-font-size: var(
+    --bearlab-pricing-price-three-font-size,
+    1.875rem
+  ); /* 30px */
+  --_pricing-price-font-weight: var(--bearlab-pricing-price-font-weight, 700);
+  --_pricing-price-three-margin-top: var(
+    --bearlab-pricing-price-three-margin-top,
+    1rem
+  ); /* 16px */
+  --_pricing-price-three-margin-bottom: var(
+    --bearlab-pricing-price-three-margin-bottom,
+    0.125rem
+  ); /* 2px */
+  --_pricing-price-group-gap: var(
+    --bearlab-pricing-price-group-gap,
+    0.125rem
+  ); /* 2px */
+  --_pricing-price-row-margin-bottom: var(
+    --bearlab-pricing-price-row-margin-bottom,
+    0.25rem
+  ); /* 4px */
+  --_pricing-price-period-font-size: var(
+    --bearlab-pricing-price-period-font-size,
+    0.875rem
+  ); /* 14px */
+  --_pricing-price-period-margin-bottom: var(
+    --bearlab-pricing-price-period-margin-bottom,
+    0.25rem
+  ); /* 4px */
+  --_pricing-price-period-three-margin-bottom: var(
+    --bearlab-pricing-price-period-three-margin-bottom,
+    1.5rem
+  ); /* 24px */
+  --_pricing-pack-description-font-size: var(
+    --bearlab-pricing-pack-description-font-size,
+    0.875rem
+  ); /* 14px */
+  --_pricing-pack-description-three-margin-top: var(
+    --bearlab-pricing-pack-description-three-margin-top,
+    0.25rem
+  ); /* 4px */
+  --_pricing-original-price-font-size: var(
+    --bearlab-pricing-original-price-font-size,
+    1.125rem
+  ); /* 18px */
+  --_pricing-original-price-font-weight: var(
+    --bearlab-pricing-original-price-font-weight,
+    600
+  );
+  --_pricing-divider-height: var(
+    --bearlab-pricing-divider-height,
+    0.0625rem
+  ); /* 1px */
+  --_pricing-divider-margin-y: var(
+    --bearlab-pricing-divider-margin-y,
+    1.5rem
+  ); /* 24px */
+  --_pricing-feature-list-gap: var(
+    --bearlab-pricing-feature-list-gap,
+    0.75rem
+  ); /* 12px */
+  --_pricing-feature-list-margin-bottom: var(
+    --bearlab-pricing-feature-list-margin-bottom,
+    2rem
+  ); /* 32px */
+  --_pricing-feature-item-font-size: var(
+    --bearlab-pricing-feature-item-font-size,
+    0.875rem
+  ); /* 14px */
+  --_pricing-feature-item-gap: var(
+    --bearlab-pricing-feature-item-gap,
+    0.75rem
+  ); /* 12px */
+  --_pricing-button-height: var(
+    --bearlab-pricing-button-height,
+    3rem
+  ); /* 48px */
+  --_pricing-button-three-height: var(
+    --bearlab-pricing-button-three-height,
+    2.75rem
+  ); /* 44px */
+  --_pricing-button-padding-y: var(
+    --bearlab-pricing-button-padding-y,
+    0.875rem
+  ); /* 14px */
+  --_pricing-button-font-size: var(
+    --bearlab-pricing-button-font-size,
+    0.875rem
+  ); /* 14px */
+  --_pricing-button-font-weight: var(--bearlab-pricing-button-font-weight, 500);
+  --_pricing-pack-icon-wrapper-size: var(
+    --bearlab-pricing-pack-icon-wrapper-size,
+    3.5rem
+  ); /* 56px */
+  --_pricing-card-two-header-margin-bottom: var(
+    --bearlab-pricing-card-two-header-margin-bottom,
+    0.25rem
+  ); /* 4px */
+  --_pricing-badge-font-size: var(
+    --bearlab-pricing-badge-font-size,
+    0.75rem
+  ); /* 12px */
+  --_pricing-badge-font-weight: var(--bearlab-pricing-badge-font-weight, 600);
+  --_pricing-badge-letter-spacing: var(
+    --bearlab-pricing-badge-letter-spacing,
+    0.02em
+  );
+  --_pricing-badge-padding-y: var(
+    --bearlab-pricing-badge-padding-y,
+    0.25rem
+  ); /* 4px */
+  --_pricing-badge-padding-x: var(
+    --bearlab-pricing-badge-padding-x,
+    0.75rem
+  ); /* 12px */
+  --_pricing-badge-top: var(--bearlab-pricing-badge-top, 1rem); /* 16px */
+  --_pricing-badge-right: var(--bearlab-pricing-badge-right, 1rem); /* 16px */
+  --_pricing-outline-width-focus: var(
+    --bearlab-pricing-outline-width-focus,
+    0.125rem
+  ); /* 2px */
+  --_pricing-focus-outline-offset: var(
+    --bearlab-pricing-focus-outline-offset,
+    0.125rem
+  ); /* 2px */
+  --_pricing-card-focus-outline-offset: var(
+    --bearlab-pricing-card-focus-outline-offset,
+    0.1875rem
+  ); /* 3px */
+  --_pricing-card-shadow-hover: var(
+    --bearlab-pricing-card-shadow-hover,
+    0 0.25rem 0.75rem #0000004d
+  ); /* 4px 12px */
+  --_pricing-card-shadow-active: var(
+    --bearlab-pricing-card-shadow-active,
+    0 0.75rem 2rem rgba(0, 0, 0, 0.2)
+  ); /* 12px 32px */
+  --_pricing-card-two-shadow-active: var(
+    --bearlab-pricing-card-two-shadow-active,
+    0 0.75rem 2rem #3b82f626
+  ); /* 12px 32px */
+  --_pricing-card-three-shadow-active: var(
+    --bearlab-pricing-card-three-shadow-active,
+    0 0.75rem 2rem rgba(59, 130, 246, 0.25)
+  ); /* 12px 32px */
+  --_pricing-button-shadow: var(
+    --bearlab-pricing-button-shadow,
+    0 0.0625rem 0.125rem #0f172a
+  ); /* 1px 2px */
+
+  --_pricing-color-focus: var(--bearlab-pricing-color-focus, #465fff);
+  --_pricing-title-color: var(--bearlab-pricing-title-color, #1d2939);
+  --_pricing-switch-wrapper-bg: var(
+    --bearlab-pricing-switch-wrapper-bg,
+    #e5e7eb
+  );
+  --_pricing-switch-indicator-bg: var(
+    --bearlab-pricing-switch-indicator-bg,
+    #fff
+  );
+  --_pricing-switch-button-color: var(
+    --bearlab-pricing-switch-button-color,
+    #6b7280
+  );
+  --_pricing-switch-button-color-hover: var(
+    --bearlab-pricing-switch-button-color-hover,
+    #374151
+  );
+  --_pricing-switch-button-color-active: var(
+    --bearlab-pricing-switch-button-color-active,
+    #1f2937
+  );
+  --_pricing-card-border-color: var(
+    --bearlab-pricing-card-border-color,
+    #e5e7eb
+  );
+  --_pricing-card-border-color-hover: var(
+    --bearlab-pricing-card-border-color-hover,
+    #d1d5db
+  );
+  --_pricing-card-one-bg: var(--bearlab-pricing-card-one-bg, transparent);
+  --_pricing-card-one-divider-bg: var(
+    --bearlab-pricing-card-one-divider-bg,
+    #e5e7eb
+  );
+  --_pricing-pack-title-color: var(--bearlab-pricing-pack-title-color, #1d2939);
+  --_pricing-price-color: var(--bearlab-pricing-price-color, #1d2939);
+  --_pricing-price-period-color: var(
+    --bearlab-pricing-price-period-color,
+    #6b7280
+  );
+  --_pricing-price-period-two-color: var(
+    --bearlab-pricing-price-period-two-color,
+    #667080
+  );
+  --_pricing-price-period-three-color: var(
+    --bearlab-pricing-price-period-three-color,
+    #667085
+  );
+  --_pricing-pack-description-color: var(
+    --bearlab-pricing-pack-description-color,
+    #6b7280
+  );
+  --_pricing-pack-description-three-color: var(
+    --bearlab-pricing-pack-description-three-color,
+    #667085
+  );
+  --_pricing-original-price-color: var(
+    --bearlab-pricing-original-price-color,
+    #9ca3af
+  );
+  --_pricing-original-price-color-active: var(
+    --bearlab-pricing-original-price-color-active,
+    #d1d5db
+  );
+  --_pricing-divider-bg: var(--bearlab-pricing-divider-bg, #e5e7eb);
+  --_pricing-feature-item-color: var(
+    --bearlab-pricing-feature-item-color,
+    #6b7280
+  );
+  --_pricing-feature-item-color-active: var(
+    --bearlab-pricing-feature-item-color-active,
+    #ffffffcc
+  );
+  --_pricing-feature-icon-included-color: var(
+    --bearlab-pricing-feature-icon-included-color,
+    #22c55e
+  );
+  --_pricing-feature-icon-excluded-color: var(
+    --bearlab-pricing-feature-icon-excluded-color,
+    #ef4444
+  );
+  --_pricing-card-two-feature-item-color-active: var(
+    --bearlab-pricing-card-two-feature-item-color-active,
+    #6b7280
+  );
+  --_pricing-card-bg-active: var(--bearlab-pricing-card-bg-active, #1f2937);
+  --_pricing-card-border-color-active: var(
+    --bearlab-pricing-card-border-color-active,
+    #1f2937
+  );
+  --_pricing-card-pack-title-color-active: var(
+    --bearlab-pricing-card-pack-title-color-active,
+    #fff
+  );
+  --_pricing-card-price-color-active: var(
+    --bearlab-pricing-card-price-color-active,
+    #fff
+  );
+  --_pricing-card-price-period-color-active: var(
+    --bearlab-pricing-card-price-period-color-active,
+    #ffffffb3
+  );
+  --_pricing-card-pack-description-color-active: var(
+    --bearlab-pricing-card-pack-description-color-active,
+    #ffffffb3
+  );
+  --_pricing-button-one-bg: var(--bearlab-pricing-button-one-bg, #1f2937);
+  --_pricing-button-one-color: var(--bearlab-pricing-button-one-color, #fff);
+  --_pricing-button-one-bg-hover: var(
+    --bearlab-pricing-button-one-bg-hover,
+    #465fff
+  );
+  --_pricing-button-bg-active: var(--bearlab-pricing-button-bg-active, #465fff);
+  --_pricing-button-color-active: var(
+    --bearlab-pricing-button-color-active,
+    #fff
+  );
+  --_pricing-button-active-bg-hover: var(
+    --bearlab-pricing-button-active-bg-hover,
+    #3641f5
+  );
+  --_pricing-card-two-bg: var(--bearlab-pricing-card-two-bg, #fff);
+  --_pricing-card-two-border-color-active: var(
+    --bearlab-pricing-card-two-border-color-active,
+    #465fff
+  );
+  --_pricing-card-two-divider-bg: var(
+    --bearlab-pricing-card-two-divider-bg,
+    #e5e7eb
+  );
+  --_pricing-pack-title-two-color: var(
+    --bearlab-pricing-pack-title-two-color,
+    #1d2939
+  );
+  --_pricing-pack-icon-wrapper-bg: var(
+    --bearlab-pricing-pack-icon-wrapper-bg,
+    #ecf3ff
+  );
+  --_pricing-pack-icon-color: var(--bearlab-pricing-pack-icon-color, #465fff);
+  --_pricing-button-two-bg: var(--bearlab-pricing-button-two-bg, #1d2939);
+  --_pricing-button-two-color: var(--bearlab-pricing-button-two-color, #fff);
+  --_pricing-button-two-bg-hover: var(
+    --bearlab-pricing-button-two-bg-hover,
+    #465fff
+  );
+  --_pricing-button-two-bg-active: var(
+    --bearlab-pricing-button-two-bg-active,
+    #465fff
+  );
+  --_pricing-button-two-active-bg-hover: var(
+    --bearlab-pricing-button-two-active-bg-hover,
+    #4f46e5
+  );
+  --_pricing-card-three-bg: var(--bearlab-pricing-card-three-bg, #fff);
+  --_pricing-card-three-bg-active: var(
+    --bearlab-pricing-card-three-bg-active,
+    #465fff
+  );
+  --_pricing-card-three-border-color-active: var(
+    --bearlab-pricing-card-three-border-color-active,
+    #465fff
+  );
+  --_pricing-badge-color: var(--bearlab-pricing-badge-color, #fff);
+  --_pricing-badge-bg: var(
+    --bearlab-pricing-badge-bg,
+    color-mix(in oklab, #fff 20%, transparent)
+  );
+  --_pricing-button-three-bg-active: var(
+    --bearlab-pricing-button-three-bg-active,
+    #fff
+  );
+  --_pricing-button-three-color-active: var(
+    --bearlab-pricing-button-three-color-active,
+    #1d2939
+  );
+  --_pricing-button-three-active-bg-hover: var(
+    --bearlab-pricing-button-three-active-bg-hover,
+    #f9fafb
+  );
+
+  :global([data-theme="dark"]) & {
+    --_pricing-title-color: var(--bearlab-pricing-title-color, #ffffffe6);
+    --_pricing-switch-wrapper-bg: var(
+      --bearlab-pricing-switch-wrapper-bg,
+      #1f2937
+    );
+    --_pricing-switch-indicator-bg: var(
+      --bearlab-pricing-switch-indicator-bg,
+      #ffffff1a
+    );
+    --_pricing-switch-button-color: var(
+      --bearlab-pricing-switch-button-color,
+      #9ca3af
+    );
+    --_pricing-switch-button-color-hover: var(
+      --bearlab-pricing-switch-button-color-hover,
+      #ffffffb3
+    );
+    --_pricing-switch-button-color-active: var(
+      --bearlab-pricing-switch-button-color-active,
+      #ffffffe6
+    );
+    --_pricing-card-border-color: var(
+      --bearlab-pricing-card-border-color,
+      #1f2937
+    );
+    --_pricing-card-border-color-hover: var(
+      --bearlab-pricing-card-border-color-hover,
+      #454745
+    );
+    --_pricing-card-one-bg: var(
+      --bearlab-pricing-card-one-bg,
+      color-mix(in oklab, #fff 3%, transparent)
+    );
+    --_pricing-card-one-divider-bg: var(
+      --bearlab-pricing-card-one-divider-bg,
+      #1f2937
+    );
+    --_pricing-pack-title-color: var(
+      --bearlab-pricing-pack-title-color,
+      #ffffffe6
+    );
+    --_pricing-price-color: var(--bearlab-pricing-price-color, #ffffffe6);
+    --_pricing-price-period-color: var(
+      --bearlab-pricing-price-period-color,
+      #9ca3af
+    );
+    --_pricing-price-period-two-color: var(
+      --bearlab-pricing-price-period-two-color,
+      #9ca3af
+    );
+    --_pricing-price-period-three-color: var(
+      --bearlab-pricing-price-period-three-color,
+      #9ca3af
+    );
+    --_pricing-pack-description-color: var(
+      --bearlab-pricing-pack-description-color,
+      #9ca3af
+    );
+    --_pricing-pack-description-three-color: var(
+      --bearlab-pricing-pack-description-three-color,
+      #9ca3af
+    );
+    --_pricing-original-price-color: var(
+      --bearlab-pricing-original-price-color,
+      #9ca3af
+    );
+    --_pricing-original-price-color-active: var(
+      --bearlab-pricing-original-price-color-active,
+      #d1d5db
+    );
+    --_pricing-divider-bg: var(--bearlab-pricing-divider-bg, #1f2937);
+    --_pricing-feature-item-color: var(
+      --bearlab-pricing-feature-item-color,
+      #9ca3af
+    );
+    --_pricing-feature-item-color-active: var(
+      --bearlab-pricing-feature-item-color-active,
+      #ffffffcc
+    );
+    --_pricing-feature-icon-included-color: var(
+      --bearlab-pricing-feature-icon-included-color,
+      #10b981
+    );
+    --_pricing-feature-icon-excluded-color: var(
+      --bearlab-pricing-feature-icon-excluded-color,
+      #f87171
+    );
+    --_pricing-card-two-feature-item-color-active: var(
+      --bearlab-pricing-card-two-feature-item-color-active,
+      #6b7280
+    );
+    --_pricing-card-bg-active: var(
+      --bearlab-pricing-card-bg-active,
+      color-mix(in oklab, #fff 10%, transparent)
+    );
+    --_pricing-card-border-color-active: var(
+      --bearlab-pricing-card-border-color-active,
+      color-mix(in oklab, #fff 10%, transparent)
+    );
+    --_pricing-card-pack-title-color-active: var(
+      --bearlab-pricing-card-pack-title-color-active,
+      #fff
+    );
+    --_pricing-card-price-color-active: var(
+      --bearlab-pricing-card-price-color-active,
+      #fff
+    );
+    --_pricing-card-price-period-color-active: var(
+      --bearlab-pricing-card-price-period-color-active,
+      #ffffffb3
+    );
+    --_pricing-card-pack-description-color-active: var(
+      --bearlab-pricing-card-pack-description-color-active,
+      #ffffffb3
+    );
+    --_pricing-button-one-bg-hover: var(
+      --bearlab-pricing-button-one-bg-hover,
+      #465fff
+    );
+    --_pricing-button-bg-active: var(
+      --bearlab-pricing-button-bg-active,
+      #465fff
+    );
+    --_pricing-button-color-active: var(
+      --bearlab-pricing-button-color-active,
+      #fff
+    );
+    --_pricing-button-active-bg-hover: var(
+      --bearlab-pricing-button-active-bg-hover,
+      #3641f5
+    );
+    --_pricing-card-two-bg: var(--bearlab-pricing-card-two-bg, #ffffff08);
+    --_pricing-card-two-border-color-active: var(
+      --bearlab-pricing-card-two-border-color-active,
+      #465fff
+    );
+    --_pricing-card-two-divider-bg: var(
+      --bearlab-pricing-card-two-divider-bg,
+      #1d2939
+    );
+    --_pricing-pack-title-two-color: var(
+      --bearlab-pricing-pack-title-two-color,
+      #ffffffe6
+    );
+    --_pricing-price-two-color: var(
+      --bearlab-pricing-price-two-color,
+      #ffffffe6
+    );
+    --_pricing-pack-icon-wrapper-bg: var(
+      --bearlab-pricing-pack-icon-wrapper-bg,
+      #ecf3ff
+    );
+    --_pricing-button-two-bg: var(--bearlab-pricing-button-two-bg, #ffffff1a);
+    --_pricing-button-two-bg-hover: var(
+      --bearlab-pricing-button-two-bg-hover,
+      #465fff
+    );
+    --_pricing-button-two-bg-active: var(
+      --bearlab-pricing-button-two-bg-active,
+      #465fff
+    );
+    --_pricing-button-two-active-bg-hover: var(
+      --bearlab-pricing-button-two-active-bg-hover,
+      #3641f5
+    );
+    --_pricing-card-three-bg: var(--bearlab-pricing-card-three-bg, #ffffff08);
+    --_pricing-card-three-bg-active: var(
+      --bearlab-pricing-card-three-bg-active,
+      #465fff
+    );
+    --_pricing-card-three-border-color-active: var(
+      --bearlab-pricing-card-three-border-color-active,
+      #465fff
+    );
+    --_pricing-badge-bg: var(
+      --bearlab-pricing-badge-bg,
+      color-mix(in oklab, #fff 20%, transparent)
+    );
+    --_pricing-button-three-bg-active: var(
+      --bearlab-pricing-button-three-bg-active,
+      #fff
+    );
+    --_pricing-button-three-color-active: var(
+      --bearlab-pricing-button-three-color-active,
+      #1d2939
+    );
+    --_pricing-button-three-active-bg-hover: var(
+      --bearlab-pricing-button-three-active-bg-hover,
+      #f9fafb
+    );
+  }
 }
 
 .container {
@@ -208,43 +639,42 @@
 .header {
   margin: 0 auto;
   width: 100%;
-  max-width: var(--bearlab-pricing-header-max-width);
+  max-width: var(--_pricing-header-max-width);
   text-align: center;
 }
 
 .title {
-  font-weight: var(--bearlab-pricing-title-font-weight);
-  color: var(--bearlab-pricing-title-color);
-  margin-bottom: var(--bearlab-pricing-title-margin-bottom);
-  font-size: var(--bearlab-pricing-title-font-size);
+  font-weight: var(--_pricing-title-font-weight);
+  color: var(--_pricing-title-color);
+  margin-bottom: var(--_pricing-title-margin-bottom);
+  font-size: var(--_pricing-title-font-size);
 }
 
 .switchContainer {
-  margin-bottom: var(--bearlab-pricing-switch-margin-bottom);
+  margin-bottom: var(--_pricing-switch-margin-bottom);
   text-align: center;
 }
 
 .switchWrapper {
   position: relative;
   display: inline-flex;
-  padding: var(--bearlab-pricing-switch-padding);
-  background-color: var(--bearlab-pricing-switch-wrapper-bg);
-  border-radius: var(--bearlab-pricing-switch-radius);
+  padding: var(--_pricing-switch-padding);
+  background-color: var(--_pricing-switch-wrapper-bg);
+  border-radius: var(--_pricing-switch-radius);
   z-index: 1;
 }
 
 .switchIndicator {
   position: absolute;
   top: 50%;
-  left: var(--bearlab-pricing-switch-padding);
+  left: var(--_pricing-switch-padding);
   z-index: -1;
-  height: var(--bearlab-pricing-switch-indicator-height);
-  width: var(--bearlab-pricing-switch-indicator-width);
+  height: var(--_pricing-switch-indicator-height);
+  width: var(--_pricing-switch-indicator-width);
   transform: translateY(-50%);
-  border-radius: var(--bearlab-pricing-switch-radius);
-  background-color: var(--bearlab-pricing-switch-indicator-bg);
-  box-shadow: var(--bearlab-pricing-switch-indicator-shadow);
-  transition: transform var(--bearlab-pricing-transition-speed) linear;
+  border-radius: var(--_pricing-switch-radius);
+  background-color: var(--_pricing-switch-indicator-bg);
+  transition: transform var(--_pricing-transition-speed) linear;
 
   &.translateRight {
     transform: translateY(-50%) translateX(100%);
@@ -253,113 +683,113 @@
 
 .switchButton {
   display: flex;
-  height: var(--bearlab-pricing-switch-button-height);
-  width: var(--bearlab-pricing-switch-button-width);
+  height: var(--_pricing-switch-button-height);
+  width: var(--_pricing-switch-button-width);
   align-items: center;
   justify-content: center;
-  font-size: var(--bearlab-pricing-switch-button-font-size);
-  color: var(--bearlab-pricing-switch-button-color);
+  font-size: var(--_pricing-switch-button-font-size);
+  color: var(--_pricing-switch-button-color);
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: var(--bearlab-pricing-switch-radius);
-  transition: color var(--bearlab-pricing-transition-speed);
+  border-radius: var(--_pricing-switch-radius);
+  transition: color var(--_pricing-transition-speed);
 
   &:hover {
-    color: var(--bearlab-pricing-switch-button-hover-color);
+    color: var(--_pricing-switch-button-color-hover);
   }
 
   &:focus-visible {
-    outline: var(--bearlab-pricing-focus-outline-width) solid
-      var(--bearlab-pricing-focus-color);
-    outline-offset: var(--bearlab-pricing-focus-outline-offset);
+    outline: var(--_pricing-outline-width-focus) solid
+      var(--_pricing-color-focus);
+    outline-offset: var(--_pricing-focus-outline-offset);
   }
 }
 
 .switchButtonActive {
-  color: var(--bearlab-pricing-switch-button-active-color);
-  font-weight: var(--bearlab-pricing-switch-button-active-font-weight);
+  color: var(--_pricing-switch-button-color-active);
+  font-weight: var(--_pricing-switch-button-active-font-weight);
 }
 
 .grid {
   display: grid;
-  gap: var(--bearlab-pricing-grid-gap);
+  gap: var(--_pricing-grid-gap);
   grid-template-columns: 1fr;
 }
 
 .card {
   position: relative;
-  border-radius: var(--bearlab-pricing-card-radius);
-  padding: var(--bearlab-pricing-card-padding);
-  border: var(--bearlab-pricing-card-border-width) solid
-    var(--bearlab-pricing-card-border-color);
+  border-radius: var(--_pricing-card-radius);
+  padding: var(--_pricing-card-padding);
+  border: var(--_pricing-card-border-width) solid
+    var(--_pricing-card-border-color);
   cursor: pointer;
   transition:
-    border-color var(--bearlab-pricing-transition-speed),
-    background-color var(--bearlab-pricing-transition-speed),
-    box-shadow var(--bearlab-pricing-transition-speed),
-    transform var(--bearlab-pricing-transition-speed);
+    border-color var(--_pricing-transition-speed),
+    background-color var(--_pricing-transition-speed),
+    box-shadow var(--_pricing-transition-speed),
+    transform var(--_pricing-transition-speed);
 
   &:focus-visible {
-    outline: var(--bearlab-pricing-focus-outline-width) solid
-      var(--bearlab-pricing-focus-color);
-    outline-offset: var(--bearlab-pricing-card-focus-outline-offset);
+    outline: var(--_pricing-outline-width-focus) solid
+      var(--_pricing-color-focus);
+    outline-offset: var(--_pricing-card-focus-outline-offset);
   }
 
   &:hover:not(.cardActive):not(.cardTwoActive):not(.cardThreeActive) {
-    border-color: var(--bearlab-pricing-card-hover-border-color);
-    box-shadow: var(--bearlab-pricing-card-hover-shadow);
-    transform: var(--bearlab-pricing-card-hover-transform);
+    border-color: var(--_pricing-card-border-color-hover);
+    box-shadow: var(--_pricing-card-shadow-hover);
+    transform: var(--_pricing-card-hover-transform);
   }
 }
 
 .packTitle {
   display: block;
-  font-weight: var(--bearlab-pricing-pack-title-font-weight);
-  color: var(--bearlab-pricing-pack-title-color);
-  font-size: var(--bearlab-pricing-pack-title-font-size);
-  margin-bottom: var(--bearlab-pricing-pack-title-margin-bottom);
+  font-weight: var(--_pricing-pack-title-font-weight);
+  color: var(--_pricing-pack-title-color);
+  font-size: var(--_pricing-pack-title-font-size);
+  margin-bottom: var(--_pricing-pack-title-margin-bottom);
 }
 
 .priceGroup {
   display: flex;
   align-items: flex-end;
-  gap: var(--bearlab-pricing-price-group-gap);
+  gap: var(--_pricing-price-group-gap);
 }
 
 .price {
-  font-weight: var(--bearlab-pricing-price-font-weight);
-  color: var(--bearlab-pricing-price-color);
-  font-size: var(--bearlab-pricing-price-font-size);
+  font-weight: var(--_pricing-price-font-weight);
+  color: var(--_pricing-price-color);
+  font-size: var(--_pricing-price-font-size);
   line-height: 1;
 }
 
 .pricePeriod {
   display: inline-block;
-  margin-bottom: var(--bearlab-pricing-price-period-margin-bottom);
-  font-size: var(--bearlab-pricing-price-period-font-size);
-  color: var(--bearlab-pricing-price-period-color);
+  margin-bottom: var(--_pricing-price-period-margin-bottom);
+  font-size: var(--_pricing-price-period-font-size);
+  color: var(--_pricing-price-period-color);
 }
 
 .packDescription {
-  font-size: var(--bearlab-pricing-pack-description-font-size);
-  color: var(--bearlab-pricing-pack-description-color);
+  font-size: var(--_pricing-pack-description-font-size);
+  color: var(--_pricing-pack-description-color);
 }
 
 .divider {
   width: 100%;
-  height: var(--bearlab-pricing-divider-height);
-  margin-top: var(--bearlab-pricing-divider-margin-y);
-  margin-bottom: var(--bearlab-pricing-divider-margin-y);
-  background-color: var(--bearlab-pricing-divider-bg);
-  transition: background-color var(--bearlab-pricing-transition-speed);
+  height: var(--_pricing-divider-height);
+  margin-top: var(--_pricing-divider-margin-y);
+  margin-bottom: var(--_pricing-divider-margin-y);
+  background-color: var(--_pricing-divider-bg);
+  transition: background-color var(--_pricing-transition-speed);
 }
 
 .featureList {
-  margin-bottom: var(--bearlab-pricing-feature-list-margin-bottom);
+  margin-bottom: var(--_pricing-feature-list-margin-bottom);
   display: flex;
   flex-direction: column;
-  gap: var(--bearlab-pricing-feature-list-gap);
+  gap: var(--_pricing-feature-list-gap);
   list-style: none;
   padding: 0;
   margin-left: 0;
@@ -368,9 +798,9 @@
 .featureItem {
   display: flex;
   align-items: center;
-  gap: var(--bearlab-pricing-feature-item-gap);
-  font-size: var(--bearlab-pricing-feature-item-font-size);
-  transition: color var(--bearlab-pricing-transition-speed);
+  gap: var(--_pricing-feature-item-gap);
+  font-size: var(--_pricing-feature-item-font-size);
+  transition: color var(--_pricing-transition-speed);
 }
 
 .featureIcon {
@@ -379,23 +809,23 @@
 }
 
 .included {
-  color: var(--bearlab-pricing-feature-item-color);
+  color: var(--_pricing-feature-item-color);
 
   .featureIcon svg {
-    color: var(--bearlab-pricing-feature-icon-included-color);
+    color: var(--_pricing-feature-icon-included-color);
   }
 }
 
 .excluded {
-  color: var(--bearlab-pricing-feature-item-color);
+  color: var(--_pricing-feature-item-color);
 
   .featureIcon svg {
-    color: var(--bearlab-pricing-feature-icon-excluded-color);
+    color: var(--_pricing-feature-icon-excluded-color);
   }
 }
 
 .featureItemActive {
-  color: var(--bearlab-pricing-feature-item-active-color);
+  color: var(--_pricing-feature-item-color-active);
 }
 
 .button {
@@ -403,28 +833,28 @@
   width: 100%;
   align-items: center;
   justify-content: center;
-  border-radius: var(--bearlab-pricing-btn-radius);
-  padding: var(--bearlab-pricing-button-padding-y);
-  font-size: var(--bearlab-pricing-button-font-size);
-  font-weight: var(--bearlab-pricing-button-font-weight);
-  height: var(--bearlab-pricing-button-height);
+  border-radius: var(--_pricing-btn-radius);
+  padding: var(--_pricing-button-padding-y);
+  font-size: var(--_pricing-button-font-size);
+  font-weight: var(--_pricing-button-font-weight);
+  height: var(--_pricing-button-height);
   transition:
-    background-color var(--bearlab-pricing-transition-speed),
-    box-shadow var(--bearlab-pricing-transition-speed);
+    background-color var(--_pricing-transition-speed),
+    box-shadow var(--_pricing-transition-speed);
 
   &:focus-visible {
-    outline: var(--bearlab-pricing-focus-outline-width) solid
-      var(--bearlab-pricing-focus-color);
-    outline-offset: var(--bearlab-pricing-focus-outline-offset);
+    outline: var(--_pricing-outline-width-focus) solid
+      var(--_pricing-color-focus);
+    outline-offset: var(--_pricing-focus-outline-offset);
   }
 }
 
 .cardOne {
-  border-color: var(--bearlab-pricing-card-border-color);
-  background-color: var(--bearlab-pricing-card-one-bg);
+  border-color: var(--_pricing-card-border-color);
+  background-color: var(--_pricing-card-one-bg);
 
   .divider {
-    background-color: var(--bearlab-pricing-card-one-divider-bg);
+    background-color: var(--_pricing-card-one-divider-bg);
   }
 }
 
@@ -432,99 +862,99 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--bearlab-pricing-price-row-margin-bottom);
+  margin-bottom: var(--_pricing-price-row-margin-bottom);
 }
 
 .originalPrice {
-  font-weight: var(--bearlab-pricing-original-price-font-weight);
-  color: var(--bearlab-pricing-original-price-color);
+  font-weight: var(--_pricing-original-price-font-weight);
+  color: var(--_pricing-original-price-color);
   text-decoration: line-through;
-  font-size: var(--bearlab-pricing-original-price-font-size);
-  transition: color var(--bearlab-pricing-transition-speed);
+  font-size: var(--_pricing-original-price-font-size);
+  transition: color var(--_pricing-transition-speed);
 }
 
 .originalPriceActive {
-  color: var(--bearlab-pricing-original-price-active-color);
+  color: var(--_pricing-original-price-color-active);
 }
 
 .priceActive {
-  color: var(--bearlab-pricing-card-active-price-color);
+  color: var(--_pricing-card-price-color-active);
 }
 
 .pricePeriodActive {
-  color: var(--bearlab-pricing-card-active-price-period-color);
+  color: var(--_pricing-card-price-period-color-active);
 }
 
 .packTitleActive {
-  color: var(--bearlab-pricing-card-active-pack-title-color);
+  color: var(--_pricing-card-pack-title-color-active);
 }
 
 .packDescriptionActive {
-  color: var(--bearlab-pricing-card-active-pack-description-color);
+  color: var(--_pricing-card-pack-description-color-active);
 }
 
 .cardActive {
-  border-color: var(--bearlab-pricing-card-active-border-color);
-  background-color: var(--bearlab-pricing-card-active-bg);
-  box-shadow: var(--bearlab-pricing-card-active-shadow);
-  transform: var(--bearlab-pricing-card-active-transform);
+  border-color: var(--_pricing-card-border-color-active);
+  background-color: var(--_pricing-card-bg-active);
+  box-shadow: var(--_pricing-card-shadow-active);
+  transform: var(--_pricing-card-active-transform);
 
   .packTitle {
-    color: var(--bearlab-pricing-card-active-pack-title-color);
+    color: var(--_pricing-card-pack-title-color-active);
   }
 
   .price {
-    color: var(--bearlab-pricing-card-active-price-color);
+    color: var(--_pricing-card-price-color-active);
   }
 
   .pricePeriod {
-    color: var(--bearlab-pricing-card-active-price-period-color);
+    color: var(--_pricing-card-price-period-color-active);
   }
 
   .packDescription {
-    color: var(--bearlab-pricing-card-active-pack-description-color);
+    color: var(--_pricing-card-pack-description-color-active);
   }
 }
 
 .buttonOne {
-  background-color: var(--bearlab-pricing-button-one-bg);
-  color: var(--bearlab-pricing-button-one-color);
-  box-shadow: var(--bearlab-pricing-button-shadow);
+  background-color: var(--_pricing-button-one-bg);
+  color: var(--_pricing-button-one-color);
+  box-shadow: var(--_pricing-button-shadow);
 
   &:hover {
-    background-color: var(--bearlab-pricing-button-one-hover-bg);
+    background-color: var(--_pricing-button-one-bg-hover);
   }
 }
 
 .buttonActive {
-  background-color: var(--bearlab-pricing-button-active-bg);
-  color: var(--bearlab-pricing-button-active-color);
-  box-shadow: var(--bearlab-pricing-button-shadow);
+  background-color: var(--_pricing-button-bg-active);
+  color: var(--_pricing-button-color-active);
+  box-shadow: var(--_pricing-button-shadow);
 
   &:hover {
-    background-color: var(--bearlab-pricing-button-active-hover-bg);
+    background-color: var(--_pricing-button-active-bg-hover);
   }
 }
 
 .cardTwo {
-  background-color: var(--bearlab-pricing-card-two-bg);
+  background-color: var(--_pricing-card-two-bg);
   transition:
-    border-color var(--bearlab-pricing-transition-speed),
-    box-shadow var(--bearlab-pricing-transition-speed),
-    transform var(--bearlab-pricing-transition-speed);
+    border-color var(--_pricing-transition-speed),
+    box-shadow var(--_pricing-transition-speed),
+    transform var(--_pricing-transition-speed);
 
   .divider {
-    background-color: var(--bearlab-pricing-card-two-divider-bg);
+    background-color: var(--_pricing-card-two-divider-bg);
   }
 }
 
 .cardTwoActive {
-  border-color: var(--bearlab-pricing-card-two-active-border-color);
-  box-shadow: var(--bearlab-pricing-card-two-active-shadow);
-  transform: var(--bearlab-pricing-card-active-transform);
+  border-color: var(--_pricing-card-two-border-color-active);
+  box-shadow: var(--_pricing-card-two-shadow-active);
+  transform: var(--_pricing-card-active-transform);
 
   .featureItemActive {
-    color: var(--bearlab-pricing-card-two-feature-item-active-color);
+    color: var(--_pricing-card-two-feature-item-color-active);
   }
 }
 
@@ -532,7 +962,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--bearlab-pricing-card-two-header-margin-bottom);
+  margin-bottom: var(--_pricing-card-two-header-margin-bottom);
 }
 
 .packTitleTwo {
@@ -541,146 +971,153 @@
 
 .packIconWrapper {
   display: flex;
-  height: var(--bearlab-pricing-pack-icon-wrapper-size);
-  width: var(--bearlab-pricing-pack-icon-wrapper-size);
+  height: var(--_pricing-pack-icon-wrapper-size);
+  width: var(--_pricing-pack-icon-wrapper-size);
   align-items: center;
   justify-content: center;
-  border-radius: var(--bearlab-pricing-pack-icon-wrapper-radius);
-  background-color: var(--bearlab-pricing-pack-icon-wrapper-bg);
-  transition: background-color var(--bearlab-pricing-transition-speed);
+  border-radius: var(--_pricing-pack-icon-wrapper-radius);
+  background-color: var(--_pricing-pack-icon-wrapper-bg);
+  transition: background-color var(--_pricing-transition-speed);
 
   svg {
-    fill: var(--bearlab-pricing-pack-icon-color);
+    fill: var(--_pricing-pack-icon-color);
   }
 }
 
 .priceTwo {
-  font-size: var(--bearlab-pricing-price-two-font-size);
+  font-size: var(--_pricing-price-two-font-size);
 }
 
 .pricePeriodTwo {
-  color: var(--bearlab-pricing-price-period-two-color);
+  color: var(--_pricing-price-period-two-color);
 }
 
 .buttonTwo {
-  background-color: var(--bearlab-pricing-button-two-bg);
-  color: var(--bearlab-pricing-button-two-color);
-  box-shadow: var(--bearlab-pricing-button-shadow);
+  background-color: var(--_pricing-button-two-bg);
+  color: var(--_pricing-button-two-color);
+  box-shadow: var(--_pricing-button-shadow);
 
   &:hover {
-    background-color: var(--bearlab-pricing-button-two-hover-bg);
+    background-color: var(--_pricing-button-two-bg-hover);
   }
 }
 
 .buttonTwoActive {
-  background-color: var(--bearlab-pricing-button-two-active-bg);
+  background-color: var(--_pricing-button-two-bg-active);
 
   &:hover {
-    background-color: var(--bearlab-pricing-button-two-active-hover-bg);
+    background-color: var(--_pricing-button-two-active-bg-hover);
   }
 }
 
 .cardThree {
-  background-color: var(--bearlab-pricing-card-three-bg);
+  background-color: var(--_pricing-card-three-bg);
 }
 
 .cardThreeActive {
-  background-color: var(--bearlab-pricing-card-three-active-bg) !important;
-  border-color: var(--bearlab-pricing-card-three-active-border-color);
-  box-shadow: var(--bearlab-pricing-card-three-active-shadow);
-  transform: var(--bearlab-pricing-card-active-transform);
+  background-color: var(--_pricing-card-three-bg-active) !important;
+  border-color: var(--_pricing-card-three-border-color-active);
+  box-shadow: var(--_pricing-card-three-shadow-active);
+  transform: var(--_pricing-card-active-transform);
 }
 
 .badge {
   position: absolute;
-  padding: var(--bearlab-pricing-badge-padding-y)
-    var(--bearlab-pricing-badge-padding-x);
-  color: var(--bearlab-pricing-badge-color);
-  border-radius: var(--bearlab-pricing-badge-radius);
-  right: var(--bearlab-pricing-badge-right);
-  top: var(--bearlab-pricing-badge-top);
-  background-color: var(--bearlab-pricing-badge-bg);
-  font-size: var(--bearlab-pricing-badge-font-size);
-  font-weight: var(--bearlab-pricing-badge-font-weight);
-  letter-spacing: var(--bearlab-pricing-badge-letter-spacing);
+  padding: var(--_pricing-badge-padding-y) var(--_pricing-badge-padding-x);
+  color: var(--_pricing-badge-color);
+  border-radius: var(--_pricing-badge-radius);
+  right: var(--_pricing-badge-right);
+  top: var(--_pricing-badge-top);
+  background-color: var(--_pricing-badge-bg);
+  font-size: var(--_pricing-badge-font-size);
+  font-weight: var(--_pricing-badge-font-weight);
+  letter-spacing: var(--_pricing-badge-letter-spacing);
 }
 
 .packTitleThreeActive {
-  color: var(--bearlab-pricing-card-active-pack-title-color);
+  color: var(--_pricing-card-pack-title-color-active);
 }
 
 .packDescriptionThree {
-  margin-top: var(--bearlab-pricing-pack-description-three-margin-top);
-  color: var(--bearlab-pricing-pack-description-three-color);
+  margin-top: var(--_pricing-pack-description-three-margin-top);
+  color: var(--_pricing-pack-description-three-color);
 }
 
 .packDescriptionThreeActive {
-  color: var(--bearlab-pricing-card-active-pack-description-color) !important;
+  color: var(--_pricing-card-pack-description-color-active) !important;
 }
 
 .priceThree {
   display: block;
-  margin-top: var(--bearlab-pricing-price-three-margin-top);
-  margin-bottom: var(--bearlab-pricing-price-three-margin-bottom);
-  font-size: var(--bearlab-pricing-price-three-font-size);
+  margin-top: var(--_pricing-price-three-margin-top);
+  margin-bottom: var(--_pricing-price-three-margin-bottom);
+  font-size: var(--_pricing-price-three-font-size);
 }
 
 .priceThreeActive {
-  color: var(--bearlab-pricing-card-active-price-color) !important;
+  color: var(--_pricing-card-price-color-active) !important;
 }
 
 .pricePeriodThree {
   display: inline-block;
-  margin-bottom: var(--bearlab-pricing-price-period-three-margin-bottom);
-  font-size: var(--bearlab-pricing-price-period-font-size);
-  color: var(--bearlab-pricing-price-period-three-color);
+  margin-bottom: var(--_pricing-price-period-three-margin-bottom);
+  font-size: var(--_pricing-price-period-font-size);
+  color: var(--_pricing-price-period-three-color);
 }
 
 .pricePeriodThreeActive {
-  color: var(--bearlab-pricing-card-active-price-period-color) !important;
+  color: var(--_pricing-card-price-period-color-active) !important;
 }
 
 .buttonThree {
-  height: var(--bearlab-pricing-button-three-height);
+  height: var(--_pricing-button-three-height);
 }
 
 .buttonThreeActive {
-  background-color: var(--bearlab-pricing-button-three-active-bg) !important;
-  color: var(--bearlab-pricing-button-three-active-color) !important;
-  box-shadow: var(--bearlab-pricing-button-shadow);
+  background-color: var(--_pricing-button-three-bg-active) !important;
+  color: var(--_pricing-button-three-color-active) !important;
+  box-shadow: var(--_pricing-button-shadow);
 
   &:hover {
-    background-color: var(
-      --bearlab-pricing-button-three-active-hover-bg
-    ) !important;
+    background-color: var(--_pricing-button-three-active-bg-hover) !important;
   }
 }
 
 @media (min-width: 48rem) {
   /* 768px */
-  .grid,
+  .container,
   .gridTwo,
   .gridThree {
-    grid-template-columns: 1fr 1fr;
+    .grid,
+    &.gridTwo,
+    &.gridThree {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
 
 @media (min-width: 80rem) {
   /* 1280px */
-  .grid,
+  .container,
   .gridTwo {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--bearlab-pricing-grid-gap-lg);
+    .grid,
+    &.gridTwo {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--_pricing-grid-gap-lg);
+    }
   }
 
   .gridThree {
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--bearlab-pricing-grid-three-gap);
+    gap: var(--_pricing-grid-three-gap);
   }
 
-  .card,
-  .cardTwo {
-    padding: var(--bearlab-pricing-card-padding-lg);
+  .container,
+  .gridTwo {
+    .card,
+    .cardTwo {
+      padding: var(--_pricing-card-padding-lg);
+    }
   }
 }
 

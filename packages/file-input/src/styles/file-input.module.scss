@@ -1,84 +1,211 @@
-:root {
-  --bearlab-file-input-root-gap: 0.625rem; /* 10px */
-  --bearlab-file-input-label-font-size: 0.875rem; /* 14px */
-  --bearlab-file-input-label-font-weight: 600;
-  --bearlab-file-input-label-margin-bottom: 0.625rem; /* 10px */
-  --bearlab-file-input-input-height: 2.75rem; /* 44px */
-  --bearlab-file-input-input-font-size: 0.875rem; /* 14px */
-  --bearlab-file-input-input-border-radius: 0.5rem; /* 8px */
-  --bearlab-file-input-input-border-width: 0.0625rem; /* 1px */
-  --bearlab-file-input-button-padding: 0.8125rem 0.75rem 0.8125rem 0.875rem; /* 13px 12px 13px 14px */
-  --bearlab-file-input-button-font-size: 0.875rem; /* 14px */
-  --bearlab-file-input-button-margin-right: 1.25rem; /* 20px */
-  --bearlab-file-input-button-border-radius-tl: 0.5rem; /* 8px */
-  --bearlab-file-input-button-border-radius-bl: 0.5rem; /* 8px */
-  --bearlab-file-input-error-font-size: 0.875rem; /* 14px */
-  --bearlab-file-input-error-icon-size: 0.75rem; /* 12px */
-  --bearlab-file-input-error-icon-margin-right: 0.5rem; /* 8px */
-  --bearlab-file-input-error-bottom-offset: -1.25rem; /* -20px */
-  --bearlab-file-input-helper-font-size: 0.75rem; /* 12px */
-  --bearlab-file-input-helper-margin-top: 0.375rem; /* 6px */
-  --bearlab-file-input-focus-ring-width: 0.1875rem; /* 3px */
-  --bearlab-file-input-transition:
-    color 0.2s, background-color 0.2s, border-color 0.2s;
-  --bearlab-file-input-disabled-opacity: 0.5;
-  --bearlab-file-input-input-error-border-color: #f00438;
-  --bearlab-file-input-input-focus-ring-color: #465fff21;
-  --bearlab-file-input-input-error-ring-color: #ffa4a4;
-  --bearlab-file-input-input-focus-border-color: #465fff;
-}
-
-:root[data-theme="light"] {
-  --bearlab-file-input-label-color: #344054;
-  --bearlab-file-input-required-color: #f04438;
-  --bearlab-file-input-input-color: #667085;
-  --bearlab-file-input-input-placeholder-color: #98a2b3;
-  --bearlab-file-input-input-bg: transparent;
-  --bearlab-file-input-input-border-color: #d1d5db;
-  --bearlab-file-input-input-shadow: 0 0.0625rem 0.125rem 0 #1018280d; /* 0 1px 2px */
-  --bearlab-file-input-button-bg: #f9fafb;
-  --bearlab-file-input-button-bg-hover: #f3f4f6;
-  --bearlab-file-input-button-color: #374151;
-  --bearlab-file-input-button-border-color: #e5e7eb;
-  --bearlab-file-input-button-focus-ring-color: #3b82f64d;
-  --bearlab-file-input-error-text-color: #f00438;
-  --bearlab-file-input-helper-color: #667085;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-file-input-label-color: #98a2b3;
-  --bearlab-file-input-required-color: #f04438;
-  --bearlab-file-input-input-color: #9ca3af;
-  --bearlab-file-input-input-placeholder-color: #9ca3af;
-  --bearlab-file-input-input-bg: #111827;
-  --bearlab-file-input-input-border-color: #374151;
-  --bearlab-file-input-input-shadow: 0 0.0625rem 0.125rem 0 #1018280d; /* 0 1px 2px */
-  --bearlab-file-input-button-bg: #ffffff08;
-  --bearlab-file-input-button-bg-hover: #0f1828;
-  --bearlab-file-input-button-color: #9ca3af;
-  --bearlab-file-input-button-border-color: #1f2937;
-  --bearlab-file-input-button-focus-ring-color: #3b82f64d;
-  --bearlab-file-input-error-text-color: #f00438;
-  --bearlab-file-input-helper-color: #98a2b3;
-}
-
 .container {
+  --_file-input-root-gap: var(
+    --bearlab-file-input-root-gap,
+    0.625rem
+  ); /* 10px */
+  --_file-input-label-font-size: var(
+    --bearlab-file-input-label-font-size,
+    0.875rem
+  ); /* 14px */
+  --_file-input-label-font-weight: var(
+    --bearlab-file-input-label-font-weight,
+    600
+  );
+  --_file-input-label-margin-bottom: var(
+    --bearlab-file-input-label-margin-bottom,
+    0.625rem
+  ); /* 10px */
+  --_file-input-input-height: var(
+    --bearlab-file-input-input-height,
+    2.75rem
+  ); /* 44px */
+  --_file-input-input-font-size: var(
+    --bearlab-file-input-input-font-size,
+    0.875rem
+  ); /* 14px */
+  --_file-input-input-border-radius: var(
+    --bearlab-file-input-input-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_file-input-input-border-width: var(
+    --bearlab-file-input-input-border-width,
+    0.125rem
+  ); /* 2px */
+  --_file-input-button-padding: var(
+    --bearlab-file-input-button-padding,
+    0.8125rem 0.75rem 0.8125rem 0.875rem
+  ); /* 13px 12px 13px 14px */
+  --_file-input-button-font-size: var(
+    --bearlab-file-input-button-font-size,
+    0.875rem
+  ); /* 14px */
+  --_file-input-button-margin-right: var(
+    --bearlab-file-input-button-margin-right,
+    1.25rem
+  ); /* 20px */
+  --_file-input-button-border-radius-tl: var(
+    --bearlab-file-input-button-border-radius-tl,
+    0.5rem
+  ); /* 8px */
+  --_file-input-button-border-radius-bl: var(
+    --bearlab-file-input-button-border-radius-bl,
+    0.5rem
+  ); /* 8px */
+  --_file-input-font-size-error: var(
+    --bearlab-file-input-font-size-error,
+    0.875rem
+  ); /* 14px */
+  --_file-input-icon-size-error: var(
+    --bearlab-file-input-icon-size-error,
+    0.75rem
+  ); /* 12px */
+  --_file-input-icon-margin-right-error: var(
+    --bearlab-file-input-icon-margin-right-error,
+    0.5rem
+  ); /* 8px */
+  --_file-input-bottom-error-offset: var(
+    --bearlab-file-input-bottom-error-offset,
+    -1.25rem
+  ); /* -20px */
+  --_file-input-helper-font-size: var(
+    --bearlab-file-input-helper-font-size,
+    0.75rem
+  ); /* 12px */
+  --_file-input-helper-margin-top: var(
+    --bearlab-file-input-helper-margin-top,
+    0.375rem
+  ); /* 6px */
+  --_file-input-ring-width-focus: var(
+    --bearlab-file-input-ring-width-focus,
+    0.1875rem
+  ); /* 3px */
+  --_file-input-transition: var(
+    --bearlab-file-input-transition,
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  );
+  --_file-input-opacity-disabled: var(
+    --bearlab-file-input-opacity-disabled,
+    0.5
+  );
+  --_file-input-icon-size-error: var(
+    --bearlab-file-input-icon-size-error,
+    0.75rem
+  ); /* 12px */
+  --_file-input-icon-gap-error: var(
+    --bearlab-file-input-icon-gap-error,
+    0.5rem
+  ); /* 8px */
+  --_file-input-input-border-color-error: var(
+    --bearlab-file-input-input-border-color-error,
+    #f00438
+  );
+  --_file-input-input-ring-color-focus: var(
+    --bearlab-file-input-input-ring-color-focus,
+    #465fff21
+  );
+  --_file-input-input-ring-color-error: var(
+    --bearlab-file-input-input-ring-color-error,
+    #ffa4a4
+  );
+  --_file-input-input-border-color-focus: var(
+    --bearlab-file-input-input-border-color-focus,
+    #465fff
+  );
+
+  --_file-input-label-color: var(--bearlab-file-input-label-color, #344054);
+  --_file-input-required-color: var(
+    --bearlab-file-input-required-color,
+    #f04438
+  );
+  --_file-input-input-color: var(--bearlab-file-input-input-color, #667085);
+  --_file-input-input-placeholder-color: var(
+    --bearlab-file-input-input-placeholder-color,
+    #98a2b3
+  );
+  --_file-input-input-bg: var(--bearlab-file-input-input-bg, transparent);
+  --_file-input-input-border-color: var(
+    --bearlab-file-input-input-border-color,
+    #d1d5db
+  );
+  --_file-input-input-shadow: var(
+    --bearlab-file-input-input-shadow,
+    0 0.0625rem 0.125rem 0 #1018280d
+  ); /* 0 1px 2px */
+  --_file-input-button-bg: var(--bearlab-file-input-button-bg, #f9fafb);
+  --_file-input-button-bg-hover: var(
+    --bearlab-file-input-button-bg-hover,
+    #f3f4f6
+  );
+  --_file-input-button-color: var(--bearlab-file-input-button-color, #374151);
+  --_file-input-button-border-color: var(
+    --bearlab-file-input-button-border-color,
+    #e5e7eb
+  );
+  --_file-input-button-ring-color-focus: var(
+    --bearlab-file-input-button-ring-color-focus,
+    #3b82f64d
+  );
+  --_file-input-text-color-error: var(
+    --bearlab-file-input-text-color-error,
+    #f00438
+  );
+  --_file-input-helper-color: var(--bearlab-file-input-helper-color, #667085);
+  --_file-input-border-width-hover: var(
+    --bearlab-file-input-content-border-width,
+    0.125 /* 2px */
+  );
+  --_file-input-border-color-hover: var(
+    --bearlab-file-input-content-border-color,
+    #465fff
+  );
+
+  :global([data-theme="dark"]) & {
+    --_file-input-label-color: var(--bearlab-file-input-label-color, #98a2b3);
+    --_file-input-input-color: var(--bearlab-file-input-input-color, #9ca3af);
+    --_file-input-input-placeholder-color: var(
+      --bearlab-file-input-input-placeholder-color,
+      #9ca3af
+    );
+    --_file-input-input-bg: var(--bearlab-file-input-input-bg, #111827);
+    --_file-input-input-border-color: var(
+      --bearlab-file-input-input-border-color,
+      #374151
+    );
+    --_file-input-button-bg: var(--bearlab-file-input-button-bg, #ffffff08);
+    --_file-input-button-bg-hover: var(
+      --bearlab-file-input-button-bg-hover,
+      #0f1828
+    );
+    --_file-input-button-color: var(--bearlab-file-input-button-color, #9ca3af);
+    --_file-input-button-border-color: var(
+      --bearlab-file-input-button-border-color,
+      #1f2937
+    );
+    --_file-input-button-ring-color-focus: var(
+      --bearlab-file-input-button-ring-color-focus,
+      #3b82f64d
+    );
+    --_file-input-helper-color: var(--bearlab-file-input-helper-color, #98a2b3);
+  }
+
   display: flex;
   flex-direction: column;
-  gap: var(--bearlab-file-input-root-gap);
+  gap: var(--_file-input-root-gap);
 
-  .label {
-    color: var(--bearlab-file-input-label-color);
-    font-size: var(--bearlab-file-input-label-font-size);
-    font-weight: var(--bearlab-file-input-label-font-weight);
-    margin-bottom: var(--bearlab-file-input-label-margin-bottom);
+  .fileInputLabel {
+    color: var(--_file-input-label-color);
+    font-size: var(--_file-input-label-font-size);
+    font-weight: var(--_file-input-label-font-weight);
+    margin-bottom: var(--_file-input-label-margin-bottom);
     display: inline-flex;
     align-items: center;
     gap: 0.25rem; /* 4px */
+    cursor: pointer;
   }
 
   .requiredIndicator {
-    color: var(--bearlab-file-input-required-color);
+    color: var(--_file-input-required-color);
   }
 
   .inputWrapper {
@@ -86,79 +213,75 @@
   }
 
   .input {
-    height: var(--bearlab-file-input-input-height);
+    height: var(--_file-input-input-height);
     width: 100%;
     overflow: hidden;
-    border-radius: var(--bearlab-file-input-input-border-radius);
-    border: var(--bearlab-file-input-input-border-width) solid
-      var(--bearlab-file-input-input-border-color);
-    background-color: var(--bearlab-file-input-input-bg);
-    font-size: var(--bearlab-file-input-input-font-size);
-    color: var(--bearlab-file-input-input-color);
-    box-shadow: var(--bearlab-file-input-input-shadow);
-    transition: var(--bearlab-file-input-transition);
+    border-radius: var(--_file-input-input-border-radius);
+    border: var(--_file-input-input-border-width) solid
+      var(--_file-input-input-border-color);
+    background-color: var(--_file-input-input-bg);
+    font-size: var(--_file-input-input-font-size);
+    color: var(--_file-input-input-color);
+    box-shadow: var(--_file-input-input-shadow);
+    transition: var(--_file-input-transition);
     cursor: pointer;
-    caret-color: var(--bearlab-file-input-input-focus-border-color);
+    caret-color: var(--_file-input-input-border-color-focus);
 
     &::placeholder {
-      color: var(--bearlab-file-input-input-placeholder-color);
+      color: var(--_file-input-input-placeholder-color);
     }
 
     &:focus-visible {
       outline: none;
-      border-color: var(--bearlab-file-input-input-focus-border-color);
-      box-shadow: 0 0 0 var(--bearlab-file-input-focus-ring-width)
-        var(--bearlab-file-input-input-focus-ring-color);
+      border-color: var(--_file-input-input-border-color-focus);
+      box-shadow: 0 0 0 var(--_file-input-ring-width-focus)
+        var(--_file-input-input-ring-color-focus);
     }
 
     &::file-selector-button {
-      margin-right: var(--bearlab-file-input-button-margin-right);
+      margin-right: var(--_file-input-button-margin-right);
       cursor: pointer;
       border-collapse: collapse;
-      border-top-left-radius: var(--bearlab-file-input-button-border-radius-tl);
-      border-bottom-left-radius: var(
-        --bearlab-file-input-button-border-radius-bl
-      );
+      border-top-left-radius: var(--_file-input-button-border-radius-tl);
+      border-bottom-left-radius: var(--_file-input-button-border-radius-bl);
       border: 0;
-      border-right: var(--bearlab-file-input-input-border-width) solid
-        var(--bearlab-file-input-button-border-color);
-      background-color: var(--bearlab-file-input-button-bg);
-      padding: var(--bearlab-file-input-button-padding);
+      border-right: var(--_file-input-input-border-width) solid
+        var(--_file-input-button-border-color);
+      background-color: var(--_file-input-button-bg);
+      padding: var(--_file-input-button-padding);
       font: inherit;
       font-feature-settings: inherit;
       font-variation-settings: inherit;
       letter-spacing: inherit;
-      font-size: var(--bearlab-file-input-button-font-size);
-      color: var(--bearlab-file-input-button-color);
-      transition: background-color 0.2s;
+      font-size: var(--_file-input-button-font-size);
+      color: var(--_file-input-button-color);
+      transition: var(--_file-input-transition);
 
       &:hover {
-        background-color: var(--bearlab-file-input-button-bg-hover);
+        background-color: var(--_file-input-button-bg-hover);
       }
 
       &:focus-visible {
-        box-shadow: 0 0 0 var(--bearlab-file-input-focus-ring-width)
-          var(--bearlab-file-input-button-focus-ring-color);
+        box-shadow: 0 0 0 var(--_file-input-ring-width-focus)
+          var(--_file-input-button-ring-color-focus);
       }
     }
   }
 
-  .inputError {
-    border-color: var(--bearlab-file-input-input-error-border-color) !important;
-    box-shadow: 0 0 0 var(--bearlab-file-input-focus-ring-width)
-      var(--bearlab-file-input-input-error-ring-color) !important;
+  .error {
+    border-color: var(--_file-input-input-border-color-error) !important;
+    box-shadow: 0 0 0 var(--_file-input-ring-width-focus)
+      var(--_file-input-input-ring-color-error) !important;
 
     &:focus-visible {
-      border-color: var(
-        --bearlab-file-input-input-error-border-color
-      ) !important;
-      box-shadow: 0 0 0 var(--bearlab-file-input-focus-ring-width)
-        var(--bearlab-file-input-input-error-ring-color) !important;
+      border-color: var(--_file-input-input-border-color-error) !important;
+      box-shadow: 0 0 0 var(--_file-input-ring-width-focus)
+        var(--_file-input-input-ring-color-error) !important;
     }
   }
 
   .inputDisabled {
-    opacity: var(--bearlab-file-input-disabled-opacity);
+    opacity: var(--_file-input-opacity-disabled);
     cursor: not-allowed;
     pointer-events: none;
 
@@ -167,31 +290,30 @@
     }
   }
 
-  .errorText {
+  .viewError {
     display: flex;
     align-items: center;
     position: absolute;
     left: 0;
-    bottom: var(--bearlab-file-input-error-bottom-offset);
-    font-size: var(--bearlab-file-input-error-font-size);
+    bottom: var(--_file-input-bottom-error-offset);
+    font-size: var(--_file-input-font-size-error);
     width: max-content;
     margin: 0;
-  }
 
-  .errorIcon {
-    margin-right: var(--bearlab-file-input-error-icon-margin-right);
-    width: var(--bearlab-file-input-error-icon-size);
-    height: var(--bearlab-file-input-error-icon-size);
-    flex-shrink: 0;
-  }
+    svg {
+      margin-right: var(--_file-input-icon-gap-error);
+      width: var(--_file-input-icon-size-error);
+      height: var(--_file-input-icon-size-error);
+    }
 
-  .errorText span {
-    color: var(--bearlab-file-input-error-text-color);
+    span {
+      color: var(--_file-input-text-color-error);
+    }
   }
 
   .helperText {
-    font-size: var(--bearlab-file-input-helper-font-size);
-    color: var(--bearlab-file-input-helper-color);
-    margin: var(--bearlab-file-input-helper-margin-top) 0 0;
+    font-size: var(--_file-input-helper-font-size);
+    color: var(--_file-input-helper-color);
+    margin: var(--_file-input-helper-margin-top) 0 0;
   }
 }

@@ -34,6 +34,7 @@ export const TagInput = (props: TagInputProps) => {
   const inputId = `credential-input-${uid}`;
   const helperTextId = `${inputId}-helper`;
   const labelId = `${inputId}-label`;
+  const errorId = `${inputId}-error`;
   const hasError = Boolean(error);
   const errorMessage = typeof error === "string" ? error : undefined;
   const displayHelper = errorMessage ?? helperText;
@@ -74,12 +75,19 @@ export const TagInput = (props: TagInputProps) => {
     if (!displayHelper) return null;
     if (hasError) {
       return (
-        <div className={styles.viewError} role="alert" aria-live="assertive">
+        <div
+          id={errorId}
+          role="status"
+          aria-live="polite"
+          style={style?.errorMessage}
+          className={classnames(styles.viewError, className?.errorMessage)}
+        >
           <IconErrorTriangle aria-hidden="true" />
           <span>{errorMessage}</span>
         </div>
       );
     }
+
     return (
       <div
         id={helperTextId}
@@ -102,7 +110,12 @@ export const TagInput = (props: TagInputProps) => {
       )}
     >
       {label && (
-        <label id={labelId} htmlFor={inputId} className={styles.label}>
+        <label
+          style={style?.label}
+          id={labelId}
+          htmlFor={inputId}
+          className={classnames(styles.tagInputLabel, className?.label)}
+        >
           {label}
           {isRequired && <span aria-hidden="true"> *</span>}
         </label>
@@ -115,9 +128,7 @@ export const TagInput = (props: TagInputProps) => {
         aria-disabled={disabled}
         className={classnames(
           styles.fieldWrapper,
-          {
-            [styles.error]: error,
-          },
+          hasError && styles.error,
           className?.list
         )}
         style={style?.list}

@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import { Button } from "@bearlab/button";
 import type { ModalFooterProps } from "../types/modal.types";
-import styles from "../styles/modal.module.scss";
+import styles from "../styles/modal-footer.module.scss";
 
 export const ModalFooter = ({
   alertType,

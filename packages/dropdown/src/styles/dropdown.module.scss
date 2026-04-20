@@ -1,32 +1,33 @@
-:root {
-  --bearlab-dropdown-z-index: 40;
-  --bearlab-dropdown-margin-top: 0.5rem; /* 8px  */
-  --bearlab-dropdown-border-radius: 0.75rem; /* 12px */
-  --bearlab-dropdown-border-width: 1px;
-  --bearlab-dropdown-padding: 0.75rem; /* 12px */
-  --bearlab-dropdown-box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-:root[data-theme="light"] {
-  --bearlab-dropdown-bg: #ffffff;
-  --bearlab-dropdown-border-color: #e5e7eb;
-}
-
-:root[data-theme="dark"] {
-  --bearlab-dropdown-bg: #1f2937;
-  --bearlab-dropdown-border-color: #98a2b3;
-}
-
 .dropdownContainer {
+  --_dropdown-z-index: var(--bearlab-dropdown-z-index, 40);
+  --_dropdown-margin-top: var(--bearlab-dropdown-margin-top, 0.5rem); /* 8px  */
+  --_dropdown-border-radius: var(
+    --bearlab-dropdown-border-radius,
+    0.75rem
+  ); /* 12px */
+  --_dropdown-border-width: var(--bearlab-dropdown-border-width, 1px);
+  --_dropdown-padding: var(--bearlab-dropdown-padding, 0.75rem); /* 12px */
+  --_dropdown-box-shadow: var(
+    --bearlab-dropdown-box-shadow,
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05)
+  );
+
+  --_dropdown-bg: var(--bearlab-dropdown-bg, #ffffff);
+  --_dropdown-border-color: var(--bearlab-dropdown-border-color, #e5e7eb);
+
+  :global([data-theme="dark"]) & {
+    --_dropdown-bg: var(--bearlab-dropdown-bg, #1f2937);
+    --_dropdown-border-color: var(--bearlab-dropdown-border-color, #98a2b3);
+  }
+
   position: absolute;
-  z-index: var(--bearlab-dropdown-z-index);
+  z-index: var(--_dropdown-z-index);
   right: 0;
-  margin-top: var(--bearlab-dropdown-margin-top);
-  border-radius: var(--bearlab-dropdown-border-radius);
-  border: var(--bearlab-dropdown-border-width) solid
-    var(--bearlab-dropdown-border-color);
-  background-color: var(--bearlab-dropdown-bg);
-  box-shadow: var(--bearlab-dropdown-box-shadow);
-  padding: var(--bearlab-dropdown-padding);
+  margin-top: var(--_dropdown-margin-top);
+  border-radius: var(--_dropdown-border-radius);
+  border: var(--_dropdown-border-width) solid var(--_dropdown-border-color);
+  background-color: var(--_dropdown-bg);
+  box-shadow: var(--_dropdown-box-shadow);
+  padding: var(--_dropdown-padding);
 }

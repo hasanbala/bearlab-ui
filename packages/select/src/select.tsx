@@ -1,4 +1,4 @@
-import { useCallback, useId, useRef, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { Search } from "./components/search";
 import { Options } from "./components/options";
 import { SelectOption, SelectProps } from "./types/select.types";
@@ -7,33 +7,37 @@ import { IconErrorTriangle } from "./assets/icons";
 import { OptionsPortal } from "./components/options-portal";
 import classNames from "classnames";
 import styles from "./styles/select.module.scss";
+import { resolveValue } from "./utils/select-utils";
 
 export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
   const {
-    query,
+    value,
     label,
     error,
     style,
     options,
     disabled,
-    isLoading,
     className,
     isRequired,
-    selectedItems,
-    debouncedValue,
     showImage = true,
-    mode = "multiple",
+    mode = "single",
     showCheckbox = true,
-    highlightMatch = true,
     optionZIndex = 8888,
+    highlightMatch = true,
     placeholder = "Select...",
     notFoundText = "No result found",
     emptyText = "There is no options",
-    setQuery,
+    isLoading = false,
     onChange,
-    setOptions,
-    setSelectedItems,
   } = props;
+
+  const isSingle = mode === "single";
+  const [query, setQuery] = useState("");
+
+  const selectedItems = useMemo<T[]>(
+    () => resolveValue(value, options),
+    [value, options]
+  );
 
   const uid = useId();
   const portalRef = useRef<HTMLDivElement>(null);
@@ -44,44 +48,51 @@ export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
   const listboxId = `select-listbox-${uid}`;
   const labelId = `select-label-${uid}`;
 
-  const { containerRef } = useClickOutside(
-    () => {
-      setIsDropdownVisible(false);
-      setActiveIndex(-1);
+  const handleClose = useCallback(() => {
+    setIsDropdownVisible(false);
+    setActiveIndex(-1);
+    if (selectedItems.length === 0) {
       setQuery("");
-    },
+    }
+  }, [selectedItems.length]);
+
+  const { containerRef } = useClickOutside(
+    handleClose,
     setContainerWidth,
     portalRef
-  );
-
-  const updateSelected = useCallback(
-    (items: T[]) => {
-      setSelectedItems(items);
-      onChange?.(items);
-    },
-    [onChange, setSelectedItems]
   );
 
   const handleSelect = useCallback(
     (item: T) => {
       if (item.disabled) return;
 
-      if (mode === "single") {
+      if (isSingle) {
         const isSame = selectedItems[0]?.value === item.value;
-        updateSelected(isSame ? [] : [item]);
-        setIsDropdownVisible(false);
-        setActiveIndex(-1);
-        setQuery("");
+        const next = isSame ? null : item;
+
+        (onChange as ((v: T | null) => void) | undefined)?.(next);
+        handleClose();
       } else {
         const exists = selectedItems.some((s) => s.value === item.value);
-        updateSelected(
-          exists
-            ? selectedItems.filter((s) => s.value !== item.value)
-            : [...selectedItems, item]
-        );
+        const next = exists
+          ? selectedItems.filter((s) => s.value !== item.value)
+          : [...selectedItems, item];
+
+        (onChange as ((v: T[]) => void) | undefined)?.(next);
       }
     },
-    [mode, selectedItems, updateSelected, setQuery]
+    [isSingle, selectedItems, onChange]
+  );
+
+  const handleRemove = useCallback(
+    (updated: T[]) => {
+      if (isSingle) {
+        (onChange as ((v: T | null) => void) | undefined)?.(null);
+      } else {
+        (onChange as ((v: T[]) => void) | undefined)?.(updated);
+      }
+    },
+    [isSingle, onChange]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -115,7 +126,7 @@ export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
         break;
       case "Backspace":
         if (!query && selectedItems.length > 0) {
-          updateSelected(selectedItems.slice(0, -1));
+          handleRemove(selectedItems.slice(0, -1));
         }
         break;
     }
@@ -140,13 +151,14 @@ export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
         <label
           id={labelId}
           htmlFor={inputId}
-          className={styles.label}
+          className={styles.selectLabel}
           onClick={(e) => e.stopPropagation()}
         >
           {label} {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
       <Search
+        mode={mode}
         error={error}
         query={query}
         style={style}
@@ -157,14 +169,12 @@ export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
         className={className}
         placeholder={placeholder}
         selectedItems={selectedItems}
-        debouncedValue={debouncedValue}
         containerWidth={containerWidth}
         activeOptionId={activeOptionId}
         isDropdownVisible={isDropdownVisible}
         setQuery={setQuery}
-        setOptions={setOptions}
+        onChange={handleRemove}
         onKeyDown={handleKeyDown}
-        setSelectedItems={updateSelected}
         setIsDropdownVisible={setIsDropdownVisible}
       />
       <OptionsPortal
@@ -190,6 +200,7 @@ export const Select = <T extends SelectOption>(props: SelectProps<T>) => {
           showCheckbox={showCheckbox}
           selectedItems={selectedItems}
           highlightMatch={highlightMatch}
+          isDropdownVisible={isDropdownVisible}
           onSelect={handleSelect}
         />
       </OptionsPortal>
