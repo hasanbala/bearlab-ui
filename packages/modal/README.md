@@ -64,7 +64,7 @@ pnpm add @bearlab/modal
 
 ## Setup
 
-The `Modal` component renders into a dedicated DOM node via `ReactDOM.createPortal`. You must add a `<div id="modal-root">` to your HTML and mount `<ModalRoot />` once in your application root to support the [imperative API](#imperative-api-modalstore).
+The `Modal` component renders into a dedicated DOM node via `ReactDOM.createPortal`. To use the [imperative API](#imperative-api-modalstore), add `<div id="modal-root">` to your HTML and optionally mount `<ModalRoot />` in your app root.
 
 ### 1. Add the portal target to your HTML
 
@@ -199,6 +199,39 @@ When `loading={true}`, the modal body is replaced with an animated shimmer skele
 >
   <p>This modal uses the large size preset (800px max-width).</p>
 </Modal>
+```
+
+### Imperative usage via `modalStore`
+
+`modalStore.open()` can open any modal type — `default`, `alert`, or `fullscreen` — without local state.
+
+```tsx
+import { modalStore } from "@bearlab/modal";
+
+// Alert modal
+modalStore.open({
+  title: "İşlem Başarılı",
+  content: <p>Kayıt tamamlandı.</p>,
+  type: "alert",
+  alertType: "success",
+  animation: "bounce",
+  onConfirm: () => {
+    console.log("confirmed");
+  },
+});
+
+// Default confirm dialog
+modalStore.open({
+  title: "Kaydı sil",
+  content: <p>Bu işlem geri alınamaz.</p>,
+  confirmLabel: "Evet, sil",
+  cancelLabel: "Vazgeç",
+  animation: "flip",
+  onConfirm: () => handleDelete(),
+});
+
+// Close programmatically
+modalStore.close();
 ```
 
 ---
