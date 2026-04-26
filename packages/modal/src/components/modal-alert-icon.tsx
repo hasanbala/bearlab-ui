@@ -16,7 +16,9 @@ const ALERT_ICON_MAP: Record<ModalAlertType, React.JSX.Element> = {
   error: <IconError />,
 };
 
-export const ModalAlertIcon = ({ alertType, type }: ModalAlertIconProps) => {
+export const ModalAlertIcon = (props: ModalAlertIconProps) => {
+  const { alertType, type } = props;
+
   if (type !== "alert") return null;
 
   return (

@@ -1,6 +1,6 @@
 # @bearlab/carousel
 
-> Accessible, fully customizable Carousel component for React applications.
+> Accessible, fully customizable Carousel component for React applications — supports images and videos with drag, auto-play, and prompt overlay.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/carousel)](https://www.npmjs.com/package/@bearlab/carousel)
 [![license](https://img.shields.io/npm/l/@bearlab/carousel)](LICENSE)
@@ -14,6 +14,8 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Props](#props)
+- [CarouselItem](#carouselitem)
+- [Slide Behavior](#slide-behavior)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -25,11 +27,18 @@
 
 ## Features
 
-- ✅ **Rich Content** — Supports both `image` and `video` slides
+- ✅ **Image & Video slides** — per-item `type: "image" | "video"` discriminated union
+- ✅ **Drag / Swipe support** — pointer-based drag with velocity-aware snap using `useDrag`
+- ✅ **Auto-play** — configurable interval, pauses on hover or drag
+- ✅ **Two loop modes** — `"infinite"` (clone-based seamless loop) and `"wrap"` (boundary wrap)
+- ✅ **Responsive** — adapts slide dimensions at 1024 px and 640 px breakpoints via container queries
+- ✅ **Prompt overlay** — optional `title` + `description` overlay with expand/collapse on active slide
+- ✅ **Video controls** — play/pause and mute/unmute buttons appear on hover for video slides
+- ✅ **Optional prev/next navigation buttons** — toggled via `showNavigation`
+- ✅ **Animated dot progress indicator** — gradient fill animates with `sliderTime` duration
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `role="region"`, `aria-label`, correct `tablist` architecture
-- ✅ **Gesture Support** — Integrated drag capabilities for intuitive navigation
-- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Dark Mode** — automatic adaptation via `[data-theme="dark"]` selector
+- ✅ **TypeScript-first** — fully typed props, item types, and slot interfaces
 
 ---
 
@@ -52,16 +61,53 @@ pnpm add @bearlab/carousel
 
 ## Usage
 
+### Image-only carousel
+
+```tsx
+import { Carousel } from "@bearlab/carousel";
+
+const items = [
+  {
+    type: "image",
+    src: "/image1.jpg",
+    alt: "First slide",
+    title: "Hello",
+    description: "A short description",
+  },
+  { type: "image", src: "/image2.jpg", alt: "Second slide" },
+];
+
+export default function App() {
+  return <Carousel items={items} />;
+}
+```
+
+### Mixed image + video with navigation
+
 ```tsx
 import { Carousel } from "@bearlab/carousel";
 
 const items = [
   { type: "image", src: "/image1.jpg", alt: "First slide" },
-  { type: "video", src: "/video1.mp4", poster: "/poster1.jpg" },
+  {
+    type: "video",
+    src: "/video1.mp4",
+    poster: "/poster1.jpg",
+    title: "Product Tour",
+    description: "Watch how it works.",
+  },
 ];
 
 export default function App() {
-  return <Carousel items={items} showNavigation={true} loop="infinite" />;
+  return (
+    <Carousel
+      items={items}
+      showNavigation={true}
+      loop="infinite"
+      sliderTime={5}
+      transitionDuration={560}
+    />
+  );
 }
 ```
 
@@ -69,18 +115,58 @@ export default function App() {
 
 ## Props
 
-| Prop                 | Type                                        | Default      | Required | Description                                |
-| -------------------- | ------------------------------------------- | ------------ | -------- | ------------------------------------------ |
-| `items`              | `CarouselItem[]`                            | —            | ✅       | Array of items (image or video) to display |
-| `draggable`          | `boolean`                                   | `true`       | ❌       | Enables drag gesture navigation            |
-| `sliderTime`         | `number`                                    | `5000`       | ❌       | Auto-play interval in milliseconds         |
-| `slideHeight`        | `number`                                    | —            | ❌       | Override slide height                      |
-| `containerWidth`     | `number`                                    | —            | ❌       | Override container width                   |
-| `showNavigation`     | `boolean`                                   | `false`      | ❌       | Show previous/next buttons                 |
-| `loop`               | `"infinite" \| "wrap"`                      | `"infinite"` | ❌       | Defines loop behavior at boundaries        |
-| `transitionDuration` | `number`                                    | `560`        | ❌       | Duration of slide transitions in ms        |
-| `className`          | [`CarouselClassNames`](#carouselclassnames) | —            | ❌       | Per-slot className overrides               |
-| `style`              | [`CarouselStyles`](#carouselstyles)         | —            | ❌       | Per-slot inline style overrides            |
+| Prop                 | Type                                        | Default      | Required | Description                                      |
+| -------------------- | ------------------------------------------- | ------------ | -------- | ------------------------------------------------ |
+| `items`              | `CarouselItem[]`                            | —            | ✅       | Array of slide items (image or video)            |
+| `draggable`          | `boolean`                                   | `true`       | ❌       | Enables pointer-based drag/swipe navigation      |
+| `sliderTime`         | `number`                                    | `4`          | ❌       | Auto-play interval **in seconds**                |
+| `slideHeight`        | `number`                                    | —            | ❌       | Override computed slide height (px)              |
+| `containerWidth`     | `number`                                    | —            | ❌       | Override computed container width (px)           |
+| `showNavigation`     | `boolean`                                   | `false`      | ❌       | Show previous/next arrow buttons                 |
+| `loop`               | `"infinite" \| "wrap"`                      | `"infinite"` | ❌       | Loop mode: clone-based seamless or boundary wrap |
+| `transitionDuration` | `number`                                    | `560`        | ❌       | Duration of the slide transition animation (ms)  |
+| `className`          | [`CarouselClassNames`](#carouselclassnames) | —            | ❌       | Per-slot className overrides                     |
+| `style`              | [`CarouselStyles`](#carouselstyles)         | —            | ❌       | Per-slot inline style overrides                  |
+
+---
+
+## CarouselItem
+
+Each item in the `items` array is a **discriminated union** on `type`:
+
+```ts
+type CarouselItem =
+  | {
+      type: "image";
+      src: string;
+      alt?: string;
+      title?: string;
+      description?: string;
+    }
+  | {
+      type: "video";
+      src: string;
+      poster?: string;
+      title?: string;
+      description?: string;
+    };
+```
+
+- **`title` & `description`** — When provided on the **active** slide, a `PromptOverlay` is rendered at the bottom of the slide. Long text (> 120 chars combined) is truncated with an expand/collapse toggle.
+- **`poster`** — Video slides accept an optional poster image shown before playback begins.
+
+---
+
+## Slide Behavior
+
+| Behavior               | Detail                                                                                 |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| **Auto-play**          | Advances to the next slide every `sliderTime` seconds. Pauses on `mouseenter` or drag. |
+| **Drag threshold**     | A pointer move of ≥ 8 px triggers a drag; velocity-aware snap decides the direction.   |
+| **Inactive scale**     | Non-active slides are scaled down to `0.88` (configurable via design token).           |
+| **Video controls**     | Play/pause and mute/unmute buttons appear on hover, only on the active slide.          |
+| **Responsive sizing**  | Slide dimensions auto-compute from container width at ≥ 1024 px, ≥ 640 px, and mobile. |
+| **`slideHeight` prop** | Passing a value overrides all responsive height computations.                          |
 
 ---
 
@@ -88,18 +174,16 @@ export default function App() {
 
 The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.track`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
-
 ### `CarouselClassNames`
 
-| Slot            | Targets                               |
-| --------------- | ------------------------------------- |
-| `root`          | Outermost region container `<div>`    |
-| `track`         | Inner track displaying slides `<div>` |
-| `dots`          | Wrapper for the pagination dots       |
-| `navigation`    | Wrapper for previous and next buttons |
-| `videoSlide`    | Video slide container                 |
-| `promptOverlay` | Optional text overlay on top of slide |
+| Slot            | Targets                                         |
+| --------------- | ----------------------------------------------- |
+| `root`          | Outermost `role="region"` container `<div>`     |
+| `track`         | Sliding track `<div>` that moves between slides |
+| `navigation`    | Wrapper `<div>` holding prev/next arrow buttons |
+| `dots`          | `role="tablist"` pagination dots container      |
+| `videoSlide`    | `<video>` element inside a video slide          |
+| `promptOverlay` | Text overlay at the bottom of the active slide  |
 
 ```tsx
 <Carousel
@@ -120,8 +204,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 <Carousel
   items={items}
   style={{
-    root: { borderRadius: "16px", overflow: "hidden" },
-    dots: { bottom: "10px" },
+    root: { borderRadius: "16px" },
+    dots: { marginTop: "8px" },
+    promptOverlay: { borderRadius: "12px" },
   }}
 />
 ```
@@ -130,47 +215,99 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Carousel` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Carousel` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+Dark mode redefines dot container backgrounds, border colors, and shadow tokens — no manual configuration required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-carousel-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component leverages scoped CSS variables for a global design token system. CSS variables are declared inside the `.container` class scope and fall back to `--bearlab-carousel-*` public tokens you can override.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-carousel-root-border-radius: 12px;
-  --bearlab-carousel-dots-color-active: #1a1a1a;
-  --bearlab-carousel-dots-color-inactive: #e0e0e0;
+:root {
+  /* Slide dimensions */
+  --bearlab-carousel-slide-radius: 1.25rem;
+  --bearlab-carousel-slide-inactive-scale: 0.88;
+  --bearlab-carousel-slide-height: 37.5rem; /* 600px – desktop */
+  --bearlab-carousel-slide-height-tablet: 26.25rem; /* 420px */
+  --bearlab-carousel-slide-height-mobile: 20rem; /* 320px */
+  --bearlab-carousel-slide-gap: 1.25rem;
+
+  /* Transition */
+  --bearlab-carousel-transition-dur: 560ms;
+
+  /* Navigation buttons */
+  --bearlab-carousel-nav-btn-size: 3rem;
+  --bearlab-carousel-nav-btn-bg: rgba(255, 255, 255, 0.08);
+  --bearlab-carousel-nav-btn-bg-hover: rgba(255, 255, 255, 0.16);
+  --bearlab-carousel-nav-btn-border: rgba(255, 255, 255, 0.15);
+  --bearlab-carousel-nav-btn-color: rgba(255, 255, 255, 0.85);
+
+  /* Dots */
+  --bearlab-carousel-dots-bg: #f2f4f7;
+  --bearlab-carousel-dot-size: 0.75rem;
+  --bearlab-carousel-dot-width-active: 2.5rem;
+  --bearlab-carousel-dot-fill-gradient: linear-gradient(
+    77.04deg,
+    #3186ff 6.99%,
+    #346bf1 45.46%,
+    #4fa0ff 88.2%
+  );
+
+  /* Prompt overlay */
+  --bearlab-carousel-prompt-bg: #000000bf;
+  --bearlab-carousel-prompt-text-color: rgba(255, 255, 255, 0.82);
+  --bearlab-carousel-prompt-label-color: rgba(255, 255, 255, 0.45);
 }
 ```
+
+> All tokens follow the `--bearlab-carousel-[element]-[property]` naming convention. The full list of available tokens mirrors the CSS variable declarations in `carousel.module.scss`.
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards:
 
-- **`role="region"` & `aria-label="Carousel"`** — Ensures screen readers properly identify the carousel element.
-- **`role="tablist"`** — Applied to the dots container for semantic structuring of pagination controls.
-- **`aria-label`** — Given to the previous/next buttons for understandable navigation announcements.
-- **Pause on Interaction** — Auto-play automatically halts on `onMouseEnter` or start of drag, minimizing disruption for all users.
+- **`role="region"` & `aria-label="Carousel"`** — Ensures screen readers properly identify the carousel landmark.
+- **`role="tablist"` & `aria-label="Slides"`** — Applied to the dots container for semantic pagination controls.
+- **`aria-label="Previous"` / `"Next"`** — Navigation arrow buttons carry descriptive labels for assistive technologies.
+- **`aria-hidden={!isActive}`** — Non-active slides are hidden from the accessibility tree, preventing off-screen content from being announced.
+- **Pause on interaction** — Auto-play halts on `mouseenter` and during drag, minimizing disruption per WCAG 2.1 guideline 2.2.2.
+- **Video controls** — Play/pause and mute/unmute buttons include `aria-label` attributes for screen reader announcements.
+- **Prompt expand/collapse** — The toggle button includes `aria-label="Expand prompt"` / `"Collapse prompt"` for assistive technology users.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+The following types are exported from the package:
 
 ```ts
 import type {
   CarouselProps,
-  CarouselItem,
   CarouselClassNames,
   CarouselStyles,
 } from "@bearlab/carousel";
+```
+
+### `CarouselProps`
+
+```ts
+interface CarouselProps {
+  items: CarouselItem[];
+  draggable?: boolean; // default: true
+  sliderTime?: number; // default: 4 (seconds)
+  slideHeight?: number;
+  containerWidth?: number;
+  showNavigation?: boolean; // default: false
+  loop?: "infinite" | "wrap"; // default: "infinite"
+  transitionDuration?: number; // default: 560 (ms)
+  className?: CarouselClassNames;
+  style?: CarouselStyles;
+}
 ```
 
 ### `CarouselItem`
@@ -178,18 +315,18 @@ import type {
 ```ts
 type CarouselItem =
   | {
-      type: "video";
-      src: string;
-      poster?: string;
-      description?: string;
-      title?: string;
-    }
-  | {
       type: "image";
       src: string;
       alt?: string;
-      description?: string;
       title?: string;
+      description?: string;
+    }
+  | {
+      type: "video";
+      src: string;
+      poster?: string;
+      title?: string;
+      description?: string;
     };
 ```
 

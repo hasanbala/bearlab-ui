@@ -1,61 +1,48 @@
 export type SelectMode = "single" | "multiple";
+export type SingleValue<T extends SelectOption> = T["value"] | null;
+export type MultipleValue<T extends SelectOption> = T["value"][];
+export type SelectValue<
+  T extends SelectOption,
+  Mode extends SelectMode = "single",
+> = Mode extends "multiple" ? MultipleValue<T> : SingleValue<T>;
+
+export interface SelectProps<
+  T extends SelectOption,
+  Mode extends SelectMode = "single",
+> extends BaseSelectProps<T> {
+  mode?: Mode;
+  value: SelectValue<T, Mode>;
+  onChange?: (value: SelectValue<T, Mode>, option?: T) => void;
+}
 
 export interface SelectOption {
   label: string;
   image?: string;
   disabled?: boolean;
-  value: string | number;
+  value: number | string;
 }
 
-export type SingleValue<T extends SelectOption> = T | string | number | null;
-
-export type MultipleValue<T extends SelectOption> = T[] | string[] | number[];
-
-export type SelectValue<T extends SelectOption> =
-  | SingleValue<T>
-  | MultipleValue<T>;
-
 interface BaseSelectProps<T extends SelectOption> {
+  error?: any;
   options: T[];
   name?: string;
   label?: string;
-  error?: any;
   disabled?: boolean;
-  isRequired?: boolean;
-  placeholder?: string;
   emptyText?: string;
-  notFoundText?: string;
   isLoading?: boolean;
   showImage?: boolean;
+  style?: SelectStyles;
+  isRequired?: boolean;
+  placeholder?: string;
+  notFoundText?: string;
+  optionZIndex?: number;
   showCheckbox?: boolean;
   highlightMatch?: boolean;
-  optionZIndex?: number;
-  style?: SelectStyles;
   className?: SelectClassNames;
 }
 
-export interface SingleSelectProps<
-  T extends SelectOption,
-> extends BaseSelectProps<T> {
-  mode?: "single";
-  value?: SingleValue<T>;
-  onChange?: (value: T | null) => void;
-}
-
-export interface MultipleSelectProps<
-  T extends SelectOption,
-> extends BaseSelectProps<T> {
-  mode: "multiple";
-  value?: MultipleValue<T>;
-  onChange?: (value: T[]) => void;
-}
-
-export type SelectProps<T extends SelectOption> =
-  | SingleSelectProps<T>
-  | MultipleSelectProps<T>;
-
 export interface OptionProps {
-  name: string;
+  label: string;
   image?: string;
   optionId: string;
   isActive: boolean;
@@ -74,20 +61,20 @@ export interface OptionProps {
 export interface OptionsProps<T extends SelectOption> {
   options: T[];
   query: string;
-  mode: SelectMode;
-  disabled?: boolean;
-  isLoading?: boolean;
   listboxId: string;
   emptyText?: string;
+  disabled?: boolean;
   selectedItems: T[];
+  isLoading?: boolean;
+  isMultiple: boolean;
   showImage?: boolean;
   activeIndex: number;
   style?: SelectStyles;
   notFoundText?: string;
   showCheckbox?: boolean;
   highlightMatch?: boolean;
-  className?: SelectClassNames;
   isDropdownVisible: boolean;
+  className?: SelectClassNames;
   onSelect: (item: T) => void;
 }
 
@@ -95,6 +82,7 @@ export interface SearchProps<T extends SelectOption> {
   error?: any;
   query: string;
   inputId: string;
+  mode: SelectMode;
   listboxId: string;
   selectedItems: T[];
   disabled?: boolean;
@@ -105,9 +93,8 @@ export interface SearchProps<T extends SelectOption> {
   isDropdownVisible: boolean;
   className?: SelectClassNames;
   activeOptionId: string | undefined;
-  mode: SelectMode;
-  setQuery: (val: string) => void;
   onChange?: (val: T[]) => void;
+  setQuery: (val: string) => void;
   setIsDropdownVisible: (val: boolean) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
@@ -132,26 +119,25 @@ export interface SelectedItemProps {
 
 export interface OptionsPortalProps {
   isVisible: boolean;
-  disabled?: boolean;
+  optionZIndex: number;
   children: React.ReactNode;
   anchorRef: React.RefObject<HTMLElement | null>;
-  optionZIndex: number;
 }
 
 export interface SelectClassNames {
+  root?: string;
   search?: string;
   option?: string;
   options?: string;
-  root?: string;
   selectedItem?: string;
   selectedItems?: string;
 }
 
 export interface SelectStyles {
+  root?: React.CSSProperties;
   search?: React.CSSProperties;
   option?: React.CSSProperties;
   options?: React.CSSProperties;
-  root?: React.CSSProperties;
   selectedItem?: React.CSSProperties;
   selectedItems?: React.CSSProperties;
 }

@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import classnames from "classnames";
 import { Option } from "./option";
-import { IconBan, IconLoaderCircle } from "../assets/icons";
+import { IconBan } from "../assets/icons";
+import { OptionsLoadingSkeleton } from "./options-loading-skeleton";
 import {
   QuerySelectOptionsProps,
   QuerySelectOption,
@@ -20,6 +21,7 @@ export const Options = <T extends QuerySelectOption>(
     emptyText,
     isLoading,
     listboxId,
+    isMultiple,
     showImage,
     activeIndex,
     showCheckbox,
@@ -44,19 +46,17 @@ export const Options = <T extends QuerySelectOption>(
   if (!isDropdownVisible) return null;
 
   const hasOptions = options.length > 0;
-  const hasQuery = query.trim().length > (minLength ?? 3);
+  const loading = isLoading || false;
+  const hasQuery = query.trim().length >= (minLength ?? 3);
 
   const renderContent = () => {
-    if (isLoading && hasQuery) {
+    if (loading && hasQuery) {
       return (
-        <div
-          role="status"
-          aria-live="polite"
-          aria-label="Loading options"
-          className={styles.centeredState}
-        >
-          <IconLoaderCircle className={styles.loadingIcon} aria-hidden="true" />
-        </div>
+        <OptionsLoadingSkeleton
+          rows={6}
+          showCheckbox={showCheckbox ?? true}
+          showImage={showImage ?? true}
+        />
       );
     }
 
@@ -79,7 +79,7 @@ export const Options = <T extends QuerySelectOption>(
           style={style}
           dataIndex={index}
           key={option.value}
-          name={option.label}
+          label={option.label}
           optionId={optionId}
           image={option.image}
           className={className}
@@ -102,13 +102,13 @@ export const Options = <T extends QuerySelectOption>(
       id={listboxId}
       role="listbox"
       aria-label="Options"
-      aria-multiselectable
+      aria-multiselectable={isMultiple}
       aria-disabled={disabled}
       style={style?.options}
       className={classnames(
-        styles.selectOptionsContainer,
+        styles.optionsContainer,
         {
-          [styles.centeredOptions]: !hasOptions || (isLoading && hasQuery),
+          [styles.centeredOptions]: !hasOptions && !loading,
         },
         className?.options
       )}

@@ -1,6 +1,5 @@
 export { ViewCode } from "./view-code";
 export type {
-  SupportedLanguage,
   ViewCodeClassNames,
   ViewCodeProps,
   ViewCodeStyles,

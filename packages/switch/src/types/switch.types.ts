@@ -3,35 +3,35 @@ type NativeInputProps = Omit<
   "popover" | "className" | "style"
 >;
 
-interface SwitchClassNames {
+export interface SwitchClassNames {
   root?: string;
-  switchWrapper?: string;
-  slider?: string;
-  toggle?: string;
   label?: string;
   error?: string;
+  slider?: string;
+  toggle?: string;
   popover?: string;
+  switchWrapper?: string;
 }
 
-interface SwitchStyles {
+export interface SwitchStyles {
   root?: React.CSSProperties;
-  switchWrapper?: React.CSSProperties;
-  slider?: React.CSSProperties;
-  toggle?: React.CSSProperties;
   label?: React.CSSProperties;
   error?: React.CSSProperties;
+  toggle?: React.CSSProperties;
+  slider?: React.CSSProperties;
   popover?: React.CSSProperties;
+  switchWrapper?: React.CSSProperties;
 }
 
 export interface SwitchProps extends NativeInputProps {
-  error?: string;
   name?: string;
+  error?: string;
   label?: string;
   checked: boolean;
   popover?: string;
   disabled?: boolean;
   isRequired?: boolean;
-  className?: SwitchClassNames;
   style?: SwitchStyles;
+  className?: SwitchClassNames;
   onChange: (_val: React.ChangeEvent<HTMLInputElement>) => void;
 }

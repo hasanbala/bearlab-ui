@@ -15,6 +15,7 @@
 - [Usage](#usage)
 - [Props](#props)
 - [Dual-Mode Rendering](#dual-mode-rendering)
+- [Collapsible Mode](#collapsible-mode)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -26,12 +27,12 @@
 
 ## Features
 
-- ✅ **Dual-mode rendering** — Automatically switches between content card and empty state based on `children`
-- ✅ **Collapsible support** — Optional `collapsible` mode with `defaultOpen` control
+- ✅ **Dual-mode rendering** — Automatically switches between a content card (`ViewCardWithContent`) and an empty-state card (`ViewCardEmpty`) based on the presence of `children`
+- ✅ **Collapsible support** — Optional `collapsible` mode with `defaultOpen` control, smooth CSS animation via `grid-template-rows`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
 - ✅ **Design token system** — global theming via `--bearlab-view-card-*` CSS variables
-- ✅ **Accessible by default** — semantic HTML structure and ARIA-compliant markup
-- ✅ **Light & dark theme** — natively responds to `[data-theme="light"]` and `[data-theme="dark"]`
+- ✅ **Light & dark theme** — natively responds to `[data-theme="dark"]`
+- ✅ **Accessible by default** — `role="region"`, `aria-labelledby`, `aria-expanded`, `aria-controls`, `inert` on collapsed panels, keyboard navigation
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 
 ---
@@ -55,10 +56,11 @@ pnpm add @bearlab/view-card
 
 ## Usage
 
+### Content card
+
 ```tsx
 import { ViewCard } from "@bearlab/view-card";
 
-// Content card
 export default function App() {
   return (
     <ViewCard
@@ -74,8 +76,10 @@ export default function App() {
 }
 ```
 
+### Empty state card
+
 ```tsx
-// Empty state — no children provided
+// No children provided → renders the empty state layout with icon
 <ViewCard
   title="No Data Available"
   description="There's nothing to show here yet."
@@ -86,15 +90,15 @@ export default function App() {
 
 ## Props
 
-| Prop          | Type                                        | Default | Required | Description                                                     |
-| ------------- | ------------------------------------------- | ------- | -------- | --------------------------------------------------------------- |
-| `title`       | `string`                                    | —       | ❌       | Card title displayed in the header section                      |
-| `description` | `string`                                    | —       | ❌       | Subtitle text displayed below the title                         |
-| `children`    | `React.ReactNode \| null \| undefined`      | —       | ❌       | Card content. Present → content card; Absent → empty state card |
-| `collapsible` | `boolean`                                   | `false` | ❌       | Enables collapse/expand toggle on the card body                 |
-| `defaultOpen` | `boolean`                                   | `true`  | ❌       | Initial open state when `collapsible` is `true`                 |
-| `className`   | [`ViewCardClassNames`](#viewcardclassnames) | —       | ❌       | Per-slot className overrides                                    |
-| `style`       | [`ViewCardStyles`](#viewcardstyles)         | —       | ❌       | Per-slot inline style overrides                                 |
+| Prop          | Type                                        | Default | Required | Description                                                                         |
+| ------------- | ------------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------------- |
+| `title`       | `string`                                    | —       | ❌       | Card title displayed in the header (`<h3>`)                                         |
+| `description` | `string`                                    | —       | ❌       | Subtitle text displayed below the title (`<p>`)                                     |
+| `children`    | `React.ReactNode \| null \| undefined`      | —       | ❌       | Card content. Present → content card; Absent → empty-state card                     |
+| `collapsible` | `boolean`                                   | `false` | ❌       | Enables collapse/expand toggle on the card body (only applies when `children` exist)|
+| `defaultOpen` | `boolean`                                   | `true`  | ❌       | Initial open state when `collapsible` is `true`                                     |
+| `className`   | [`ViewCardClassNames`](#viewcardclassnames) | —       | ❌       | Per-slot className overrides                                                        |
+| `style`       | [`ViewCardStyles`](#viewcardstyles)         | —       | ❌       | Per-slot inline style overrides                                                     |
 
 ---
 
@@ -102,8 +106,8 @@ export default function App() {
 
 The `ViewCard` component intelligently selects its rendering mode based on the presence of `children`:
 
-- **With `children`** → Renders `ViewCardWithContent`: a structured card with header and content area.
-- **Without `children`** → Renders `ViewCardEmpty`: a card with an empty-state icon and messaging.
+- **With `children`** → Renders `ViewCardWithContent`: a structured card with a header and scrollable content area.
+- **Without `children`** (`null`, `undefined`, or not provided) → Renders `ViewCardEmpty`: a centered layout with an empty-state icon and messaging.
 
 ```tsx
 // Content mode
@@ -115,7 +119,11 @@ The `ViewCard` component intelligently selects its rendering mode based on the p
 <ViewCard title="No Records" description="Add some entries to get started." />
 ```
 
-### Collapsible Mode
+---
+
+## Collapsible Mode
+
+When `collapsible` is enabled on a content card, the header becomes a toggle button. The content panel animates in/out using `grid-template-rows` for a smooth, layout-friendly transition. The `inert` attribute is applied to the collapsed panel to prevent focus from reaching hidden content.
 
 ```tsx
 <ViewCard
@@ -128,24 +136,24 @@ The `ViewCard` component intelligently selects its rendering mode based on the p
 </ViewCard>
 ```
 
+> **Note:** `collapsible` and `defaultOpen` are only relevant when `children` are provided. They have no effect in empty-state mode.
+
 ---
 
 ## Slot-based Customization
 
 The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and class names directly into child elements via the `className` and `style` objects.
 
-For example, you can target the root container using `className?.root` or apply inline styles to the header using `style?.header`. Each slot targets a specific DOM element, giving you surgical control over the component's rendering tree.
-
 ### `ViewCardClassNames`
 
-| Slot          | Targets                      |
-| ------------- | ---------------------------- |
-| `root`        | Outermost container `<div>`  |
-| `header`      | Header wrapper `<div>`       |
-| `title`       | Title element                |
-| `description` | Description `<p>`            |
-| `content`     | Content body wrapper `<div>` |
-| `icon`        | Empty state icon wrapper     |
+| Slot          | Targets                                                                   |
+| ------------- | ------------------------------------------------------------------------- |
+| `root`        | Outermost container `<div>`                                              |
+| `header`      | Header wrapper `<div>` (content mode only)                               |
+| `title`       | Title heading `<h3>`                                                     |
+| `description` | Description paragraph `<p>`                                              |
+| `content`     | Content body wrapper `<div>`                                             |
+| `icon`        | Empty-state icon wrapper `<div>` (empty mode only)                       |
 
 ```tsx
 <ViewCard
@@ -185,7 +193,7 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `ViewCard` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `ViewCard` component features a robust theme architecture. It natively responds to the **`[data-theme="dark"]`** selector applied at any ancestor level (including `<html>`).
 
 ```html
 <!-- Light theme (default) -->
@@ -205,39 +213,91 @@ No additional configuration is required — the component automatically adapts i
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-view-card-[element]-[property]` format, you can globally style the component across your application:
+The component exposes two sets of `--bearlab-view-card-*` CSS custom properties — one for the **content card** and one for the **empty-state card**. All tokens are scoped to their respective root class and have sensible defaults for both light and dark modes.
+
+### Content Card Tokens
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-view-card-root-border-radius: 12px;
-  --bearlab-view-card-root-border-color: #e2e8f0;
-  --bearlab-view-card-header-padding: 1.25rem 1.5rem;
-  --bearlab-view-card-title-color: #1a202c;
+  --bearlab-view-card-border-radius: 1rem;
+  --bearlab-view-card-bg: #fff;
+  --bearlab-view-card-border-color: #e5e7eb;
+  --bearlab-view-card-header-border-color: #f3f4f6;
+  --bearlab-view-card-title-color: #1f2937;
   --bearlab-view-card-title-font-size: 1rem;
-  --bearlab-view-card-description-color: #718096;
-  --bearlab-view-card-content-padding: 1.25rem 1.5rem;
-  --bearlab-view-card-icon-opacity: 0.4;
+  --bearlab-view-card-title-font-weight: 500;
+  --bearlab-view-card-description-color: #6b7280;
+  --bearlab-view-card-content-padding: 1rem;
+  --bearlab-view-card-duration: 0.28s;
 }
 
+/* Dark theme overrides */
 [data-theme="dark"] {
-  --bearlab-view-card-root-border-color: #2d3748;
-  --bearlab-view-card-title-color: #f7fafc;
-  --bearlab-view-card-description-color: #a0aec0;
+  --bearlab-view-card-bg: color-mix(in oklab, #fff 3%, transparent);
+  --bearlab-view-card-border-color: #1d2939;
+  --bearlab-view-card-header-border-color: #1d2939;
+  --bearlab-view-card-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-view-card-description-color: #98a2b3;
 }
 ```
+
+### Empty State Card Tokens
+
+```css
+/* Light theme overrides */
+:root,
+[data-theme="light"] {
+  --bearlab-view-card-empty-min-height: 18.75rem;
+  --bearlab-view-card-empty-bg: #fff;
+  --bearlab-view-card-empty-border-color: #e5e7eb;
+  --bearlab-view-card-empty-title-color: #1f2937;
+  --bearlab-view-card-empty-title-font-size: 1.5rem;
+  --bearlab-view-card-empty-description-color: #6b7280;
+  --bearlab-view-card-empty-icon-fill: #6b7280;
+  --bearlab-view-card-icon-size: 3.75rem;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bearlab-view-card-empty-bg: rgba(255, 255, 255, 0.03);
+  --bearlab-view-card-empty-border-color: #1f2937;
+  --bearlab-view-card-empty-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-view-card-empty-description-color: #9ca3af;
+}
+```
+
+### Representative Token Reference
+
+| Token                                       | Default (light) | Description                          |
+| ------------------------------------------- | --------------- | ------------------------------------ |
+| `--bearlab-view-card-border-radius`         | `1rem`          | Card corner radius                   |
+| `--bearlab-view-card-bg`                    | `#fff`          | Card background                      |
+| `--bearlab-view-card-border-color`          | `#e5e7eb`       | Card border color                    |
+| `--bearlab-view-card-title-color`           | `#1f2937`       | Title text color                     |
+| `--bearlab-view-card-title-font-weight`     | `500`           | Title font weight                    |
+| `--bearlab-view-card-description-color`     | `#6b7280`       | Description text color               |
+| `--bearlab-view-card-content-padding`       | `1rem`          | Content area padding                 |
+| `--bearlab-view-card-duration`              | `0.28s`         | Collapse/expand animation duration   |
+| `--bearlab-view-card-chevron-size`          | `1.5rem`        | Chevron icon size                    |
+| `--bearlab-view-card-empty-min-height`      | `18.75rem`      | Min height of the empty-state card   |
+| `--bearlab-view-card-empty-title-font-size` | `1.5rem`        | Empty-state title font size          |
+| `--bearlab-view-card-icon-size`             | `3.75rem`       | Empty-state icon size                |
 
 ---
 
 ## Accessibility
 
-This component follows **best-practice** accessibility standards, fully adhering to **WCAG 2.1 AA** requirements. By utilizing semantic HTML and appropriate ARIA attributes, it guarantees an inclusive experience:
+This component follows **best-practice** accessibility standards, fully adhering to **WCAG 2.1 AA** requirements:
 
-- **Semantic heading hierarchy** — The `title` is rendered using a semantically appropriate heading element to ensure correct document outline and screen reader navigation.
-- **Descriptive structure** — The `description` is associated with the card header, providing meaningful context for assistive technologies.
-- **Empty state clarity** — When in empty-state mode, the icon is decorative and marked accordingly to prevent redundant announcements by screen readers (`aria-hidden="true"`).
-- **Collapsible regions** — When `collapsible` is enabled, the component uses appropriate ARIA attributes (`aria-expanded`, `aria-controls`) to communicate the toggle state to assistive technologies.
-- **Keyboard navigability** — Collapsible triggers are fully operable via keyboard (`Enter` / `Space`), meeting WCAG 2.1 SC 2.1.1.
+- **`role="region"` + `aria-labelledby`** — When a `title` is provided, the card root is marked as a landmark region and labelled by the title `<h3>`, enabling efficient navigation for screen reader users.
+- **Semantic heading `<h3>`** — The title is rendered as a heading to maintain a correct document outline.
+- **Collapsible toggle** — The header becomes a `role="button"` with `aria-expanded` and `aria-controls` attributes, communicating the open/closed state to assistive technologies.
+- **`inert` on collapsed panels** — When the content is collapsed, the `inert` attribute prevents keyboard focus from reaching hidden content, avoiding a confusing "ghost tab stop" experience.
+- **Keyboard navigability** — Collapsible triggers respond to both `Enter` and `Space` keys, meeting WCAG 2.1 SC 2.1.1.
+- **`aria-hidden="true"` on empty-state icon** — The decorative illustration is hidden from the accessibility tree.
+- **`focus-visible` styles** — The collapsible header has a visible `:focus-visible` outline for keyboard users.
 
 ---
 
@@ -258,11 +318,11 @@ import type {
 ```ts
 interface ViewCardClassNames {
   root?: string;
-  header?: string;
-  title?: string;
-  description?: string;
-  content?: string;
   icon?: string;
+  title?: string;
+  header?: string;
+  content?: string;
+  description?: string;
 }
 ```
 
@@ -271,11 +331,11 @@ interface ViewCardClassNames {
 ```ts
 interface ViewCardStyles {
   root?: React.CSSProperties;
-  header?: React.CSSProperties;
-  title?: React.CSSProperties;
-  description?: React.CSSProperties;
-  content?: React.CSSProperties;
   icon?: React.CSSProperties;
+  title?: React.CSSProperties;
+  header?: React.CSSProperties;
+  content?: React.CSSProperties;
+  description?: React.CSSProperties;
 }
 ```
 
@@ -283,13 +343,13 @@ interface ViewCardStyles {
 
 ```ts
 interface ViewCardProps {
-  className?: ViewCardClassNames;
-  style?: ViewCardStyles;
   title?: string;
   description?: string;
-  children?: React.ReactNode | null | undefined;
   collapsible?: boolean;
   defaultOpen?: boolean;
+  style?: ViewCardStyles;
+  className?: ViewCardClassNames;
+  children?: React.ReactNode | null | undefined;
 }
 ```
 

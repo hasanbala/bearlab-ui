@@ -1,5 +1,4 @@
 export type TagFormat = "domain" | "email" | "custom";
-
 export type TagStatus = "valid" | "invalid";
 
 export interface TagItem {
@@ -9,65 +8,65 @@ export interface TagItem {
 }
 
 export interface TagInputClassNames {
-  list?: string;
   tag?: string;
+  root?: string;
+  list?: string;
+  label?: string;
   input?: string;
   tagValid?: string;
   tagLabel?: string;
-  root?: string;
   tagRemove?: string;
   tagInvalid?: string;
   helperText?: string;
   errorMessage?: string;
-  label?: string;
 }
 
 export interface TagInputStyles {
   tag?: React.CSSProperties;
+  root?: React.CSSProperties;
   list?: React.CSSProperties;
+  label?: React.CSSProperties;
   input?: React.CSSProperties;
   tagValid?: React.CSSProperties;
   tagLabel?: React.CSSProperties;
   tagRemove?: React.CSSProperties;
-  root?: React.CSSProperties;
   tagInvalid?: React.CSSProperties;
   helperText?: React.CSSProperties;
   errorMessage?: React.CSSProperties;
-  label?: React.CSSProperties;
 }
 
 export interface TagInputProps {
   label?: string;
+  value: TagItem[];
   maxItems?: number;
+  format: TagFormat;
   inputValue: string;
   disabled?: boolean;
+  helperText?: string;
   isRequired?: boolean;
   placeholder?: string;
-  helperText?: string;
-  value: TagItem[];
-  format: TagFormat;
+  formatLabel?: string;
+  style?: TagInputStyles;
   error?: boolean | string;
   allowDuplicates?: boolean;
-  style?: TagInputStyles;
   className?: TagInputClassNames;
-  formatLabel?: string;
-  onError?: (value: string) => void;
-  validate?: (value: string) => boolean;
   onAdd?: (item: TagItem) => void;
-  onInputChange: (value: string) => void;
+  onError?: (value: string) => void;
   onRemove?: (item: TagItem) => void;
   onChange: (items: TagItem[]) => void;
+  validate?: (value: string) => boolean;
+  onInputChange: (value: string) => void;
 }
 
 export interface UseTagInputProps {
   onBlur?: boolean;
-  maxItems?: number;
-  inputValue: string;
-  disabled?: boolean;
   value: TagItem[];
   format: TagFormat;
-  allowDuplicates?: boolean;
+  maxItems?: number;
+  disabled?: boolean;
+  inputValue: string;
   formatLabel?: string;
+  allowDuplicates?: boolean;
   onError?: (value: string) => void;
   validate?: (value: string) => boolean;
   onAdd?: (item: TagItem) => void;
@@ -87,8 +86,8 @@ export interface UseTagInputReturn {
 }
 
 export interface TagProps {
-  disabled?: boolean;
   item: TagItem;
+  disabled?: boolean;
   className?: Pick<
     TagInputClassNames,
     "tag" | "tagValid" | "tagInvalid" | "tagLabel" | "tagRemove"
@@ -101,8 +100,8 @@ export interface TagProps {
 }
 
 export interface CommitResult {
+  item: TagItem | null;
   nextList: TagItem[] | null;
   announcement: string | null;
-  item: TagItem | null;
   reason: "added" | "duplicate" | "empty" | "max-reached" | null;
 }

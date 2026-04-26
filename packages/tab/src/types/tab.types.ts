@@ -9,18 +9,18 @@ export interface TabItem {
 }
 
 export interface TabClassNames {
+  nav?: string;
   root?: string;
   header?: string;
-  nav?: string;
   button?: string;
   notify?: string;
   content?: string;
 }
 
 export interface TabStyles {
+  nav?: React.CSSProperties;
   root?: React.CSSProperties;
   header?: React.CSSProperties;
-  nav?: React.CSSProperties;
   button?: React.CSSProperties;
   notify?: React.CSSProperties;
   content?: React.CSSProperties;
@@ -28,27 +28,27 @@ export interface TabStyles {
 
 export interface TabProps {
   tabs: TabItem[];
-  actionType: TabActionType;
+  style?: TabStyles;
   isVertical?: boolean;
   className?: TabClassNames;
-  style?: TabStyles;
+  actionType: TabActionType;
 }
 
 export interface TabButtonProps {
   tab: TabItem;
-  isActive: boolean;
-  onClick: () => void;
   tabId: string;
   panelId: string;
-  className?: Pick<TabClassNames, "button" | "notify">;
+  isActive: boolean;
   style?: Pick<TabStyles, "button" | "notify">;
+  className?: Pick<TabClassNames, "button" | "notify">;
+  onClick: () => void;
 }
 
 export interface TabContentProps {
   tab: TabItem;
-  isActive: boolean;
   tabId: string;
   panelId: string;
-  className?: Pick<TabClassNames, "content">;
+  isActive: boolean;
   style?: Pick<TabStyles, "content">;
+  className?: Pick<TabClassNames, "content">;
 }

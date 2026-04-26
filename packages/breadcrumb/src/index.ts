@@ -3,6 +3,4 @@ export type {
   BreadcrumbProps,
   BreadcrumbClassNames,
   BreadcrumbStyles,
-  SeparateType,
-  RenderLinkProps,
 } from "./types/breadcrumb.types";

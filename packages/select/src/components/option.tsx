@@ -4,7 +4,7 @@ import styles from "../styles/select.module.scss";
 
 export const Option = (props: OptionProps) => {
   const {
-    name,
+    label,
     style,
     image,
     className,
@@ -23,7 +23,7 @@ export const Option = (props: OptionProps) => {
   const renderLabel = () => {
     if (highlightMatch && emphasizedValue?.trim()) {
       const escaped = emphasizedValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const html = name.replace(
+      const html = label.replace(
         new RegExp(`(${escaped})(?!([^<]+)?<)`, "gi"),
         "<strong>$1</strong>"
       );
@@ -34,7 +34,7 @@ export const Option = (props: OptionProps) => {
         />
       );
     }
-    return <span className={styles.labelTitle}>{name}</span>;
+    return <span className={styles.labelTitle}>{label}</span>;
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -80,7 +80,6 @@ export const Option = (props: OptionProps) => {
             aria-hidden="true"
           />
         )}
-
         {showImage && image && (
           <img
             src={image}
@@ -89,7 +88,6 @@ export const Option = (props: OptionProps) => {
             aria-hidden="true"
           />
         )}
-
         {renderLabel()}
       </div>
     </div>

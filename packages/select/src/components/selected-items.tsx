@@ -1,4 +1,4 @@
-import { forwardRef, ForwardedRef } from "react";
+import { forwardRef, ForwardedRef, useCallback } from "react";
 import classnames from "classnames";
 import { SelectedItem } from "./selected-item";
 import { SelectedItemsProps, SelectOption } from "../types/select.types";
@@ -18,15 +18,18 @@ export const SelectedItems = forwardRef(
       setSelectedItems,
     } = props;
 
-    const handleRemove = (value: number | string) => {
-      if (disabled) return;
-      setSelectedItems(selectedItems.filter((item) => item.value !== value));
-    };
+    const handleRemove = useCallback(
+      (value: number | string) => {
+        if (disabled) return;
+        setSelectedItems(selectedItems.filter((item) => item.value !== value));
+      },
+      [disabled, selectedItems, setSelectedItems]
+    );
 
     const visibleItems = selectedItems.slice(0, visibleCount);
     const hiddenCount = selectedItems.length - visibleCount;
 
-    if (selectedItems.length === 0) return <div ref={ref} />;
+    if (selectedItems.length == 0) return <div ref={ref} />;
 
     return (
       <div

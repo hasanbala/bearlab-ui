@@ -7,6 +7,7 @@ import type { DropzoneProps } from "./types/dropzone.types";
 
 export const Dropzone = (props: DropzoneProps) => {
   const {
+    name,
     className,
     style,
     isLoading = false,
@@ -82,6 +83,7 @@ export const Dropzone = (props: DropzoneProps) => {
           </span>
         </div>
         <input
+          name={name}
           ref={inputRef}
           type="file"
           multiple={multiple}

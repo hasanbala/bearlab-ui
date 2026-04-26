@@ -65,7 +65,6 @@ export default [
             "@bearlab/copy": [path.join(rootPath, "packages/copy")],
             "@bearlab/dropzone": [path.join(rootPath, "packages/dropzone")],
             "@bearlab/file-input": [path.join(rootPath, "packages/file-input")],
-            "@bearlab/go-back": [path.join(rootPath, "packages/go-back")],
             "@bearlab/input": [path.join(rootPath, "packages/input")],
             "@bearlab/loading": [path.join(rootPath, "packages/loading")],
             "@bearlab/otp-form": [path.join(rootPath, "packages/otp-form")],

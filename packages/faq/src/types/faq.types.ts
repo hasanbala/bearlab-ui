@@ -1,35 +1,33 @@
-import type React from "react";
-
 export type FaqIconTypeStringValues =
-  | "none"
-  | "export"
   | "add"
-  | "document"
+  | "none"
+  | "tick"
+  | "dots"
+  | "export"
   | "update"
   | "search"
   | "notify"
-  | "dots"
-  | "tick"
+  | "document"
   | "support";
 
 export interface FaqClassNames {
   root?: string;
   item?: string;
-  header?: string;
-  title?: string;
   icon?: string;
-  content?: string;
   text?: string;
+  title?: string;
+  header?: string;
+  content?: string;
 }
 
 export interface FaqStyles {
   root?: React.CSSProperties;
   item?: React.CSSProperties;
-  header?: React.CSSProperties;
-  title?: React.CSSProperties;
   icon?: React.CSSProperties;
-  content?: React.CSSProperties;
   text?: React.CSSProperties;
+  title?: React.CSSProperties;
+  header?: React.CSSProperties;
+  content?: React.CSSProperties;
 }
 
 export interface FaqData {
@@ -42,16 +40,16 @@ export interface FaqItemProps {
   title: string;
   content: string;
   isOpen?: boolean;
-  toggleAccordion?: () => void;
-  className?: FaqClassNames;
   style?: FaqStyles;
+  className?: FaqClassNames;
+  toggleAccordion?: () => void;
 }
 
 export interface FaqItemV1Props {
-  id: string | number;
   title: string;
   isOpen: boolean;
   content: string;
+  id: string | number;
   style?: FaqItemV1Styles;
   className?: FaqItemV1ClassNames;
   onToggle: () => void;
@@ -61,53 +59,53 @@ export interface FaqItemV1Props {
 
 export interface FaqItemV1Styles {
   root?: React.CSSProperties;
-  accordionItem?: React.CSSProperties;
-  header?: React.CSSProperties;
-  titleWrapper?: React.CSSProperties;
   icon?: React.CSSProperties;
-  contentWrapper?: React.CSSProperties;
-  contentInner?: React.CSSProperties;
   text?: React.CSSProperties;
+  header?: React.CSSProperties;
+  contentInner?: React.CSSProperties;
+  titleWrapper?: React.CSSProperties;
+  accordionItem?: React.CSSProperties;
+  contentWrapper?: React.CSSProperties;
 }
 
 export interface FaqItemV1ClassNames {
   root?: string;
-  accordionItem?: string;
-  header?: string;
-  titleWrapper?: string;
-  icon?: string;
-  contentWrapper?: string;
-  contentInner?: string;
   text?: string;
-}
-
-export interface FaqProps {
-  style?: FaqItemV1Styles;
-  allowMultiple?: boolean;
-  data: FaqData[];
-  className?: FaqItemV1ClassNames;
-  defaultOpenIndexes?: number[];
-  renderTitle?: FaqItemV1Props["renderTitle"];
-  renderContent?: FaqItemV1Props["renderContent"];
+  icon?: string;
+  header?: string;
+  contentInner?: string;
+  titleWrapper?: string;
+  accordionItem?: string;
+  contentWrapper?: string;
 }
 
 export interface FaqV1Props {
   data: FaqData[];
-  className?: FaqClassNames;
+  style?: FaqItemV1Styles;
+  allowMultiple?: boolean;
+  defaultOpenIndexes?: number[];
+  className?: FaqItemV1ClassNames;
+  renderTitle?: FaqItemV1Props["renderTitle"];
+  renderContent?: FaqItemV1Props["renderContent"];
+}
+
+export interface FaqV2Props {
+  data: FaqData[];
   style?: FaqStyles;
+  className?: FaqClassNames;
 }
 
 export interface FaqV3ItemProps {
   item: FaqData;
+  style?: FaqStyles;
+  className?: FaqClassNames;
   iconType: {
     default: FaqIconTypeStringValues;
     custom?: null | React.ReactElement;
   };
-  className?: FaqClassNames;
-  style?: FaqStyles;
 }
 
-export interface FaqV3Props extends FaqProps {
+export interface FaqV3Props extends FaqV2Props {
   iconType: {
     default: FaqIconTypeStringValues;
     custom?: null | React.ReactElement;

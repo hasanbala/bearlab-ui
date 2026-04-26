@@ -2,22 +2,22 @@ import type { JSX } from "react";
 
 export interface CheckboxClassNames {
   root?: string;
-  checkboxWrapper?: string;
+  label?: string;
+  popover?: string;
+  viewError?: string;
   iconChecked?: string;
   iconDisabled?: string;
-  viewError?: string;
-  popover?: string;
-  label?: string;
+  checkboxWrapper?: string;
 }
 
 export interface CheckboxStyles {
   root?: React.CSSProperties;
-  checkboxWrapper?: React.CSSProperties;
+  label?: React.CSSProperties;
+  popover?: React.CSSProperties;
+  viewError?: React.CSSProperties;
   iconChecked?: React.CSSProperties;
   iconDisabled?: React.CSSProperties;
-  viewError?: React.CSSProperties;
-  popover?: React.CSSProperties;
-  label?: React.CSSProperties;
+  checkboxWrapper?: React.CSSProperties;
 }
 
 type InputProps = Omit<
@@ -29,11 +29,11 @@ export interface CheckboxProps extends InputProps {
   error?: any;
   name?: string;
   label?: string;
-  popover?: string | React.ReactNode;
   checked?: boolean;
   disabled?: boolean;
-  className?: CheckboxClassNames;
-  style?: CheckboxStyles;
   isRequired?: boolean;
+  style?: CheckboxStyles;
+  className?: CheckboxClassNames;
+  popover?: string | React.ReactNode;
   onChange?: (_val: React.ChangeEvent<HTMLInputElement>) => void;
 }

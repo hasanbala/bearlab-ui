@@ -7,10 +7,11 @@ export const OptionsPortal = forwardRef<
   HTMLDivElement,
   QuerySelectOptionsPortalProps
 >((props, ref) => {
-  const { anchorRef, isVisible, children, disabled, optionZIndex } = props;
-  const coords = useOptionsPortal(isVisible, anchorRef);
+  const { anchorRef, isVisible, children, optionZIndex, isSelectionCard } =
+    props;
+  const coords = useOptionsPortal(isVisible, anchorRef, isSelectionCard);
 
-  if (!isVisible || disabled) return null;
+  if (!isVisible) return null;
 
   return createPortal(
     <div

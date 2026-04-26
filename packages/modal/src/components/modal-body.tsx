@@ -1,25 +1,18 @@
 import classnames from "classnames";
-import { Loading } from "@bearlab/loading";
 import type { ModalBodyProps } from "../types/modal.types";
 import styles from "../styles/modal.module.scss";
+import { ModalSkeleton } from "./modal-skeleton";
 
-export const ModalBody = ({
-  children,
-  style = {},
-  className = {},
-  loading = false,
-}: ModalBodyProps) => {
-  if (loading) {
-    return (
-      <div
-        aria-live="polite"
-        aria-busy="true"
-        className={styles.loadingWrapper}
-      >
-        <Loading className={{ root: styles.loading }} />
-      </div>
-    );
-  }
+export const ModalBody = (props: ModalBodyProps) => {
+  const {
+    children,
+    style = {},
+    className = {},
+    loading = false,
+    isFullscreen,
+  } = props;
+
+  if (loading) return <ModalSkeleton lines={isFullscreen ? 12 : 4} />;
 
   return (
     <div

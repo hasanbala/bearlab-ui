@@ -14,6 +14,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Props](#props)
+- [TabItem](#tabitem-1)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -25,11 +26,13 @@
 
 ## Features
 
-- ✅ **Horizontal or Vertical Layouts** — Support for both orientations
-- ✅ **Visual variants** — `button` or `underline` visual styles for tab items
-- ✅ **Notifications** — Render a badge/notification inside tab items
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `role="tablist"`, `role="tab"`, `aria-selected`
+- ✅ **Two visual variants** — `button` (pill-style) or `underline` tab triggers
+- ✅ **Horizontal & Vertical layouts** — vertical layout activates at `≥768px`
+- ✅ **Notification badge** — optional numeric badge per tab button
+- ✅ **Icon support** — pass any SVG component as `icon` per tab item
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity battles
+- ✅ **Dark mode ready** — responds to `[data-theme="dark"]` automatically
+- ✅ **Accessible by default** — `role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`, `aria-orientation`
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 
 ---
@@ -53,54 +56,97 @@ pnpm add @bearlab/tab
 
 ## Usage
 
+### Basic — Button Variant
+
 ```tsx
 import { Tab } from "@bearlab/tab";
+import type { TabItem } from "@bearlab/tab";
 
-const myTabs = [
-  { key: 1, title: "Profile", content: "Profile Information", notify: null, icon: null },
-  { key: 2, title: "Settings", content: "User Settings", notify: 3, icon: null },
+const myTabs: TabItem[] = [
+  {
+    key: 1,
+    title: "Profile",
+    content: "Profile Information",
+    notify: null,
+    icon: null,
+  },
+  {
+    key: 2,
+    title: "Settings",
+    content: "User Settings",
+    notify: 3,
+    icon: null,
+  },
+  {
+    key: 3,
+    title: "Billing",
+    content: "Billing Details",
+    notify: null,
+    icon: null,
+  },
 ];
 
 export default function App() {
-  return (
-    <Tab
-      tabs={myTabs}
-      actionType="underline"
-    />
-  );
+  return <Tab tabs={myTabs} actionType="button" />;
 }
 ```
+
+### Underline Variant
+
+```tsx
+<Tab tabs={myTabs} actionType="underline" />
+```
+
+### Vertical Layout
+
+```tsx
+<Tab tabs={myTabs} actionType="button" isVertical />
+```
+
+> **Note:** The vertical layout is only applied at viewport widths of `768px` and above. Below that breakpoint the component falls back to a horizontal layout.
 
 ---
 
 ## Props
 
-| Prop         | Type                                    | Default | Required | Description                                     |
-| ------------ | --------------------------------------- | ------- | -------- | ----------------------------------------------- |
-| `tabs`       | [`TabItem[]`](#tabitem)                 | —       | ✅       | Configuration array for rendering tabs          |
-| `actionType` | `"button" \| "underline"`               | —       | ✅       | Visual styling type for the tab triggers        |
-| `isVertical` | `boolean`                               | `false` | ❌       | Whether the tabs should be arranged vertically  |
-| `className`  | [`TabClassNames`](#tabclassnames)       | —       | ❌       | Per-slot className overrides                    |
-| `style`      | [`TabStyles`](#tabstyles)               | —       | ❌       | Per-slot inline style overrides                 |
+| Prop         | Type                              | Default | Required | Description                                                 |
+| ------------ | --------------------------------- | ------- | -------- | ----------------------------------------------------------- |
+| `tabs`       | [`TabItem[]`](#tabitem-1)         | —       | ✅       | Array of tab definitions                                    |
+| `actionType` | `"button" \| "underline"`         | —       | ✅       | Visual style for the tab triggers                           |
+| `isVertical` | `boolean`                         | `false` | ❌       | Side-by-side layout for nav + content (activates at ≥768px) |
+| `className`  | [`TabClassNames`](#tabclassnames) | —       | ❌       | Per-slot className overrides                                |
+| `style`      | [`TabStyles`](#tabstyles)         | —       | ❌       | Per-slot inline style overrides                             |
+
+---
+
+## TabItem
+
+Each object in the `tabs` array must conform to `TabItem`:
+
+| Field     | Type                                                             | Required | Description                                 |
+| --------- | ---------------------------------------------------------------- | -------- | ------------------------------------------- |
+| `key`     | `number`                                                         | ✅       | Unique identifier for active-tab tracking   |
+| `title`   | `string`                                                         | ✅       | Label rendered inside the tab button        |
+| `content` | `string`                                                         | ✅       | Text rendered inside the tab panel          |
+| `notify`  | `number \| null`                                                 | ✅       | Numeric badge count; `null` hides the badge |
+| `icon`    | `React.FunctionComponent<React.SVGProps<SVGSVGElement>> \| null` | ✅       | SVG icon component; `null` renders no icon  |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Pass custom class names or inline styles to the `className` / `style` props — each key targets a specific DOM element.
 
 ### `TabClassNames`
 
-| Slot      | Targets                                 |
-| --------- | --------------------------------------- |
-| `root`    | Outermost container `<div>`             |
-| `header`  | Header wrapper `<div>`                  |
-| `nav`     | The correct semantic `<nav>` wrapper    |
-| `button`  | Individual tab trigger button           |
-| `notify`  | Notification badge indicator            |
-| `content` | The wrapper for active tab panel content|
+| Slot      | Targets                                          |
+| --------- | ------------------------------------------------ |
+| `root`    | Outermost container `<div>`                      |
+| `header`  | Header wrapper `<div>` (contains the `<nav>`)    |
+| `nav`     | The `<nav role="tablist">` element               |
+| `button`  | Individual tab trigger `<button>`                |
+| `notify`  | Notification badge `<span>` inside each button   |
+| `content` | Active tab panel wrapper `<div role="tabpanel">` |
 
 ```tsx
 <Tab
@@ -110,6 +156,7 @@ For example, you can target the root container utilizing `className?.root` or st
     root: "my-tab-root",
     button: "my-tab-button",
     content: "my-tab-content",
+    notify: "my-badge",
   }}
 />
 ```
@@ -123,8 +170,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   tabs={myTabs}
   actionType="underline"
   style={{
-    root: { gap: "1rem" },
-    nav: { borderBottom: "1px solid #ccc" },
+    root: { gap: "1.5rem" },
+    nav: { borderBottom: "2px solid #e4e7ec" },
+    content: { padding: "1.5rem" },
   }}
 />
 ```
@@ -133,36 +181,74 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Tab` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Tab` component automatically adapts when a `data-theme="dark"` attribute is present on any ancestor element — no extra configuration is required.
+
+```html
+<html data-theme="dark">
+  ...
+</html>
+```
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-tab-[element]-[property]` format, you can globally style the component across your application:
+All visual defaults are scoped CSS custom properties defined on the component's root container. Override them globally or locally with `--bearlab-tab-*` variables.
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-tab-root-gap: 16px;
-  --bearlab-tab-button-padding: 0.5rem 1rem;
-  --bearlab-tab-button-active-bg: #e0e0e0;
-  --bearlab-tab-content-padding: 1.5rem;
+  --bearlab-tab-nav-bg: #f2f4f7;
+  --bearlab-tab-button-bg-active: #ffffff;
+  --bearlab-tab-button-color-active: #101828;
+  --bearlab-tab-button-inactive-color: #667085;
+  --bearlab-tab-notify-bg: #ecf3ff;
+  --bearlab-tab-notify-color: #465fff;
+  --bearlab-tab-content-border-color: #e4e7ec;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bearlab-tab-nav-bg: #101828;
+  --bearlab-tab-button-bg-active: rgba(255, 255, 255, 0.03);
+  --bearlab-tab-button-color-active: #ffffff;
+  --bearlab-tab-notify-bg: color-mix(in oklab, #465fff 15%, transparent);
+  --bearlab-tab-notify-color: #7592ff;
+  --bearlab-tab-content-border-color: #1d2939;
 }
 ```
+
+**Key spacing tokens:**
+
+| Token                                 | Default    | Description                            |
+| ------------------------------------- | ---------- | -------------------------------------- |
+| `--bearlab-tab-header-padding`        | `0.75rem`  | Header area padding                    |
+| `--bearlab-tab-nav-padding`           | `0.25rem`  | Nav inner padding                      |
+| `--bearlab-tab-nav-border-radius`     | `0.5rem`   | Nav background border radius           |
+| `--bearlab-tab-button-border-radius`  | `0.375rem` | Tab button border radius               |
+| `--bearlab-tab-button-padding-block`  | `0.5rem`   | Button vertical padding                |
+| `--bearlab-tab-button-padding-inline` | `0.75rem`  | Button horizontal padding              |
+| `--bearlab-tab-button-font-size`      | `0.875rem` | Button font size                       |
+| `--bearlab-tab-button-font-weight`    | `500`      | Button font weight                     |
+| `--bearlab-tab-button-gap`            | `0.5rem`   | Gap between icon and label             |
+| `--bearlab-tab-notify-font-size`      | `0.75rem`  | Badge font size                        |
+| `--bearlab-tab-content-padding`       | `1.5rem`   | Content area padding                   |
+| `--bearlab-tab-vertical-gap`          | `1.875rem` | Gap between nav and content (vertical) |
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+The `Tab` component follows the [ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) and conforms to **WCAG 2.1 AA**:
 
-- **`role="tablist"`** — Identifies the element that serves as the container for a set of tabs.
-- **`role="tab"` & `role="tabpanel"`** — Associates the trigger button with its corresponding content panel.
-- **`aria-selected`** — Indicates the currently active tab.
-- **`aria-controls` & `aria-labelledby`** — Provide a semantic connection tying the tab and its content panel together for screen readers.
-- **`aria-orientation`** — Set to `"vertical" | "horizontal"` depending on the `isVertical` prop.
-- **Keyboard Navigation** — Should be navigable using proper tab-index and keyboard patterns (Arrow keys/Tab).
+- **`role="tablist"` + `aria-orientation`** — the `<nav>` exposes `"horizontal"` or `"vertical"` based on `isVertical`.
+- **`role="tab"` + `aria-selected`** — each `<button>` reports its active state.
+- **`aria-controls`** — links each tab button to its panel via matching IDs (auto-generated with `useId`).
+- **`role="tabpanel"` + `aria-labelledby`** — the active panel is labelled by its triggering button.
+- **`tabIndex`** — active tab receives `0`; inactive tabs receive `-1` (roving focus pattern).
+- **`aria-hidden="true"` on SVG icons** — decorative icons are excluded from the accessibility tree.
+- **Notification badge** — the `<span>` uses `aria-label` (e.g. `"3 notifications"`) to announce the count.
 
 ---
 
@@ -171,13 +257,7 @@ This component demonstrates **best-practice** accessibility, fully adhering to *
 All types are exported from the package:
 
 ```ts
-import type {
-  TabProps,
-  TabItem,
-  TabActionType,
-  TabClassNames,
-  TabStyles,
-} from "@bearlab/tab";
+import type { TabProps, TabStyles, TabClassNames } from "@bearlab/tab";
 ```
 
 ### `TabItem`

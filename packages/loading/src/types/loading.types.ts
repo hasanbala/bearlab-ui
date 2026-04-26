@@ -1,17 +1,15 @@
-import type { CSSProperties, ElementType } from "react";
-
 export interface LoadingProps {
-  className?: ClassNamesProps;
-  style?: StylesProps;
-  icon?: ElementType;
+  style?: LoadingStyles;
+  icon?: React.ElementType;
+  className?: LoadingClassNames;
 }
 
-export interface ClassNamesProps {
+export interface LoadingClassNames {
   root?: string;
   icon?: string;
 }
 
-export interface StylesProps {
+export interface LoadingStyles {
   root?: React.CSSProperties;
   icon?: React.CSSProperties;
 }

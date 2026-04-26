@@ -1,6 +1,6 @@
 # @bearlab/growl
 
-> Accessible, fully customizable Growl (Toast) component for React applications.
+> Accessible, fully customizable Growl (Toast notification) component for React applications.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/growl)](https://www.npmjs.com/package/@bearlab/growl)
 [![license](https://img.shields.io/npm/l/@bearlab/growl)](LICENSE)
@@ -13,7 +13,8 @@
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Props](#props)
+- [API Reference](#api-reference)
+  - [GrowlOptions](#growloptions)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -25,10 +26,14 @@
 
 ## Features
 
-- ✅ **Multiple semantic types** — `info`, `warning`, `success`, `error`
+- ✅ **Four semantic types** — `success`, `error`, `warning`, `info`
+- ✅ **Three themes** — `light`, `dark`, `colored`
+- ✅ **Five animations** — `default`, `slide`, `flip`, `zoom`, `bounce`
+- ✅ **Six positions** — `top-right`, `top-left`, `top-center`, `bottom-right`, `bottom-left`, `bottom-center`
+- ✅ **Auto-close with pause on hover** — optional progress bar countdown
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — semantic usage and ARIA attributes
-- ✅ **Flexible positioning** — 6 distinct screen positions
+- ✅ **Accessible by default** — `role="alert"` and ARIA attributes
+- ✅ **Dark mode** — native `[data-theme="dark"]` support
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 
 ---
@@ -52,79 +57,125 @@ pnpm add @bearlab/growl
 
 ## Usage
 
+### Step 1 — Mount `<GrowlContainer />`
+
+Place `<GrowlContainer />` once at the root of your application (outside any scrollable content). It renders all toast portals and requires no props.
+
 ```tsx
-// app.tsx
+// app.tsx (or your root layout)
 import { GrowlContainer } from "@bearlab/growl";
 
 export default function App({ children }: { children: React.ReactNode }) {
   return (
-    <RootLayout>
+    <>
       {children}
       <GrowlContainer />
-    </RootLayout>
-  );
-}
-
-import { growl } from "@bearlab/growl"; // assuming 'growl' or specific interface is exported
-
-export default function Home() {
-  return (
-    <>
-      <button onClick={() => growl.success("Operation successful!")}>
-        Show Growl
-      </button>
-      <button
-        onClick={() =>
-          growl("info", "This is an info message", {
-            title: "Info",
-            autoClose: 1000,
-            position: "top-left",
-            theme: "dark",
-            animation: "bounce",
-          })
-        }
-      >
-        Show Info Growl
-      </button>
     </>
   );
 }
 ```
 
+### Step 2 — Trigger notifications via `growl`
+
+Import the `growl` function anywhere in your application and call it imperatively. It does **not** need to be inside a React component.
+
+```tsx
+import { growl } from "@bearlab/growl";
+
+// Shorthand methods
+growl.success("Changes saved successfully!");
+growl.error("Something went wrong. Please try again.");
+growl.warning("Your session is about to expire.");
+growl.info("A new version is available.");
+
+// Full signature: growl(type, message, options?)
+growl("info", "This is an info message", {
+  title: "Heads up",
+  autoClose: 4000,
+  position: "top-left",
+  theme: "dark",
+  animation: "bounce",
+  pauseOnHover: true,
+});
+```
+
+### With slot-based customization
+
+```tsx
+growl.success("Profile updated!", {
+  theme: "colored",
+  animation: "slide",
+  className: {
+    notification: "my-toast",
+    body: "my-toast-body",
+  },
+  style: {
+    notification: { borderRadius: "1rem" },
+    body: { fontWeight: 600 },
+  },
+});
+```
+
 ---
 
-## Props
+## API Reference
 
-The API exposes the `growl` object with methods corresponding to `GrowlType`, or via an interface. Options can be passed configuring each notification.
+The `growl` export is a callable function with typed shorthand methods:
+
+```ts
+growl(type, message, options?)   // generic call
+growl.success(message, options?) // shorthand
+growl.error(message, options?)
+growl.warning(message, options?)
+growl.info(message, options?)
+```
 
 ### `GrowlOptions`
 
-| Option         | Type                                  | Default       | Required | Description                      |
-| -------------- | ------------------------------------- | ------------- | -------- | -------------------------------- |
-| `title`        | `string`                              | —             | ❌       | Bold title text                  |
-| `autoClose`    | `number`                              | `5000`        | ❌       | Auto close delay in milliseconds |
-| `pauseOnHover` | `boolean`                             | `true`        | ❌       | Pause timer when hovered         |
-| `theme`        | `"light" \| "dark" \| "colored"`      | `"light"`     | ❌       | Visual theme of the notification |
-| `position`     | `GrowlPosition`                       | `"top-right"` | ❌       | Position on the screen           |
-| `animation`    | `"flip" \| "zoom" \| "slide" \| ...`  | `"default"`   | ❌       | Enter and exit animation         |
-| `className`    | [`GrowlClassNames`](#growlclassnames) | —             | ❌       | Per-slot className overrides     |
-| `style`        | [`GrowlStyles`](#growlstyles)         | —             | ❌       | Per-slot inline style overrides  |
+| Option         | Type                                                   | Default       | Required | Description                                               |
+| -------------- | ------------------------------------------------------ | ------------- | -------- | --------------------------------------------------------- |
+| `title`        | `string`                                               | type label    | ❌       | Bold title text (defaults to `"Successful"`, `"Error"` …) |
+| `autoClose`    | `number`                                               | `5000`        | ❌       | Auto-dismiss delay in milliseconds; `0` disables timer    |
+| `pauseOnHover` | `boolean`                                              | `true`        | ❌       | Pause auto-close countdown while the cursor is over it    |
+| `theme`        | `"light" \| "dark" \| "colored"`                       | `"light"`     | ❌       | Visual theme of the notification                          |
+| `position`     | `GrowlPosition`                                        | `"top-right"` | ❌       | Screen position for the notification                      |
+| `animation`    | `"default" \| "slide" \| "flip" \| "zoom" \| "bounce"` | `"default"`   | ❌       | Enter/exit animation                                      |
+| `className`    | `GrowlClassNames`                                      | —             | ❌       | Per-slot className overrides                              |
+| `style`        | `GrowlStyles`                                          | —             | ❌       | Per-slot inline style overrides                           |
+
+**Available positions (`GrowlPosition`):**
+
+| Value             | Description                |
+| ----------------- | -------------------------- |
+| `"top-right"`     | Top-right corner (default) |
+| `"top-left"`      | Top-left corner            |
+| `"top-center"`    | Top center                 |
+| `"bottom-right"`  | Bottom-right corner        |
+| `"bottom-left"`   | Bottom-left corner         |
+| `"bottom-center"` | Bottom center              |
+
+**Default titles per type:**
+
+| Type      | Default title  |
+| --------- | -------------- |
+| `success` | `"Successful"` |
+| `error`   | `"Error"`      |
+| `warning` | `"Warning"`    |
+| `info`    | `"Info"`       |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the main wrapper utilizing `className?.notification` or style the inner body directly using `style?.body`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+Each toast notification supports three customization slots targeting specific DOM elements.
 
 ### `GrowlClassNames`
 
-| Slot           | Targets                             |
-| -------------- | ----------------------------------- |
-| `notification` | Outer container of the toast item   |
-| `body`         | Inner container for title & message |
-| `progress`     | Countdown progress bar element      |
+| Slot           | Targets                                   |
+| -------------- | ----------------------------------------- |
+| `notification` | Outer wrapper `<div>` of the toast item   |
+| `body`         | Inner `<div>` containing title & message  |
+| `progress`     | Countdown progress bar `<div>` (absolute) |
 
 ```tsx
 growl.info("Update available", {
@@ -138,13 +189,14 @@ growl.info("Update available", {
 
 ### `GrowlStyles`
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
+All slots also accept inline `React.CSSProperties` via the `style` option:
 
 ```tsx
 growl.error("Connection lost", {
   style: {
-    notification: { borderRadius: "8px" },
+    notification: { borderRadius: "0.75rem" },
     body: { fontWeight: 500 },
+    progress: { height: "0.25rem" },
   },
 });
 ```
@@ -153,49 +205,114 @@ growl.error("Connection lost", {
 
 ## Theme Management
 
-The `Growl` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Growl` container responds to the **`[data-theme="dark"]`** attribute on a parent element, automatically switching dark-mode token values. Additionally, each notification has its own `theme` option (`"light"`, `"dark"`, or `"colored"`) that is applied per-toast independently of the document theme.
+
+```html
+<!-- Document-level dark mode affects token defaults -->
+<html data-theme="dark">
+  …
+</html>
+```
+
+```tsx
+// Per-toast theme override
+growl.success("Done!", { theme: "colored" });
+```
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-growl-[element]-[property]` format, you can globally style the component across your application:
+The component exposes scoped CSS custom properties on the container. Override them in your stylesheet to customize the appearance globally without modifying component internals.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-growl-notification-bg: #ffffff;
-  --bearlab-growl-notification-border-radius: 8px;
-  --bearlab-growl-body-color: #333333;
-  --bearlab-growl-progress-bg: #007bff;
+/* Apply to your app's root or a wrapper element */
+:root {
+  /* Container layout */
+  --bearlab-growl-container-max-width: 25rem;
+  --bearlab-growl-container-gap: 0.625rem;
+  --bearlab-growl-container-offset: 1.25rem;
+
+  /* Toast item */
+  --bearlab-growl-item-border-radius: 0.5rem;
+  --bearlab-growl-item-border-width: 0.25rem;
+  --bearlab-growl-item-gap: 0.75rem;
+  --bearlab-growl-item-padding-block: 0.875rem;
+  --bearlab-growl-item-padding-inline: 1rem;
+
+  /* Typography */
+  --bearlab-growl-title-font-size: 0.875rem;
+  --bearlab-growl-title-font-weight: 600;
+  --bearlab-growl-message-font-size: 0.8125rem;
+
+  /* Type-specific colors (light theme) */
+  --bearlab-growl-bg-success: #f0fdf6;
+  --bearlab-growl-border-color-success: #12b76a;
+  --bearlab-growl-text-color-success: #039855;
+  --bearlab-growl-bg-error: #fff1f0;
+  --bearlab-growl-border-color-error: #f04438;
+
+  /* Colored theme backgrounds */
+  --bearlab-growl-colored-bg-success: #12b76a;
+  --bearlab-growl-colored-bg-error: #f04438;
+  --bearlab-growl-colored-bg-warning: #fd853a;
+  --bearlab-growl-colored-bg-info: #465fff;
+
+  /* Progress bar */
+  --bearlab-growl-progress-height: 0.1875rem;
 }
 ```
+
+> **Tip:** Tokens are scoped to the growl container class, so they will not leak into other parts of your application.
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
-
-- **`role="alert"`** or **`role="status"`** — Ensures screen readers properly announce incoming notifications based on their severity.
-- **`aria-live`** — Dynamically adjusts context. Critical `error` variations use `"assertive"` to interrupt and notify immediately, while non-critical messages leverage `"polite"`.
-- **Keyboard navigation** — Supports focus management and dismiss interactions effortlessly.
+- **`role="alert"`** — Applied to every toast notification element, ensuring screen readers immediately announce new messages.
+- **Keyboard interaction** — The close button (`✕`) is a clickable `<div>` with pointer cursor; keyboard-only users can navigate to it via `Tab` and dismiss with `Enter`.
+- **`aria-hidden="true"` on icons** — Decorative type icons are hidden from the accessibility tree to avoid redundant announcements since the message content conveys the same information.
+- **Auto-dismiss pause** — `pauseOnHover` ensures users who need more time to read are not interrupted mid-interaction.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All public types are exported from the package root:
 
 ```ts
 import type {
-  GrowlItem,
-  GrowlOptions,
   GrowlClassNames,
   GrowlStyles,
-  GrowlPosition,
-  GrowlType,
+  GrowlInterface,
 } from "@bearlab/growl";
+```
+
+### `GrowlInterface`
+
+```ts
+interface GrowlInterface {
+  (type: GrowlType, message: string, options?: GrowlOptions): void;
+  info: (message: string, options?: GrowlOptions) => void;
+  error: (message: string, options?: GrowlOptions) => void;
+  success: (message: string, options?: GrowlOptions) => void;
+  warning: (message: string, options?: GrowlOptions) => void;
+}
+```
+
+### `GrowlOptions`
+
+```ts
+interface GrowlOptions {
+  title?: string;
+  autoClose?: number;
+  pauseOnHover?: boolean;
+  theme?: GrowlTheme;
+  position?: GrowlPosition;
+  animation?: GrowlAnimation;
+  className?: GrowlClassNames;
+  style?: GrowlStyles;
+}
 ```
 
 ### `GrowlClassNames`
@@ -216,6 +333,21 @@ interface GrowlStyles {
   progress?: React.CSSProperties;
   notification?: React.CSSProperties;
 }
+```
+
+### Union types
+
+```ts
+type GrowlType = "info" | "warning" | "success" | "error";
+type GrowlTheme = "light" | "dark" | "colored";
+type GrowlAnimation = "default" | "slide" | "flip" | "zoom" | "bounce";
+type GrowlPosition =
+  | "top-right"
+  | "top-left"
+  | "top-center"
+  | "bottom-right"
+  | "bottom-left"
+  | "bottom-center";
 ```
 
 ---

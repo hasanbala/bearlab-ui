@@ -26,11 +26,13 @@
 ## Features
 
 - ✅ **Single & Multiple Expansion** — `allowMultiple` prop for granular control
+- ✅ **Default Open State** — `defaultOpenIndexes` to pre-open items on mount
 - ✅ **Slot-based `className` & `style` API** — highly customizable without CSS overrides
-- ✅ **Accessible by default** — `aria-expanded`, `aria-controls`, `aria-labelledby`, `role="region"`, `role="button"`
+- ✅ **Accessible by default** — `aria-expanded`, `aria-controls`, `aria-labelledby`, `role="region"`, `inert` attribute for hidden panels
 - ✅ **Custom Renderers** — `renderTitle` and `renderContent` for specialized layouts
+- ✅ **Smooth Animations** — CSS `grid-template-rows` transition for content expand/collapse
+- ✅ **Dark mode** — built-in `[data-theme="dark"]` token overrides
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
 
 ---
 
@@ -53,17 +55,50 @@ pnpm add @bearlab/accordion
 
 ## Usage
 
+### Basic Usage
+
 ```tsx
 import { Accordion } from "@bearlab/accordion";
 
-export default function App() {
-  const items = [
-    { title: "Section 1", content: "Content for section 1" },
-    { title: "Section 2", content: "Content for section 2" },
-  ];
+const items = [
+  {
+    id: "1",
+    title: "What is BearLab UI?",
+    content: "A component library for React.",
+  },
+  {
+    id: "2",
+    title: "Is it accessible?",
+    content: "Yes, fully WCAG 2.1 AA compliant.",
+  },
+  {
+    id: "3",
+    title: "Does it support dark mode?",
+    content: 'Yes, via [data-theme="dark"] selector.',
+  },
+];
 
-  return <Accordion items={items} allowMultiple={false} />;
+export default function App() {
+  return <Accordion items={items} />;
 }
+```
+
+### Multiple Expansion
+
+```tsx
+<Accordion items={items} allowMultiple defaultOpenIndexes={[0, 2]} />
+```
+
+### Custom Renderers
+
+```tsx
+<Accordion
+  items={items}
+  renderTitle={(title, isOpen) => (
+    <strong style={{ color: isOpen ? "#465fff" : "#1d2939" }}>{title}</strong>
+  )}
+  renderContent={(content) => <div className="custom-content">{content}</div>}
+/>
 ```
 
 ---
@@ -72,15 +107,15 @@ export default function App() {
 
 ### `Accordion`
 
-| Prop                 | Type                                          | Default | Required | Description                                          |
-| -------------------- | --------------------------------------------- | ------- | -------- | ---------------------------------------------------- |
-| `items`              | `AccordionDataItem[]`                         | —       | ✅       | Array of data items containing `title` and `content` |
-| `allowMultiple`      | `boolean`                                     | `false` | ❌       | Whether multiple accordion items can be open at once |
-| `defaultOpenIndexes` | `number[]`                                    | `[]`    | ❌       | Array of indexes of items to be open by default      |
-| `className`          | [`AccordionClassNames`](#accordionclassnames) | —       | ❌       | Per-slot className overrides                         |
-| `style`              | [`AccordionStyles`](#accordionstyles)         | —       | ❌       | Per-slot inline style overrides                      |
-| `renderTitle`        | `(title, isOpen) => React.ReactNode`          | —       | ❌       | Custom render function for the accordion title       |
-| `renderContent`      | `(content) => React.ReactNode`                | —       | ❌       | Custom render function for the accordion content     |
+| Prop                 | Type                                            | Default | Required | Description                                          |
+| -------------------- | ----------------------------------------------- | ------- | -------- | ---------------------------------------------------- |
+| `items`              | `AccordionDataItem[]`                           | —       | ✅       | Array of data items containing `title` and `content` |
+| `allowMultiple`      | `boolean`                                       | `false` | ❌       | Whether multiple accordion items can be open at once |
+| `defaultOpenIndexes` | `number[]`                                      | `[]`    | ❌       | Indexes of items that are open on initial render     |
+| `className`          | [`AccordionClassNames`](#accordionclassnames)   | —       | ❌       | Per-slot className overrides                         |
+| `style`              | [`AccordionStyles`](#accordionstyles)           | —       | ❌       | Per-slot inline style overrides                      |
+| `renderTitle`        | `(title: string, isOpen: boolean) => ReactNode` | —       | ❌       | Custom render function for the accordion title       |
+| `renderContent`      | `(content: string) => ReactNode`                | —       | ❌       | Custom render function for the accordion content     |
 
 ### `AccordionDataItem`
 
@@ -96,20 +131,18 @@ export default function App() {
 
 The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.contentInner`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
-
 ### `AccordionClassNames`
 
-| Slot             | Targets                             |
-| ---------------- | ----------------------------------- |
-| `root`           | Outermost container `<div>`         |
-| `accordionItem`  | Individual accordion item wrapper   |
-| `header`         | Button element acting as the header |
-| `titleWrapper`   | Wrapper for the title text          |
-| `icon`           | Toggle icon `<span>` or `<svg>`     |
-| `contentWrapper` | Animated content wrapper block      |
-| `contentInner`   | Inner container holding the content |
-| `text`           | Text element inside the content     |
+| Slot             | Element                             | Description                        |
+| ---------------- | ----------------------------------- | ---------------------------------- |
+| `root`           | `<div>` (outermost container)       | The flex column wrapping all items |
+| `accordionItem`  | `<div>` (per-item wrapper)          | Each accordion row                 |
+| `header`         | `<button>` (toggle button)          | Clickable header region            |
+| `titleWrapper`   | `<div>` wrapping the title          | Flex child that holds title text   |
+| `icon`           | `<svg>` (chevron icon)              | Animated toggle icon               |
+| `contentWrapper` | `<div>` (animated grid container)   | CSS grid expand/collapse wrapper   |
+| `contentInner`   | `<div>` (overflow hidden container) | Inner overflow guard               |
+| `text`           | `<p>` (default content text)        | Default paragraph renderer         |
 
 ```tsx
 <Accordion
@@ -130,8 +163,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 <Accordion
   items={items}
   style={{
-    root: { gap: "8px", display: "flex", flexDirection: "column" },
-    header: { padding: "16px", backgroundColor: "#f9f9f9" },
+    root: { gap: "8px" },
+    accordionItem: { borderRadius: "8px" },
+    header: { padding: "12px 24px" },
   }}
 />
 ```
@@ -140,22 +174,73 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Accordion` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Accordion` component features a robust theme architecture. It natively responds to **`[data-theme="dark"]`** applied to any ancestor element (including `<html>` or `<body>`), overriding all color tokens automatically for dark mode.
+
+```html
+<!-- Enable dark mode globally -->
+<html data-theme="dark">
+  ...
+</html>
+```
+
+No additional configuration is required — all color transitions are handled via scoped CSS variables.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-accordion-[element]-[property]` format, you can globally style the component across your application:
+The component exposes CSS custom properties using a `--bearlab-accordion-*` namespace. All tokens are scoped to the `.container` class, so they only affect the accordion — not your entire app.
+
+Override tokens in your global stylesheet:
 
 ```css
+/* Light mode overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-accordion-root-gap: 8px;
-  --bearlab-accordion-header-bg: #ffffff;
-  --bearlab-accordion-header-color: #1a1a1a;
-  --bearlab-accordion-content-bg: #f5f5f5;
-  --bearlab-accordion-text-color: #4a4a4a;
+  /* Layout & Spacing */
+  --bearlab-accordion-gap: 0.75rem; /* gap between items (default: 12px) */
+  --bearlab-accordion-item-radius: 1rem; /* item border radius (default: 16px) */
+  --bearlab-accordion-header-padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+
+  /* Typography */
+  --bearlab-accordion-title-font-size: 1.125rem; /* 18px */
+  --bearlab-accordion-content-font-size: 1rem; /* 16px */
+  --bearlab-accordion-content-line-height: 1.625rem; /* 26px */
+
+  /* Colors */
+  --bearlab-accordion-item-bg: #fff;
+  --bearlab-accordion-item-border-color: #e5e7eb;
+  --bearlab-accordion-title-color: #1d2939;
+  --bearlab-accordion-content-color: #6b7280;
+
+  /* Open / Active state */
+  --bearlab-accordion-header-bg-open: #eef2ff;
+  --bearlab-accordion-title-color-open: #465fff;
+  --bearlab-accordion-item-border-color-open: #d0d5dd;
+
+  /* Animation */
+  --bearlab-accordion-duration: 0.28s;
+  --bearlab-accordion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Icon */
+  --bearlab-accordion-icon-size: 1.5rem; /* 24px */
+  --bearlab-accordion-icon-wrapper-size: 2.75rem; /* 44px */
+  --bearlab-accordion-icon-border-color: #c6cad1;
+  --bearlab-accordion-icon-border-color-open: #8c93a0;
+  --bearlab-accordion-icon-bg-hover: #e4e7ec;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bearlab-accordion-item-bg: rgba(255, 255, 255, 0.03);
+  --bearlab-accordion-item-border-color: #1f2937;
+  --bearlab-accordion-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-accordion-title-color-open: #7592ff;
+  --bearlab-accordion-content-color: #9ca3af;
+  --bearlab-accordion-header-bg-open: rgba(255, 255, 255, 0.03);
+  --bearlab-accordion-icon-bg-hover: rgba(102, 112, 133, 0.24);
+  --bearlab-accordion-icon-border-color: #5b5e62;
+  --bearlab-accordion-icon-border-color-open: #fff;
 }
 ```
 
@@ -163,28 +248,38 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component adheres to **WCAG 2.1 AA** standards and follows the [ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/):
 
-- **`role="button"` / Keyboard Navigation** — The header operates natively or as a button, allowing full keyboard interaction (Enter, Space).
-- **`aria-expanded`** — Dynamically indicates the expansion state of the accordion panel to screen readers (`true` when open, `false` when closed).
-- **`aria-controls`** — Links the control (header) to the exact content panel it manipulates, using stable IDs.
-- **`role="region"` / `aria-labelledby`** — The content panel serves as a landmark region titled by its corresponding header for streamlined screen reader navigation.
+- **`<button>` element** — The header is a native `<button>` (with `all: unset`) ensuring full keyboard support (Enter, Space) without any extra configuration.
+- **`aria-expanded`** — Dynamically reflects the open/closed state to screen readers (`true` when open, `false` when closed).
+- **`aria-controls`** — Links each header button to its content panel via a stable, deterministic ID (`accordion-panel-{id}`).
+- **`role="region"` + `aria-labelledby`** — Each content panel is a landmark region labelled by its corresponding header (`accordion-header-{id}`), enabling efficient screen reader navigation.
+- **`aria-hidden` + `inert`** — Hidden panels receive both `aria-hidden="true"` and the `inert` attribute, preventing interaction and announcement of collapsed content.
+- **Decorative icon** — The chevron icon has `aria-hidden="true"` to avoid redundant announcements.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All public types are exported from the package root:
 
 ```ts
-import {
-  Accordion,
-  type AccordionProps,
-  type AccordionDataItem,
-  type AccordionItemProps,
-  type AccordionClassNames,
-  type AccordionStyles,
+import type {
+  AccordionProps,
+  AccordionDataItem,
+  AccordionClassNames,
+  AccordionStyles,
 } from "@bearlab/accordion";
+```
+
+### `AccordionDataItem`
+
+```ts
+interface AccordionDataItem {
+  title: string;
+  content: string;
+  id?: string | number;
+}
 ```
 
 ### `AccordionProps`
@@ -198,32 +293,6 @@ interface AccordionProps {
   style?: AccordionStyles;
   renderTitle?: (title: string, isOpen: boolean) => React.ReactNode;
   renderContent?: (content: string) => React.ReactNode;
-}
-```
-
-### `AccordionDataItem`
-
-```ts
-interface AccordionDataItem {
-  title: string;
-  content: string;
-  id?: string | number;
-}
-```
-
-### `AccordionItemProps`
-
-```ts
-interface AccordionItemProps {
-  id: string | number;
-  title: string;
-  isOpen: boolean;
-  content: string;
-  onToggle: () => void;
-  style?: AccordionStyles;
-  className?: AccordionClassNames;
-  renderContent?: (content: string) => React.ReactNode;
-  renderTitle?: (title: string, isOpen: boolean) => React.ReactNode;
 }
 ```
 

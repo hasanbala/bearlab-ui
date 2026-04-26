@@ -5,40 +5,41 @@ export type IconType =
 export interface InputClassNames {
   root?: string;
   label?: string;
-  inputWrapper?: string;
   input?: string;
-  beforeIcon?: string;
   afterIcon?: string;
-  passwordToggle?: string;
+  beforeIcon?: string;
   copyButton?: string;
-  searchButton?: string;
+  inputWrapper?: string;
   errorMessage?: string;
+  searchButton?: string;
+  passwordToggle?: string;
 }
 
 export interface InputStyles {
   root?: React.CSSProperties;
   label?: React.CSSProperties;
-  inputWrapper?: React.CSSProperties;
   input?: React.CSSProperties;
-  beforeIcon?: React.CSSProperties;
   afterIcon?: React.CSSProperties;
-  passwordToggle?: React.CSSProperties;
   copyButton?: React.CSSProperties;
+  beforeIcon?: React.CSSProperties;
   searchButton?: React.CSSProperties;
+  inputWrapper?: React.CSSProperties;
   errorMessage?: React.CSSProperties;
+  passwordToggle?: React.CSSProperties;
 }
 
 export interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
-  "className" | "style"
+  "className" | "style" | "name"
 > {
+  name?: string;
   label?: string;
   error?: string;
-  beforeIcon?: IconType;
-  afterIcon?: IconType;
-  isExistCopy?: boolean;
-  isRequired?: boolean;
-  onSearch?: () => void;
-  className?: InputClassNames;
   style?: InputStyles;
+  afterIcon?: IconType;
+  isRequired?: boolean;
+  isExistCopy?: boolean;
+  beforeIcon?: IconType;
+  className?: InputClassNames;
+  onSearch?: () => void;
 }

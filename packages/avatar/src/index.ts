@@ -3,8 +3,6 @@ export { AvatarText } from "./avatar-text";
 export type {
   AvatarIconProps,
   AvatarTextProps,
-  AvatarSize,
-  AvatarStatus,
   AvatarIconClassNames,
   AvatarIconStyles,
   AvatarTextClassNames,

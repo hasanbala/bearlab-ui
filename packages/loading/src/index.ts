@@ -1,6 +1,6 @@
 export { Loading } from "./loading";
 export type {
   LoadingProps,
-  ClassNamesProps,
-  StylesProps,
+  LoadingClassNames,
+  LoadingStyles,
 } from "./types/loading.types";

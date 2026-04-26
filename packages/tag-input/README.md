@@ -15,6 +15,7 @@
 - [Usage](#usage)
 - [Props](#props)
 - [Tag Formats](#tag-formats)
+- [Keyboard Interactions](#keyboard-interactions)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -27,13 +28,15 @@
 ## Features
 
 - ✅ **3 built-in formats** — `domain`, `email`, and `custom` validation modes
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity battles
-- ✅ **Accessible by default** — `role="combobox"`, `aria-live`, `aria-invalid`, `aria-required`, `aria-describedby`
-- ✅ **Tag validation feedback** — visual `valid` / `invalid` states per tag item
-- ✅ **Paste support** — bulk entry via clipboard paste with automatic parsing
-- ✅ **Max-items cap** — enforced limit with live counter and accessible announcements
+- ✅ **Tag validation feedback** — visual `valid` / `invalid` states with distinct colors per tag
+- ✅ **Paste support** — bulk entry via clipboard; multiple values parsed automatically
+- ✅ **Max-items cap** — enforced limit with live `X / N` counter and accessible announcements
 - ✅ **Duplicate detection** — configurable via `allowDuplicates` prop
-- ✅ **Custom validation** — inject your own `validate` function for custom formats
+- ✅ **Custom validation** — inject any `validate(value) => boolean` function for custom formats
+- ✅ **Error & helper text** — `error` prop accepts `boolean` or a string message
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity battles
+- ✅ **Dark mode ready** — responds to `[data-theme="dark"]` automatically
+- ✅ **Accessible by default** — `role="combobox"`, `role="group"`, `aria-live`, `aria-invalid`, `aria-required`
 - ✅ **TypeScript-first** — fully typed props, slot interfaces, and hook return types
 
 ---
@@ -61,7 +64,8 @@ pnpm add @bearlab/tag-input
 
 ```tsx
 import { useState } from "react";
-import { TagInput, TagItem } from "@bearlab/tag-input";
+import { TagInput } from "@bearlab/tag-input";
+import type { TagItem } from "@bearlab/tag-input";
 
 export default function App() {
   const [tags, setTags] = useState<TagItem[]>([]);
@@ -94,7 +98,7 @@ export default function App() {
   maxItems={5}
   isRequired
   helperText="Press Enter or Tab to add."
-  error={hasError ? "Invalid email address" : false}
+  error={hasError ? "Please enter a valid email address" : false}
 />
 ```
 
@@ -110,6 +114,7 @@ export default function App() {
   onChange={setTags}
   onInputChange={setInputValue}
   validate={(val) => /^[a-z0-9_]{3,20}$/.test(val)}
+  onError={(val) => console.warn("Invalid:", val)}
 />
 ```
 
@@ -117,68 +122,84 @@ export default function App() {
 
 ## Props
 
-| Prop              | Type                                        | Default | Required | Description                                                   |
-| ----------------- | ------------------------------------------- | ------- | -------- | ------------------------------------------------------------- |
-| `format`          | `TagFormat`                                 | —       | ✅       | Validation mode: `"domain"`, `"email"`, or `"custom"`         |
-| `value`           | `TagItem[]`                                 | —       | ✅       | Controlled list of tag items                                  |
-| `inputValue`      | `string`                                    | —       | ✅       | Controlled value of the text input                            |
-| `onChange`        | `(items: TagItem[]) => void`                | —       | ✅       | Fires when the tag list changes                               |
-| `onInputChange`   | `(value: string) => void`                   | —       | ✅       | Fires on every keystroke inside the text input                |
-| `label`           | `string`                                    | —       | ❌       | Visible label for the field                                   |
-| `placeholder`     | `string`                                    | auto    | ❌       | Input placeholder; auto-generated from `format` if omitted    |
-| `helperText`      | `string`                                    | —       | ❌       | Descriptive helper text rendered below the input              |
-| `error`           | `boolean \| string`                         | —       | ❌       | Error state; pass a string to display an error message        |
-| `disabled`        | `boolean`                                   | `false` | ❌       | Disables all interactions                                     |
-| `isRequired`      | `boolean`                                   | `false` | ❌       | Marks the field as required (`aria-required`)                 |
-| `maxItems`        | `number`                                    | —       | ❌       | Maximum number of allowed tags; shows a live counter when set |
-| `allowDuplicates` | `boolean`                                   | `false` | ❌       | When `true`, duplicate values are permitted                   |
-| `formatLabel`     | `string`                                    | —       | ❌       | Custom label for the item type when `format="custom"`         |
-| `validate`        | `(value: string) => boolean`                | —       | ❌       | Custom validation function used when `format="custom"`        |
-| `onAdd`           | `(item: TagItem) => void`                   | —       | ❌       | Fires when a tag is successfully added                        |
-| `onRemove`        | `(item: TagItem) => void`                   | —       | ❌       | Fires when a tag is removed                                   |
-| `onError`         | `(value: string) => void`                   | —       | ❌       | Fires when a value fails validation                           |
-| `className`       | [`TagInputClassNames`](#tagInputclassnames) | —       | ❌       | Per-slot className overrides                                  |
-| `style`           | [`TagInputStyles`](#taginputstyles)         | —       | ❌       | Per-slot inline style overrides                               |
+| Prop              | Type                                        | Default | Required | Description                                                 |
+| ----------------- | ------------------------------------------- | ------- | -------- | ----------------------------------------------------------- |
+| `format`          | `"domain" \| "email" \| "custom"`           | —       | ✅       | Validation mode                                             |
+| `value`           | `TagItem[]`                                 | —       | ✅       | Controlled list of tag items                                |
+| `inputValue`      | `string`                                    | —       | ✅       | Controlled value of the text input                          |
+| `onChange`        | `(items: TagItem[]) => void`                | —       | ✅       | Fires when the tag list changes (add or remove)             |
+| `onInputChange`   | `(value: string) => void`                   | —       | ✅       | Fires on every keystroke inside the text input              |
+| `label`           | `string`                                    | —       | ❌       | Visible label rendered above the input field                |
+| `placeholder`     | `string`                                    | auto    | ❌       | Input placeholder; auto-generated from `format` if omitted  |
+| `helperText`      | `string`                                    | —       | ❌       | Descriptive helper text rendered below the field            |
+| `error`           | `boolean \| string`                         | `false` | ❌       | Error state; pass a `string` to display a specific message  |
+| `disabled`        | `boolean`                                   | `false` | ❌       | Disables all interactions (input and remove buttons)        |
+| `isRequired`      | `boolean`                                   | `false` | ❌       | Marks the field as required (`aria-required`)               |
+| `maxItems`        | `number`                                    | —       | ❌       | Maximum allowed tags; shows a live `X / N` counter when set |
+| `allowDuplicates` | `boolean`                                   | `false` | ❌       | When `true`, duplicate values are permitted                 |
+| `formatLabel`     | `string`                                    | —       | ❌       | Custom noun used in placeholders when `format="custom"`     |
+| `validate`        | `(value: string) => boolean`                | —       | ❌       | Custom validation function; required when `format="custom"` |
+| `onAdd`           | `(item: TagItem) => void`                   | —       | ❌       | Fires after a tag is successfully committed                 |
+| `onRemove`        | `(item: TagItem) => void`                   | —       | ❌       | Fires after a tag is removed                                |
+| `onError`         | `(value: string) => void`                   | —       | ❌       | Fires when a committed value fails validation               |
+| `className`       | [`TagInputClassNames`](#taginputclassnames) | —       | ❌       | Per-slot className overrides                                |
+| `style`           | [`TagInputStyles`](#taginputstyles)         | —       | ❌       | Per-slot inline style overrides                             |
 
 ---
 
 ## Tag Formats
 
-| Format   | Built-in validation                    | `formatLabel` default |
-| -------- | -------------------------------------- | --------------------- |
-| `email`  | RFC-compliant email address            | `"email address"`     |
-| `domain` | Valid domain name (e.g. `example.com`) | `"domain"`            |
-| `custom` | Requires a `validate` function         | `"item"`              |
+| Format   | Built-in validation                    | Default placeholder  |
+| -------- | -------------------------------------- | -------------------- |
+| `email`  | RFC-compliant email address            | `Add email address…` |
+| `domain` | Valid domain name (e.g. `example.com`) | `Add domain…`        |
+| `custom` | Requires a `validate` function         | `Add item…`          |
 
-Each submitted tag receives a `status` of `"valid"` or `"invalid"`, rendered with distinct visual states.
+Each committed tag receives a `status` of `"valid"` or `"invalid"` and is rendered with distinct colors. Invalid tags are still added to the list so users can review and remove them.
 
 ```tsx
 <TagInput format="domain" label="Allowed domains" ... />
 <TagInput format="email"  label="Recipient list"  ... />
-<TagInput format="custom" formatLabel="hashtag" validate={(v) => /^#\w+$/.test(v)} ... />
+<TagInput
+  format="custom"
+  formatLabel="hashtag"
+  validate={(v) => /^#\w+$/.test(v)}
+  ...
+/>
 ```
+
+---
+
+## Keyboard Interactions
+
+| Key         | Behavior                                                  |
+| ----------- | --------------------------------------------------------- |
+| `Enter`     | Commits the current input value as a new tag              |
+| `Tab`       | Commits the current input value, then moves focus forward |
+| `Backspace` | When input is empty, removes the last tag                 |
+| `Paste`     | Parses clipboard text and bulk-adds multiple tags at once |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container via `className?.root` or style the inner list wrapper natively via `style?.list`. Each slot targets a specific DOM element, giving you surgical control over the component's rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues.
 
 ### `TagInputClassNames`
 
-| Slot         | Targets                                |
-| ------------ | -------------------------------------- |
-| `root`       | Outermost container `<div>`            |
-| `list`       | Tag list + input field wrapper `<div>` |
-| `input`      | The text `<input>` element             |
-| `tag`        | Individual tag chip `<span>`           |
-| `tagValid`   | Valid tag chip modifier                |
-| `tagInvalid` | Invalid tag chip modifier              |
-| `tagLabel`   | Tag label text `<span>`                |
-| `tagRemove`  | Tag remove button `<button>`           |
-| `helperText` | Helper/error text `<div>`              |
+| Slot           | Targets                                                   |
+| -------------- | --------------------------------------------------------- |
+| `root`         | Outermost container `<div>`                               |
+| `label`        | Visible `<label>` element                                 |
+| `list`         | Tag list + input field wrapper `<div role="group">`       |
+| `input`        | The text `<input>` element                                |
+| `tag`          | Individual tag chip `<span>`                              |
+| `tagValid`     | Modifier applied to valid tag chips                       |
+| `tagInvalid`   | Modifier applied to invalid tag chips                     |
+| `tagLabel`     | Text label `<span>` inside each tag chip                  |
+| `tagRemove`    | Remove `<button>` inside each tag chip                    |
+| `helperText`   | Helper / error text `<div>`                               |
+| `errorMessage` | Error message wrapper `<div>` (shown when `error` is set) |
 
 ```tsx
 <TagInput
@@ -210,10 +231,10 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   onChange={setTags}
   onInputChange={setInputValue}
   style={{
-    root: { borderRadius: "12px" },
-    list: { padding: "8px" },
-    input: { fontSize: "0.9rem" },
-    tag: { fontWeight: 600 },
+    root: { maxWidth: "480px" },
+    list: { padding: "0.5rem" },
+    tag: { borderRadius: "0.5rem" },
+    input: { fontSize: "0.875rem" },
   }}
 />
 ```
@@ -222,10 +243,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `TagInput` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level. No additional configuration is required — theme switching is handled automatically via CSS custom properties.
+The `TagInput` component automatically adapts when a `data-theme="dark"` attribute is present on any ancestor element — no extra configuration is required.
 
 ```html
-<!-- Apply to <html> or any parent element -->
 <html data-theme="dark">
   ...
 </html>
@@ -235,51 +255,69 @@ The `TagInput` component features a robust theme architecture. It is fully compa
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS custom properties for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-tag-input-[element]-[property]` format, you can globally style the component across your application:
+All visual defaults are scoped CSS custom properties on the component's root container. Override them with `--bearlab-tag-input-*` variables.
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-tag-input-root-border-radius: 8px;
-  --bearlab-tag-input-list-border-color: #d1d5db;
-  --bearlab-tag-input-list-padding: 6px 10px;
-  --bearlab-tag-input-tag-background: #e0f2fe;
-  --bearlab-tag-input-tag-color: #0369a1;
-  --bearlab-tag-input-tag-border-radius: 999px;
-  --bearlab-tag-input-tag-invalid-background: #fee2e2;
-  --bearlab-tag-input-tag-invalid-color: #b91c1c;
-  --bearlab-tag-input-input-font-size: 0.875rem;
+  --bearlab-tag-input-field-border-color: #e4e7ec;
+  --bearlab-tag-input-field-bg: #ffffff;
+  --bearlab-tag-input-accent-color: #465fff;
+  --bearlab-tag-input-tag-valid-bg: #d7ffea;
+  --bearlab-tag-input-tag-valid-color: #039855;
+  --bearlab-tag-input-tag-invalid-bg: #fee2e2;
+  --bearlab-tag-input-tag-invalid-color: #dc2626;
 }
 
+/* Dark theme overrides */
 [data-theme="dark"] {
-  --bearlab-tag-input-list-border-color: #374151;
-  --bearlab-tag-input-tag-background: #1e3a5f;
-  --bearlab-tag-input-tag-color: #93c5fd;
-  --bearlab-tag-input-tag-invalid-background: #450a0a;
-  --bearlab-tag-input-tag-invalid-color: #fca5a5;
+  --bearlab-tag-input-field-border-color: #1d2939;
+  --bearlab-tag-input-field-bg: #0f1828;
+  --bearlab-tag-input-input-color: rgba(255, 255, 255, 0.9);
 }
 ```
+
+**Key spacing & color tokens:**
+
+| Token                                     | Default    | Description                       |
+| ----------------------------------------- | ---------- | --------------------------------- |
+| `--bearlab-tag-input-field-min-height`    | `2.75rem`  | Minimum height of the input field |
+| `--bearlab-tag-input-field-border-width`  | `0.125rem` | Field border width                |
+| `--bearlab-tag-input-field-border-radius` | `0.5rem`   | Field border radius               |
+| `--bearlab-tag-input-field-border-color`  | `#e4e7ec`  | Default field border color        |
+| `--bearlab-tag-input-field-bg`            | `#ffffff`  | Field background color            |
+| `--bearlab-tag-input-accent-color`        | `#465fff`  | Focus ring and caret color        |
+| `--bearlab-tag-input-tag-border-radius`   | `0.5rem`   | Tag chip border radius            |
+| `--bearlab-tag-input-tag-font-size`       | `0.875rem` | Tag chip font size                |
+| `--bearlab-tag-input-tag-height`          | `1.75rem`  | Tag chip height                   |
+| `--bearlab-tag-input-tag-valid-bg`        | `#d7ffea`  | Valid tag background              |
+| `--bearlab-tag-input-tag-valid-color`     | `#039855`  | Valid tag text color              |
+| `--bearlab-tag-input-tag-invalid-bg`      | `#fee2e2`  | Invalid tag background            |
+| `--bearlab-tag-input-tag-invalid-color`   | `#dc2626`  | Invalid tag text color            |
+| `--bearlab-tag-input-label-font-size`     | `0.875rem` | Label font size                   |
+| `--bearlab-tag-input-label-font-weight`   | `600`      | Label font weight                 |
+| `--bearlab-tag-input-helper-font-size`    | `0.75rem`  | Helper / error text font size     |
+| `--bearlab-tag-input-helper-color`        | `#667085`  | Helper text color                 |
+| `--bearlab-tag-input-required-color`      | `#f04438`  | Required asterisk color           |
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience for keyboard and screen reader users:
+The `TagInput` component adheres to **WCAG 2.1 AA** standards:
 
-- **`role="combobox"`** on the `<input>` — correctly identifies the field as an interactive combobox widget.
-- **`role="group"` + `aria-labelledby`** — wraps the tag field and input in a semantic group linked to the visible `<label>`.
-- **`role="list"` + `role="listitem"`** — tag chips are rendered as a semantic `<ul>/<li>` structure, enabling screen readers to count and navigate tags.
-- **`aria-invalid`** — propagated to both the group and the `<input>` when `error` is truthy, signalling form validation failure.
-- **`aria-required`** — applied to the `<input>` when `isRequired` is set, ensuring form validation tools and assistive technologies respect the required state.
-- **`aria-describedby`** — links the input and group to the helper/error text element using a stable, auto-generated ID (`useId()`).
-- **`aria-live="assertive"`** on the error container — immediately announces validation errors to screen reader users without delay.
-- **`aria-live="polite"`** on the helper text and item counter — announces non-critical updates without interrupting the user.
-- **`role="status"` + `aria-live="assertive"` + `aria-atomic="true"`** — a visually hidden live region announces tag additions and removals to assistive technologies (e.g. _"example.com added"_, _"example.com removed"_).
-- **`aria-hidden="true"`** — applied to decorative icons (e.g. the error triangle) to prevent redundant announcements.
-- **Keyboard interactions:**
-  - **`Enter` / `Tab`** — commits the current input value as a new tag.
-  - **`Backspace`** — removes the last tag when the input is empty.
-  - **`Paste`** — bulk-parses clipboard content and adds multiple tags at once.
+- **`role="combobox"` on `<input>`** — correctly identifies the field as an interactive combobox widget.
+- **`role="group"` + `aria-labelledby`** — wraps tags and input in a semantic group linked to the visible `<label>` via a stable auto-generated ID (`useId()`).
+- **`role="list"` + `role="listitem"`** — tags are rendered inside a `<ul>/<li>` structure so screen readers can count and navigate them.
+- **`aria-invalid`** — applied to both the group wrapper and the `<input>` when `error` is truthy.
+- **`aria-required`** — applied to the `<input>` when `isRequired` is set.
+- **`aria-describedby`** — links the input to the helper / error text element.
+- **`aria-live="polite"` on helper text and counter** — non-critical updates are announced without interrupting the user.
+- **`role="status"` + `aria-live="assertive"` + `aria-atomic="true"`** — a visually hidden live region announces tag additions and removals (e.g. _"example.com added"_, _"example.com removed"_).
+- **`aria-label` on remove buttons** — each `<button>` announces `"Remove <value>"` to screen readers.
+- **`aria-hidden="true"` on decorative icons** — the error triangle SVG is excluded from the accessibility tree.
+- **Disabled state** — when `disabled` is `true`, the container gets `opacity: 0.6` and `pointer-events: none`; the `<input>` and remove buttons receive `disabled` and `aria-disabled` attributes.
 
 ---
 
@@ -290,24 +328,15 @@ All types are exported from the package:
 ```ts
 import type {
   TagInputProps,
-  TagItem,
-  TagFormat,
-  TagStatus,
   TagInputClassNames,
   TagInputStyles,
-  TagProps,
 } from "@bearlab/tag-input";
 ```
 
-### `TagFormat`
+### `TagFormat` & `TagStatus`
 
 ```ts
 type TagFormat = "domain" | "email" | "custom";
-```
-
-### `TagStatus`
-
-```ts
 type TagStatus = "valid" | "invalid";
 ```
 
@@ -315,8 +344,8 @@ type TagStatus = "valid" | "invalid";
 
 ```ts
 interface TagItem {
-  id: string;
-  value: string;
+  id: string; // Auto-generated unique identifier
+  value: string; // The tag string value
   status: TagStatus;
 }
 ```
@@ -326,6 +355,7 @@ interface TagItem {
 ```ts
 interface TagInputClassNames {
   root?: string;
+  label?: string;
   list?: string;
   input?: string;
   tag?: string;
@@ -334,7 +364,7 @@ interface TagInputClassNames {
   tagLabel?: string;
   tagRemove?: string;
   helperText?: string;
-  label?: string;
+  errorMessage?: string;
 }
 ```
 
@@ -343,6 +373,7 @@ interface TagInputClassNames {
 ```ts
 interface TagInputStyles {
   root?: React.CSSProperties;
+  label?: React.CSSProperties;
   list?: React.CSSProperties;
   input?: React.CSSProperties;
   tag?: React.CSSProperties;
@@ -351,7 +382,7 @@ interface TagInputStyles {
   tagLabel?: React.CSSProperties;
   tagRemove?: React.CSSProperties;
   helperText?: React.CSSProperties;
-  label?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
 }
 ```
 

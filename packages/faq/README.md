@@ -1,6 +1,6 @@
 # @bearlab/faq
 
-> Accessible, fully customizable FAQ component for React applications.
+> Accessible, fully customizable FAQ component for React applications — three ready-made layout variants in one package.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/faq)](https://www.npmjs.com/package/@bearlab/faq)
 [![license](https://img.shields.io/npm/l/@bearlab/faq)](LICENSE)
@@ -17,6 +17,9 @@
   - [FaqV2 — Two-Column Layout](#faqv2--two-column-layout)
   - [FaqV3 — Icon-based Cards](#faqv3--icon-based-cards)
 - [Props](#props)
+  - [FaqV1Props](#faqv1props-props)
+  - [FaqV2Props](#faqv2props-props)
+  - [FaqV3Props](#faqv3props-props)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -28,12 +31,13 @@
 
 ## Features
 
-- ✅ **Multiple Layout Variants** — Supports `FaqV1`, `FaqV2`, `FaqV3` templates
+- ✅ **Three layout variants** — `FaqV1` (accordion), `FaqV2` (two-column), `FaqV3` (icon cards)
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — Support for ARIA attributes, semantic HTML schema
-- ✅ **Flexible data structure** — Feed data easily via `data` prop or render children explicitly
+- ✅ **Accessible by default** — ARIA attributes, semantic HTML, keyboard navigation
+- ✅ **Flexible data structure** — feed items via `data` array prop
+- ✅ **Custom renderers** — override title and content rendering on `FaqV1`
+- ✅ **Dark mode** — native `[data-theme="dark"]` support
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
 
 ---
 
@@ -58,7 +62,7 @@ pnpm add @bearlab/faq
 
 ### FaqV1 — Standard Accordion
 
-`FaqV1` renders a vertical accordion list where each item expands/collapses on click. Supports `allowMultiple` to keep multiple items open simultaneously and `defaultOpenIndexes` to pre-open specific items.
+`FaqV1` renders a vertical accordion list. Each item expands/collapses on click. Supports `allowMultiple` to keep multiple panels open simultaneously and `defaultOpenIndexes` to pre-open specific items. The expand/collapse animation uses a CSS grid-template-rows transition for a smooth, layout-shift-free effect.
 
 ```tsx
 import { FaqV1 } from "@bearlab/faq";
@@ -84,13 +88,26 @@ const faqData = [
 ];
 
 export default function App() {
-  return <FaqV1 data={faqData} allowMultiple={true} defaultOpenIndexes={[0]} />;
+  return (
+    <FaqV1
+      data={faqData}
+      allowMultiple={true}
+      defaultOpenIndexes={[0]}
+      renderTitle={(title, isOpen) => (
+        <strong style={{ color: isOpen ? "#465fff" : undefined }}>
+          {title}
+        </strong>
+      )}
+    />
+  );
 }
 ```
 
 ### FaqV2 — Two-Column Layout
 
-`FaqV2` automatically splits the `data` array into two columns — the first column renders the first 3 items and the second column renders items 4–7. Each column manages its own open/close state independently. Best used with 4–6 FAQ items for a balanced grid layout.
+`FaqV2` automatically splits the `data` array into two columns. The first column renders the first 3 items; the second column renders items 4–7. Each column manages its own open/close state independently (only one open item per column at a time).
+
+> **Note:** `FaqV2` does **not** support `allowMultiple` or `defaultOpenIndexes`. Best used with 4–6 items for a balanced grid.
 
 ```tsx
 import { FaqV2 } from "@bearlab/faq";
@@ -135,35 +152,30 @@ export default function App() {
   return (
     <FaqV2
       data={faqData}
-      className={{
-        root: "my-faq-grid",
-        header: "my-faq-header",
-      }}
+      className={{ root: "my-faq-grid", header: "my-faq-header" }}
     />
   );
 }
 ```
 
-> **Note:** `FaqV2` does **not** support `allowMultiple` or `defaultOpenIndexes` — each column independently allows only one open item at a time (accordion behaviour).
-
 ### FaqV3 — Icon-based Cards
 
-`FaqV3` renders FAQ items as static cards, each decorated with a leading icon. The icon is controlled via the `iconType` prop which accepts a `default` string key (one of the built-in icon types) and an optional `custom` ReactElement for fully custom icons.
+`FaqV3` renders FAQ items as static cards, each decorated with a leading icon. The icon is controlled via the `iconType` prop which accepts a `default` string key (one of the built-in icons) and an optional `custom` ReactElement.
 
 **Available built-in `default` icon types:**
 
 | Value        | Description              |
 | ------------ | ------------------------ |
 | `"none"`     | No icon rendered         |
-| `"export"`   | Upload / export icon     |
 | `"add"`      | Plus / add icon          |
-| `"document"` | Document / file icon     |
+| `"dots"`     | More options / dots icon |
+| `"export"`   | Upload / export icon     |
 | `"update"`   | Refresh / update icon    |
 | `"search"`   | Magnifier / search icon  |
 | `"notify"`   | Bell / notification icon |
-| `"dots"`     | More options / dots icon |
-| `"tick"`     | Checkmark / tick icon    |
+| `"document"` | Document / file icon     |
 | `"support"`  | Headset / support icon   |
+| `"tick"`     | Checkmark / tick icon    |
 
 ```tsx
 import { FaqV3 } from "@bearlab/faq";
@@ -172,30 +184,21 @@ const faqData = [
   {
     id: 1,
     title: "How do I export my data?",
-    content:
-      "Navigate to Settings → Data Management → Export and choose your preferred format.",
+    content: "Navigate to Settings → Data Management → Export.",
   },
   {
     id: 2,
     title: "How do I add a new team member?",
-    content:
-      "Go to Settings → Team and click the 'Invite Member' button to send an invitation.",
+    content: "Go to Settings → Team and click 'Invite Member'.",
   },
   {
     id: 3,
     title: "Where can I find my documents?",
-    content:
-      "All your documents are stored in the Documents section accessible from the sidebar.",
-  },
-  {
-    id: 4,
-    title: "How do I search for content?",
-    content:
-      "Use the global search bar at the top of the page (Ctrl+K / ⌘K) to search across all your content.",
+    content: "All documents are in the Documents section in the sidebar.",
   },
 ];
 
-// Using a built-in icon type
+// Built-in icon
 export default function App() {
   return <FaqV3 data={faqData} iconType={{ default: "support" }} />;
 }
@@ -215,14 +218,8 @@ export default function App() {
         default: "none",
         custom: <MyCustomIcon width={24} height={24} />,
       }}
-      className={{
-        root: "my-faq-v3-root",
-        icon: "my-faq-v3-icon",
-      }}
-      style={{
-        root: { gap: "1.5rem" },
-        icon: { color: "#6366f1" },
-      }}
+      className={{ root: "my-faq-v3-root", icon: "my-faq-v3-icon" }}
+      style={{ root: { gap: "1.5rem" }, icon: { color: "#6366f1" } }}
     />
   );
 }
@@ -232,60 +229,83 @@ export default function App() {
 
 ## Props
 
-### `FaqProps` (Common)
+### `FaqV1Props` Props
 
 | Prop                 | Type                                            | Default | Required | Description                                               |
 | -------------------- | ----------------------------------------------- | ------- | -------- | --------------------------------------------------------- |
-| `data`               | [`FaqData[]`](#faqdata)                         | —       | ✅       | Array of FAQ data items containing `title` and `content`  |
-| `allowMultiple`      | `boolean`                                       | `false` | ❌       | Whether multiple FAQ items can be open at the same time   |
-| `defaultOpenIndexes` | `number[]`                                      | —       | ❌       | Array of indexes for items that should be open by default |
-| `className`          | [`FaqClassNames`](#faqclassnames)               | —       | ❌       | Per-slot className overrides                              |
-| `style`              | [`FaqStyles`](#faqstyles)                       | —       | ❌       | Per-slot inline style overrides                           |
-| `renderTitle`        | `(title: string, isOpen: boolean) => ReactNode` | —       | ❌       | Custom render function for titles                         |
-| `renderContent`      | `(content: string) => ReactNode`                | —       | ❌       | Custom render function for content bodies                 |
+| `data`               | `FaqData[]`                                     | —       | ✅       | Array of FAQ items with `title`, `content`, optional `id` |
+| `allowMultiple`      | `boolean`                                       | `false` | ❌       | Allow multiple items open simultaneously                  |
+| `defaultOpenIndexes` | `number[]`                                      | `[]`    | ❌       | Indexes of items that should be open on mount             |
+| `className`          | `FaqItemV1ClassNames`                           | —       | ❌       | Per-slot className overrides                              |
+| `style`              | `FaqItemV1Styles`                               | —       | ❌       | Per-slot inline style overrides                           |
+| `renderTitle`        | `(title: string, isOpen: boolean) => ReactNode` | —       | ❌       | Custom render function for item titles                    |
+| `renderContent`      | `(content: string) => ReactNode`                | —       | ❌       | Custom render function for item content                   |
 
-_(Specific variants like `FaqV3` accept additional props such as `iconType`)_
+### `FaqV2Props` Props
+
+| Prop        | Type            | Default | Required | Description                     |
+| ----------- | --------------- | ------- | -------- | ------------------------------- |
+| `data`      | `FaqData[]`     | —       | ✅       | Array of FAQ items              |
+| `className` | `FaqClassNames` | —       | ❌       | Per-slot className overrides    |
+| `style`     | `FaqStyles`     | —       | ❌       | Per-slot inline style overrides |
+
+### `FaqV3Props` Props
+
+| Prop        | Type                                                                  | Default | Required | Description                      |
+| ----------- | --------------------------------------------------------------------- | ------- | -------- | -------------------------------- |
+| `data`      | `FaqData[]`                                                           | —       | ✅       | Array of FAQ items               |
+| `iconType`  | `{ default: FaqIconTypeStringValues; custom?: null \| ReactElement }` | —       | ✅       | Icon configuration for all items |
+| `className` | `FaqClassNames`                                                       | —       | ❌       | Per-slot className overrides     |
+| `style`     | `FaqStyles`                                                           | —       | ❌       | Per-slot inline style overrides  |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Each slot maps directly to a DOM element in the component tree.
 
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+### `FaqItemV1ClassNames` / `FaqItemV1Styles` (used by `FaqV1`)
 
-### `FaqClassNames` / `FaqItemV1ClassNames`
-
-| Slot                         | Targets                               |
-| ---------------------------- | ------------------------------------- |
-| `root`                       | Outermost container wrapper           |
-| `item` / `accordionItem`     | Wrapper for each FAQ item             |
-| `header`                     | Clickable header section (`<button>`) |
-| `title` / `titleWrapper`     | Text wrapper for the question         |
-| `icon`                       | Expansion toggle icon                 |
-| `content` / `contentWrapper` | Collapsible section container         |
-| `text`                       | Body text or inner wrapper (`<p>`)    |
+| Slot             | Targets                                            |
+| ---------------- | -------------------------------------------------- |
+| `root`           | Outermost container `<div>`                        |
+| `accordionItem`  | Wrapper `<div>` for each FAQ item                  |
+| `header`         | Clickable header row (role="button")               |
+| `titleWrapper`   | `<div>` wrapping the `<h4>` title                  |
+| `icon`           | Expand/collapse toggle button                      |
+| `contentWrapper` | Animated collapse container (`grid-template-rows`) |
+| `contentInner`   | Inner `<div>` with `overflow: hidden`              |
+| `text`           | Body text `<p>`                                    |
 
 ```tsx
 <FaqV1
   data={faqData}
   className={{
     root: "my-faq-root",
+    accordionItem: "my-faq-item",
     header: "my-faq-header",
-    content: "my-faq-content",
+    contentWrapper: "my-faq-content",
   }}
 />
 ```
 
-### `FaqStyles`
+### `FaqClassNames` / `FaqStyles` (used by `FaqV2` and `FaqV3`)
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
+| Slot      | Targets                           |
+| --------- | --------------------------------- |
+| `root`    | Outermost container `<div>`       |
+| `item`    | Wrapper `<div>` for each FAQ item |
+| `header`  | Clickable header row              |
+| `title`   | Question `<h4>` element           |
+| `icon`    | Expand/collapse toggle icon       |
+| `content` | Content area container            |
+| `text`    | Body text `<p>`                   |
 
 ```tsx
-<FaqV1
+<FaqV2
   data={faqData}
   style={{
-    root: { gap: "1rem", display: "flex", flexDirection: "column" },
+    root: { gap: "1rem" },
     header: { padding: "16px", background: "#f5f5f5" },
   }}
 />
@@ -295,137 +315,96 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Faq` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+All three FAQ variants respond natively to `[data-theme="dark"]` applied at the document or a parent element level. No extra configuration is needed — token values automatically switch between light and dark palettes.
+
+```html
+<!-- Enable dark mode globally -->
+<html data-theme="dark">
+  …
+</html>
+
+<!-- Or scope it to a container -->
+<div data-theme="dark">
+  <FaqV1 data="{faqData}" />
+</div>
+```
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-faq-[element]-[property]` format, you can globally style the component across your application:
+Each variant exposes its own set of scoped CSS custom properties. Override them in your stylesheet to customize appearance without touching component internals.
+
+### FaqV1 tokens (example)
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-faq-root-gap: 12px;
-  --bearlab-faq-header-background: #ffffff;
-  --bearlab-faq-header-color: #1a1a1a;
-  --bearlab-faq-content-padding: 1rem 1.5rem;
-  --bearlab-faq-content-color: #4a4a4a;
-  --bearlab-faq-border-radius: 8px;
+.my-faq-container {
+  /* Layout */
+  --bearlab-faq-one-gap: 0.75rem;
+  --bearlab-faq-one-item-radius: 1rem;
+  --bearlab-faq-one-header-padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+
+  /* Colors */
+  --bearlab-faq-one-item-bg: #ffffff;
+  --bearlab-faq-one-item-border-color: #e5e7eb;
+  --bearlab-faq-one-title-color: #1d2939;
+  --bearlab-faq-one-title-color-open: #465fff;
+  --bearlab-faq-one-header-bg-open: #eef2ff;
+  --bearlab-faq-one-content-color: #6b7280;
 }
 ```
+
+### FaqV2 tokens (example)
+
+```css
+.my-faq-container {
+  --bearlab-faq-two-column-gap: 2rem;
+  --bearlab-faq-two-item-border-radius: 0.75rem;
+  --bearlab-faq-two-header-bg-open: #eef2ff;
+  --bearlab-faq-two-header-bg-closed: #f3f4f6;
+  --bearlab-faq-two-content-border-color: #c7d2fe;
+  --bearlab-faq-two-content-text-color: #1f2937;
+}
+```
+
+### FaqV3 tokens (example)
+
+```css
+.my-faq-container {
+  --bearlab-faq-three-grid-gap: 1rem;
+  --bearlab-faq-three-icon-size: 1.5625rem;
+  --bearlab-faq-three-item-border-color: #f3f4f6;
+  --bearlab-faq-three-content-title-color: #1d2939;
+  --bearlab-faq-three-content-description-color: #667085;
+}
+```
+
+> **Tip:** Tokens are scoped to the component container (not `:root`), so overrides will not leak to other parts of your application.
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience for collapsible accordions:
-
-- **`<button>` natively** — The header triggers are actionable buttons to ensure native keyboard navigation (`Tab`, `Space`, `Enter`).
-- **`aria-expanded`** — Indicates the open/closed state of each FAQ item dynamically.
-- **`aria-controls`** — Links the header button directly to its collapsible content region, providing screen readers with the correct semantic relationship.
-- **`id` mapping** — Ensures secure connections between standard trigger attributes and content areas using generated IDs.
-- **`aria-hidden="true"`** — Applied properly to animated toggle icons to prevent redundant screen reader announcements.
+- **`role="button"` + `aria-expanded`** — The header element on `FaqV1` is given `role="button"` and `aria-expanded` reflects the open/closed state dynamically.
+- **`aria-controls` / `id` mapping** — Each header is linked to its panel via `aria-controls="accordion-panel-{id}"` and the panel has a matching `id`, providing the correct semantic relationship for screen readers.
+- **`aria-hidden={!isOpen}`** — The collapsible content wrapper is hidden from the accessibility tree when closed.
+- **`aria-hidden="true"` on icons** — Decorative SVG icons are hidden from screen readers to avoid redundant announcements.
+- **Keyboard navigation** — The header is clickable and focusable; `Enter` / `Space` toggle the item as expected from standard button behavior.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All types are exported from the package root:
 
 ```ts
 import type {
-  FaqProps,
   FaqClassNames,
-  FaqV3Props,
-  FaqItemProps,
-  FaqV3ItemProps,
-  FaqIconTypeStringValues,
-  FaqData,
-  FaqItemV1ClassNames,
-  FaqItemV1Props,
-  FaqItemV1Styles,
   FaqStyles,
   FaqV1Props,
+  FaqV2Props,
+  FaqV3Props,
 } from "@bearlab/faq";
-```
-
-### `FaqProps`
-
-```ts
-interface FaqProps {
-  style?: FaqItemV1Styles;
-  allowMultiple?: boolean;
-  data: FaqData[];
-  className?: FaqItemV1ClassNames;
-  defaultOpenIndexes?: number[];
-  renderTitle?: (title: string, isOpen: boolean) => React.ReactNode;
-  renderContent?: (content: string) => React.ReactNode;
-}
-```
-
-### `FaqV1Props`
-
-```ts
-interface FaqV1Props {
-  data: FaqData[];
-  className?: FaqClassNames;
-  style?: FaqStyles;
-}
-```
-
-### `FaqV3Props`
-
-```ts
-interface FaqV3Props extends FaqProps {
-  iconType: {
-    default: FaqIconTypeStringValues;
-    custom?: null | React.ReactElement;
-  };
-}
-```
-
-### `FaqItemProps`
-
-```ts
-interface FaqItemProps {
-  title: string;
-  content: string;
-  isOpen?: boolean;
-  toggleAccordion?: () => void;
-  className?: FaqClassNames;
-  style?: FaqStyles;
-}
-```
-
-### `FaqV3ItemProps`
-
-```ts
-interface FaqV3ItemProps {
-  item: FaqData;
-  iconType: {
-    default: FaqIconTypeStringValues;
-    custom?: null | React.ReactElement;
-  };
-  className?: FaqClassNames;
-  style?: FaqStyles;
-}
-```
-
-### `FaqItemV1Props`
-
-```ts
-interface FaqItemV1Props {
-  id: string | number;
-  title: string;
-  isOpen: boolean;
-  content: string;
-  style?: FaqItemV1Styles;
-  className?: FaqItemV1ClassNames;
-  onToggle: () => void;
-  renderContent?: (content: string) => React.ReactNode;
-  renderTitle?: (title: string, isOpen: boolean) => React.ReactNode;
-}
 ```
 
 ### `FaqData`
@@ -435,6 +414,41 @@ interface FaqData {
   title: string;
   content: string;
   id?: string | number;
+}
+```
+
+### `FaqV1Props`
+
+```ts
+interface FaqV1Props {
+  data: FaqData[];
+  allowMultiple?: boolean;
+  defaultOpenIndexes?: number[];
+  className?: FaqItemV1ClassNames;
+  style?: FaqItemV1Styles;
+  renderTitle?: (title: string, isOpen: boolean) => React.ReactNode;
+  renderContent?: (content: string) => React.ReactNode;
+}
+```
+
+### `FaqV2Props`
+
+```ts
+interface FaqV2Props {
+  data: FaqData[];
+  className?: FaqClassNames;
+  style?: FaqStyles;
+}
+```
+
+### `FaqV3Props`
+
+```ts
+interface FaqV3Props extends FaqV2Props {
+  iconType: {
+    default: FaqIconTypeStringValues;
+    custom?: null | React.ReactElement;
+  };
 }
 ```
 
@@ -501,15 +515,15 @@ interface FaqItemV1Styles {
 ```ts
 type FaqIconTypeStringValues =
   | "none"
-  | "export"
   | "add"
-  | "document"
+  | "dots"
+  | "export"
   | "update"
   | "search"
   | "notify"
-  | "dots"
-  | "tick"
-  | "support";
+  | "document"
+  | "support"
+  | "tick";
 ```
 
 ---

@@ -1,89 +1,93 @@
-export type ModalAnimationType = "fade" | "zoom" | "slide" | "flip" | "bounce";
-export type ModalAlertType = "success" | "info" | "error" | "warning";
 export type ModalType = "alert" | "default" | "fullscreen";
+export type ModalSizeType = "small" | "medium" | "large" | "xlarge";
+export type ModalAlertType = "success" | "info" | "error" | "warning";
+export type ModalAnimationType = "fade" | "zoom" | "slide" | "flip" | "bounce";
 
 export interface ModalClassNames {
-  container?: string;
+  title?: string;
+  header?: string;
   overlay?: string;
   content?: string;
-  header?: string;
-  title?: string;
   subTitle?: string;
-  bodyContent?: string;
+  container?: string;
   closeButton?: string;
+  bodyContent?: string;
 }
 
 export interface ModalStyles {
-  container?: React.CSSProperties;
+  header?: React.CSSProperties;
   overlay?: React.CSSProperties;
   content?: React.CSSProperties;
-  header?: React.CSSProperties;
+  container?: React.CSSProperties;
   bodyContent?: React.CSSProperties;
 }
 
 export interface ModalProps {
-  isOpen: boolean;
-  onCancel: () => void;
   title: string;
-  children: React.ReactNode;
+  isOpen: boolean;
+  zIndex?: number;
+  type?: ModalType;
+  size?: ModalSizeType;
   subTitle?: string;
   loading?: boolean;
-  type?: ModalType;
-  alertType?: ModalAlertType;
-  animation?: ModalAnimationType;
-  zIndex?: number;
-  className?: ModalClassNames;
   style?: ModalStyles;
+  children: React.ReactNode;
+  alertType?: ModalAlertType;
+  className?: ModalClassNames;
+  animation?: ModalAnimationType;
+  onCancel: () => void;
 }
 
 export interface ModalHeaderProps {
-  titleId: string;
-  descId: string;
   title: string;
+  descId: string;
   type: ModalType;
+  titleId: string;
   subTitle?: string;
-  className?: Pick<ModalClassNames, "header" | "title" | "subTitle">;
   style?: Pick<ModalStyles, "header">;
+  className?: Pick<ModalClassNames, "header" | "title" | "subTitle">;
 }
 
 export interface ModalBodyProps {
-  children: React.ReactNode;
   loading?: boolean;
-  className?: Pick<ModalClassNames, "bodyContent">;
+  isFullscreen: boolean;
+  children: React.ReactNode;
   style?: Pick<ModalStyles, "bodyContent">;
+  className?: Pick<ModalClassNames, "bodyContent">;
 }
 
 export interface ModalFooterProps {
-  onCancel: () => void;
-  onConfirm?: () => void;
-  confirmLabel?: string;
-  cancelLabel?: string;
+  type?: ModalType;
+  className?: string;
   isLoading?: boolean;
   isDisabled?: boolean;
-  type?: ModalType;
+  cancelLabel?: string;
+  confirmLabel?: string;
   alertType?: ModalAlertType;
-  className?: string;
+  onCancel: () => void;
+  onConfirm?: () => void;
 }
 
 export interface ModalAlertIconProps {
-  alertType: ModalAlertType;
   type: ModalType;
+  alertType: ModalAlertType;
 }
 
 export interface GlobalModalConfig {
   title: string;
-  subTitle?: string;
-  content: React.ReactNode;
-  type?: ModalType;
-  alertType?: ModalAlertType;
-  animation?: ModalAnimationType;
-  confirmLabel?: string;
-  cancelLabel?: string;
   zIndex?: number;
+  type?: ModalType;
+  size?: ModalSizeType;
+  subTitle?: string;
+  style?: ModalStyles;
+  cancelLabel?: string;
+  confirmLabel?: string;
+  content: React.ReactNode;
+  alertType?: ModalAlertType;
+  className?: ModalClassNames;
+  animation?: ModalAnimationType;
   onConfirm?: () => void;
   onCancel?: () => void;
-  className?: ModalClassNames;
-  style?: ModalStyles;
 }
 
 export interface ModalStoreState {
@@ -101,4 +105,9 @@ export interface UseModalReturn {
 export interface UseModalAnimationReturn {
   isMounted: boolean;
   handleAnimationEnd: () => void;
+}
+
+export interface ModalSkeletonProps {
+  lines: number;
+  animated?: boolean;
 }

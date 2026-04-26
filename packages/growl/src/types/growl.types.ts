@@ -1,6 +1,5 @@
 export type GrowlType = "info" | "warning" | "success" | "error";
 export type GrowlAnimation = "flip" | "zoom" | "slide" | "bounce" | "default";
-
 export type GrowlTheme = "light" | "dark" | "colored";
 export type GrowlPosition =
   | "top-left"
@@ -14,11 +13,11 @@ export interface GrowlItem {
   id: number;
   title?: string;
   message: string;
-  autoClose?: number;
-  pauseOnHover: boolean;
   type: GrowlType;
   theme: GrowlTheme;
+  autoClose?: number;
   style?: GrowlStyles;
+  pauseOnHover: boolean;
   position?: GrowlPosition;
   animation: GrowlAnimation;
   className?: GrowlClassNames;
@@ -38,9 +37,9 @@ export interface PositionGroupProps {
 export interface GrowlOptions {
   title?: string;
   autoClose?: number;
-  pauseOnHover?: boolean;
   theme?: GrowlTheme;
   style?: GrowlStyles;
+  pauseOnHover?: boolean;
   position?: GrowlPosition;
   animation?: GrowlAnimation;
   className?: GrowlClassNames;
@@ -60,8 +59,8 @@ export interface GrowlClassNames {
 
 export interface GrowlInterface {
   (type: GrowlType, message: string, options?: GrowlOptions): void;
-  success: (msg: string, opt?: GrowlOptions) => void;
-  error: (msg: string, opt?: GrowlOptions) => void;
   info: (msg: string, opt?: GrowlOptions) => void;
+  error: (msg: string, opt?: GrowlOptions) => void;
+  success: (msg: string, opt?: GrowlOptions) => void;
   warning: (msg: string, opt?: GrowlOptions) => void;
 }

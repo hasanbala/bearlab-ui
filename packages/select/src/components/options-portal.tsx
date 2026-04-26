@@ -5,10 +5,10 @@ import { useOptionsPortal } from "../hooks/use-options-portal";
 
 export const OptionsPortal = forwardRef<HTMLDivElement, OptionsPortalProps>(
   (props, ref) => {
-    const { anchorRef, isVisible, children, disabled, optionZIndex } = props;
+    const { anchorRef, isVisible, children, optionZIndex } = props;
     const coords = useOptionsPortal(isVisible, anchorRef);
 
-    if (!isVisible || disabled) return null;
+    if (!isVisible) return null;
 
     return createPortal(
       <div

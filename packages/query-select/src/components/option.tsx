@@ -4,7 +4,7 @@ import styles from "../styles/query-select.module.scss";
 
 export const Option = (props: QuerySelectOptionProps) => {
   const {
-    name,
+    label,
     style,
     image,
     optionId,
@@ -23,7 +23,7 @@ export const Option = (props: QuerySelectOptionProps) => {
   const renderLabel = () => {
     if (highlightMatch && emphasizedValue?.trim()) {
       const escaped = emphasizedValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const html = name.replace(
+      const html = label.replace(
         new RegExp(`(${escaped})(?!([^<]+)?<)`, "gi"),
         "<strong>$1</strong>"
       );
@@ -34,7 +34,7 @@ export const Option = (props: QuerySelectOptionProps) => {
         />
       );
     }
-    return <span className={styles.labelTitle}>{name}</span>;
+    return <span className={styles.labelTitle}>{label}</span>;
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -80,7 +80,6 @@ export const Option = (props: QuerySelectOptionProps) => {
             aria-hidden="true"
           />
         )}
-
         {showImage && image && (
           <img
             alt=""
@@ -89,7 +88,6 @@ export const Option = (props: QuerySelectOptionProps) => {
             className={styles.optionImage}
           />
         )}
-
         {renderLabel()}
       </div>
     </div>

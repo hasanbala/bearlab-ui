@@ -3,46 +3,46 @@ export type ButtonHtmlType = "button" | "submit";
 export type ButtonVariant =
   | "primary"
   | "secondary"
-  | "secondary-success"
-  | "secondary-error"
-  | "secondary-warning"
   | "secondary-info"
   | "secondary-dark"
-  | "liquid-holographic"
+  | "secondary-error"
+  | "secondary-success"
+  | "secondary-warning"
   | "liquid-tinted"
-  | "light-success"
-  | "light-error"
-  | "light-warning"
-  | "light-info"
-  | "light-light"
+  | "liquid-holographic"
   | "light-dark"
-  | "solid-success"
-  | "solid-error"
-  | "solid-warning"
+  | "light-info"
+  | "light-error"
+  | "light-light"
+  | "light-warning"
+  | "light-success"
+  | "solid-dark"
   | "solid-info"
   | "solid-light"
-  | "solid-dark";
+  | "solid-error"
+  | "solid-warning"
+  | "solid-success";
 
 export type ButtonIconTypeValues =
+  | "add"
   | "none"
+  | "copy"
+  | "tick"
+  | "plus"
+  | "dots"
+  | "minus"
+  | "close"
   | "delete"
   | "arrow"
-  | "export"
-  | "add"
-  | "document"
   | "update"
   | "search"
-  | "close"
   | "notify"
-  | "arrow_down"
-  | "minus"
-  | "plus"
+  | "export"
   | "filter"
-  | "dots"
-  | "arrow_down2"
+  | "document"
+  | "arrow_down"
   | "arrow_right"
-  | "tick"
-  | "copy";
+  | "arrow_down2";
 
 export interface ButtonClassNames {
   root?: string;
@@ -55,18 +55,18 @@ export interface ButtonStyles {
 }
 
 export interface ButtonProps {
-  label: string | number;
+  disabled?: boolean;
   isLoading?: boolean;
+  style?: ButtonStyles;
+  buttonType: ButtonType;
+  label: string | number;
+  variant?: ButtonVariant;
+  htmlType?: ButtonHtmlType;
+  reverseIconText?: boolean;
+  className?: ButtonClassNames;
   iconType?: {
     default: ButtonIconTypeValues;
     custom?: null | React.ReactElement;
   };
-  buttonType: ButtonType;
-  disabled?: boolean;
-  htmlType?: ButtonHtmlType;
   onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
-  reverseIconText?: boolean;
-  variant?: ButtonVariant;
-  className?: ButtonClassNames;
-  style?: ButtonStyles;
 }

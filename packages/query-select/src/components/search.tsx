@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import classnames from "classnames";
 import { IconChevronDown, IconLoaderCircle } from "../assets/icons";
 import {
@@ -13,23 +13,23 @@ export const Search = <T extends QuerySelectOption>(
   props: QuerySelectSearchProps<T>
 ) => {
   const {
-    mode,
     query,
     error,
     style,
     inputId,
+    isSingle,
     disabled,
     className,
     listboxId,
     minLength,
     isLoading,
     placeholder,
+    selectedItems,
     activeOptionId,
     debouncedValue,
-    isDropdownVisible,
-    selectionDisplay,
     containerWidth,
-    selectedItems,
+    isSelectionCard,
+    isDropdownVisible,
     setQuery,
     onChange,
     onKeyDown,
@@ -45,14 +45,19 @@ export const Search = <T extends QuerySelectOption>(
     setInputWidth(ghostRef.current.offsetWidth);
   }, [query]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setQuery(e.target.value);
-
   const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
     selectedItems,
     containerWidth,
     inputWidth,
-    selectionDisplay
+    isSelectionCard
+  );
+
+  const inputStyle = useMemo(
+    () => ({
+      width: inputWidth || undefined,
+      maxWidth: containerWidth - 100,
+    }),
+    [inputWidth, containerWidth]
   );
 
   const isTyping =
@@ -70,15 +75,17 @@ export const Search = <T extends QuerySelectOption>(
         className?.search
       )}
       onMouseDown={(e) => {
+        if (isLoading) return;
         if (e.target === inputRef.current) return;
         e.preventDefault();
         inputRef.current?.focus();
       }}
       onClick={() => {
+        if (isLoading) return;
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
-      {mode === "multiple" && selectionDisplay === "inline" && (
+      {!isSelectionCard && (
         <SelectionInlineItems
           style={style}
           disabled={disabled}
@@ -103,28 +110,25 @@ export const Search = <T extends QuerySelectOption>(
           id={inputId}
           value={query}
           ref={inputRef}
-          disabled={disabled}
-          aria-disabled={disabled}
+          disabled={disabled || isLoading}
           aria-label={placeholder}
+          aria-disabled={disabled || isLoading}
+          placeholder={
+            isSingle && !!selectedItems.length && !isSelectionCard
+              ? ""
+              : placeholder
+          }
           aria-controls={listboxId}
-          placeholder={placeholder}
           aria-expanded={isDropdownVisible}
           aria-activedescendant={activeOptionId}
           onKeyDown={onKeyDown}
-          onChange={handleInputChange}
-          style={
-            selectionDisplay === "inline"
-              ? {
-                  width: inputWidth || undefined,
-                  maxWidth: containerWidth - 100,
-                }
-              : undefined
-          }
+          onChange={(e) => setQuery(e.target.value)}
+          style={inputStyle}
         />
       </div>
       <div
-        className={classnames(styles.arrowIcon, {
-          [styles.activeArrowIcon]: isDropdownVisible && !isTyping,
+        className={classnames(styles.inputDropdownIcon, {
+          [styles.activeInputDropdownIcon]: isDropdownVisible && !isTyping,
         })}
         aria-hidden="true"
       >

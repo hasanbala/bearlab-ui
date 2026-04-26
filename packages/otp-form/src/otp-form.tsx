@@ -7,6 +7,7 @@ import styles from "./styles/otp-form.module.scss";
 
 export const OTPForm = (props: OTPFormProps) => {
   const {
+    name,
     value,
     loading,
     title,
@@ -48,6 +49,7 @@ export const OTPForm = (props: OTPFormProps) => {
         </p>
       )}
       <OtpInputList
+        name={name}
         value={value}
         length={length}
         disabled={loading}

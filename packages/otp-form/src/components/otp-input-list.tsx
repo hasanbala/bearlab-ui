@@ -5,6 +5,7 @@ import classnames from "classnames";
 
 export const OtpInputList = (props: OtpInputListProps) => {
   const {
+    name,
     value,
     length,
     disabled,
@@ -26,6 +27,7 @@ export const OtpInputList = (props: OtpInputListProps) => {
       {Array.from({ length }, (_, index) => (
         <OtpInput
           key={index}
+          name={name}
           index={index}
           length={length}
           value={value[index] ?? ""}

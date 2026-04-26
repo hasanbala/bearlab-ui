@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useState } from "react";
 import classnames from "classnames";
-import { Button, type ButtonIconTypeValues } from "@bearlab/button";
+import { Button } from "@bearlab/button";
 import styles from "./styles/copy.module.scss";
 import type { CopyProps } from "./types/copy.types";
 
@@ -25,7 +25,7 @@ export const Copy = (props: CopyProps) => {
   }, [text]);
 
   const displayText = text === "" || text == null ? "-" : text;
-  const iconType: ButtonIconTypeValues = isCopy ? "tick" : "copy";
+  const iconType = isCopy ? "tick" : "copy";
   const announceLabel = isCopy ? "Copied!" : label;
 
   return (

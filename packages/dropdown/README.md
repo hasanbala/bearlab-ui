@@ -1,6 +1,6 @@
 # @bearlab/dropdown
 
-> Accessible, customizable Dropdown component for React applications.
+> Accessible, customizable Dropdown component family for React applications.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/dropdown)](https://www.npmjs.com/package/@bearlab/dropdown)
 [![license](https://img.shields.io/npm/l/@bearlab/dropdown)](LICENSE)
@@ -17,9 +17,6 @@
   - [DropdownItem](#dropdownitem)
   - [DropdownList](#dropdownlist)
 - [Props](#props)
-  - [Dropdown Props](#dropdown-props)
-  - [DropdownItem Props](#dropdownitem-props)
-  - [DropdownList Props](#dropdownlist-props)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -31,62 +28,74 @@
 
 ## Features
 
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `role="menu"`, `aria-labelledby`, keyboard navigation support
-- ✅ **Click Outside Support** — handles closing automatically
-- ✅ **TypeScript-first** — fully typed props and interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
-- ✅ **Self-contained composed variant** — `DropdownList` bundles trigger button + menu with its own open/close state
+- ✅ **Three composable exports** — `Dropdown` (headless), `DropdownItem`, and `DropdownList` (self-contained)
+- ✅ **Slot-based `className` & `style` API** — granular styling on `DropdownList`
+- ✅ **Accessible by default** — `role="menu"`, `role="menuitem"`, `aria-labelledby`, `aria-haspopup`, `aria-expanded`
+- ✅ **Click-outside support** — `useClickOutside` hook closes the menu automatically
+- ✅ **Full keyboard navigation** — `Escape`, `ArrowUp`/`ArrowDown`, `Enter`/`Space`
+- ✅ **Focus management** — focus moves to first item on open; returns to trigger on close
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Theme ready** — light/dark mode via `[data-theme]`
 
 ---
 
 ## Installation
 
 ```bash
-# npm
 npm install @bearlab/dropdown
-
-# yarn
-yarn add @bearlab/dropdown
-
-# pnpm
-pnpm add @bearlab/dropdown
+# yarn add @bearlab/dropdown
+# pnpm add @bearlab/dropdown
 ```
 
-> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0`.
 
 ---
 
 ## Components
 
-This package exports three main components:
-
-| Component      | Description                                                                                                  |
-| -------------- | ------------------------------------------------------------------------------------------------------------ |
-| `Dropdown`     | Low-level, headless menu container. You control open/close state externally.                                 |
-| `DropdownItem` | Individual menu item rendered inside `Dropdown`.                                                             |
-| `DropdownList` | Self-contained dropdown with built-in trigger button and state management. Accepts a structured `list` prop. |
+| Component      | Description                                                                                                |
+| -------------- | ---------------------------------------------------------------------------------------------------------- |
+| `Dropdown`     | Low-level, uncontrolled menu container. You manage open/close state externally.                            |
+| `DropdownItem` | Individual menu item inside `Dropdown`. Supports `<button>` and `<a>` with full keyboard navigation.       |
+| `DropdownList` | Self-contained dropdown with built-in trigger button and internal state. Accepts a structured `list` prop. |
 
 ---
 
 ## Dropdown
 
-Low-level primitive — you own the state. Pair it with `DropdownItem` for full control.
+Low-level primitive — you own the state. Renders as `role="menu"` only when `show` is true.
 
 ```tsx
+import { useState } from "react";
 import { Dropdown, DropdownItem } from "@bearlab/dropdown";
 
 export default function App() {
+  const [open, setOpen] = useState(false);
+
   return (
     <div style={{ position: "relative" }}>
-      <button id="dropdown-button">Options</button>
-      <Dropdown show={true} onClose={() => {}} labelledBy="dropdown-button">
-        <DropdownItem onItemClick={() => console.log("clicked")}>
+      <button
+        id="my-trigger"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls="my-menu"
+        onClick={() => setOpen((v) => !v)}
+      >
+        Options
+      </button>
+      <Dropdown
+        id="my-menu"
+        show={open}
+        onClose={() => setOpen(false)}
+        labelledBy="my-trigger"
+      >
+        <DropdownItem onItemClick={() => console.log("Profile")}>
           Profile
         </DropdownItem>
-        <DropdownItem onItemClick={() => console.log("clicked")}>
+        <DropdownItem tag="a" href="/settings">
           Settings
         </DropdownItem>
+        <DropdownItem disabled>Unavailable</DropdownItem>
       </Dropdown>
     </div>
   );
@@ -97,57 +106,40 @@ export default function App() {
 
 ## DropdownItem
 
-Renders a single interactive item inside a `Dropdown`. Supports both `<button>` and `<a>` tags.
+Renders a single `role="menuitem"` inside a `Dropdown`. Supports `<button>` (default) or `<a>`.
 
 ```tsx
-import { Dropdown, DropdownItem } from "@bearlab/dropdown";
-
 <Dropdown show={true} onClose={() => {}}>
-  {/* button variant (default) */}
-  <DropdownItem onItemClick={() => console.log("clicked")}>
-    Profile
-  </DropdownItem>
-
-  {/* link variant */}
+  <DropdownItem onItemClick={() => {}}>Profile</DropdownItem>
   <DropdownItem tag="a" href="/settings">
     Settings
   </DropdownItem>
-
-  {/* disabled */}
   <DropdownItem disabled>Unavailable</DropdownItem>
-</Dropdown>;
+</Dropdown>
 ```
 
 ---
 
 ## DropdownList
 
-`DropdownList` is a **ready-to-use, self-contained** dropdown component. Unlike the primitive `Dropdown`, it manages its own open/close state internally and renders its own trigger button via `@bearlab/button`. It accepts a structured `list` prop that defines the button label and grouped navigation options.
-
-Use this component when you need a drop-in dropdown with navigation links, organized into **option groups** (arrays of arrays), without wiring up any state yourself.
+Self-contained dropdown that manages state internally via `useDropdown`. The trigger button is rendered by `@bearlab/button`. Options are grouped into arrays, with dividers between groups.
 
 ```tsx
 import { DropdownList } from "@bearlab/dropdown";
 import MyIcon from "./icons/my-icon.svg?react";
 
-export default function App() {
-  return (
-    <DropdownList
-      list={{
-        dropdownLabel: "My Account",
-        options: [
-          // Group 1
-          [
-            { label: "Profile", href: "/profile" },
-            { label: "Settings", href: "/settings", icon: MyIcon },
-          ],
-          // Group 2 (rendered with a divider)
-          [{ label: "Logout", href: "/logout" }],
-        ],
-      }}
-    />
-  );
-}
+<DropdownList
+  list={{
+    dropdownLabel: "My Account",
+    options: [
+      [
+        { label: "Profile", href: "/profile" },
+        { label: "Settings", href: "/settings", icon: MyIcon },
+      ],
+      [{ label: "Logout", href: "/logout" }],
+    ],
+  }}
+/>;
 ```
 
 ---
@@ -156,124 +148,81 @@ export default function App() {
 
 ### Dropdown Props
 
-| Prop         | Type                  | Default | Required | Description                                                             |
-| ------------ | --------------------- | ------- | -------- | ----------------------------------------------------------------------- |
-| `show`       | `boolean`             | —       | ✅       | Controls the visibility of the dropdown                                 |
-| `onClose`    | `() => void`          | —       | ✅       | Callback function fired when clicking outside to close                  |
-| `children`   | `React.ReactNode`     | —       | ✅       | Content rendered inside the dropdown, usually `DropdownItem` components |
-| `id`         | `string`              | —       | ❌       | Unique ID for the dropdown container                                    |
-| `labelledBy` | `string`              | —       | ❌       | Links the menu to its trigger button via `aria-labelledby`              |
-| `className`  | `string`              | —       | ❌       | CSS class applied to the root menu container                            |
-| `style`      | `React.CSSProperties` | —       | ❌       | Inline style applied to the root menu container                         |
-
----
+| Prop         | Type                  | Default | Required | Description                                       |
+| ------------ | --------------------- | ------- | -------- | ------------------------------------------------- |
+| `show`       | `boolean`             | —       | ✅       | Controls menu visibility                          |
+| `onClose`    | `() => void`          | —       | ✅       | Called on click-outside                           |
+| `children`   | `React.ReactNode`     | —       | ✅       | Menu content, typically `DropdownItem` components |
+| `id`         | `string`              | —       | ❌       | ID for the menu container                         |
+| `labelledBy` | `string`              | —       | ❌       | Trigger button ID; linked via `aria-labelledby`   |
+| `className`  | `string`              | —       | ❌       | Class on the menu container                       |
+| `style`      | `React.CSSProperties` | —       | ❌       | Inline style on the menu container                |
 
 ### DropdownItem Props
 
-| Prop          | Type                  | Default    | Required | Description                              |
-| ------------- | --------------------- | ---------- | -------- | ---------------------------------------- |
-| `children`    | `React.ReactNode`     | —          | ✅       | Content rendered inside the item         |
-| `tag`         | `"a" \| "button"`     | `"button"` | ❌       | HTML element to render as                |
-| `href`        | `string`              | —          | ❌       | URL to navigate to (used when `tag="a"`) |
-| `onClick`     | `() => void`          | —          | ❌       | Click handler (native element click)     |
-| `onItemClick` | `() => void`          | —          | ❌       | Convenience click handler alias          |
-| `disabled`    | `boolean`             | `false`    | ❌       | Disables the item                        |
-| `className`   | `string`              | —          | ❌       | CSS class applied to the item element    |
-| `style`       | `React.CSSProperties` | —          | ❌       | Inline style applied to the item element |
-
----
+| Prop          | Type                  | Default    | Required | Description                                                            |
+| ------------- | --------------------- | ---------- | -------- | ---------------------------------------------------------------------- |
+| `children`    | `React.ReactNode`     | —          | ✅       | Item content                                                           |
+| `tag`         | `"a" \| "button"`     | `"button"` | ❌       | HTML element; use `"a"` for navigation links                           |
+| `href`        | `string`              | —          | ❌       | URL (required when `tag="a"`)                                          |
+| `onClick`     | `() => void`          | —          | ❌       | Native click handler                                                   |
+| `onItemClick` | `() => void`          | —          | ❌       | Convenience alias called alongside `onClick`                           |
+| `disabled`    | `boolean`             | `false`    | ❌       | Disables item (`aria-disabled`, `tabIndex=-1`, `pointer-events: none`) |
+| `className`   | `string`              | —          | ❌       | Class on the item element                                              |
+| `style`       | `React.CSSProperties` | —          | ❌       | Inline style on the item element                                       |
 
 ### DropdownList Props
 
-| Prop        | Type                                    | Default        | Required | Description                                                          |
-| ----------- | --------------------------------------- | -------------- | -------- | -------------------------------------------------------------------- |
-| `list`      | `DropdownListData` (defined below)      | —              | ✅       | Configuration object defining the trigger label and grouped options  |
-| `id`        | `string`                                | auto-generated | ❌       | Custom ID for the trigger button. Menu ID is derived from this value |
-| `className` | [`DropdownListClassNames`](#typescript) | —              | ❌       | Slot-based CSS classes for component parts                           |
-| `style`     | [`DropdownListStyles`](#typescript)     | —              | ❌       | Slot-based inline styles for component parts                         |
+| Prop        | Type                                    | Default        | Required | Description                                           |
+| ----------- | --------------------------------------- | -------------- | -------- | ----------------------------------------------------- |
+| `list`      | `DropdownListData`                      | —              | ✅       | Trigger label + grouped option arrays                 |
+| `id`        | `string`                                | auto-generated | ❌       | Custom ID for the trigger; menu ID is derived from it |
+| `className` | [`DropdownListClassNames`](#typescript) | —              | ❌       | Slot-based CSS classes for component parts            |
+| `style`     | [`DropdownListStyles`](#typescript)     | —              | ❌       | Slot-based inline styles for component parts          |
 
-#### `DropdownListData`
-
-The `list` prop is a structured object that defines both the trigger label and the grouped menu options:
+#### `list` data shape
 
 ```ts
-interface DropdownListData {
-  /** Label displayed on the trigger button */
+{
   dropdownLabel: string;
-  /**
-   * Grouped options rendered inside the dropdown.
-   * Each inner array is a group; groups are visually separated by dividers.
-   */
   options: {
     label: string;
     href: string;
-    /** Optional SVG icon component (e.g. imported via SVGR) */
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   }[][];
 }
-```
-
-**Example with multiple groups:**
-
-```tsx
-<DropdownList
-  list={{
-    dropdownLabel: "User Menu",
-    options: [
-      // Group 1 — profile actions
-      [
-        { label: "Profile", href: "/profile" },
-        { label: "Settings", href: "/settings" },
-      ],
-      // Group 2 — danger zone
-      [{ label: "Sign Out", href: "/logout" }],
-    ],
-  }}
-/>
 ```
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.dropdownItem`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+`DropdownList` supports the **Slot-Pattern**. `Dropdown` and `DropdownItem` use flat `className`/`style`.
 
 ### `DropdownListClassNames`
 
-| Slot              | Targets                       |
-| ----------------- | ----------------------------- |
-| `root`            | Outermost wrapper `<div>`     |
-| `dropdown`        | Menu container `<div>`        |
-| `dropdownButton`  | Trigger button element        |
-| `dropdownItem`    | Individual menu item wrapper  |
-| `dropdownOptions` | List group element (`<ul>`)   |
-| `dropdownOption`  | List item element (`<li>`)    |
-| `dropdownIcon`    | Icon element inside an option |
-| `dropdownLabel`   | Label span inside an option   |
+| Slot              | Targets                                       |
+| ----------------- | --------------------------------------------- |
+| `root`            | Outermost `<div>` of `DropdownList`           |
+| `dropdown`        | Inner menu `<div>` inside `Dropdown`          |
+| `dropdownButton`  | Trigger `<button>` element                    |
+| `dropdownItem`    | Individual `<a>` item wrapper inside the list |
+| `dropdownOptions` | `<ul>` group list element                     |
+| `dropdownOption`  | `<li>` individual option                      |
+| `dropdownIcon`    | Icon `<svg>` inside an option                 |
+| `dropdownLabel`   | Label `<span>` inside an option               |
 
 ```tsx
 <DropdownList
   list={myListData}
   className={{
-    root: "custom-list-root",
+    root: "custom-root",
     dropdownButton: "custom-trigger",
     dropdownItem: "custom-item",
   }}
-/>
-```
-
-### `DropdownListStyles`
-
-All slots also accept inline `React.CSSProperties` via the `style` prop:
-
-```tsx
-<DropdownList
-  list={myListData}
   style={{
     root: { marginTop: "20px" },
-    dropdownButton: { background: "blue" },
+    dropdownButton: { fontWeight: "bold" },
   }}
 />
 ```
@@ -282,29 +231,60 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Dropdown` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+All three components support light/dark mode via `[data-theme="dark"]` on any ancestor element.
+
+| Component      | Key tokens that adapt                                                         |
+| -------------- | ----------------------------------------------------------------------------- |
+| `Dropdown`     | `--bearlab-dropdown-bg`, `--bearlab-dropdown-border-color`                    |
+| `DropdownItem` | `--bearlab-dropdown-item-color`, `--bearlab-dropdown-item-bg`, hover colors   |
+| `DropdownList` | `--bearlab-dropdown-list-divider-color`, `--bearlab-dropdown-list-icon-color` |
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-dropdown-[element]-[property]` format, you can globally style the component across your application:
+All tokens follow `--bearlab-dropdown-[element]-[property]` naming and are scoped to each component's root class.
+
+### `Dropdown` tokens
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-dropdown-root-bg: #ffffff;
-  --bearlab-dropdown-root-border-radius: 8px;
-  --bearlab-dropdown-root-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --bearlab-dropdown-item-padding: 0.5rem 1rem;
-  --bearlab-dropdown-item-hover-bg: #f5f5f5;
-  --bearlab-dropdown-item-color: #1a1a1a;
+:root {
+  --bearlab-dropdown-z-index: 40;
+  --bearlab-dropdown-border-radius: 0.75rem; /* 12px */
+  --bearlab-dropdown-padding: 0.75rem; /* 12px */
+  --bearlab-dropdown-bg: #ffffff;
+  --bearlab-dropdown-border-color: #e5e7eb;
+  --bearlab-dropdown-box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
+```
 
-[data-theme="dark"] {
-  --bearlab-dropdown-root-bg: #1a1a1a;
-  --bearlab-dropdown-item-hover-bg: #2a2a2a;
-  --bearlab-dropdown-item-color: #ffffff;
+### `DropdownItem` tokens
+
+```css
+:root {
+  --bearlab-dropdown-item-font-size: 0.875rem; /* 14px */
+  --bearlab-dropdown-item-font-weight: 500;
+  --bearlab-dropdown-item-border-radius: 0.5rem; /* 8px */
+  --bearlab-dropdown-item-color: #344054;
+  --bearlab-dropdown-item-bg: #ffffff;
+  --bearlab-dropdown-item-color-hover: #101828;
+  --bearlab-dropdown-item-bg-hover: #f2f4f7;
+  --bearlab-dropdown-item-ring-color-focus: #465fff;
+  --bearlab-dropdown-item-opacity-disabled: 0.5;
+}
+```
+
+### `DropdownList` tokens
+
+```css
+:root {
+  --bearlab-dropdown-list-width: 16.25rem; /* 260px */
+  --bearlab-dropdown-list-item-height: 2.5rem; /* 40px */
+  --bearlab-dropdown-list-icon-size: 1.5rem; /* 24px */
+  --bearlab-dropdown-list-icon-color: #6b7280;
+  --bearlab-dropdown-list-icon-color-hover: #374151;
+  --bearlab-dropdown-list-divider-color: #e5e7eb;
 }
 ```
 
@@ -312,25 +292,28 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+Built to **WCAG 2.1 AA** following the [ARIA Menu Button Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/):
 
-- **`role="menu"`** — Indicates a menu widget that offers a list of choices.
-- **`aria-labelledby`** — Semantically links the menu container to its specific trigger button.
-- **Keyboard Navigation** — Best practices align with using `Escape` to close the dropdown securely.
+- **`role="menu"`** — `Dropdown` container is a menu widget.
+- **`role="menuitem"`** — each `DropdownItem` is a menu item.
+- **`aria-labelledby`** — menu is linked to its trigger button ID.
+- **`aria-haspopup="menu"` + `aria-expanded`** — `DropdownList` trigger communicates state.
+- **`aria-controls`** — trigger references the menu container.
+- **`aria-disabled`** — disabled items are announced; excluded from tab order (`tabIndex=-1`).
+- **`Escape`** — closes the dropdown and returns focus to the trigger.
+- **`ArrowDown` / `ArrowUp`** — navigate between `menuitem` elements.
+- **`Enter` / `Space`** — activate the focused item.
+- **Focus management** — on open, first non-disabled `menuitem` receives focus via `requestAnimationFrame`.
 
 ---
 
 ## TypeScript
-
-All types are exported from the package:
 
 ```ts
 import type {
   DropdownProps,
   DropdownItemProps,
   DropdownListProps,
-  DropdownOptionProps,
-  DropdownOptionsProps,
   DropdownListClassNames,
   DropdownListStyles,
 } from "@bearlab/dropdown";
@@ -339,36 +322,36 @@ import type {
 ### `DropdownProps`
 
 ```ts
-export interface DropdownProps {
+interface DropdownProps {
   show: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
   id?: string;
   labelledBy?: string;
+  className?: string;
+  style?: React.CSSProperties;
 }
 ```
 
 ### `DropdownItemProps`
 
 ```ts
-export interface DropdownItemProps {
+interface DropdownItemProps {
+  children: React.ReactNode;
   tag?: "a" | "button";
   href?: string;
   onClick?: () => void;
   onItemClick?: () => void;
+  disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
-  children: React.ReactNode;
-  disabled?: boolean;
 }
 ```
 
 ### `DropdownListProps`
 
 ```ts
-export interface DropdownListProps {
+interface DropdownListProps {
   list: {
     dropdownLabel: string;
     options: {
@@ -377,33 +360,7 @@ export interface DropdownListProps {
       icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     }[][];
   };
-  className?: DropdownListClassNames;
-  style?: DropdownListStyles;
   id?: string;
-}
-```
-
-### `DropdownOptionsProps`
-
-```ts
-export interface DropdownOptionsProps {
-  group: {
-    href: string;
-    label: string;
-    icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | undefined;
-  }[];
-  className?: DropdownListClassNames;
-  style?: DropdownListStyles;
-}
-```
-
-### `DropdownOptionProps`
-
-```ts
-export interface DropdownOptionProps {
-  href: string;
-  label: string;
-  icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | undefined;
   className?: DropdownListClassNames;
   style?: DropdownListStyles;
 }
@@ -412,7 +369,7 @@ export interface DropdownOptionProps {
 ### `DropdownListClassNames`
 
 ```ts
-export interface DropdownListClassNames {
+interface DropdownListClassNames {
   root?: string;
   dropdown?: string;
   dropdownButton?: string;
@@ -427,7 +384,7 @@ export interface DropdownListClassNames {
 ### `DropdownListStyles`
 
 ```ts
-export interface DropdownListStyles {
+interface DropdownListStyles {
   root?: React.CSSProperties;
   dropdown?: React.CSSProperties;
   dropdownButton?: React.CSSProperties;
@@ -438,6 +395,8 @@ export interface DropdownListStyles {
   dropdownLabel?: React.CSSProperties;
 }
 ```
+
+> `DropdownOptionsProps` and `DropdownOptionProps` are internal compound component types and are not exported.
 
 ---
 

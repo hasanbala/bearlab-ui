@@ -26,12 +26,15 @@
 
 ## Features
 
-- ✅ **Multi-language syntax highlighting** — JS, TS, JSX, TSX, Python, CSS, SCSS, HTML, Bash, JSON, SQL, Markdown and more
-- ✅ **One-click copy to clipboard** — with async Clipboard API and fallback support
-- ✅ **Optional line numbers** — toggleable via `showLineNumbers` prop
-- ✅ **Optional filename badge** — display context with a filename label
+- ✅ **Multi-language syntax highlighting** — built-in, zero-dependency tokenizer for JS, TS, JSX, TSX, Python, CSS, SCSS, HTML, Bash/Shell, JSON, SQL, Markdown and more
+- ✅ **One-click copy to clipboard** — uses the async Clipboard API with a `document.execCommand` fallback
+- ✅ **Optional line numbers** — toggleable via the `showLineNumbers` prop (enabled by default)
+- ✅ **Optional filename badge** — display context with a filename label in the header
+- ✅ **Language badge** — automatically displays a human-readable language label in the header
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `aria-label` on copy button, decorative elements hidden from screen readers
+- ✅ **Light & dark theme** — natively responds to `[data-theme="dark"]` with One Light / One Dark color schemes
+- ✅ **Accessible by default** — `aria-label` on copy button, line numbers hidden from the accessibility tree
+- ✅ **Responsive** — copy button label hides on small screens (`<480px`) to save space
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 - ✅ **Zero dependencies** — no external syntax highlighting libraries required
 
@@ -56,6 +59,8 @@ pnpm add @bearlab/view-code
 
 ## Usage
 
+### Basic
+
 ```tsx
 import { ViewCode } from "@bearlab/view-code";
 
@@ -77,57 +82,78 @@ greet("BearLab");`;
 }
 ```
 
+### Without line numbers
+
+```tsx
+<ViewCode
+  code={snippet}
+  language="json"
+  filename="config.json"
+  showLineNumbers={false}
+/>
+```
+
+### Localized copy button labels
+
+```tsx
+<ViewCode
+  code={snippet}
+  language="bash"
+  copyText="Kopyala"
+  copiedText="Kopyalandı"
+/>
+```
+
 ---
 
 ## Props
 
-| Prop              | Type                                        | Default        | Required | Description                                       |
-| ----------------- | ------------------------------------------- | -------------- | -------- | ------------------------------------------------- |
-| `code`            | `string`                                    | —              | ✅       | The source code string to display and highlight   |
-| `language`        | [`SupportedLanguage`](#supportedlanguage)   | `"javascript"` | ❌       | Language for syntax highlighting                  |
-| `filename`        | `string`                                    | —              | ❌       | Optional filename shown in the header badge       |
-| `showLineNumbers` | `boolean`                                   | `true`         | ❌       | Whether to render line numbers alongside the code |
-| `copyText`        | `string`                                    | `"Copy"`       | ❌       | Label for the copy button in its default state    |
-| `copiedText`      | `string`                                    | `"Copied"`     | ❌       | Label for the copy button after successful copy   |
-| `className`       | [`ViewCodeClassNames`](#viewcodeclassnames) | —              | ❌       | Per-slot className overrides                      |
-| `style`           | [`ViewCodeStyles`](#viewcodestyles)         | —              | ❌       | Per-slot inline style overrides                   |
+| Prop              | Type                                        | Default        | Required | Description                                                      |
+| ----------------- | ------------------------------------------- | -------------- | -------- | ---------------------------------------------------------------- |
+| `code`            | `string`                                    | —              | ✅       | The source code string to display, highlight, and copy           |
+| `language`        | [`SupportedLanguage`](#supportedlanguage)   | `"javascript"` | ❌       | Language identifier for syntax highlighting and the header badge |
+| `filename`        | `string`                                    | —              | ❌       | Optional filename shown in the header next to the language badge |
+| `showLineNumbers` | `boolean`                                   | `true`         | ❌       | Whether to render line numbers in a gutter alongside the code    |
+| `copyText`        | `string`                                    | `"Copy"`       | ❌       | Label for the copy button in its default state                   |
+| `copiedText`      | `string`                                    | `"Copied"`     | ❌       | Label for the copy button after a successful copy action         |
+| `className`       | [`ViewCodeClassNames`](#viewcodeclassnames) | —              | ❌       | Per-slot className overrides                                     |
+| `style`           | [`ViewCodeStyles`](#viewcodestyles)         | —              | ❌       | Per-slot inline style overrides                                  |
 
 ---
 
 ## Supported Languages
 
-| Value          | Displayed Label |
-| -------------- | --------------- |
-| `javascript`   | `JS`            |
-| `typescript`   | `TS`            |
-| `jsx`          | `JSX`           |
-| `tsx`          | `TSX`           |
-| `python`       | `Python`        |
-| `css`          | `CSS`           |
-| `scss`         | `SCSS`          |
-| `html`         | `HTML`          |
-| `bash`         | `Bash`          |
-| `shell`        | `Shell`         |
-| `json`         | `JSON`          |
-| `sql`          | `SQL`           |
-| `markdown`     | `Markdown`      |
-| `md`           | `Markdown`      |
-| `text`         | `Text`          |
-| _(any string)_ | Uppercased      |
+| Value          | Header Label | Tokenizer Used |
+| -------------- | ------------ | -------------- |
+| `javascript`   | `JavaScript` | JS rules       |
+| `typescript`   | `TypeScript` | JS rules       |
+| `jsx`          | `JSX`        | JS rules       |
+| `tsx`          | `TSX`        | JS rules       |
+| `python`       | `Python`     | Python rules   |
+| `css`          | `CSS`        | CSS rules      |
+| `scss`         | `SCSS`       | CSS rules      |
+| `html`         | `HTML`       | HTML rules     |
+| `bash`         | `Bash`       | Bash rules     |
+| `shell`        | `Shell`      | Bash rules     |
+| `json`         | `JSON`       | JSON rules     |
+| `sql`          | `SQL`        | Plain text     |
+| `markdown`     | `Markdown`   | Plain text     |
+| `md`           | `Markdown`   | Plain text     |
+| `text`         | `Plain Text` | Plain text     |
+| _(any string)_ | Uppercased   | Plain text     |
 
 ```tsx
-<ViewCode code={shellScript} language="bash" filename="setup.sh" />
-<ViewCode code={jsonData}    language="json" filename="config.json" />
-<ViewCode code={cssRules}    language="css"  filename="styles.css" />
+<ViewCode code={shellScript} language="bash"       filename="setup.sh" />
+<ViewCode code={jsonData}    language="json"       filename="config.json" />
+<ViewCode code={cssRules}    language="css"        filename="styles.css" />
+<ViewCode code={mdContent}   language="markdown"   filename="README.md" />
 ```
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.container` or style the code area natively using `style?.codeArea`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues.
 
 ### `ViewCodeClassNames`
 
@@ -169,10 +195,10 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `ViewCode` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `ViewCode` component features a robust theme architecture. It natively responds to the **`[data-theme="dark"]`** selector applied at any ancestor level (including `<html>`).
 
 ```html
-<!-- Apply dark theme at the root level -->
+<!-- Apply dark theme globally -->
 <html data-theme="dark">
   ...
 </html>
@@ -183,51 +209,92 @@ The `ViewCode` component features a robust theme architecture. It is fully compa
 </div>
 ```
 
-The component automatically adapts its background colors, text colors, syntax token colors, and border styles based on the active theme.
+The component automatically adapts its background, text, gutter, header, syntax token colors, and border styles based on the active theme:
+
+- **Light** — One Light-inspired palette (`#fafafa` background, `#383a42` text)
+- **Dark** — One Dark-inspired palette (`#282c34` background, `#abb2bf` text)
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-view-code-[element]-[property]` format, you can globally style the component across your application:
+The component exposes a rich set of `--bearlab-code-block-*` CSS custom properties. All tokens are scoped to the `.container` element with sensible defaults for both light and dark modes.
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-view-code-container-bg: #f8f9fa;
-  --bearlab-view-code-container-border-radius: 12px;
-  --bearlab-view-code-container-border-color: #e2e8f0;
-  --bearlab-view-code-header-bg: #edf2f7;
-  --bearlab-view-code-code-area-bg: #ffffff;
-  --bearlab-view-code-code-color: #1a202c;
-  --bearlab-view-code-line-number-color: #a0aec0;
-  --bearlab-view-code-copy-btn-bg: #e2e8f0;
-  --bearlab-view-code-copy-btn-color: #4a5568;
+  --bearlab-code-block-container-bg: #fafafa;
+  --bearlab-code-block-container-border-color: #e0e0e0;
+  --bearlab-code-block-container-radius: 1rem;
+  --bearlab-code-block-header-bg: #f0f0f0;
+  --bearlab-code-block-gutter-bg: #f5f5f5;
+  --bearlab-code-block-text-color: #383a42;
+  --bearlab-code-block-gutter-text-color: #9d9d9f;
+  --bearlab-code-block-tok-keyword-color: #a626a4;
+  --bearlab-code-block-tok-string-color: #50a14f;
+  --bearlab-code-block-tok-function-color: #4078f2;
 }
 
+/* Dark theme overrides */
 [data-theme="dark"] {
-  --bearlab-view-code-container-bg: #1a1a2e;
-  --bearlab-view-code-container-border-color: #2d3748;
-  --bearlab-view-code-header-bg: #16213e;
-  --bearlab-view-code-code-area-bg: #0f0f23;
-  --bearlab-view-code-code-color: #e2e8f0;
-  --bearlab-view-code-line-number-color: #4a5568;
-  --bearlab-view-code-copy-btn-bg: #2d3748;
-  --bearlab-view-code-copy-btn-color: #a0aec0;
+  --bearlab-code-block-container-bg: #282c34;
+  --bearlab-code-block-container-border-color: #1d2939;
+  --bearlab-code-block-header-bg: #21252b;
+  --bearlab-code-block-gutter-bg: #282c34;
+  --bearlab-code-block-text-color: #abb2bf;
+  --bearlab-code-block-gutter-text-color: #495162;
+  --bearlab-code-block-tok-keyword-color: #c678dd;
+  --bearlab-code-block-tok-string-color: #98c379;
+  --bearlab-code-block-tok-function-color: #61afef;
 }
 ```
+
+### Available Tokens (representative subset)
+
+| Token                                         | Default (light) | Description                       |
+| --------------------------------------------- | --------------- | --------------------------------- |
+| `--bearlab-code-block-container-radius`       | `1rem`          | Container corner radius           |
+| `--bearlab-code-block-container-bg`           | `#fafafa`       | Container background              |
+| `--bearlab-code-block-container-border-color` | `#e0e0e0`       | Container border color            |
+| `--bearlab-code-block-header-bg`              | `#f0f0f0`       | Header bar background             |
+| `--bearlab-code-block-header-border-color`    | `#e0e0e0`       | Header bottom border color        |
+| `--bearlab-code-block-gutter-bg`              | `#f5f5f5`       | Line number gutter background     |
+| `--bearlab-code-block-gutter-width`           | `3rem`          | Line number gutter width          |
+| `--bearlab-code-block-text-color`             | `#383a42`       | Default code text color           |
+| `--bearlab-code-block-gutter-text-color`      | `#9d9d9f`       | Line number text color            |
+| `--bearlab-code-block-badge-bg`               | `#e8e8e8`       | Language badge background         |
+| `--bearlab-code-block-badge-text-color`       | `#383a42`       | Language badge text color         |
+| `--bearlab-code-block-copy-btn-bg`            | `#e8e8e8`       | Copy button background            |
+| `--bearlab-code-block-copy-btn-bg-hover`      | `#dcdcdc`       | Copy button background on hover   |
+| `--bearlab-code-block-copy-btn-ok-text-color` | `#50a14f`       | Copy button text color after copy |
+| `--bearlab-code-block-filename-text-color`    | `#696c77`       | Filename text color               |
+| `--bearlab-code-block-scrollbar-color`        | `#c0c0c0`       | Horizontal scrollbar thumb color  |
+| `--bearlab-code-block-tok-keyword-color`      | `#a626a4`       | Keyword token color               |
+| `--bearlab-code-block-tok-string-color`       | `#50a14f`       | String literal token color        |
+| `--bearlab-code-block-tok-comment-color`      | `#a0a1a7`       | Comment token color               |
+| `--bearlab-code-block-tok-number-color`       | `#986801`       | Number literal token color        |
+| `--bearlab-code-block-tok-function-color`     | `#4078f2`       | Function name token color         |
+| `--bearlab-code-block-tok-type-color`         | `#c18401`       | Type / class name token color     |
+| `--bearlab-code-block-tok-property-color`     | `#e45649`       | Property token color              |
+| `--bearlab-code-block-tok-operator-color`     | `#0184bc`       | Operator token color              |
+| `--bearlab-code-block-tok-decorator-color`    | `#4078f2`       | Decorator token color             |
+| `--bearlab-code-block-code-font-size`         | `0.875rem`      | Code text font size               |
+| `--bearlab-code-block-code-line-height`       | `1.25rem`       | Code line height                  |
+| `--bearlab-code-block-code-tab-size`          | `2`             | Tab stop width                    |
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component follows **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards:
 
-- **`aria-label` on the copy button** — Provides a descriptive, context-aware label (`copyText` value) for screen readers so that button intent is always clear, even without visible icon text.
+- **`aria-label` on copy button** — Provides a descriptive label (`copyText` value) for screen readers so that button intent is always clear, even without visible text on small screens.
 - **`aria-hidden="true"` on line numbers** — Line number elements are purely presentational and are hidden from the accessibility tree to prevent redundant announcements.
-- **`<pre>` + `<code>` semantic markup** — Uses the proper HTML5 semantic pair for machine-readable code blocks, ensuring screen readers and other assistive technologies correctly interpret the content as preformatted code.
-- **Keyboard-accessible copy button** — The copy button is a native `<button>` element, fully operable via keyboard (`Tab` focus, `Enter`/`Space` activation) without any additional configuration.
-- **Visual feedback on copy** — The button state change (icon + label swap) ensures both sighted and screen reader users receive confirmation of a successful copy action.
+- **`<pre>` + `<code>` semantic markup** — Uses the standard HTML5 semantic pair for preformatted code blocks, ensuring screen readers and assistive technologies correctly interpret the content.
+- **Keyboard-accessible copy button** — The copy button is a native `<button>` element, fully operable via `Tab` focus and `Enter`/`Space` activation without any additional configuration.
+- **Visual feedback on copy** — The button state change (icon + label swap after 2 seconds) provides confirmation for both sighted and screen reader users.
+- **Monospace font stack** — Falls back gracefully through `Cascadia Code → SF Mono → Fira Code → Menlo → Monaco → Courier New` for cross-platform code rendering.
 
 ---
 
@@ -237,10 +304,9 @@ All types are exported from the package:
 
 ```ts
 import type {
-  ViewCodeProps,
   ViewCodeClassNames,
+  ViewCodeProps,
   ViewCodeStyles,
-  SupportedLanguage,
 } from "@bearlab/view-code";
 ```
 
@@ -281,6 +347,21 @@ interface ViewCodeClassNames {
 interface ViewCodeStyles {
   container?: React.CSSProperties;
   codeArea?: React.CSSProperties;
+}
+```
+
+### `ViewCodeProps`
+
+```ts
+interface ViewCodeProps {
+  code: string;
+  filename?: string;
+  copyText?: string;
+  copiedText?: string;
+  style?: ViewCodeStyles;
+  showLineNumbers?: boolean;
+  language?: SupportedLanguage;
+  className?: ViewCodeClassNames;
 }
 ```
 

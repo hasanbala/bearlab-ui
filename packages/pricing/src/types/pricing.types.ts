@@ -11,36 +11,36 @@ export interface PackFeature {
 
 export interface PackTypeOne {
   id: number;
-  packTitle: string;
-  packDescription: string;
-  buttonLabel: string;
-  features: PackFeature[];
   priceTag: string;
+  packTitle: string;
+  buttonLabel: string;
+  packDescription: string;
+  features: PackFeature[];
+  originalPriceByMonthly: string;
   campaignPriceByMonthly: string;
   campaignPriceByAnnually: string;
-  originalPriceByMonthly: string;
   originalPriceByAnnually: string;
 }
 
 export interface PackTypeTwo {
   id: number;
-  packTitle: string;
-  packDescription: string;
-  buttonLabel: string;
-  features: PackFeature[];
-  packIcon: React.ComponentType<{ "aria-hidden"?: boolean | "true" | "false" }>;
   price: string;
   priceTag: string;
+  packTitle: string;
+  buttonLabel: string;
+  features: PackFeature[];
+  packDescription: string;
+  packIcon: React.ComponentType<{ "aria-hidden"?: boolean | "true" | "false" }>;
 }
 
 export interface PackTypeThree {
   id: number;
-  packTitle: string;
-  packDescription: string;
-  buttonLabel: string;
-  features: PackFeature[];
   price: string;
   priceTag: string;
+  packTitle: string;
+  buttonLabel: string;
+  features: PackFeature[];
+  packDescription: string;
   isRecommended?: boolean;
 }
 
@@ -51,49 +51,49 @@ export interface SwitchLabels {
 
 export interface PricingClassNames {
   root?: string;
-  header?: string;
-  title?: string;
-  switchWrapper?: string;
-  grid?: string;
   card?: string;
+  grid?: string;
+  price?: string;
+  title?: string;
+  badge?: string;
+  header?: string;
+  button?: string;
+  divider?: string;
   cardActive?: string;
   cardHeader?: string;
-  price?: string;
-  featureList?: string;
   featureItem?: string;
-  divider?: string;
-  button?: string;
+  featureList?: string;
   buttonActive?: string;
-  badge?: string;
+  switchWrapper?: string;
 }
 
 export interface PricingStyles {
   root?: React.CSSProperties;
-  header?: React.CSSProperties;
-  title?: React.CSSProperties;
-  switchWrapper?: React.CSSProperties;
   grid?: React.CSSProperties;
   card?: React.CSSProperties;
-  cardActive?: React.CSSProperties;
-  button?: React.CSSProperties;
-  buttonActive?: React.CSSProperties;
   badge?: React.CSSProperties;
+  title?: React.CSSProperties;
+  button?: React.CSSProperties;
+  header?: React.CSSProperties;
+  cardActive?: React.CSSProperties;
+  buttonActive?: React.CSSProperties;
+  switchWrapper?: React.CSSProperties;
 }
 
 interface PricingBaseProps {
+  style?: PricingStyles;
   defaultActivePack?: number;
   checkIcon?: React.ReactNode;
   closeIcon?: React.ReactNode;
   className?: PricingClassNames;
-  style?: PricingStyles;
 }
 
 export interface PricingTypeOneProps extends PricingBaseProps {
   type: "one";
-  packs: PackTypeOne[];
   heading: string;
-  switchLabels?: SwitchLabels;
+  packs: PackTypeOne[];
   defaultBilling?: Billing;
+  switchLabels?: SwitchLabels;
 }
 
 export interface PricingTypeTwoProps extends PricingBaseProps {
@@ -117,30 +117,30 @@ export interface FeatureListProps {
 }
 
 export interface TypeOneProps {
-  packs: PackTypeOne[];
   heading: string;
-  switchLabels: { monthly: string; annually: string };
+  packs: PackTypeOne[];
+  style: PricingStyles;
   checkIcon: React.ReactNode;
   closeIcon: React.ReactNode;
   className: PricingClassNames;
-  style: PricingStyles;
+  switchLabels: { monthly: string; annually: string };
 }
 
 export interface TypeTwoProps {
   packs: PackTypeTwo[];
+  style: PricingStyles;
   checkIcon: React.ReactNode;
   closeIcon: React.ReactNode;
   className: PricingClassNames;
-  style: PricingStyles;
 }
 
 export interface TypeThreeProps {
+  style: PricingStyles;
   packs: PackTypeThree[];
   recommendedLabel: string;
   checkIcon: React.ReactNode;
   closeIcon: React.ReactNode;
   className: PricingClassNames;
-  style: PricingStyles;
 }
 
 export interface UsePricingProps {

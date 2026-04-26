@@ -1,7 +1,6 @@
 import { useEffect, useId, useRef } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
-import { Button } from "@bearlab/button";
 import { DEFAULT_MODAL_Z_INDEX } from "./constants/modal-config";
 import { ModalAlertIcon } from "./components/modal-alert-icon";
 import { ModalBody } from "./components/modal-body";
@@ -10,6 +9,7 @@ import { useFocusTrap } from "./hooks/use-focus-trap";
 import { useModalAnimation } from "./hooks/use-modal-animation";
 import type { ModalAnimationType, ModalProps } from "./types/modal.types";
 import styles from "./styles/modal.module.scss";
+import { IconCross } from "./assets/icons";
 
 const getAnimClass = (
   animation: ModalAnimationType,
@@ -18,6 +18,12 @@ const getAnimClass = (
   const dir = isOpen ? "Show" : "Hide";
   const name = animation.charAt(0).toUpperCase() + animation.slice(1);
   return styles[`animate${name}${dir}`] ?? "";
+};
+
+const getSizeClass = (size?: string): string => {
+  if (!size) return "";
+  const name = size.charAt(0).toUpperCase() + size.slice(1);
+  return styles[`size${name}`] ?? "";
 };
 
 export const Modal = (props: ModalProps) => {
@@ -30,6 +36,7 @@ export const Modal = (props: ModalProps) => {
     className = {},
     loading = false,
     type = "default",
+    size,
     alertType = "info",
     zIndex = DEFAULT_MODAL_Z_INDEX,
     animation = "zoom",
@@ -112,20 +119,19 @@ export const Modal = (props: ModalProps) => {
             [styles.fullscreen]: isFullscreen,
             [styles.defaultModal]: !isFullscreen,
           },
+          !isFullscreen && getSizeClass(size),
           getAnimClass(animation, isOpen),
           className.content
         )}
       >
-        <Button
-          label=""
+        <button
+          type="button"
           aria-label="Close Modal"
-          buttonType={"justIcon"}
-          iconType={{ default: "close" }}
           onClick={handleCancel}
-          className={{
-            root: classnames(styles.closeButton, className.closeButton),
-          }}
-        />
+          className={classnames(styles.closeButton, className.closeButton)}
+        >
+          <IconCross aria-hidden="true" focusable="false" />
+        </button>
         <ModalHeader
           titleId={titleId}
           descId={descId}
@@ -144,6 +150,7 @@ export const Modal = (props: ModalProps) => {
           loading={loading}
           className={{ bodyContent: className.bodyContent }}
           style={{ bodyContent: style.bodyContent }}
+          isFullscreen={isFullscreen}
         >
           {children}
         </ModalBody>

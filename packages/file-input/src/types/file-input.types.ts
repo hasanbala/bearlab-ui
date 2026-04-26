@@ -1,34 +1,32 @@
-import type React from "react";
-
 export interface FileInputClassNames {
   root?: string;
   label?: string;
   input?: string;
-  errorMessage?: string;
   helperText?: string;
+  errorMessage?: string;
 }
 
 export interface FileInputStyles {
   root?: React.CSSProperties;
   label?: React.CSSProperties;
   input?: React.CSSProperties;
-  errorMessage?: React.CSSProperties;
   helperText?: React.CSSProperties;
+  errorMessage?: React.CSSProperties;
 }
 
 export interface FileInputProps {
   id?: string;
   name?: string;
   label?: string;
-  error?: boolean | string;
-  helperText?: string;
-  isRequired?: boolean;
   accept?: string;
   multiple?: boolean;
   disabled?: boolean;
-  capture?: boolean | "user" | "environment";
-  inputRef?: React.Ref<HTMLInputElement>;
-  className?: FileInputClassNames;
+  helperText?: string;
+  isRequired?: boolean;
   style?: FileInputStyles;
+  error?: boolean | string;
+  className?: FileInputClassNames;
+  inputRef?: React.Ref<HTMLInputElement>;
+  capture?: boolean | "user" | "environment";
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

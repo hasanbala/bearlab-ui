@@ -1,6 +1,6 @@
 # @bearlab/dropzone
 
-> Accessible, customizable and drag-and-drop file upload component for React applications.
+> Accessible, customizable drag-and-drop file upload component for React applications.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/dropzone)](https://www.npmjs.com/package/@bearlab/dropzone)
 [![license](https://img.shields.io/npm/l/@bearlab/dropzone)](LICENSE)
@@ -14,6 +14,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Props](#props)
+- [Behavior](#behavior)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -25,28 +26,24 @@
 
 ## Features
 
-- ✅ **Drag & Drop** — Intuitive file dropping with visual feedback
-- ✅ **Slot-based `className` & `style` API** — Granular styling without CSS overrides
-- ✅ **File Management** — View, remove, and manage uploaded files
-- ✅ **File Type Filtering** — Accept specific file types with validation
-- ✅ **Accessible by default** — Keyboard navigation, `role="region"`, `aria-label`, `aria-busy`
-- ✅ **TypeScript-first** — Fully typed props and slot interfaces
-- ✅ **Loading States** — Built-in loading state handling
-- ✅ **Zero layout opinion** — Bring your own layout/wrapper
+- ✅ **Drag & Drop** — intuitive file dropping with visual `data-dragging` state feedback
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **File list management** — built-in display and per-file removal via `DropzoneList`
+- ✅ **File type filtering** — `accept` follows the standard HTML attribute format (MIME types, wildcards, extensions)
+- ✅ **Loading state** — `isLoading` disables interactions, sets `aria-busy` and `aria-disabled`
+- ✅ **Keyboard navigation** — `Enter` / `Space` opens the native file picker
+- ✅ **Accessible by default** — `role="region"`, `role="button"`, `aria-label`, `aria-busy`, `aria-disabled`
+- ✅ **TypeScript-first** — fully typed props and slot interfaces
+- ✅ **Theme ready** — light/dark mode via `[data-theme]`
 
 ---
 
 ## Installation
 
 ```bash
-# npm
 npm install @bearlab/dropzone
-
-# yarn
-yarn add @bearlab/dropzone
-
-# pnpm
-pnpm add @bearlab/dropzone
+# yarn add @bearlab/dropzone
+# pnpm add @bearlab/dropzone
 ```
 
 > **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
@@ -55,78 +52,59 @@ pnpm add @bearlab/dropzone
 
 ## Usage
 
+### Basic image upload
+
 ```tsx
-import { Dropzone } from "@bearlab/dropzone";
 import { useState } from "react";
+import { Dropzone } from "@bearlab/dropzone";
 
 export default function App() {
   const [files, setFiles] = useState<FileList | File[] | null>(null);
 
   return (
-    <Dropzone
-      files={files}
-      setFiles={setFiles}
-      accept="image/*"
-      multiple={true}
-    />
+    <Dropzone files={files} setFiles={setFiles} accept="image/*" multiple />
   );
 }
 ```
 
-### PDF Document Upload
+### PDF upload with loading state
 
 ```tsx
-export default function App() {
-  const [documents, setDocuments] = useState<FileList | File[] | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+const [documents, setDocuments] = useState<FileList | File[] | null>(null);
+const [isUploading, setIsUploading] = useState(false);
 
-  const handleUpload = async () => {
-    if (!documents) return;
+const handleUpload = async () => {
+  if (!documents) return;
+  setIsUploading(true);
+  try {
+    // your upload logic
+  } finally {
+    setIsUploading(false);
+  }
+};
 
-    setIsUploading(true);
-    try {
-      // Upload logic here
-      console.log("Uploading documents:", documents);
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
-  return (
-    <div>
-      <Dropzone
-        files={documents}
-        setFiles={setDocuments}
-        accept="application/pdf"
-        multiple={true}
-        isLoading={isUploading}
-      />
-      {documents && documents.length > 0 && (
-        <button onClick={handleUpload} disabled={isUploading}>
-          {isUploading ? "Uploading..." : "Upload Documents"}
-        </button>
-      )}
-    </div>
-  );
-}
+<Dropzone
+  files={documents}
+  setFiles={setDocuments}
+  accept="application/pdf"
+  multiple
+  isLoading={isUploading}
+  title="Upload Contract"
+  subTitle="Drag and drop a PDF or click to browse"
+/>;
 ```
 
-### File Type Examples
-
-The `accept` prop follows the standard HTML `accept` attribute format and supports MIME types, wildcards, and file extensions:
+### `accept` prop examples
 
 ```tsx
-// Images only
+// Images
 <Dropzone files={files} setFiles={setFiles} accept="image/*" />
 
-// Specific image types
-<Dropzone files={files} setFiles={setFiles} accept="image/jpeg,image/png,image/gif" />
+// Specific formats
+<Dropzone files={files} setFiles={setFiles} accept="image/jpeg,image/png" />
 
-// Documents
+// PDFs
 <Dropzone files={files} setFiles={setFiles} accept="application/pdf" />
-
-// Text files
-<Dropzone files={files} setFiles={setFiles} accept="text/plain,text/csv" />
 
 // Multiple types
 <Dropzone files={files} setFiles={setFiles} accept="image/*,application/pdf,.docx" />
@@ -139,57 +117,63 @@ The `accept` prop follows the standard HTML `accept` attribute format and suppor
 
 ## Props
 
-| Prop         | Type                                        | Default                              | Required | Description                                 |
-| ------------ | ------------------------------------------- | ------------------------------------ | -------- | ------------------------------------------- |
-| `files`      | `FileList \| File[] \| null`                | —                                    | ✅       | Currently selected files                    |
-| `setFiles`   | `(val: FileList \| File[] \| null) => void` | —                                    | ✅       | Function to update selected files           |
-| `accept`     | `string`                                    | `"application/pdf"`                  | ❌       | Accepted file types (MIME types)            |
-| `multiple`   | `boolean`                                   | `false`                              | ❌       | Allow multiple file selection               |
-| `isLoading`  | `boolean`                                   | `false`                              | ❌       | Show loading state and disable interactions |
-| `title`      | `string`                                    | `"Drag & Drop Files Here"`           | ❌       | Main title text                             |
-| `subTitle`   | `string`                                    | `"Drag and drop... click to upload"` | ❌       | Subtitle instructional text                 |
-| `browseText` | `string`                                    | `"Browse File"`                      | ❌       | Text for the browse action                  |
-| `aria-label` | `string`                                    | `"File upload area"`                 | ❌       | ARIA label for screen readers               |
-| `className`  | [`DropzoneClassNames`](#dropzoneclassnames) | —                                    | ❌       | Per-slot className overrides                |
-| `style`      | [`DropzoneStyles`](#dropzonestyles)         | —                                    | ❌       | Per-slot inline style overrides             |
+| Prop         | Type                                        | Default                                            | Required | Description                                         |
+| ------------ | ------------------------------------------- | -------------------------------------------------- | -------- | --------------------------------------------------- |
+| `files`      | `FileList \| File[] \| null`                | —                                                  | ✅       | Currently selected / dropped files                  |
+| `setFiles`   | `(val: FileList \| File[] \| null) => void` | —                                                  | ✅       | Setter called when files are added or removed       |
+| `name`       | `string`                                    | —                                                  | ❌       | Form field name forwarded to the hidden `<input>`   |
+| `accept`     | `string`                                    | `"application/pdf"`                                | ❌       | Accepted file types (standard HTML `accept` format) |
+| `multiple`   | `boolean`                                   | `false`                                            | ❌       | Allow selecting / dropping multiple files           |
+| `isLoading`  | `boolean`                                   | `false`                                            | ❌       | Disables all interactions and shows busy state      |
+| `title`      | `string`                                    | `"Drag & Drop Files Here"`                         | ❌       | Main heading text inside the drop area              |
+| `subTitle`   | `string`                                    | `"Drag and drop the file here or click to upload"` | ❌       | Instruction text below the title                    |
+| `browseText` | `string`                                    | `"Browse File"`                                    | ❌       | Underlined browse action text                       |
+| `aria-label` | `string`                                    | `"File upload area"`                               | ❌       | ARIA label for the `role="region"` wrapper          |
+| `className`  | [`DropzoneClassNames`](#dropzoneclassnames) | —                                                  | ❌       | Per-slot className overrides                        |
+| `style`      | [`DropzoneStyles`](#dropzonestyles)         | —                                                  | ❌       | Per-slot inline style overrides                     |
+
+---
+
+## Behavior
+
+- **Drop** — `onDrop` receives the `DataTransfer.files` and calls `setFiles`.
+- **Browse** — clicking the drop area (or pressing `Enter`/`Space`) triggers the hidden `<input type="file">`.
+- **Remove** — each file in the list has a remove button; clicking it filters the file out and calls `setFiles`.
+- **Loading** — when `isLoading` is `true`, `tabIndex` becomes `-1` and `data-disabled` is added; drag/drop and keyboard triggers are ignored.
+- **Drag visual** — `data-dragging` attribute is applied to the content area during an active drag, enabling CSS styling via `[data-dragging]`.
+- **Reset after select** — `input.value` is cleared after each selection so the same file can be re-selected.
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
-
 ### `DropzoneClassNames`
 
-| Slot       | Targets                                 |
-| ---------- | --------------------------------------- |
-| `root`     | Outermost container `<div>`             |
-| `content`  | Inner dropzone interaction area `<div>` |
-| `icon`     | Upload icon wrapper `<div>`             |
-| `title`    | Main title `<p>`                        |
-| `subtitle` | Subtitle description `<p>`              |
-| `browse`   | Browse text `<span>`                    |
-| `input`    | Hidden `<input type="file">` element    |
-| `list`     | File list container wrapper             |
-| `item`     | Individual uploaded file item container |
+| Slot       | Targets                                        |
+| ---------- | ---------------------------------------------- |
+| `root`     | Outermost `<div role="region">` container      |
+| `content`  | Interactive drop area `<div role="button">`    |
+| `icon`     | Upload icon wrapper `<div aria-hidden="true">` |
+| `title`    | Main title `<p>` element                       |
+| `subtitle` | Subtitle description `<p>` element             |
+| `browse`   | Browse text `<span aria-hidden="true">`        |
+| `input`    | Hidden `<input type="file">` element           |
+| `list`     | File list `<ul>` container                     |
+| `item`     | Individual file item `<li>` row                |
 
 ```tsx
 <Dropzone
   files={files}
   setFiles={setFiles}
   className={{
-    root: "my-dropzone-root",
-    content: "my-dropzone-content",
-    title: "my-dropzone-title",
+    root: "my-dropzone",
+    content: "my-dropzone-area",
+    title: "my-title",
   }}
 />
 ```
 
 ### `DropzoneStyles`
-
-All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Dropzone
@@ -197,7 +181,8 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   setFiles={setFiles}
   style={{
     root: { margin: "20px" },
-    content: { border: "2px dashed blue" },
+    content: { border: "2px dashed #465fff" },
+    title: { fontSize: "1.5rem" },
   }}
 />
 ```
@@ -206,24 +191,61 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Dropzone` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Dropzone` component is fully compatible with light and dark mode, responding to `[data-theme="dark"]` on any ancestor element.
+
+| Token                                     | Light default | Dark default |
+| ----------------------------------------- | ------------- | ------------ |
+| `--bearlab-dropzone-content-bg`           | `#f9fafb`     | `#1f2937`    |
+| `--bearlab-dropzone-content-border-color` | `#9ca3af`     | `#6b7280`    |
+| `--bearlab-dropzone-content-dragging-bg`  | `#d1d5db`     | `#374151`    |
+| `--bearlab-dropzone-icon-bg`              | `#e5e7eb`     | `#111827`    |
+| `--bearlab-dropzone-icon-color`           | `#374151`     | `#f9fafb`    |
+| `--bearlab-dropzone-title-color`          | `#111827`     | `#f9fafb`    |
+| `--bearlab-dropzone-subtitle-color`       | `#6b7280`     | `#93c5fd`    |
+| `--bearlab-dropzone-browse-color`         | `#2563eb`     | `#60a5fa`    |
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-dropzone-[element]-[property]` format, you can globally style the component across your application:
+All tokens follow `--bearlab-dropzone-[element]-[property]` naming and are scoped to `.container`.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-dropzone-bg: #f8f9fa;
-  --bearlab-dropzone-border-color: #e0e0e0;
-  --bearlab-dropzone-hover-border-color: #007bff;
-  --bearlab-dropzone-border-radius: 12px;
-  --bearlab-dropzone-padding: 48px;
-  --bearlab-dropzone-title-color: #1a1a1a;
-  --bearlab-dropzone-subtitle-color: #4a4a4a;
+:root {
+  /* Drop area */
+  --bearlab-dropzone-content-padding: 2.5rem; /* 40px */
+  --bearlab-dropzone-content-border-radius: 0.5rem; /* 8px */
+  --bearlab-dropzone-content-border-color: #9ca3af;
+  --bearlab-dropzone-content-border-color-hover: #465fff;
+  --bearlab-dropzone-content-bg: #f9fafb;
+  --bearlab-dropzone-content-dragging-bg: #d1d5db;
+  --bearlab-dropzone-content-outline-color-focus: #2563eb;
+
+  /* Icon */
+  --bearlab-dropzone-icon-size: 4.375rem; /* 70px */
+  --bearlab-dropzone-icon-bg: #e5e7eb;
+  --bearlab-dropzone-icon-color: #374151;
+
+  /* Title & subtitle */
+  --bearlab-dropzone-title-font-size: 1.25rem; /* 20px */
+  --bearlab-dropzone-title-font-weight: 600;
+  --bearlab-dropzone-title-color: #111827;
+  --bearlab-dropzone-subtitle-font-size: 0.875rem; /* 14px */
+  --bearlab-dropzone-subtitle-color: #6b7280;
+
+  /* Browse link */
+  --bearlab-dropzone-browse-color: #2563eb;
+  --bearlab-dropzone-browse-font-size: 0.875rem;
+
+  /* File list */
+  --bearlab-dropzone-list-gap: 0.625rem; /* 10px */
+  --bearlab-dropzone-list-padding: 0.75rem; /* 12px */
+  --bearlab-dropzone-list-border-radius: 0.5rem;
+  --bearlab-dropzone-list-margin-top: 1.25rem; /* 20px */
+  --bearlab-dropzone-item-name-font-size: 0.875rem;
+
+  /* States */
+  --bearlab-dropzone-opacity-disabled: 0.6;
 }
 ```
 
@@ -231,21 +253,21 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience for file uploads:
+Built to **WCAG 2.1 AA** standards:
 
-- **`role="region"`** — Exposes the dropzone area semantically.
-- **`role="button"`** — Interactive area for browsing files with keyboard triggers capabilities.
-- **`aria-label`** — Provides a clear accessible name to the main region.
-- **`aria-busy="true"`** — Automatically added when `isLoading` is true to indicate background processing.
-- **`aria-disabled="true"`** — Disables interactions for screen readers when loading.
-- **`aria-hidden="true"`** — Best-practice usage on decorative icons, text, and the hidden `<input>` to prevent redundant screen reader announcements while ensuring focus is properly managed.
-- **Keyboard Navigation** — Fully supports file selection via `tabIndex` and `Enter`/`Space` key interactions.
+- **`role="region"` + `aria-label`** — the outer wrapper is a named landmark region.
+- **`role="button"` + `tabIndex`** — the drop area is keyboard-focusable and activatable.
+- **`aria-busy="true"`** — set when `isLoading` is `true` to indicate background processing.
+- **`aria-disabled="true"`** — set when `isLoading` to block assistive technology interaction.
+- **`data-dragging`** — CSS hook for visual drag feedback (not ARIA, intentionally).
+- **`data-disabled`** — CSS hook on the content area when loading.
+- **`Enter` / `Space`** — keyboard activation opens the native file picker via `inputRef.current.click()`.
+- **`aria-hidden="true"`** — decorative icon wrapper and browse text are hidden from the accessibility tree; the hidden `<input>` has `tabIndex=-1` so it never receives focus directly.
+- **File removal** — remove buttons inside `DropzoneList` should carry descriptive `aria-label` attributes (e.g. `"Remove filename.pdf"`).
 
 ---
 
 ## TypeScript
-
-All types are exported from the package:
 
 ```ts
 import type {
@@ -253,6 +275,25 @@ import type {
   DropzoneClassNames,
   DropzoneStyles,
 } from "@bearlab/dropzone";
+```
+
+### `DropzoneProps`
+
+```ts
+interface DropzoneProps {
+  files: FileList | File[] | null;
+  setFiles: (val: FileList | File[] | null) => void;
+  name?: string;
+  accept?: string;
+  multiple?: boolean;
+  isLoading?: boolean;
+  title?: string;
+  subTitle?: string;
+  browseText?: string;
+  "aria-label"?: string;
+  className?: DropzoneClassNames;
+  style?: DropzoneStyles;
+}
 ```
 
 ### `DropzoneClassNames`
@@ -286,6 +327,8 @@ interface DropzoneStyles {
   item?: React.CSSProperties;
 }
 ```
+
+> `DropzoneListProps`, `DropzoneItemProps`, `UseDropzone`, and `UseDropzoneReturn` are internal types used by compound sub-components and the `useDropzone` hook. They are not exported from the package.
 
 ---
 

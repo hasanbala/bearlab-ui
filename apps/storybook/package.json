@@ -25,7 +25,6 @@
     "@bearlab/dropzone": "*",
     "@bearlab/faq": "*",
     "@bearlab/file-input": "*",
-    "@bearlab/go-back": "*",
     "@bearlab/growl": "*",
     "@bearlab/input": "*",
     "@bearlab/loading": "*",

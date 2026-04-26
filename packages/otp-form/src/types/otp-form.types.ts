@@ -1,73 +1,76 @@
-export interface OTPFormSubComponentProps {
+export interface OTPFormClassNamesProps {
   root?: string;
-  subHeader?: string;
-  inputs?: string;
   input?: string;
+  inputs?: string;
+  subHeader?: string;
 }
 
-export interface OTPFormSubComponentStyles {
+export interface OTPFormStylesProps {
   root?: React.CSSProperties;
-  subHeader?: React.CSSProperties;
-  inputs?: React.CSSProperties;
   input?: React.CSSProperties;
+  inputs?: React.CSSProperties;
+  subHeader?: React.CSSProperties;
 }
 
 export interface OTPFormProps {
-  onChange: (value: string[]) => void;
-  value: string[];
-  loading?: boolean;
+  name?: string;
   title?: string;
-  isNumeric?: boolean;
+  value: string[];
   length?: number;
+  loading?: boolean;
   ariaLabel?: string;
-  className?: OTPFormSubComponentProps;
-  style?: OTPFormSubComponentStyles;
+  isNumeric?: boolean;
+  style?: OTPFormStylesProps;
+  className?: OTPFormClassNamesProps;
+  onChange: (value: string[]) => void;
 }
 
 export interface OtpInputProps {
+  name?: string;
   index: number;
   value: string;
-  disabled?: boolean;
   length: number;
+  disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
-  inputRef: (el: HTMLInputElement | null) => void;
-  onChange: (value: string, index: number) => void;
   onKeyDown: (
     event: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => void;
+  inputRef: (el: HTMLInputElement | null) => void;
+  onChange: (value: string, index: number) => void;
   onPaste: (event: React.ClipboardEvent<HTMLInputElement>) => void;
 }
 
 export interface OtpInputListProps {
-  value: string[];
+  name?: string;
   length: number;
+  value: string[];
   disabled?: boolean;
+  style?: OTPFormStylesProps;
+  className?: OTPFormClassNamesProps;
   inputsRef: React.RefObject<HTMLInputElement[]>;
-  className?: OTPFormSubComponentProps;
-  style?: OTPFormSubComponentStyles;
-  onChange: (value: string, index: number) => void;
   onKeyDown: (
     event: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => void;
+  onChange: (value: string, index: number) => void;
   onPaste: (event: React.ClipboardEvent<HTMLInputElement>) => void;
 }
 
 export interface UseOtpForm {
-  value: string[];
-  onChange: (value: string[]) => void;
-  isNumeric: boolean;
   length: number;
+  value: string[];
+  isNumeric: boolean;
+  onChange: (value: string[]) => void;
 }
 
 export interface UseOtpFormReturn {
   inputsRef: React.RefObject<HTMLInputElement[]>;
-  handleChange: (value: string, index: number) => void;
   handleKeyDown: (
     event: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => void;
+  handleChange: (value: string, index: number) => void;
   handlePaste: (event: React.ClipboardEvent<HTMLInputElement>) => void;
 }

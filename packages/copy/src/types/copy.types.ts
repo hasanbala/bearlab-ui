@@ -12,6 +12,6 @@ export interface CopyProps {
   text: string;
   label?: string;
   disabled?: boolean;
-  className?: CopyClassNames;
   style?: CopyStyles;
+  className?: CopyClassNames;
 }

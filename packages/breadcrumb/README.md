@@ -25,12 +25,13 @@
 
 ## Features
 
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `<nav aria-label="breadcrumb">`, `aria-current="page"`
-- ✅ **Configurable separators** — supports `arrow`, `slash`, and `dot`
-- ✅ **Custom Link mapping** — use with `next/link`, `react-router-dom`, or native `<a>`
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
+- ✅ **Accessible by default** — `<nav aria-label="breadcrumb">`, `aria-current="page"`, semantic `<ol>`/`<li>`
+- ✅ **Three separator types** — `"arrow"` (default), `"slash"`, and `"dot"`
+- ✅ **Optional home icon** — display a home icon alongside the from-page link
+- ✅ **Custom Link adapter** — use with `next/link`, `react-router-dom Link`, or native `<a>`
+- ✅ **Dark Mode** — automatic adaptation via `[data-theme="dark"]` selector
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
 
 ---
 
@@ -53,6 +54,8 @@ pnpm add @bearlab/breadcrumb
 
 ## Usage
 
+### Basic
+
 ```tsx
 import { Breadcrumb } from "@bearlab/breadcrumb";
 
@@ -69,20 +72,43 @@ export default function App() {
 }
 ```
 
+### With a custom link adapter (e.g. Next.js)
+
+```tsx
+import Link from "next/link";
+import { Breadcrumb } from "@bearlab/breadcrumb";
+import type { DefaultLinkProps } from "@bearlab/breadcrumb";
+
+export default function App() {
+  return (
+    <Breadcrumb
+      currentPageTitle="Dashboard"
+      fromPageTitle="Home"
+      fromPageUrl="/"
+      renderLink={({ href, className, style, children }: DefaultLinkProps) => (
+        <Link href={href} className={className} style={style}>
+          {children}
+        </Link>
+      )}
+    />
+  );
+}
+```
+
 ---
 
 ## Props
 
-| Prop               | Type                                            | Default       | Required | Description                                        |
-| ------------------ | ----------------------------------------------- | ------------- | -------- | -------------------------------------------------- |
-| `currentPageTitle` | `string`                                        | —             | ✅       | The title of the current page                      |
-| `fromPageTitle`    | `string`                                        | `"Home Page"` | ❌       | The text displayed for the back/home link          |
-| `fromPageUrl`      | `string`                                        | `"/"`         | ❌       | The URL for the back/home link                     |
-| `showHomeIcon`     | `boolean`                                       | `false`       | ❌       | Whether to render a home icon beside the link text |
-| `separateType`     | `SeparateType` (`"arrow" \| "slash" \| "dot"`)  | `"arrow"`     | ❌       | The visual separator between breadcrumb items      |
-| `renderLink`       | `(props: RenderLinkProps) => React.ReactNode`   | Native `<a>`  | ❌       | Custom render function for the link element        |
-| `className`        | [`BreadcrumbClassNames`](#breadcrumbclassnames) | —             | ❌       | Per-slot className overrides                       |
-| `style`            | [`BreadcrumbStyles`](#breadcrumbstyles)         | —             | ❌       | Per-slot inline style overrides                    |
+| Prop               | Type                                            | Default       | Required | Description                                                                     |
+| ------------------ | ----------------------------------------------- | ------------- | -------- | ------------------------------------------------------------------------------- |
+| `currentPageTitle` | `string`                                        | —             | ✅       | The title of the current page (shown as `<h2>` and as the last breadcrumb item) |
+| `fromPageTitle`    | `string`                                        | `"Home Page"` | ❌       | The text displayed for the back/home link                                       |
+| `fromPageUrl`      | `string`                                        | `"/"`         | ❌       | The URL for the back/home link                                                  |
+| `showHomeIcon`     | `boolean`                                       | `false`       | ❌       | Whether to render a home icon beside the link text                              |
+| `separateType`     | `SeparateType` (`"arrow" \| "slash" \| "dot"`)  | `"arrow"`     | ❌       | The visual separator between breadcrumb items                                   |
+| `renderLink`       | `(props: DefaultLinkProps) => React.ReactNode`  | Native `<a>`  | ❌       | Custom render function for the link element                                     |
+| `className`        | [`BreadcrumbClassNames`](#breadcrumbclassnames) | —             | ❌       | Per-slot className overrides                                                    |
+| `style`            | [`BreadcrumbStyles`](#breadcrumbstyles)         | —             | ❌       | Per-slot inline style overrides                                                 |
 
 ---
 
@@ -97,8 +123,8 @@ For example, you can target the root container utilizing `className?.root` or st
 | Slot       | Targets                             |
 | ---------- | ----------------------------------- |
 | `root`     | Outermost container `<div>`         |
-| `title`    | Heading `<h2>`                      |
-| `nav`      | Navigation container `<nav>`        |
+| `title`    | Page heading `<h2>`                 |
+| `nav`      | Navigation landmark `<nav>`         |
 | `fromLink` | Back/home link element (e.g. `<a>`) |
 | `current`  | Current page text `<span>`          |
 
@@ -109,6 +135,8 @@ For example, you can target the root container utilizing `className?.root` or st
     root: "my-breadcrumb-root",
     title: "my-breadcrumb-title",
     nav: "my-breadcrumb-nav",
+    fromLink: "my-breadcrumb-link",
+    current: "my-breadcrumb-current",
   }}
 />
 ```
@@ -122,7 +150,8 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   currentPageTitle="Products"
   style={{
     root: { padding: "1rem" },
-    current: { fontWeight: "bold", color: "blue" },
+    current: { fontWeight: "bold", color: "#1d2939" },
+    fromLink: { textDecoration: "underline" },
   }}
 />
 ```
@@ -131,24 +160,43 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Breadcrumb` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Breadcrumb` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+Dark mode tokens use `color-mix(in oklab, ...)` for smooth adaptive color values — no manual configuration required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-breadcrumb-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component leverages scoped CSS variables for a global design token system. CSS variables are declared inside the `.container` class scope and fall back to `--bearlab-breadcrumb-*` public tokens you can override.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-breadcrumb-root-gap: 16px;
-  --bearlab-breadcrumb-title-color: #1a1a1a;
-  --bearlab-breadcrumb-link-color: #0056b3;
-  --bearlab-breadcrumb-link-hover-color: #003d82;
-  --bearlab-breadcrumb-separator-color: #6c757d;
+:root {
+  /* Layout */
+  --bearlab-breadcrumb-container-gap: 0.75rem; /* space between title and nav */
+  --bearlab-breadcrumb-container-margin-bottom: 1.5rem;
+  --bearlab-breadcrumb-list-gap: 0.375rem; /* space between breadcrumb items */
+  --bearlab-breadcrumb-link-icon-margin: 0.25rem; /* margin between home icon and text */
+
+  /* Typography */
+  --bearlab-breadcrumb-title-font-size: 1.25rem;
+  --bearlab-breadcrumb-title-font-weight: 600;
+  --bearlab-breadcrumb-list-font-size: 0.875rem;
+
+  /* Colors */
+  --bearlab-breadcrumb-title-color: #1d2939;
+  --bearlab-breadcrumb-current-color: #1d2939;
+  --bearlab-breadcrumb-list-color: #6b7280;
+  --bearlab-breadcrumb-link-color-hover: #465fff;
+  --bearlab-breadcrumb-separator-color: #98a2b3;
+
+  /* Dot separator */
+  --bearlab-breadcrumb-dot-size: 0.25rem;
+  --bearlab-breadcrumb-dot-color: #98a2b3;
 }
 ```
+
+> All tokens follow the `--bearlab-breadcrumb-[element]-[property]` naming convention. The full list of available tokens mirrors the CSS variable declarations in `breadcrumb.module.scss`.
 
 ---
 
@@ -157,23 +205,22 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
 
 - **`<nav aria-label="breadcrumb">`** — Ensures screen readers properly identify the navigation landmark.
-- **`aria-current="page"`** — Communicates to assistive technologies that the last item represents the current page.
-- **`aria-hidden="true"`** — Best-practice usage on decorative icons and separators to prevent redundant or confusing screen reader announcements.
-- **Semantic List `<ol>`/`<li>`** — Structures the breadcrumb trail as an ordered list naturally communicating the hierarchy.
+- **`aria-current="page"`** — Communicates to assistive technologies that the last breadcrumb item represents the current page.
+- **`aria-hidden="true"`** — Applied to decorative icons and separator elements to prevent redundant screen reader announcements.
+- **Semantic List `<ol>`/`<li>`** — Structures the breadcrumb trail as an ordered list, naturally communicating hierarchy to assistive technologies.
+- **`:focus-visible` outline** — Keyboard users receive a visible focus ring on the link element.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+The following types are exported from the package:
 
 ```ts
 import type {
   BreadcrumbProps,
   BreadcrumbClassNames,
   BreadcrumbStyles,
-  SeparateType,
-  RenderLinkProps,
 } from "@bearlab/breadcrumb";
 ```
 
@@ -182,24 +229,13 @@ import type {
 ```ts
 interface BreadcrumbProps {
   currentPageTitle: string;
-  fromPageTitle?: string;
-  fromPageUrl?: string;
-  showHomeIcon?: boolean;
-  separateType?: SeparateType;
+  fromPageTitle?: string; // default: "Home Page"
+  fromPageUrl?: string; // default: "/"
+  showHomeIcon?: boolean; // default: false
+  separateType?: SeparateType; // default: "arrow"
+  renderLink?: (props: DefaultLinkProps) => React.ReactNode;
   className?: BreadcrumbClassNames;
   style?: BreadcrumbStyles;
-  renderLink?: (props: RenderLinkProps) => React.ReactNode;
-}
-```
-
-### `RenderLinkProps`
-
-```ts
-interface RenderLinkProps {
-  href: string;
-  className?: string;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
 }
 ```
 
@@ -207,6 +243,19 @@ interface RenderLinkProps {
 
 ```ts
 type SeparateType = "arrow" | "slash" | "dot";
+```
+
+### `DefaultLinkProps`
+
+The shape of props forwarded to the `renderLink` function (or the built-in `<a>` fallback):
+
+```ts
+interface DefaultLinkProps {
+  href: string;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}
 ```
 
 ### `BreadcrumbClassNames`

@@ -25,11 +25,12 @@
 
 ## Features
 
-- ✅ **Variants & Colors** — `light` and `solid` variants with 7 different colors
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Design Tokens** — fully customizable via CSS variables
-- ✅ **Icon Support** — seamlessly integrate `startIcon` and `endIcon`
-- ✅ **Available Sizes** — easily switch between `small` and `medium`
+- ✅ **Variants & Colors** — `light` and `solid` variants with 7 different colors (`primary`, `success`, `error`, `warning`, `info`, `light`, `dark`)
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
+- ✅ **Design Tokens** — fully customizable via scoped CSS variables
+- ✅ **Icon Support** — seamlessly integrate `startIcon` and `endIcon` SVG components
+- ✅ **Two Sizes** — `small` (12px) and `medium` (14px)
+- ✅ **Dark Mode** — automatic adaptation via `[data-theme="dark"]` selector
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 
 ---
@@ -60,19 +61,27 @@ import { CheckIcon, ArrowRightIcon } from "@icons...";
 export default function App() {
   return (
     <>
+      {/* Solid variant */}
       <Badge
         variant="solid"
         color="primary"
         label="New Feature"
         size="medium"
       />
+
+      {/* Light variant with warning color */}
       <Badge label="Warning" color="warning" />
+
+      {/* With icons */}
       <Badge
         label="Completed"
         color="success"
         startIcon={CheckIcon}
         endIcon={ArrowRightIcon}
       />
+
+      {/* Small size */}
+      <Badge label="Beta" color="info" size="small" />
     </>
   );
 }
@@ -103,11 +112,11 @@ For example, you can target the root container utilizing `className?.root` or st
 
 ### `BadgeClassNames`
 
-| Slot        | Targets                            |
-| ----------- | ---------------------------------- |
-| `root`      | Outermost wrapper element `<span>` |
-| `startIcon` | `startIcon` SVG element            |
-| `endIcon`   | `endIcon` SVG element              |
+| Slot        | Targets                    |
+| ----------- | -------------------------- |
+| `root`      | Outermost wrapper `<span>` |
+| `startIcon` | Start icon SVG element     |
+| `endIcon`   | End icon SVG element       |
 
 ```tsx
 <Badge
@@ -139,22 +148,43 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Badge` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Badge` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="dark"]`** selectors applied at the root or document level.
+
+All color tokens are redefined inside the `[data-theme="dark"]` scope — using `color-mix(in oklab, ...)` for semi-transparent backgrounds — so no manual switching is required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-badge-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component leverages scoped CSS variables for a global design token system. CSS variables are declared inside the `.container` class scope and fall back to `--bearlab-badge-*` public tokens you can override.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-badge-root-border-radius: 9999px;
-  --bearlab-badge-root-padding: 0.25rem 0.5rem;
-  --bearlab-badge-root-font-size: 0.75rem;
+:root {
+  /* Layout */
+  --bearlab-badge-container-gap: 0.25rem;
+  --bearlab-badge-container-padding: 0.125rem 0.625rem;
+  --bearlab-badge-container-border-radius: 9999px;
+  --bearlab-badge-container-font-weight: 600;
+
+  /* Sizes */
+  --bearlab-badge-small-font-size: 0.75rem;
+  --bearlab-badge-medium-font-size: 0.875rem;
+
+  /* Icons */
+  --bearlab-badge-start-icon-width: 0.75rem;
+  --bearlab-badge-end-icon-width: 0.75rem;
+
+  /* Light / Primary colors */
+  --bearlab-badge-light-primary-bg: #ecf3ff;
+  --bearlab-badge-light-primary-color: #465fff;
+
+  /* Solid / Primary colors */
+  --bearlab-badge-solid-primary-bg: #465fff;
+  --bearlab-badge-solid-primary-color: #fff;
 }
 ```
+
+> All tokens follow the `--bearlab-badge-[variant]-[color]-[property]` naming convention. The full list of available tokens mirrors the CSS variable declarations in `badge.module.scss`.
 
 ---
 
@@ -162,53 +192,31 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
 
-- **Semantic Iconography (`aria-hidden="true"`)** — Best-practice usage on decorative `startIcon` and `endIcon` elements to prevent redundant or confusing screen reader announcements, ensuring they focus purely to present the `label`.
+- **Semantic Iconography (`aria-hidden="true"`)** — Applied to decorative `startIcon` and `endIcon` elements to prevent redundant screen reader announcements, keeping focus on the `label`.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+The following types are exported from the package:
 
 ```ts
-import type {
-  BadgeProps,
-  BadgeVariant,
-  BadgeColor,
-  BadgeSize,
-  BadgeClassNames,
-  BadgeStyles,
-} from "@bearlab/badge";
+import type { BadgeProps, BadgeClassNames, BadgeStyles } from "@bearlab/badge";
 ```
 
 ### `BadgeProps`
 
 ```ts
 interface BadgeProps {
-  variant?: BadgeVariant;
-  size?: BadgeSize;
-  color?: BadgeColor;
+  label: string | number;
+  variant?: BadgeVariant; // "light" | "solid", default: "light"
+  color?: BadgeColor; // "primary" | "success" | "error" | "warning" | "info" | "light" | "dark", default: "primary"
+  size?: BadgeSize; // "small" | "medium", default: "medium"
   startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  label: string | number;
   className?: BadgeClassNames;
   style?: BadgeStyles;
 }
-```
-
-### `BadgeVariant`, `BadgeColor` & `BadgeSize`
-
-```ts
-type BadgeVariant = "light" | "solid";
-type BadgeColor =
-  | "primary"
-  | "success"
-  | "error"
-  | "warning"
-  | "info"
-  | "light"
-  | "dark";
-type BadgeSize = "small" | "medium";
 ```
 
 ### `BadgeClassNames`

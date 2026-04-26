@@ -12,7 +12,7 @@ export const resolveValue = <T extends SelectOption>(
         const found = options.find((o) => o.value === v);
         return found ? [found] : [];
       }
-      return [v as T];
+      return [v as unknown as T];
     });
   }
 
@@ -21,5 +21,5 @@ export const resolveValue = <T extends SelectOption>(
     return found ? [found] : [];
   }
 
-  return [value];
+  return [value as unknown as T];
 };

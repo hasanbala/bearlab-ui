@@ -27,7 +27,6 @@
       "@bearlab/copy": ["./packages/copy/src"],
       "@bearlab/dropzone": ["./packages/dropzone/src"],
       "@bearlab/file-input": ["./packages/file-input/src"],
-      "@bearlab/go-back": ["./packages/go-back/src"],
       "@bearlab/input": ["./packages/input/src"],
       "@bearlab/loading": ["./packages/loading/src"],
       "@bearlab/otp-form": ["./packages/otp-form/src"],

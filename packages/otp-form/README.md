@@ -25,12 +25,12 @@
 
 ## Features
 
-- ✅ **Robust Input Handling** — automatic focus progression, pasting support, keyboard navigation
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Configurable Length & Type** — customize OTP length and enforce numeric-only input
-- ✅ **Accessible by default** — screen reader friendly with appropriate `aria` attributes
+- ✅ **Robust Input Handling** — automatic focus progression, paste support, and full keyboard navigation (`ArrowLeft`, `ArrowRight`, `Backspace`)
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
+- ✅ **Configurable Length & Type** — customize OTP digit count and enforce numeric-only input
+- ✅ **Accessible by default** — screen reader–friendly with `aria-label`, `role="group"`, and `autoComplete="one-time-code"`
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Flexible Layout** — easily adaptable styling via design tokens
+- ✅ **Dark mode support** — responds to `[data-theme="dark"]` out of the box
 
 ---
 
@@ -76,34 +76,33 @@ export default function App() {
 
 ## Props
 
-| Prop        | Type                                                      | Default                     | Required | Description                                            |
-| ----------- | --------------------------------------------------------- | --------------------------- | -------- | ------------------------------------------------------ |
-| `value`     | `string[]`                                                | —                           | ✅       | The current value of the OTP input fields              |
-| `onChange`  | `(value: string[]) => void`                               | —                           | ✅       | Callback triggered when the OTP value changes          |
-| `title`     | `string`                                                  | —                           | ❌       | Optional heading text rendered above the inputs        |
-| `loading`   | `boolean`                                                 | `false`                     | ❌       | If true, disables input fields showing a loading state |
-| `isNumeric` | `boolean`                                                 | `true`                      | ❌       | If true, enforces numeric character input only         |
-| `length`    | `number`                                                  | `6`                         | ❌       | The total number of input fields to render             |
-| `ariaLabel` | `string`                                                  | `"One-time password input"` | ❌       | General accessible label for the container element     |
-| `className` | [`OTPFormSubComponentProps`](#otpformsubcomponentprops)   | —                           | ❌       | Per-slot className overrides                           |
-| `style`     | [`OTPFormSubComponentStyles`](#otpformsubcomponentstyles) | —                           | ❌       | Per-slot inline style overrides                        |
+| Prop        | Type                                                | Default                     | Required | Description                                         |
+| ----------- | --------------------------------------------------- | --------------------------- | -------- | --------------------------------------------------- |
+| `value`     | `string[]`                                          | —                           | ✅       | The current value of the OTP input fields           |
+| `onChange`  | `(value: string[]) => void`                         | —                           | ✅       | Callback triggered when any OTP digit changes       |
+| `name`      | `string`                                            | —                           | ❌       | HTML `name` attribute forwarded to each input       |
+| `title`     | `string`                                            | —                           | ❌       | Optional label rendered above the inputs            |
+| `loading`   | `boolean`                                           | `false`                     | ❌       | When `true`, disables all input fields              |
+| `isNumeric` | `boolean`                                           | `true`                      | ❌       | When `true`, restricts input to digits only (`0–9`) |
+| `length`    | `number`                                            | `6`                         | ❌       | Number of individual input boxes to render          |
+| `ariaLabel` | `string`                                            | `"One-time password input"` | ❌       | Accessible label for the outermost container        |
+| `className` | [`OTPFormClassNamesProps`](#otpformclassnamesprops) | —                           | ❌       | Per-slot className overrides                        |
+| `style`     | [`OTPFormStylesProps`](#otpformstylesprops)         | —                           | ❌       | Per-slot inline style overrides                     |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. You can inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
-For example, you can target the root container utilizing `className?.root` or style the inner inputs natively using `style?.input`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+### `OTPFormClassNamesProps`
 
-### `OTPFormSubComponentProps`
-
-| Slot        | Targets                                          |
-| ----------- | ------------------------------------------------ |
-| `root`      | Outermost container `<div>`                      |
-| `subHeader` | Inner title `<p>`                                |
-| `inputs`    | Wrapper element containing all individual inputs |
-| `input`     | Individual native `<input>` elements             |
+| Slot        | Targets                                       |
+| ----------- | --------------------------------------------- |
+| `root`      | Outermost container `<div>`                   |
+| `subHeader` | Inner title `<p>` element                     |
+| `inputs`    | Flex wrapper containing all individual inputs |
+| `input`     | Individual native `<input>` elements          |
 
 ```tsx
 <OTPForm
@@ -112,12 +111,13 @@ For example, you can target the root container utilizing `className?.root` or st
   className={{
     root: "my-otp-root",
     subHeader: "my-otp-title",
+    inputs: "my-otp-inputs",
     input: "my-otp-input-field",
   }}
 />
 ```
 
-### `OTPFormSubComponentStyles`
+### `OTPFormStylesProps`
 
 All slots also accept inline `React.CSSProperties` via the `style` prop:
 
@@ -128,7 +128,8 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   title="Verify Email"
   style={{
     root: { gap: "1.5rem" },
-    input: { width: "40px", height: "40px" },
+    inputs: { justifyContent: "flex-start" },
+    input: { width: "56px", height: "56px" },
   }}
 />
 ```
@@ -137,34 +138,69 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `OTPForm` component features robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `OTPForm` component has a built-in two-theme architecture. It natively responds to **`[data-theme="dark"]`** applied to any ancestor element, automatically switching colors for the sub-header text, input border, background, text, and placeholder. No extra configuration is needed.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-otp-form-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component exposes CSS custom properties for global theming. Override them in your own stylesheet using the `--bearlab-otp-form-*` namespace:
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-otp-form-root-gap: 1.5rem;
-  --bearlab-otp-form-input-border-radius: 8px;
-  --bearlab-otp-form-input-bg: #f9f9f9;
-  --bearlab-otp-form-input-focus-border: #007bff;
+/* Light / global overrides */
+:root {
+  --bearlab-otp-form-input-border-color: #d0d5dd;
+  --bearlab-otp-form-input-border-color-focus: #7f56d9;
+  --bearlab-otp-form-input-border-radius: 0.75rem;
+  --bearlab-otp-form-input-height: 3rem;
+  --bearlab-otp-form-inputs-gap: 0.75rem;
+  --bearlab-otp-form-subHeader-color: #344054;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bearlab-otp-form-input-border-color: #1d2939;
+  --bearlab-otp-form-input-background: #111827;
+  --bearlab-otp-form-input-color: rgba(255, 255, 255, 0.9);
 }
 ```
+
+### Available Tokens
+
+| Token                                         | Default (light)         | Description                 |
+| --------------------------------------------- | ----------------------- | --------------------------- |
+| `--bearlab-otp-form-subHeader-font-size`      | `0.875rem`              | Title font size             |
+| `--bearlab-otp-form-subHeader-color`          | `#344054`               | Title text color            |
+| `--bearlab-otp-form-subHeader-margin-bottom`  | `0.375rem`              | Space below title           |
+| `--bearlab-otp-form-inputs-gap`               | `0.5rem`                | Gap between input boxes     |
+| `--bearlab-otp-form-input-height`             | `2.75rem`               | Height of each input box    |
+| `--bearlab-otp-form-input-font-size`          | `1.25rem`               | Font size inside inputs     |
+| `--bearlab-otp-form-input-font-weight`        | `600`                   | Font weight inside inputs   |
+| `--bearlab-otp-form-input-border-radius`      | `0.5rem`                | Border radius of each input |
+| `--bearlab-otp-form-input-border-width`       | `0.125rem`              | Border width                |
+| `--bearlab-otp-form-input-border-color`       | `#e4e7ec`               | Default border color        |
+| `--bearlab-otp-form-input-border-color-focus` | `#465fff`               | Border color on focus       |
+| `--bearlab-otp-form-input-shadow`             | `0 1px 2px 0 #1018280d` | Default box shadow          |
+| `--bearlab-otp-form-input-shadow-focus`       | `0 0 0 3px #465fff21`   | Focus ring shadow           |
+| `--bearlab-otp-form-input-background`         | `transparent`           | Input background color      |
+| `--bearlab-otp-form-input-color`              | `#1f2937`               | Input text color            |
+| `--bearlab-otp-form-input-placeholder-color`  | `#98a2b3`               | Placeholder text color      |
 
 ---
 
 ## Accessibility
 
-This component prioritizes **best-practice** accessibility, adhering to **WCAG 2.1 AA** standards to ensure an inclusive user experience:
+This component prioritizes **best-practice** accessibility, adhering to **WCAG 2.1 AA** standards:
 
-- **`aria-label`** — Provides an overarching accessible name for the main container, clarifying its purpose as a one-time password entry zone.
-- **`aria-hidden="true"`** — The descriptive title heading is hidden from screen readers when redundant, avoiding duplicate announcements.
-- **Focus Progression** — Input fields intelligently manage focus, smoothly advancing to the next field upon alphanumeric entry, and returning back upon deletion, ensuring natural keyboard navigation parity for sighted and non-sighted users.
-- **Pasting Capabilities** — Integrated paste events natively hydrate contiguous input fields automatically, dramatically reducing user friction.
+- **`aria-label`** — The outermost container receives an accessible name (defaults to `"One-time password input"`; override via the `ariaLabel` prop).
+- **`role="group"` + `aria-labelledby`** — The inputs wrapper is announced as a group, associated with the optional `title` element.
+- **`aria-label` per input** — Each individual input has a descriptive label, e.g. `"Character 1 of 6 digit code"`.
+- **`aria-required="true"`** — All inputs are marked as required for assistive technologies.
+- **`autoComplete="one-time-code"`** — Enables native browser autofill from SMS or authenticator apps.
+- **Focus Progression** — Typing a character automatically advances focus to the next input; `Backspace` on an empty field moves focus back.
+- **Arrow Key Navigation** — `ArrowLeft` and `ArrowRight` move focus between inputs without clearing values.
+- **Paste Support** — Pasting a multi-character string distributes it across inputs automatically.
+- **Disabled state** — When `loading={true}`, all inputs are disabled and visually indicated with `opacity: 0.6` and `cursor: not-allowed`.
 
 ---
 
@@ -175,10 +211,8 @@ All types are exported from the package:
 ```ts
 import type {
   OTPFormProps,
-  OTPFormSubComponentProps,
-  OTPFormSubComponentStyles,
-  OtpInputListProps,
-  OtpInputProps,
+  OTPFormClassNamesProps,
+  OTPFormStylesProps,
 } from "@bearlab/otp-form";
 ```
 
@@ -186,22 +220,23 @@ import type {
 
 ```ts
 interface OTPFormProps {
-  onChange: (value: string[]) => void;
   value: string[];
-  loading?: boolean;
+  onChange: (value: string[]) => void;
+  name?: string;
   title?: string;
-  isNumeric?: boolean;
-  length?: number;
-  ariaLabel?: string;
-  className?: OTPFormSubComponentProps;
-  style?: OTPFormSubComponentStyles;
+  loading?: boolean;
+  isNumeric?: boolean; // default: true
+  length?: number; // default: 6
+  ariaLabel?: string; // default: "One-time password input"
+  className?: OTPFormClassNamesProps;
+  style?: OTPFormStylesProps;
 }
 ```
 
-### `OTPFormSubComponentProps`
+### `OTPFormClassNamesProps`
 
 ```ts
-interface OTPFormSubComponentProps {
+interface OTPFormClassNamesProps {
   root?: string;
   subHeader?: string;
   inputs?: string;
@@ -209,10 +244,10 @@ interface OTPFormSubComponentProps {
 }
 ```
 
-### `OTPFormSubComponentStyles`
+### `OTPFormStylesProps`
 
 ```ts
-interface OTPFormSubComponentStyles {
+interface OTPFormStylesProps {
   root?: React.CSSProperties;
   subHeader?: React.CSSProperties;
   inputs?: React.CSSProperties;
@@ -222,14 +257,17 @@ interface OTPFormSubComponentStyles {
 
 ### `OtpInputListProps`
 
+Internal props for the inputs container. Exported for library extension purposes.
+
 ```ts
 interface OtpInputListProps {
-  value: string[];
+  name?: string;
   length: number;
+  value: string[];
   disabled?: boolean;
   inputsRef: React.RefObject<HTMLInputElement[]>;
-  className?: OTPFormSubComponentProps;
-  style?: OTPFormSubComponentStyles;
+  className?: OTPFormClassNamesProps;
+  style?: OTPFormStylesProps;
   onChange: (value: string, index: number) => void;
   onKeyDown: (
     event: React.KeyboardEvent<HTMLInputElement>,
@@ -241,12 +279,15 @@ interface OtpInputListProps {
 
 ### `OtpInputProps`
 
+Internal props for each individual input box.
+
 ```ts
 interface OtpInputProps {
+  name?: string;
   index: number;
   value: string;
-  disabled?: boolean;
   length: number;
+  disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
   inputRef: (el: HTMLInputElement | null) => void;

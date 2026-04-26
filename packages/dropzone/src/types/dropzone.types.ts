@@ -1,54 +1,55 @@
 export interface DropzoneClassNames {
   root?: string;
-  content?: string;
   icon?: string;
-  title?: string;
-  subtitle?: string;
-  browse?: string;
-  input?: string;
   list?: string;
   item?: string;
+  title?: string;
+  input?: string;
+  browse?: string;
+  content?: string;
+  subtitle?: string;
 }
 
 export interface DropzoneStyles {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  title?: React.CSSProperties;
-  subtitle?: React.CSSProperties;
-  browse?: React.CSSProperties;
-  input?: React.CSSProperties;
-  list?: React.CSSProperties;
   item?: React.CSSProperties;
+  root?: React.CSSProperties;
+  icon?: React.CSSProperties;
+  list?: React.CSSProperties;
+  title?: React.CSSProperties;
+  input?: React.CSSProperties;
+  browse?: React.CSSProperties;
+  content?: React.CSSProperties;
+  subtitle?: React.CSSProperties;
 }
 
 export interface DropzoneProps {
-  className?: DropzoneClassNames;
-  style?: DropzoneStyles;
+  name?: string;
   accept?: string;
-  multiple?: boolean;
-  isLoading?: boolean;
-  files: FileList | File[] | null;
-  setFiles: (val: FileList | File[] | null) => void;
   title?: string;
   subTitle?: string;
+  multiple?: boolean;
+  isLoading?: boolean;
   browseText?: string;
   "aria-label"?: string;
+  style?: DropzoneStyles;
+  className?: DropzoneClassNames;
+  files: FileList | File[] | null;
+  setFiles: (val: FileList | File[] | null) => void;
 }
 
 export interface DropzoneListProps {
-  files: FileList | File[] | null;
   isLoading?: boolean;
-  onRemoveFile: (name: string) => void;
-  className?: DropzoneClassNames;
   style?: DropzoneStyles;
+  className?: DropzoneClassNames;
+  files: FileList | File[] | null;
+  onRemoveFile: (name: string) => void;
 }
 
 export interface DropzoneItemProps {
   file: File;
   index: number;
-  isLoading?: boolean;
   className?: string;
+  isLoading?: boolean;
   style?: React.CSSProperties;
   onRemove: (name: string) => void;
 }

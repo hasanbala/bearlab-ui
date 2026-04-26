@@ -1,32 +1,31 @@
 export type SupportedLanguage =
-  | "javascript"
-  | "typescript"
+  | "md"
   | "jsx"
   | "tsx"
-  | "python"
+  | "sql"
   | "css"
   | "scss"
   | "html"
   | "bash"
-  | "shell"
   | "json"
-  | "sql"
-  | "markdown"
-  | "md"
   | "text"
+  | "shell"
+  | "python"
+  | "markdown"
+  | "typescript"
+  | "javascript"
   | (string & {});
-
 export type Tokenizer = (code: string) => string;
 
 export interface ViewCodeProps {
   code: string;
   filename?: string;
+  copyText?: string;
+  copiedText?: string;
   style?: ViewCodeStyles;
   showLineNumbers?: boolean;
   language?: SupportedLanguage;
   className?: ViewCodeClassNames;
-  copyText?: string;
-  copiedText?: string;
 }
 
 export interface TokenRule {

@@ -1,67 +1,68 @@
+export type FinalColumn = SelectionColumn | TableColumn;
+export type SortDirection = "asc" | "desc" | "none";
+
 export interface TableClassNames {
   root?: string;
   header?: string;
   title?: string;
-  tableWrapper?: string;
-  tableContainer?: string;
-  tableHeader?: string;
-  headerCell?: string;
-  tableBody?: string;
   bodyRow?: string;
   bodyCell?: string;
-  paginationWrapper?: string;
-  paginationControls?: string;
-  pageButton?: string;
-  pageButtonActive?: string;
-  pageButtonInactive?: string;
   pageInfo?: string;
   pageList?: string;
   ellipsis?: string;
-  pageSizeSelector?: string;
+  emptyIcon?: string;
+  tableBody?: string;
+  emptyTitle?: string;
+  headerCell?: string;
   recordInfo?: string;
   emptyState?: string;
-  emptyIcon?: string;
-  emptyTitle?: string;
+  pageButton?: string;
+  tableHeader?: string;
+  tableWrapper?: string;
+  tableContainer?: string;
+  pageButtonActive?: string;
+  pageSizeSelector?: string;
   emptyDescription?: string;
+  paginationWrapper?: string;
+  paginationControls?: string;
+  pageButtonInactive?: string;
 }
 
 export interface TableStyles {
   root?: React.CSSProperties;
-  header?: React.CSSProperties;
   title?: React.CSSProperties;
-  tableWrapper?: React.CSSProperties;
-  tableContainer?: React.CSSProperties;
-  tableHeader?: React.CSSProperties;
-  headerCell?: React.CSSProperties;
-  tableBody?: React.CSSProperties;
+  header?: React.CSSProperties;
   bodyRow?: React.CSSProperties;
   bodyCell?: React.CSSProperties;
-  paginationWrapper?: React.CSSProperties;
-  paginationControls?: React.CSSProperties;
-  pageButton?: React.CSSProperties;
-  pageButtonActive?: React.CSSProperties;
-  pageButtonInactive?: React.CSSProperties;
   pageInfo?: React.CSSProperties;
   pageList?: React.CSSProperties;
   ellipsis?: React.CSSProperties;
-  pageSizeSelector?: React.CSSProperties;
+  emptyIcon?: React.CSSProperties;
+  tableBody?: React.CSSProperties;
+  headerCell?: React.CSSProperties;
   recordInfo?: React.CSSProperties;
   emptyState?: React.CSSProperties;
-  emptyIcon?: React.CSSProperties;
   emptyTitle?: React.CSSProperties;
+  pageButton?: React.CSSProperties;
+  tableHeader?: React.CSSProperties;
+  tableWrapper?: React.CSSProperties;
+  tableContainer?: React.CSSProperties;
   emptyDescription?: React.CSSProperties;
+  pageButtonActive?: React.CSSProperties;
+  pageSizeSelector?: React.CSSProperties;
+  paginationWrapper?: React.CSSProperties;
+  paginationControls?: React.CSSProperties;
+  pageButtonInactive?: React.CSSProperties;
 }
 
-export type SortDirection = "asc" | "desc" | "none";
-
 export interface TableColumn {
+  key: string;
   title: string;
   dataIndex: string;
-  key: string;
-  render?: (value: any, record: Record<string, any>) => React.ReactNode;
-  sorter?: (a: any, b: any) => number;
-  sortDirection?: SortDirection;
   width?: string | number;
+  sortDirection?: SortDirection;
+  sorter?: (a: any, b: any) => number;
+  render?: (value: any, record: Record<string, any>) => React.ReactNode;
 }
 
 export interface RowSelection {
@@ -78,70 +79,68 @@ export interface TablePagination {
 }
 
 export interface SelectionColumn {
-  title: React.ReactNode | null;
   key: string;
   dataIndex: string;
+  title: React.ReactNode | null;
   render: (_: any, record: Record<string, any>) => React.ReactNode;
 }
 
-export type FinalColumn = SelectionColumn | TableColumn;
-
 export interface TableProps {
   title?: string;
-  dataSource: Record<string, any>[];
-  columns: TableColumn[];
-  className?: TableClassNames;
-  style?: TableStyles;
-  rowSelection?: RowSelection;
-  pagination?: boolean | TablePagination;
-  onRowClick?: (record: Record<string, any>) => void;
   disabled?: boolean;
-  serverPagination?: boolean;
   totalCount?: number;
-  currentPage?: number;
-  pageSizeOptions?: number[];
-  showPageSizeSelector?: boolean;
-  pageSizePlaceholder?: string;
-  maxVisiblePages?: number;
-  onTableChange?: (
-    page: number,
-    pageSize: number,
-    isPageSize?: boolean
-  ) => void;
-  "aria-label"?: string;
-  "aria-describedby"?: string;
+  style?: TableStyles;
   emptyTitle?: string;
+  currentPage?: number;
+  "aria-label"?: string;
+  columns: TableColumn[];
+  maxVisiblePages?: number;
   emptyDescription?: string;
-  renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
+  pageSizeOptions?: number[];
+  serverPagination?: boolean;
+  rowSelection?: RowSelection;
+  className?: TableClassNames;
+  "aria-describedby"?: string;
+  pageSizePlaceholder?: string;
+  showPageSizeSelector?: boolean;
+  dataSource: Record<string, any>[];
+  pagination?: boolean | TablePagination;
   renderTotalInfo?: (
     from: number,
     to: number,
     total: number
   ) => React.ReactNode;
+  onTableChange?: (
+    page: number,
+    pageSize: number,
+    isPageSize?: boolean
+  ) => void;
+  onRowClick?: (record: Record<string, any>) => void;
+  renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
 }
 
 export interface MainTableProps {
-  children: React.ReactNode;
   className?: string;
   "aria-label"?: string;
-  "aria-labelledby"?: string;
   "aria-rowcount"?: number;
+  children: React.ReactNode;
+  "aria-labelledby"?: string;
 }
 
 export interface TableBodyProps {
-  children: React.ReactNode;
   className?: string;
+  children: React.ReactNode;
 }
 
 export interface TableCellProps {
-  children: React.ReactNode;
-  isHeader?: boolean;
-  scope?: "col" | "row" | "colgroup" | "rowgroup";
-  className?: string;
-  style?: React.CSSProperties;
-  "aria-sort"?: "ascending" | "descending" | "none" | "other";
   colSpan?: number;
   rowSpan?: number;
+  isHeader?: boolean;
+  className?: string;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  scope?: "col" | "row" | "colgroup" | "rowgroup";
+  "aria-sort"?: "ascending" | "descending" | "none" | "other";
 }
 
 export interface TableHeaderProps {
@@ -150,19 +149,19 @@ export interface TableHeaderProps {
 }
 
 export interface TableRowProps {
-  children: React.ReactNode;
   className?: string;
-  onClick?: (_val?: any) => void;
   isClickable?: boolean;
-  "aria-selected"?: boolean;
   "aria-rowindex"?: number;
+  children: React.ReactNode;
+  "aria-selected"?: boolean;
+  onClick?: (_val?: any) => void;
 }
 
 export interface UseTable {
-  dataSource: Record<string, any>[];
+  currentPage?: number;
   serverPagination?: boolean;
   rowSelection?: RowSelection;
-  currentPage?: number;
+  dataSource: Record<string, any>[];
 }
 
 export interface UseTableReturn {
@@ -170,8 +169,8 @@ export interface UseTableReturn {
   initialPage: number;
   selectedRowKeys: string[];
   filteredData: Record<string, any>[];
-  setInitialPage: React.Dispatch<React.SetStateAction<number>>;
   handleSelectAll: (checked: boolean) => void;
+  setInitialPage: React.Dispatch<React.SetStateAction<number>>;
   handleRowSelect: (record: Record<string, any>) => void;
 }
 
@@ -180,67 +179,67 @@ export interface TableEmptyProps {
   description?: string;
   className?: {
     root?: string;
-    content?: string;
-    title?: string;
-    description?: string;
     icon?: string;
+    title?: string;
+    content?: string;
+    description?: string;
   };
   style?: {
     root?: React.CSSProperties;
-    content?: React.CSSProperties;
-    title?: React.CSSProperties;
-    description?: React.CSSProperties;
     icon?: React.CSSProperties;
+    title?: React.CSSProperties;
+    content?: React.CSSProperties;
+    description?: React.CSSProperties;
   };
 }
 
 export interface PaginationNumberProps {
-  className?: TableClassNames;
-  page: number | string;
   idx: number;
-  initialPage: number;
-  goToPage: (page: number) => void;
   disabled?: boolean;
+  initialPage: number;
+  page: number | string;
+  className?: TableClassNames;
+  goToPage: (page: number) => void;
 }
 
 export interface TableRecordProps {
-  record: Record<string, any>;
   index: number;
-  selectedRowKeys: string[];
-  onRowClick?: (record: Record<string, any>) => void;
   disabled?: boolean;
-  rowSelection?: RowSelection;
-  finalColumns: (FinalColumn | null)[];
   cnBodyRow?: string;
   cnBodyCell?: string;
-  style?: React.CSSProperties;
-  handleRowClick: (record: Record<string, any>) => void;
   indexOfFirstItem: number;
+  selectedRowKeys: string[];
+  record: Record<string, any>;
+  rowSelection?: RowSelection;
+  style?: React.CSSProperties;
+  finalColumns: (FinalColumn | null)[];
+  onRowClick?: (record: Record<string, any>) => void;
+  handleRowClick: (record: Record<string, any>) => void;
 }
 
 export interface RecordCellProps {
-  record: Record<string, any>;
   column: TableColumn;
   cnBodyCell?: string;
+  record: Record<string, any>;
   style?: React.CSSProperties;
 }
 
 export interface TablePaginationComponentProps {
-  paginationId: string;
+  maxPages: number;
+  pageSize: number;
+  isMobile: boolean;
+  disabled?: boolean;
   totalPages: number;
   initialPage: number;
-  maxPages: number;
-  isMobile: boolean;
+  style?: TableStyles;
+  paginationId: string;
   mobileMinimize: boolean;
-  disabled?: boolean;
   showPageNumbers: boolean;
-  showPageSizeSelector?: boolean;
-  pageSize: number;
   pageSizeOptions: number[];
+  className?: TableClassNames;
   pageSizePlaceholder?: string;
+  showPageSizeSelector?: boolean;
   goToPage: (page: number) => void;
   onPageChange: (page: number, isPageSize?: boolean) => void;
   renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
-  className?: TableClassNames;
-  style?: TableStyles;
 }

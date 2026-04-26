@@ -11,23 +11,23 @@ export type BadgeSize = "small" | "medium";
 
 export interface BadgeClassNames {
   root?: string;
-  startIcon?: string;
   endIcon?: string;
+  startIcon?: string;
 }
 
 export interface BadgeStyles {
   root?: React.CSSProperties;
-  startIcon?: React.CSSProperties;
   endIcon?: React.CSSProperties;
+  startIcon?: React.CSSProperties;
 }
 
 export interface BadgeProps {
-  variant?: BadgeVariant;
   size?: BadgeSize;
   color?: BadgeColor;
-  startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
-  endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  style?: BadgeStyles;
+  variant?: BadgeVariant;
   label: string | number;
   className?: BadgeClassNames;
-  style?: BadgeStyles;
+  startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
 }

@@ -1,6 +1,6 @@
 # @bearlab/input
 
-> Accessible, fully customizable Input component for React applications with built-in password, search, and copy features.
+> Accessible, fully customizable Input component for React applications with built-in password toggle, copy-to-clipboard, and search features.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/input)](https://www.npmjs.com/package/@bearlab/input)
 [![license](https://img.shields.io/npm/l/@bearlab/input)](LICENSE)
@@ -25,11 +25,12 @@
 
 ## Features
 
-- ✅ **Built-in functionalities** — Native support for `password` toggle, `copy` to clipboard, and `search` features.
+- ✅ **Built-in functionalities** — Native support for `password` visibility toggle, `copy` to clipboard, and `search` button.
 - ✅ **Pre/Post icons** — Easy integration of inline icons via `beforeIcon` and `afterIcon`.
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides.
-- ✅ **Accessible by default** — `aria-invalid`, `aria-describedby`, label linkage (`htmlFor`), and `role="alert"` on errors.
-- ✅ **TypeScript-first** — fully typed props and slot interfaces.
+- ✅ **Slot-based `className` & `style` API** — Granular styling without CSS specificity issues.
+- ✅ **Accessible by default** — `aria-invalid`, `aria-required`, `aria-describedby`, label linkage (`htmlFor`), and `role="status"` on errors.
+- ✅ **Dark mode support** — Natively responds to `[data-theme="dark"]` applied at any ancestor level.
+- ✅ **TypeScript-first** — Fully typed props and slot interfaces.
 
 ---
 
@@ -52,6 +53,8 @@ pnpm add @bearlab/input
 
 ## Usage
 
+### Basic Input
+
 ```tsx
 import { Input } from "@bearlab/input";
 
@@ -64,28 +67,86 @@ export default function App() {
 
 ### Password Input with Toggle
 
+Pass `type="password"` to enable the built-in eye icon toggle. The toggle button shows/hides the password automatically.
+
 ```tsx
-import { Input } from "@bearlab/input";
 import { useState } from "react";
+import { Input } from "@bearlab/input";
 
 export default function App() {
   const [password, setPassword] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
 
   return (
     <Input
       label="Password"
       type="password"
       value={password}
-      onChange={handleChange}
+      onChange={(e) => setPassword(e.target.value)}
       placeholder="Enter your password"
-      isExistPassword={true}
       isRequired
     />
   );
+}
+```
+
+### Input with Copy to Clipboard
+
+```tsx
+import { useState } from "react";
+import { Input } from "@bearlab/input";
+
+export default function App() {
+  const [token, setToken] = useState("my-api-token-xyz");
+
+  return (
+    <Input
+      label="API Token"
+      value={token}
+      onChange={(e) => setToken(e.target.value)}
+      isExistCopy
+    />
+  );
+}
+```
+
+### Input with Search Button
+
+```tsx
+import { Input } from "@bearlab/input";
+
+export default function App() {
+  const handleSearch = () => {
+    console.log("Search triggered");
+  };
+
+  return (
+    <Input label="Search" placeholder="Search..." onSearch={handleSearch} />
+  );
+}
+```
+
+### Input with Before / After Icons
+
+`IconType` accepts either a string (emoji, text) or an SVG component.
+
+```tsx
+import { Input } from "@bearlab/input";
+import { IconMail } from "./icons";
+
+export default function App() {
+  return (
+    <Input label="Email" beforeIcon={IconMail} placeholder="Enter email" />
+  );
+}
+```
+
+### Input with Error State
+
+```tsx
+import { Input } from "@bearlab/input";
+
+export default function App() {
+  return <Input label="Username" value="" error="This field is required." />;
 }
 ```
 
@@ -93,44 +154,44 @@ export default function App() {
 
 ## Props
 
-| Prop              | Type                                  | Default | Required | Description                                                         |
-| ----------------- | ------------------------------------- | ------- | -------- | ------------------------------------------------------------------- |
-| `label`           | `string`                              | —       | ❌       | Label text for the input                                            |
-| `error`           | `string`                              | —       | ❌       | Error message displayed below the input                             |
-| `beforeIcon`      | `IconType`                            | —       | ❌       | Icon rendered before the input text                                 |
-| `afterIcon`       | `IconType`                            | —       | ❌       | Icon rendered after the input text                                  |
-| `isExistSearch`   | `boolean`                             | `false` | ❌       | Renders a search button inside the input                            |
-| `isExistPassword` | `boolean`                             | `false` | ❌       | Enables password visibility toggle                                  |
-| `isExistCopy`     | `boolean`                             | `false` | ❌       | Enables copy-to-clipboard functionality                             |
-| `isRequired`      | `boolean`                             | `false` | ❌       | Marks the input as required (adds `*` to label and `aria-required`) |
-| `onSearch`        | `() => void`                          | —       | ❌       | Callback fired when the search button is clicked                    |
-| `className`       | [`InputClassNames`](#inputclassnames) | —       | ❌       | Per-slot className overrides                                        |
-| `style`           | [`InputStyles`](#inputstyles)         | —       | ❌       | Per-slot inline style overrides                                     |
+| Prop          | Type                                  | Default  | Required | Description                                                         |
+| ------------- | ------------------------------------- | -------- | -------- | ------------------------------------------------------------------- |
+| `label`       | `string`                              | —        | ❌       | Label text for the input                                            |
+| `name`        | `string`                              | —        | ❌       | Form field name                                                     |
+| `error`       | `string`                              | —        | ❌       | Error message displayed below the input                             |
+| `type`        | `React.InputHTMLAttributes["type"]`   | `"text"` | ❌       | Input type. Use `"password"` to enable the built-in toggle button   |
+| `value`       | `string \| number \| ...`             | —        | ❌       | Controlled value for the input                                      |
+| `disabled`    | `boolean`                             | `false`  | ❌       | Disables the input and all interactive buttons                      |
+| `beforeIcon`  | `IconType`                            | —        | ❌       | Icon rendered before the input field (left slot)                    |
+| `afterIcon`   | `IconType`                            | —        | ❌       | Icon rendered after the input field (right slot)                    |
+| `isExistCopy` | `boolean`                             | `false`  | ❌       | Renders a copy-to-clipboard button inside the input                 |
+| `isRequired`  | `boolean`                             | `false`  | ❌       | Marks the input as required (adds `*` to label and `aria-required`) |
+| `onSearch`    | `() => void`                          | —        | ❌       | Renders a search button and fires this callback on click            |
+| `className`   | [`InputClassNames`](#inputclassnames) | —        | ❌       | Per-slot className overrides                                        |
+| `style`       | [`InputStyles`](#inputstyles)         | —        | ❌       | Per-slot inline style overrides                                     |
 
-_Note: Supports all native `React.InputHTMLAttributes<HTMLInputElement>` attributes (except native `className` and `style`)._
+> Supports all native `React.InputHTMLAttributes<HTMLInputElement>` attributes (except `className` and `style`, which are replaced by the slot-based API).
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the wrapper utilizing `className?.inputWrapper` or style the actual input element natively using `style?.input`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
 ### `InputClassNames`
 
-| Slot             | Targets                                      |
-| ---------------- | -------------------------------------------- |
-| `root`           | Outermost container `<div>`                  |
-| `label`          | Label `<label>`                              |
-| `inputWrapper`   | Wrapper around the `<input>` element `<div>` |
-| `input`          | The actual `<input>` element                 |
-| `beforeIcon`     | Wrapper for the `beforeIcon`                 |
-| `afterIcon`      | Wrapper for the `afterIcon`                  |
-| `passwordToggle` | The password toggle `<button>`               |
-| `copyButton`     | The copy `<button>`                          |
-| `searchButton`   | The search `<button>`                        |
-| `errorMessage`   | The error message container `<div>`          |
+| Slot             | Targets                              |
+| ---------------- | ------------------------------------ |
+| `root`           | Outermost container `<div>`          |
+| `label`          | Label `<label>`                      |
+| `inputWrapper`   | Wrapper `<div>` around the `<input>` |
+| `input`          | The actual `<input>` element         |
+| `beforeIcon`     | Wrapper `<div>` for the `beforeIcon` |
+| `afterIcon`      | Wrapper `<div>` for the `afterIcon`  |
+| `passwordToggle` | The password toggle `<button>`       |
+| `copyButton`     | The copy-to-clipboard `<button>`     |
+| `searchButton`   | The search `<button>`                |
+| `errorMessage`   | The error message container `<div>`  |
 
 ```tsx
 <Input
@@ -139,21 +200,23 @@ For example, you can target the wrapper utilizing `className?.inputWrapper` or s
     root: "my-input-root",
     input: "my-custom-input",
     label: "my-label-class",
+    errorMessage: "my-error-class",
   }}
 />
 ```
 
 ### `InputStyles`
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
+All slots accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Input
   label="Search"
-  isExistSearch
+  onSearch={() => {}}
   style={{
-    inputWrapper: { borderRadius: "12px", border: "1px solid #ccc" },
-    input: { padding: "10px" },
+    inputWrapper: { borderRadius: "12px" },
+    input: { fontSize: "16px" },
+    label: { fontWeight: 700 },
   }}
 />
 ```
@@ -162,24 +225,53 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Input` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Input` component features a built-in theme architecture. It natively responds to the **`[data-theme="dark"]`** attribute applied at any ancestor element (e.g., `<html>` or `<body>`).
+
+In dark mode, the following tokens are automatically adjusted:
+
+- Border color → `#1d2939`
+- Text color → `rgba(255, 255, 255, 0.9)`
+- Placeholder color → `rgba(255, 255, 255, 0.3)`
+- Background → `#111827`
+- Label color → `#98a2b3`
+- Icon color → `#98a2b3`
+
+You can still override any individual token for dark mode using your own CSS.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-input-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component uses CSS custom properties (variables) scoped to the `.container` element. Override them in your own stylesheet to globally restyle the component.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-input-border-radius: 8px;
-  --bearlab-input-padding: 0.5rem 1rem;
-  --bearlab-input-background-color: #ffffff;
-  --bearlab-input-border-color: #e5e5e5;
-  --bearlab-input-text-color: #1a1a1a;
-  --bearlab-input-placeholder-color: #9ca3af;
-  --bearlab-input-error-color: #ef4444;
+/* Layout & Sizing */
+:root {
+  --bearlab-input-height: 2.75rem; /* 44px */
+  --bearlab-input-border-radius: 0.5rem; /* 8px */
+  --bearlab-input-border-width: 0.125rem; /* 2px */
+  --bearlab-input-padding-x: 1rem; /* 16px */
+  --bearlab-input-padding-y: 0.625rem; /* 10px */
+  --bearlab-input-font-size: 0.875rem; /* 14px */
+}
+
+/* Colors */
+:root {
+  --bearlab-input-border-color: #e4e7ec;
+  --bearlab-input-border-color-focus: #465fff;
+  --bearlab-input-color: #1f2937;
+  --bearlab-input-placeholder-color: #98a2b3;
+  --bearlab-input-background: transparent;
+  --bearlab-input-label-color: #344054;
+  --bearlab-input-color-error: #f00438;
+  --bearlab-input-shadow-color-error: #ffa4a4;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bearlab-input-border-color: #1d2939;
+  --bearlab-input-color: rgba(255, 255, 255, 0.9);
+  --bearlab-input-background: #111827;
 }
 ```
 
@@ -187,14 +279,16 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component adheres to **WCAG 2.1 AA** standards:
 
-- **Semantic Labeling** (`htmlFor` & `useId()`) — The `<label>` is implicitly connected to the `<input>` element logic. Screen readers will naturally announce the label text on input focus.
-- **`aria-invalid`** — Automatically applied when the `error` prop is present to explicitly alert screen readers of invalid input states.
-- **`aria-describedby`** — Dynamically attaches the `id` of the error message container to the input field, allowing screen readers to dictate the error explicitly when navigating.
-- **`aria-required`** — Corresponds with the `isRequired` prop for informative assistive support.
-- **`role="alert"`** — The error message container utilizes the alert role so errors are immediately announced dynamically as they occur.
-- **`aria-hidden="true"`** — Best-practice usage on decorative icons (`beforeIcon`, `afterIcon`) and visual symbols like the `isRequired` asterisk to prevent redundant screen reader verbosity. Toggles have adequate hidden symbols but retain active `aria-label` values.
+- **Semantic Labeling** (`htmlFor` + `useId()`) — The `<label>` is correctly associated with the `<input>` via a stable generated ID. Screen readers announce the label on focus.
+- **`aria-invalid`** — Automatically set to `true` when the `error` prop is present, alerting assistive technologies to the invalid state.
+- **`aria-describedby`** — Dynamically links the error message container ID to the input field so screen readers can announce the error text.
+- **`aria-required`** — Set when `isRequired` is `true`; signals to assistive technologies that the field must be filled before submission.
+- **`role="status"` + `aria-live="polite"`** — The error message container uses a live region so errors are announced non-intrusively as they appear.
+- **`aria-hidden="true"`** — Applied to decorative icons (`beforeIcon`, `afterIcon`) and the required asterisk to prevent redundant announcements.
+- **Password toggle** — Includes a dynamic `aria-label` (`"Show password"` / `"Hide password"`) so screen reader users always know the current action.
+- **Copy button** — Includes a dynamic `aria-label` (`"Copy to clipboard"` / `"Copied"`) reflecting the current clipboard state.
 
 ---
 
@@ -203,25 +297,21 @@ This component demonstrates **best-practice** accessibility, fully adhering to *
 All types are exported from the package:
 
 ```ts
-import type {
-  InputProps,
-  InputClassNames,
-  InputStyles,
-  IconType,
-} from "@bearlab/input";
+import type { InputProps, InputClassNames, InputStyles } from "@bearlab/input";
 ```
 
 ### `InputProps`
 
 ```ts
-interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "className" | "style"> {
+interface InputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "className" | "style" | "name"
+> {
+  name?: string;
   label?: string;
   error?: string;
   beforeIcon?: IconType;
   afterIcon?: IconType;
-  isExistSearch?: boolean;
-  isExistPassword?: boolean;
   isExistCopy?: boolean;
   isRequired?: boolean;
   onSearch?: () => void;
@@ -229,6 +319,8 @@ interface InputProps
   style?: InputStyles;
 }
 ```
+
+> **Note:** `type="password"` activates the built-in password toggle button. `onSearch` activates the search button. `isExistCopy` activates the copy-to-clipboard button.
 
 ### `IconType`
 

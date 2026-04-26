@@ -1,10 +1,8 @@
-import type React from "react";
-
 export type AvatarSize =
-  | "xsmall"
   | "small"
-  | "medium"
   | "large"
+  | "xsmall"
+  | "medium"
   | "xlarge"
   | "xxlarge";
 
@@ -27,8 +25,8 @@ export interface AvatarIconProps {
   alt?: string;
   size?: AvatarSize;
   status?: AvatarStatus;
-  className?: AvatarIconClassNames;
   style?: AvatarIconStyles;
+  className?: AvatarIconClassNames;
 }
 
 export interface AvatarTextClassNames {
@@ -43,6 +41,6 @@ export interface AvatarTextStyles {
 
 export interface AvatarTextProps {
   name: string;
-  className?: AvatarTextClassNames;
   style?: AvatarTextStyles;
+  className?: AvatarTextClassNames;
 }

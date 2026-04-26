@@ -1,6 +1,6 @@
 # @bearlab/radio
 
-> Accessible, fully customizable Radio component for React applications.
+> Accessible, fully customizable Radio and RadioGroup components for React applications.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/radio)](https://www.npmjs.com/package/@bearlab/radio)
 [![license](https://img.shields.io/npm/l/@bearlab/radio)](LICENSE)
@@ -27,9 +27,11 @@
 
 - ✅ **Controlled behavior** — native `checked` and `onChange` capability
 - ✅ **Built-in `RadioGroup`** — easily manage sets of radio buttons with unified control
+- ✅ **Popover support** — show contextual tooltip text on hover/focus
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Accessible by default** — manages `aria-invalid`, `aria-required`, and `aria-describedby` dynamically
-- ✅ **Information & error handling** — supports inline error messages and popover elements
+- ✅ **Error handling** — built-in inline error messages with icon
+- ✅ **Dark mode support** — responds to `[data-theme="dark"]` automatically
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
 
 ---
@@ -56,26 +58,48 @@ pnpm add @bearlab/radio
 ### Basic Radio
 
 ```tsx
+import { useState } from "react";
 import { Radio } from "@bearlab/radio";
 
 export default function App() {
+  const [selected, setSelected] = useState("basic");
+
   return (
     <Radio
-      name="subscription"
-      value="premium"
-      label="Premium Plan"
-      onChange={(e) => console.log(e.target.value)}
+      name="plan"
+      value="basic"
+      label="Basic Plan"
+      checked={selected === "basic"}
+      onChange={(e) => setSelected(e.target.value)}
     />
   );
 }
 ```
 
+### Radio with Error & Popover
+
+```tsx
+<Radio
+  name="plan"
+  value="pro"
+  label="Pro Plan"
+  checked={false}
+  isRequired
+  error="Please select a plan to continue"
+  popover="The Pro plan includes unlimited access."
+  onChange={(e) => console.log(e.target.value)}
+/>
+```
+
 ### Radio Group
 
 ```tsx
+import { useState } from "react";
 import { RadioGroup } from "@bearlab/radio";
 
 export default function App() {
+  const [selected, setSelected] = useState("basic");
+
   const options = [
     { label: "Basic", value: "basic" },
     { label: "Pro", value: "pro" },
@@ -86,9 +110,10 @@ export default function App() {
     <RadioGroup
       name="plan"
       options={options}
-      value="basic"
-      onChange={(e) => console.log(e.target.value)}
+      value={selected}
+      onChange={(e) => setSelected(e.target.value)}
       isVertical
+      aria-label="Pricing plan"
     />
   );
 }
@@ -100,64 +125,73 @@ export default function App() {
 
 ### `RadioProps`
 
-Extends native input props (excluding `onChange`, `checked`, `popover`, `className`, `style`).
+Extends native `<input>` props (excluding `onChange`, `checked`, `popover`, `className`, `style`).
 
-| Prop         | Type                                               | Default | Required | Description                     |
-| ------------ | -------------------------------------------------- | ------- | -------- | ------------------------------- |
-| `value`      | `number \| string`                                 | —       | ✅       | Component value                 |
-| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | ✅       | Callback when input changes     |
-| `checked`    | `boolean`                                          | —       | ❌       | Controls checked state          |
-| `name`       | `string`                                           | —       | ❌       | Name of the input               |
-| `label`      | `string`                                           | —       | ❌       | Descriptive label next to radio |
-| `error`      | `string`                                           | —       | ❌       | Validation error message        |
-| `popover`    | `React.ReactNode`                                  | —       | ❌       | Informational popover element   |
-| `disabled`   | `boolean`                                          | —       | ❌       | Disables the input              |
-| `isRequired` | `boolean`                                          | —       | ❌       | Marks field as required         |
-| `className`  | [`RadioClassNames`](#radioclassnames)              | —       | ❌       | Per-slot className overrides    |
-| `style`      | [`RadioStyles`](#radiostyles)                      | —       | ❌       | Per-slot inline style overrides |
+| Prop         | Type                                               | Default | Required | Description                              |
+| ------------ | -------------------------------------------------- | ------- | -------- | ---------------------------------------- |
+| `value`      | `number \| string`                                 | —       | ✅       | Value of this radio option               |
+| `onChange`   | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | ✅       | Callback when the radio changes          |
+| `checked`    | `boolean`                                          | —       | ❌       | Controls the checked state               |
+| `name`       | `string`                                           | —       | ❌       | Name attribute shared across the group   |
+| `label`      | `string`                                           | —       | ❌       | Descriptive label rendered next to radio |
+| `error`      | `string`                                           | —       | ❌       | Validation error message                 |
+| `popover`    | `string`                                           | —       | ❌       | Tooltip text shown on hover/focus        |
+| `disabled`   | `boolean`                                          | —       | ❌       | Disables the radio input                 |
+| `isRequired` | `boolean`                                          | —       | ❌       | Marks field as required (appends `*`)    |
+| `className`  | [`RadioClassNames`](#radioclassnames)              | —       | ❌       | Per-slot className overrides             |
+| `style`      | [`RadioStyles`](#radiostyles)                      | —       | ❌       | Per-slot inline style overrides          |
 
 ### `RadioGroupProps`
 
-| Prop              | Type                                               | Default | Required | Description                                |
-| ----------------- | -------------------------------------------------- | ------- | -------- | ------------------------------------------ |
-| `options`         | `RadioOption[]`                                    | —       | ✅       | Array of options to render                 |
-| `value`           | `number \| string`                                 | —       | ✅       | Currently selected value                   |
-| `onChange`        | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | ✅       | Global onChange handler                    |
-| `name`            | `string`                                           | —       | ❌       | Global name for the radio group            |
-| `disabled`        | `boolean`                                          | —       | ❌       | Disables all options                       |
-| `isVertical`      | `boolean`                                          | —       | ❌       | Renders options vertically when true       |
-| `aria-label`      | `string`                                           | —       | ❌       | Label for screen readers                   |
-| `aria-labelledby` | `string`                                           | —       | ❌       | Element id pointing to a descriptive label |
-| `className`       | [`RadioClassNames`](#radioclassnames)              | —       | ❌       | Per-slot className overrides inherited     |
-| `style`           | [`RadioStyles`](#radiostyles)                      | —       | ❌       | Per-slot inline style overrides inherited  |
+| Prop              | Type                                               | Default | Required | Description                                            |
+| ----------------- | -------------------------------------------------- | ------- | -------- | ------------------------------------------------------ |
+| `options`         | `RadioOption[]`                                    | —       | ✅       | Array of radio options to render                       |
+| `value`           | `number \| string`                                 | —       | ✅       | Currently selected value                               |
+| `onChange`        | `(e: React.ChangeEvent<HTMLInputElement>) => void` | —       | ✅       | Shared onChange handler                                |
+| `name`            | `string`                                           | —       | ❌       | Shared name attribute for all radio inputs             |
+| `disabled`        | `boolean`                                          | —       | ❌       | Disables all options in the group                      |
+| `isVertical`      | `boolean`                                          | `false` | ❌       | Renders options in a vertical column when `true`       |
+| `aria-label`      | `string`                                           | —       | ❌       | Accessible label for the group                         |
+| `aria-labelledby` | `string`                                           | —       | ❌       | ID of an element that labels the group                 |
+| `className`       | [`RadioClassNames`](#radioclassnames)              | —       | ❌       | Per-slot className overrides (passed to each Radio)    |
+| `style`           | [`RadioStyles`](#radiostyles)                      | —       | ❌       | Per-slot inline style overrides (passed to each Radio) |
+
+### `RadioOption`
+
+| Prop       | Type               | Required | Description                   |
+| ---------- | ------------------ | -------- | ----------------------------- |
+| `label`    | `string`           | ✅       | Display label for the option  |
+| `value`    | `number \| string` | ✅       | Value of the option           |
+| `disabled` | `boolean`          | ❌       | Disables this specific option |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root label utilizing `className?.root` or style the inner indicator natively using `style?.innerDot`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Both `className` and `style` accept an object whose keys correspond to specific internal DOM elements.
 
 ### `RadioClassNames`
 
-| Slot             | Targets                              |
-| ---------------- | ------------------------------------ |
-| `root`           | Outermost `<label>` container        |
-| `radioWrapper`   | Wrapper around the input and visuals |
-| `checkedWrapper` | Visual indicator border span         |
-| `innerDot`       | Inner dot that appears when checked  |
-| `label`          | The text label `<span>`              |
-| `error`          | The error message `<div>`            |
-| `popover`        | The popover tooltip `<div>`          |
+| Slot             | Targets                                        |
+| ---------------- | ---------------------------------------------- |
+| `root`           | Outermost `<label>` container                  |
+| `radioWrapper`   | `<div>` wrapping the input and visual elements |
+| `checkedWrapper` | Visual ring/circle `<span>`                    |
+| `innerDot`       | Inner dot `<span>` shown when checked          |
+| `label`          | Text label `<span>`                            |
+| `error`          | Error message `<div>` (with icon)              |
+| `popover`        | Tooltip popover `<div>`                        |
 
 ```tsx
 <Radio
-  label="Custom Option"
-  value="custom"
+  name="plan"
+  value="pro"
+  label="Pro Plan"
+  checked={true}
   onChange={noop}
   className={{
     root: "my-radio-root",
+    checkedWrapper: "my-radio-circle",
     innerDot: "my-radio-dot",
     label: "my-radio-label",
   }}
@@ -170,12 +204,15 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Radio
-  label="Styled Option"
-  value="styled"
+  name="plan"
+  value="pro"
+  label="Pro Plan"
+  checked={true}
   onChange={noop}
   style={{
-    root: { cursor: "pointer" },
-    checkedWrapper: { borderColor: "blue" },
+    root: { gap: "1rem" },
+    checkedWrapper: { borderColor: "#465fff" },
+    innerDot: { backgroundColor: "#fff" },
   }}
 />
 ```
@@ -184,22 +221,52 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Radio` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Radio` and `RadioGroup` components feature a robust theme architecture. They natively respond to **`[data-theme="dark"]`** selectors applied at any ancestor level, automatically switching color tokens for dark mode. No additional configuration or JavaScript is required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-radio-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component leverages scoped CSS variables for a global design token system. You can override the default appearance by redefining these variables in your own stylesheet. All tokens follow the `--bearlab-radio-*` naming convention.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-radio-size: 20px;
-  --bearlab-radio-border-color: #d1d5db;
-  --bearlab-radio-checked-color: #2563eb;
-  --bearlab-radio-label-color: #374151;
-  --bearlab-radio-error-color: #ef4444;
+/* Override examples — only set what you need */
+:root {
+  /* Sizing */
+  --bearlab-radio-size: 1.25rem; /* radio circle diameter */
+  --bearlab-radio-dot-size: 0.5rem; /* inner dot diameter */
+  --bearlab-radio-gap: 0.75rem; /* gap between circle and label */
+
+  /* Colors — checked state */
+  --bearlab-radio-bg-checked: #465fff;
+  --bearlab-radio-border-color-checked: #465fff;
+  --bearlab-radio-dot-color: #fff;
+
+  /* Colors — unchecked state */
+  --bearlab-radio-bg-unchecked: transparent;
+  --bearlab-radio-border-color-unchecked: #d1d5db;
+
+  /* Colors — disabled state */
+  --bearlab-radio-bg-disabled: #f3f4f6;
+  --bearlab-radio-border-color-disabled: #e5e7eb;
+  --bearlab-radio-opacity-disabled: 0.6;
+
+  /* Label */
+  --bearlab-radio-label-color: #344054;
+  --bearlab-radio-label-font-size: 0.875rem;
+  --bearlab-radio-label-font-weight: 600;
+  --bearlab-radio-required-color: #f04438;
+
+  /* Error */
+  --bearlab-radio-color-error: #f00438;
+
+  /* Popover */
+  --bearlab-radio-popover-bg: #fff;
+  --bearlab-radio-popover-color: #344054;
+  --bearlab-radio-popover-border-radius: 0.5rem;
+
+  /* RadioGroup */
+  --bearlab-radio-group-gap: 0.625rem;
 }
 ```
 
@@ -207,14 +274,18 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes and HTML affordances, it guarantees an inclusive experience:
+This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards:
 
-- **Semantic HTML** — Uses native `<input type="radio">` wrapped inside a `<label>` to implicitly associate labels without relying purely on IDs.
-- **`aria-invalid`** — Automatically applied when the `error` prop is passed, communicating validation failure.
-- **`aria-required`** — Configured via the `isRequired` prop instead of native HTML5 required, providing better programmatic validation control.
-- **`aria-describedby`** — Dynamically attaches any rendered error messages or tooltip popovers to the input to ensure context is announced on focus.
-- **`role="alert"` & `role="tooltip"`** — Present on the error container and popovers for distinct situational context announcements.
-- **`aria-hidden="true"`** — Best-practice usage on decorative indicator elements to prevent redundant or confusing screen reader announcements.
+- **Semantic HTML** — Uses native `<input type="radio">` wrapped inside a `<label>` for implicit label association.
+- **`aria-invalid`** — Automatically set to `true` when an `error` prop is provided.
+- **`aria-required`** — Set via the `isRequired` prop for programmatic validation compatibility.
+- **`aria-describedby`** — Dynamically links the input to rendered error messages and popover tooltips.
+- **`role="alert"`** — Applied to the error container for immediate announcement by screen readers.
+- **`role="tooltip"`** — Applied to the popover container for contextual information.
+- **`role="group"`** — Applied to the `RadioGroup` container for proper grouping semantics.
+- **`aria-label` / `aria-labelledby`** — Supported on `RadioGroup` for named group identification.
+- **`aria-hidden="true"`** — Applied to decorative indicator elements to avoid redundant announcements.
+- **Focus visibility** — `focus-visible` outline on the visual indicator ensures keyboard accessibility.
 
 ---
 
@@ -226,7 +297,6 @@ All types are exported from the package:
 import type {
   RadioProps,
   RadioGroupProps,
-  RadioOption,
   RadioClassNames,
   RadioStyles,
 } from "@bearlab/radio";
@@ -236,17 +306,17 @@ import type {
 
 ```ts
 interface RadioProps extends NativeInputProps {
-  error?: string;
+  value: number | string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked?: boolean;
   name?: string;
   label?: string;
+  error?: string;
   popover?: string;
-  checked?: boolean;
   disabled?: boolean;
   isRequired?: boolean;
-  value: number | string;
-  style?: RadioStyles;
   className?: RadioClassNames;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  style?: RadioStyles;
 }
 ```
 
@@ -255,15 +325,15 @@ interface RadioProps extends NativeInputProps {
 ```ts
 interface RadioGroupProps {
   options: RadioOption[];
-  disabled?: boolean;
-  name?: string;
   value: number | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  disabled?: boolean;
   isVertical?: boolean;
   "aria-label"?: string;
   "aria-labelledby"?: string;
-  style?: RadioStyles;
   className?: RadioClassNames;
+  style?: RadioStyles;
 }
 ```
 

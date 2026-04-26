@@ -3,35 +3,35 @@ import { SEPARATE_TYPE } from "../constants/breadcrumb-config";
 export type SeparateType = (typeof SEPARATE_TYPE)[keyof typeof SEPARATE_TYPE];
 
 export interface BreadcrumbClassNames {
+  nav?: string;
   root?: string;
   title?: string;
-  nav?: string;
   fromLink?: string;
   current?: string;
 }
 
 export interface BreadcrumbStyles {
+  nav?: React.CSSProperties;
   root?: React.CSSProperties;
   title?: React.CSSProperties;
-  nav?: React.CSSProperties;
-  fromLink?: React.CSSProperties;
   current?: React.CSSProperties;
+  fromLink?: React.CSSProperties;
 }
 
 export interface BreadcrumbProps {
-  currentPageTitle: string;
-  fromPageTitle?: string;
   fromPageUrl?: string;
+  fromPageTitle?: string;
   showHomeIcon?: boolean;
+  currentPageTitle: string;
+  style?: BreadcrumbStyles;
   separateType?: SeparateType;
   className?: BreadcrumbClassNames;
-  style?: BreadcrumbStyles;
-  renderLink?: (props: RenderLinkProps) => React.ReactNode;
+  renderLink?: (props: DefaultLinkProps) => React.ReactNode;
 }
 
-export interface RenderLinkProps {
+export interface DefaultLinkProps {
   href: string;
   className?: string;
-  style?: React.CSSProperties;
   children: React.ReactNode;
+  style?: React.CSSProperties;
 }

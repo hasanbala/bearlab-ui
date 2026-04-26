@@ -28,10 +28,10 @@
 
 - ✅ **4 semantic variants** — `success`, `error`, `warning`, `info`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `role="alert"`, `aria-live`, `aria-labelledby`, `aria-describedby`
-- ✅ **Optional action link** — configurable href, text, and styling
+- ✅ **Accessible by default** — `role="alert"`, `aria-live`, `aria-labelledby`, `aria-describedby` via `useId()`
+- ✅ **Optional action link** — configurable `href`, `text`, and per-slot styling
+- ✅ **Dark mode** — built-in `[data-theme="dark"]` token overrides
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
 
 ---
 
@@ -54,6 +54,8 @@ pnpm add @bearlab/alert
 
 ## Usage
 
+### Basic Usage
+
 ```tsx
 import { Alert } from "@bearlab/alert";
 
@@ -68,41 +70,26 @@ export default function App() {
 }
 ```
 
-### Alert with Action Links
+### All Variants
 
 ```tsx
-import { Alert } from "@bearlab/alert";
+<Alert variant="success" title="Success"  message="Record saved." />
+<Alert variant="error"   title="Error"    message="Something went wrong." />
+<Alert variant="warning" title="Warning"  message="This action is irreversible." />
+<Alert variant="info"    title="Info"     message="Your session expires in 5 minutes." />
+```
 
-export default function App() {
-  return (
-    <>
-      <Alert
-        variant="error"
-        title="Connection Lost"
-        message="Unable to connect to the server. Please check your internet connection."
-        linkHref="/help/connection-issues"
-        linkText="Troubleshoot"
-        showLink
-      />
-      <Alert
-        variant="warning"
-        title="Password Expires Soon"
-        message="Your password will expire in 7 days for security reasons."
-        linkHref="/settings/password"
-        linkText="Update password"
-        showLink
-      />
-      <Alert
-        variant="info"
-        title="Update Available"
-        message="A new version of the app is available with bug fixes and improvements."
-        linkHref="/downloads"
-        linkText="Download update"
-        showLink
-      />
-    </>
-  );
-}
+### With Action Link
+
+```tsx
+<Alert
+  variant="error"
+  title="Connection Lost"
+  message="Unable to connect to the server. Please check your internet connection."
+  showLink
+  linkHref="/help/connection-issues"
+  linkText="Troubleshoot"
+/>
 ```
 
 ---
@@ -124,44 +111,37 @@ export default function App() {
 
 ## Variants
 
-| Variant   | `aria-live` | Use case                                   |
-| --------- | ----------- | ------------------------------------------ |
-| `success` | `polite`    | Confirmation messages, successful actions  |
-| `error`   | `assertive` | Critical failures, validation errors       |
-| `warning` | `polite`    | Non-blocking warnings, deprecation notices |
-| `info`    | `polite`    | Informational messages, hints, tips        |
+| Variant   | Background | Border    | `aria-live` | Use case                                   |
+| --------- | ---------- | --------- | ----------- | ------------------------------------------ |
+| `success` | `#ecfdf3`  | `#12b76a` | `polite`    | Confirmation messages, successful actions  |
+| `error`   | `#fef3f2`  | `#f04438` | `assertive` | Critical failures, validation errors       |
+| `warning` | `#fffaeb`  | `#f79009` | `polite`    | Non-blocking warnings, deprecation notices |
+| `info`    | `#f0f9ff`  | `#0ba5ec` | `polite`    | Informational messages, hints, tips        |
 
-```tsx
-<Alert variant="success" title="Success" message="Record saved." />
-<Alert variant="error"   title="Error"   message="Something went wrong." />
-<Alert variant="warning" title="Warning" message="This action is irreversible." />
-<Alert variant="info"    title="Info"    message="Your session expires in 5 minutes." />
-```
+> **Note:** The `error` variant uses `aria-live="assertive"` to immediately interrupt the user. All other variants use `"polite"` to wait for the user's idle state.
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Each slot targets a specific DOM element, giving you surgical control over the rendering tree.
 
 ### `AlertClassNames`
 
-| Slot          | Targets                       |
-| ------------- | ----------------------------- |
-| `root`        | Outermost container `<div>`   |
-| `content`     | Inner content wrapper `<div>` |
-| `iconWrapper` | Icon wrapper `<div>`          |
-| `title`       | Title `<h4>`                  |
-| `description` | Message `<p>`                 |
-| `link`        | Action link `<a>`             |
+| Slot          | Element                       | Description                              |
+| ------------- | ----------------------------- | ---------------------------------------- |
+| `root`        | `<div>` (outermost container) | Receives variant background/border color |
+| `content`     | `<div>` (inner flex wrapper)  | Flex row holding icon + text block       |
+| `iconWrapper` | `<div>` (icon container)      | Sized wrapper for the variant icon       |
+| `title`       | `<h4>` (alert heading)        | Bold title text                          |
+| `description` | `<p>` (alert message)         | Body text below the title                |
+| `link`        | `<a>` (optional action link)  | Rendered only when `showLink` is `true`  |
 
 ```tsx
 <Alert
   variant="info"
   title="Heads up"
-  message="There is a scheduled maintenance tonight."
+  message="There is scheduled maintenance tonight."
   className={{
     root: "my-alert-root",
     title: "my-alert-title",
@@ -180,8 +160,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   title="Caution"
   message="You are about to delete this record."
   style={{
-    root: { borderRadius: "12px" },
-    title: { fontSize: "1.1rem" },
+    root: { borderRadius: "8px" },
+    title: { fontSize: "1rem", fontWeight: 700 },
+    description: { color: "#374151" },
   }}
 />
 ```
@@ -190,21 +171,88 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Alert` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Alert` component natively responds to the **`[data-theme="dark"]`** attribute applied to any ancestor element (including `<html>` or `<body>`). In dark mode all background, border, and text tokens switch to their lower-opacity counterparts automatically.
+
+```html
+<!-- Enable dark mode globally -->
+<html data-theme="dark">
+  ...
+</html>
+```
+
+No additional configuration required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-alert-[element]-[property]` format, you can globally style the component across your application:
+The component exposes CSS custom properties using a `--bearlab-alert-*` namespace. All tokens are scoped to the `.container` class, so they only affect alert components.
+
+Override tokens in your global stylesheet:
 
 ```css
+/* Light mode overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-alert-root-border-radius: 12px;
-  --bearlab-alert-content-padding: 1rem 1.5rem;
-  --bearlab-alert-title-color: #1a1a1a;
-  --bearlab-alert-description-color: #4a4a4a;
+  /* Layout */
+  --bearlab-alert-radius: 0.75rem; /* border radius (default: 12px) */
+  --bearlab-alert-padding: 1rem; /* container padding (default: 16px) */
+  --bearlab-alert-gap: 0.75rem; /* gap between icon and text (default: 12px) */
+  --bearlab-alert-border-width: 1px;
+
+  /* Icon */
+  --bearlab-alert-icon-size: 1.5rem; /* 24px */
+
+  /* Typography */
+  --bearlab-alert-title-size: 0.875rem; /* 14px */
+  --bearlab-alert-title-weight: 600;
+  --bearlab-alert-desc-size: 0.875rem; /* 14px */
+  --bearlab-alert-link-size: 0.875rem; /* 14px */
+  --bearlab-alert-link-weight: 500;
+
+  /* Colors */
+  --bearlab-alert-title-color: #1d2939;
+  --bearlab-alert-desc-color: #667085;
+  --bearlab-alert-link-color: #667085;
+
+  /* Variant: success */
+  --bearlab-alert-bg-success: #ecfdf3;
+  --bearlab-alert-border-success: #12b76a;
+  --bearlab-alert-success-icon: #12b76a;
+
+  /* Variant: error */
+  --bearlab-alert-bg-error: #fef3f2;
+  --bearlab-alert-border-error: #f04438;
+  --bearlab-alert-error-icon: #f04438;
+
+  /* Variant: warning */
+  --bearlab-alert-bg-warning: #fffaeb;
+  --bearlab-alert-border-warning: #f79009;
+  --bearlab-alert-warning-icon: #f79009;
+
+  /* Variant: info */
+  --bearlab-alert-bg-info: #f0f9ff;
+  --bearlab-alert-border-info: #0ba5ec;
+  --bearlab-alert-info-icon: #0ba5ec;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bearlab-alert-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-alert-desc-color: #a4aab7;
+  --bearlab-alert-link-color: #a4aab7;
+
+  --bearlab-alert-bg-success: rgba(18, 183, 106, 0.15);
+  --bearlab-alert-border-success: rgba(18, 183, 106, 0.3);
+
+  --bearlab-alert-bg-error: rgba(240, 68, 56, 0.15);
+  --bearlab-alert-border-error: rgba(240, 68, 56, 0.3);
+
+  --bearlab-alert-bg-warning: rgba(247, 144, 9, 0.15);
+  --bearlab-alert-border-warning: rgba(247, 144, 9, 0.3);
+
+  --bearlab-alert-bg-info: rgba(11, 165, 236, 0.15);
+  --bearlab-alert-border-info: rgba(11, 165, 236, 0.3);
 }
 ```
 
@@ -212,26 +260,22 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component adheres to **WCAG 2.1 AA** standards:
 
-- **`role="alert"`** — Indicates a time-sensitive message, ensuring it is announced to screen readers.
-- **`aria-live`** — Dynamically adjusts context. Uses `"assertive"` for critical `error` variants to immediately interrupt the user, while setting to `"polite"` for non-critical notifications.
-- **`aria-labelledby` & `aria-describedby`** — Semantically links the container to its specific title and description using dynamically generated, stable IDs (`useId()`).
-- **`aria-hidden="true"`** — Best-practice usage on decorative icons to prevent redundant or confusing screen reader announcements.
+- **`role="alert"`** — Marks the container as a live region, ensuring it is announced immediately by screen readers when rendered or updated.
+- **`aria-live`** — Set to `"assertive"` for `error` variant (interrupts the user) and `"polite"` for all other variants (waits for idle).
+- **`aria-labelledby`** — Semantically links the alert container to its `<h4>` title using a stable, collision-free ID generated by React's `useId()`.
+- **`aria-describedby`** — Semantically links the alert container to its `<p>` description using a second `useId()` value.
+- **`aria-hidden="true"`** — Applied to the decorative icon wrapper to prevent redundant screen reader announcements.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All types are exported from the package root:
 
 ```ts
-import type {
-  AlertProps,
-  AlertVariant,
-  AlertClassNames,
-  AlertStyles,
-} from "@bearlab/alert";
+import type { AlertProps, AlertClassNames, AlertStyles } from "@bearlab/alert";
 ```
 
 ### `AlertVariant`
@@ -240,13 +284,28 @@ import type {
 type AlertVariant = "success" | "error" | "warning" | "info";
 ```
 
+### `AlertProps`
+
+```ts
+interface AlertProps {
+  variant: AlertVariant;
+  title: string;
+  message: string;
+  showLink?: boolean;
+  linkHref?: string;
+  linkText?: string;
+  className?: AlertClassNames;
+  style?: AlertStyles;
+}
+```
+
 ### `AlertClassNames`
 
 ```ts
 interface AlertClassNames {
   root?: string;
-  iconWrapper?: string;
   content?: string;
+  iconWrapper?: string;
   title?: string;
   description?: string;
   link?: string;
@@ -258,8 +317,8 @@ interface AlertClassNames {
 ```ts
 interface AlertStyles {
   root?: React.CSSProperties;
-  iconWrapper?: React.CSSProperties;
   content?: React.CSSProperties;
+  iconWrapper?: React.CSSProperties;
   title?: React.CSSProperties;
   description?: React.CSSProperties;
   link?: React.CSSProperties;

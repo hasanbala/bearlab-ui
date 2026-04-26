@@ -1,6 +1,6 @@
 # @bearlab/copy
 
-> Accessible, fully customizable Copy component for React applications.
+> Accessible, fully customizable Copy-to-Clipboard component for React applications.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/copy)](https://www.npmjs.com/package/@bearlab/copy)
 [![license](https://img.shields.io/npm/l/@bearlab/copy)](LICENSE)
@@ -14,6 +14,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Props](#props)
+- [Behavior](#behavior)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -27,9 +28,11 @@
 
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Accessible by default** — `role="group"`, `aria-label`, `aria-controls`, `aria-pressed`
-- ✅ **Clipboard integration** — seamless copy-to-clipboard with visual feedback
+- ✅ **Clipboard integration** — uses `navigator.clipboard.writeText` with auto-reset after 3 seconds
+- ✅ **Visual copy feedback** — icon toggles from `copy` → `tick` on success
+- ✅ **Empty state handling** — displays `"-"` when `text` is empty or `null`
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — bring your own layout/wrapper
+- ✅ **Theme ready** — light/dark mode support via `[data-theme]`
 
 ---
 
@@ -46,46 +49,69 @@ yarn add @bearlab/copy
 pnpm add @bearlab/copy
 ```
 
-> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project. `@bearlab/button` is also required as a dependency.
+> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed.  
+> **Internal dependency:** `@bearlab/button` is used internally for the copy trigger button.
 
 ---
 
 ## Usage
 
+### Basic
+
 ```tsx
 import { Copy } from "@bearlab/copy";
 
 export default function App() {
-  return <Copy text="npm install @bearlab/copy" label="Install command" />;
+  return <Copy text="npm install @bearlab/copy" />;
 }
+```
+
+### With custom label
+
+```tsx
+<Copy text="npm install @bearlab/copy" label="Install command" />
+```
+
+### Disabled
+
+```tsx
+<Copy text="secret-token" disabled />
 ```
 
 ---
 
 ## Props
 
-| Prop        | Type                                | Default  | Required | Description                                |
-| ----------- | ----------------------------------- | -------- | -------- | ------------------------------------------ |
-| `text`      | `string`                            | —        | ✅       | The content to be copied to the clipboard  |
-| `label`     | `string`                            | `"Copy"` | ❌       | Basic label, modifies ARIA announcements   |
-| `disabled`  | `boolean`                           | `false`  | ❌       | Disables the copy functionality and button |
-| `className` | [`CopyClassNames`](#copyclassnames) | —        | ❌       | Per-slot className overrides               |
-| `style`     | [`CopyStyles`](#copystyles)         | —        | ❌       | Per-slot inline style overrides            |
+| Prop        | Type                                | Default  | Required | Description                                                |
+| ----------- | ----------------------------------- | -------- | -------- | ---------------------------------------------------------- |
+| `text`      | `string`                            | —        | ✅       | The string to copy to clipboard when the button is clicked |
+| `label`     | `string`                            | `"Copy"` | ❌       | Label for the copy button; used in ARIA announcements      |
+| `disabled`  | `boolean`                           | `false`  | ❌       | Hides the copy button and disables the component           |
+| `className` | [`CopyClassNames`](#copyclassnames) | —        | ❌       | Per-slot className overrides                               |
+| `style`     | [`CopyStyles`](#copystyles)         | —        | ❌       | Per-slot inline style overrides                            |
+
+---
+
+## Behavior
+
+- When the copy button is clicked, `navigator.clipboard.writeText(text)` is called.
+- On success, the icon changes from `copy` to `tick` and the button `aria-label` updates to `"Copied to clipboard"`.
+- The copied state resets automatically after **3 seconds**.
+- If `text` is an empty string or `null`/`undefined`, the text display area shows `"-"`.
+- When `disabled` is true, the copy button is not rendered at all; the text area retains its styling with reduced opacity (`cursor: not-allowed`).
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner text natively using `style?.text`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. You can inject classes and inline styles into specific DOM elements via the `className` and `style` objects.
 
 ### `CopyClassNames`
 
-| Slot   | Targets                     |
-| ------ | --------------------------- |
-| `root` | Outermost container `<div>` |
-| `text` | Text element `<div>`        |
+| Slot   | Targets                        |
+| ------ | ------------------------------ |
+| `root` | Outermost `<div role="group">` |
+| `text` | Text display `<div>` element   |
 
 ```tsx
 <Copy
@@ -105,7 +131,7 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 <Copy
   text="C0D3-1234"
   style={{
-    root: { borderRadius: "8px", border: "1px solid #eaeaea" },
+    root: { borderRadius: "8px" },
     text: { fontFamily: "monospace", color: "#333" },
   }}
 />
@@ -115,21 +141,42 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Copy` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Copy` component is fully compatible with light and dark mode contexts, natively responding to `[data-theme="dark"]` applied at the root or any ancestor element.
+
+The following tokens change automatically in dark mode:
+
+| Token                              | Light default | Dark default            |
+| ---------------------------------- | ------------- | ----------------------- |
+| `--bearlab-copy-text-color`        | `#1f2937`     | `rgba(255,255,255,0.9)` |
+| `--bearlab-copy-text-bg`           | `#ffffff`     | `#111827`               |
+| `--bearlab-copy-text-border-color` | `#d1d5db`     | `#374151`               |
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-copy-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component uses scoped CSS custom properties (`--bearlab-copy-*`) for global design token overrides. All tokens follow the `--bearlab-copy-[element]-[property]` naming convention.
+
+Override them at any ancestor scope:
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-copy-root-border-radius: 8px;
-  --bearlab-copy-root-background: #ffffff;
-  --bearlab-copy-text-color: #1a1a1a;
-  --bearlab-copy-text-font-size: 0.875rem;
+:root {
+  /* Layout */
+  --bearlab-copy-container-gap: 0.125rem; /* gap between text and button */
+  --bearlab-copy-text-height: 2.75rem; /* 44px */
+  --bearlab-copy-text-border-radius: 0.5rem; /* 8px */
+  --bearlab-copy-text-padding-x: 0.75rem; /* 12px */
+
+  /* Typography */
+  --bearlab-copy-text-font-size: 0.875rem; /* 14px */
+
+  /* Colors */
+  --bearlab-copy-text-color: #1f2937;
+  --bearlab-copy-text-bg: #ffffff;
+  --bearlab-copy-text-border-color: #d1d5db;
+
+  /* States */
+  --bearlab-copy-opacity-disabled: 0.6;
 }
 ```
 
@@ -137,12 +184,14 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component is built to **WCAG 2.1 AA** standards:
 
-- **`role="group"` & `aria-label`** — Provides context to the copy component cluster, acting as an interactive block.
-- **`aria-controls`** — Semantically links the copy button to the target text area dynamically using stable IDs (`useId()`).
-- **`aria-pressed`** — Indicates the active state when text is copied, alerting the screen reader to the state change.
-- **Dynamic `aria-label`** — The button updates its label to `"Copied to clipboard"` upon a successful copy action, granting clear auditory feedback to users.
+- **`role="group"` + `aria-label`** — wraps the text and button as a labeled interactive cluster.
+- **`aria-controls`** — the copy button references the text display element via a stable ID from `useId()`.
+- **`aria-pressed`** — reflects the copied state (`true` immediately after copy, resets after 3 s).
+- **Dynamic `aria-label`** — button label updates to `"Copied to clipboard"` on success for screen reader feedback.
+- **`title` attribute** — the text `<div>` uses `title` for overflow tooltip in browsers.
+- **`aria-label` on text `<div>`** — provides the value (or `"Empty"`) to assistive technologies even when visually truncated.
 
 ---
 

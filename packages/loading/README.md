@@ -15,7 +15,6 @@
 - [Usage](#usage)
 - [Props](#props)
 - [Slot-based Customization](#slot-based-customization)
-- [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
@@ -25,11 +24,10 @@
 
 ## Features
 
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `role="status"`, `aria-live`, screen reader text
-- ✅ **Customizable Icon** — fully replace the default spinner with an SVG
-- ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Zero layout opinion** — perfectly adapts to any parent container
+- ✅ **Slot-based `className` & `style` API** — Granular styling without CSS specificity issues.
+- ✅ **Accessible by default** — `role="status"`, `aria-live="polite"`, and a visually-hidden screen reader text.
+- ✅ **Replaceable Icon** — Provide any `React.ElementType` (SVG component) as the spinner via the `icon` prop.
+- ✅ **TypeScript-first** — Fully typed props and slot interfaces.
 
 ---
 
@@ -52,13 +50,55 @@ pnpm add @bearlab/loading
 
 ## Usage
 
+### Basic Usage
+
 ```tsx
 import { Loading } from "@bearlab/loading";
 
 export default function App() {
   return (
-    <div className="container">
+    <div style={{ position: "relative", height: "200px" }}>
       <Loading />
+    </div>
+  );
+}
+```
+
+> **Important:** The `Loading` component is positioned absolutely and centered within its nearest `position: relative` ancestor using `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)`. Always wrap it in a container with `position: relative`.
+
+### Custom Icon
+
+Replace the default spinner with any SVG component:
+
+```tsx
+import { Loading } from "@bearlab/loading";
+import { MySpinnerIcon } from "./icons";
+
+export default function App() {
+  return (
+    <div style={{ position: "relative", height: "200px" }}>
+      <Loading icon={MySpinnerIcon} />
+    </div>
+  );
+}
+```
+
+### Custom Size via CSS Variable
+
+```tsx
+import { Loading } from "@bearlab/loading";
+
+export default function App() {
+  return (
+    <div style={{ position: "relative", height: "200px" }}>
+      <Loading
+        style={{
+          root: {
+            "--bearlab-loading-container-width": "3rem",
+            "--bearlab-loading-container-height": "3rem",
+          } as React.CSSProperties,
+        }}
+      />
     </div>
   );
 }
@@ -68,26 +108,24 @@ export default function App() {
 
 ## Props
 
-| Prop        | Type                                  | Default       | Required | Description                                     |
-| ----------- | ------------------------------------- | ------------- | -------- | ----------------------------------------------- |
-| `icon`      | `React.ElementType`                   | `IconLoading` | ❌       | Custom SVG icon component to act as the spinner |
-| `className` | [`ClassNamesProps`](#classnamesprops) | —             | ❌       | Per-slot className overrides                    |
-| `style`     | [`StylesProps`](#stylesprops)         | —             | ❌       | Per-slot inline style overrides                 |
+| Prop        | Type                                      | Default       | Required | Description                                     |
+| ----------- | ----------------------------------------- | ------------- | -------- | ----------------------------------------------- |
+| `icon`      | `React.ElementType`                       | `IconLoading` | ❌       | Custom SVG icon component to use as the spinner |
+| `className` | [`LoadingClassNames`](#loadingclassnames) | —             | ❌       | Per-slot className overrides                    |
+| `style`     | [`LoadingStyles`](#loadingstyles)         | —             | ❌       | Per-slot inline style overrides                 |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
-For example, you can target the root container utilizing `className?.root` or style the inner icon natively using `style?.icon`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+### `LoadingClassNames`
 
-### `ClassNamesProps`
-
-| Slot   | Targets                           |
-| ------ | --------------------------------- |
-| `root` | Outermost container `<div>`       |
-| `icon` | The SVG spinner (`IconComponent`) |
+| Slot   | Targets                                      |
+| ------ | -------------------------------------------- |
+| `root` | Outermost container `<div>` (the positioner) |
+| `icon` | The SVG spinner element (`IconComponent`)    |
 
 ```tsx
 <Loading
@@ -98,54 +136,46 @@ For example, you can target the root container utilizing `className?.root` or st
 />
 ```
 
-### `StylesProps`
+### `LoadingStyles`
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
+All slots accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Loading
   style={{
-    root: { display: "flex", justifyContent: "center" },
-    icon: { color: "blue", width: "24px" },
+    root: { width: "3rem", height: "3rem" },
+    icon: { color: "blue" },
   }}
 />
 ```
 
 ---
 
-## Theme Management
-
-The `Loading` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
-
----
-
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-loading-[element]-[property]` format, you can globally style the component across your application:
+The component uses CSS custom properties scoped to its container. Override them in your stylesheet to globally restyle the component.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-loading-root-display: flex;
-  --bearlab-loading-icon-color: #1a1a1a;
-  --bearlab-loading-icon-size: 2rem;
-}
-
-[data-theme="dark"] {
-  --bearlab-loading-icon-color: #f1f1f1;
+:root {
+  --bearlab-loading-container-width: 1.5rem; /* 24px — spinner width  */
+  --bearlab-loading-container-height: 1.5rem; /* 24px — spinner height */
+  --bearlab-loading-animation-duration: 1s; /* spin duration */
+  --bearlab-loading-icon-z-index: 10003; /* stacking order */
 }
 ```
+
+> **Note:** The `Loading` component does not have a dedicated dark mode variant. Use the slot API or CSS variables to apply custom colors for dark contexts.
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component adheres to **WCAG 2.1 AA** standards:
 
-- **`role="status"`** — Semantically identifies the element as a status indicator.
-- **`aria-live="polite"`** — Adjusts context gracefully, notifying screen readers when the loading state changes without aggressively interrupting the user.
-- **Screen Reader Only Text** — Contains a visually hidden `.srOnly` `<span>` with the text `"Loading..."` for robust screen reader interpretation.
-- **`aria-hidden="true"` & `focusable="false"`** — Best-practice usage on the SVG icon to prevent redundant or confusing screen reader announcements and avoid trapping focus.
+- **`role="status"`** — Semantically identifies the element as a live status region.
+- **`aria-live="polite"`** — Notifies screen readers when the spinner is present without aggressively interrupting the user.
+- **Visually-hidden text** — A `.srOnly` `<span>` with the text `"Loading..."` is always rendered inside the container, ensuring screen readers announce the loading state even though the text is invisible.
+- **`aria-hidden="true"` & `focusable="false"`** — Applied to the SVG icon to prevent redundant announcements and avoid trapping focus inside the decorative element.
 
 ---
 
@@ -156,34 +186,34 @@ All types are exported from the package:
 ```ts
 import type {
   LoadingProps,
-  ClassNamesProps,
-  StylesProps,
+  LoadingClassNames,
+  LoadingStyles,
 } from "@bearlab/loading";
 ```
 
-### LoadingProps
+### `LoadingProps`
 
 ```ts
 interface LoadingProps {
-  className?: ClassNamesProps;
-  style?: StylesProps;
-  icon?: ElementType;
+  icon?: React.ElementType;
+  className?: LoadingClassNames;
+  style?: LoadingStyles;
 }
 ```
 
-### ClassNamesProps
+### `LoadingClassNames`
 
 ```ts
-interface ClassNamesProps {
+interface LoadingClassNames {
   root?: string;
   icon?: string;
 }
 ```
 
-### StylesProps
+### `LoadingStyles`
 
 ```ts
-interface StylesProps {
+interface LoadingStyles {
   root?: React.CSSProperties;
   icon?: React.CSSProperties;
 }

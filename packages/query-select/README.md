@@ -25,14 +25,16 @@
 
 ## Features
 
-- ✅ **Asynchronous search** — Built-in debouncing and async loading states
-- ✅ **Single & Multiple selection** — Toggle between single and multiple selection modes
-- ✅ **Flexible selection display** — Show selected items inside (`inline`) or above (`card`) the input
-- ✅ **Slot-based `className` & `style` API** — Granular styling without CSS overrides
-- ✅ **Accessible by default** — Keyboard navigation, screen-reader friendly
-- ✅ **Rich options** — Support for images, checkboxes, and match highlighting
-- ✅ **TypeScript-first** — Fully typed props and slot interfaces
-- ✅ **Form library agnostic** — Works standalone, with Formik, or React Hook Form
+- ✅ **Asynchronous search** — built-in debouncing (`delayTime`) and loading skeleton states
+- ✅ **Minimum character threshold** — prevents unnecessary API calls via `minLength`
+- ✅ **Single & Multiple selection** — toggle between modes via `mode` prop
+- ✅ **Dual selection display** — show selected items inside the input (`inline`) or above it in a card (`card`) via `selectionLayout`
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
+- ✅ **Portal-based dropdown** — respects stacking context via `optionZIndex`
+- ✅ **Accessible by default** — `role="combobox"`, `aria-expanded`, `aria-activedescendant`, full keyboard navigation
+- ✅ **Rich options** — support for images, checkboxes, and match highlighting
+- ✅ **TypeScript-first** — fully typed generics for type-safe `onChange` per mode
+- ✅ **Form library agnostic** — works standalone, with Formik, or React Hook Form
 
 ---
 
@@ -55,141 +57,112 @@ pnpm add @bearlab/query-select
 
 ## Usage
 
-### Basic (Standalone)
-
-Manage state externally using `value` and `onChange`.
+### Basic (Single, card layout)
 
 ```tsx
 import { useState } from "react";
-import { QuerySelect, QuerySelectOption } from "@bearlab/query-select";
-
-type Fruit = QuerySelectOption;
+import { QuerySelect } from "@bearlab/query-select";
 
 export default function App() {
-  const [selected, setSelected] = useState<Fruit[]>([]);
+  const [value, setValue] = useState<number | null>(null);
 
-  const handleSearch = async (query: string): Promise<Fruit[]> => {
-    const data: Fruit[] = [
-      { label: "Apple", value: "apple" },
-      { label: "Banana", value: "banana" },
-      { label: "Orange", value: "orange" },
-    ];
-    return data.filter((item) =>
-      item.label.toLowerCase().includes(query.toLowerCase())
+  const handleSearch = async (query: string) => {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character?name=${query}`
     );
+    const data = await response.json();
+    return data.results.map((char: any) => ({
+      label: char.name,
+      value: char.id,
+      image: char.image,
+    }));
   };
 
   return (
-    <QuerySelect<Fruit>
-      label="Select Fruits"
-      mode="multiple"
-      value={selected}
-      onChange={setSelected}
+    <QuerySelect
+      selectionLayout="card"
+      value={value}
+      onChange={setValue}
       onSearch={handleSearch}
-      placeholder="Search fruits..."
+      label="Select Character"
     />
   );
 }
 ```
 
-### Single Mode
-
-Use `mode="single"` to allow only one selection at a time. `onChange` receives `T | null`.
+### Multiple Mode with Inline Display
 
 ```tsx
 import { useState } from "react";
-import { QuerySelect, QuerySelectOption } from "@bearlab/query-select";
+import { QuerySelect } from "@bearlab/query-select";
 
-type Currency = QuerySelectOption;
+export default function App() {
+  const [value, setValue] = useState<number[]>([]);
 
-export default function SingleExample() {
-  const [selected, setSelected] = useState<Currency | null>(null);
-
-  const handleSearch = async (query: string): Promise<Currency[]> => {
-    const currencies: Currency[] = [
-      { label: "US Dollar", value: "USD" },
-      { label: "Euro", value: "EUR" },
-      { label: "British Pound", value: "GBP" },
-    ];
-    return currencies.filter((c) =>
-      c.label.toLowerCase().includes(query.toLowerCase())
+  const handleSearch = async (query: string) => {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character?name=${query}`
     );
+    const data = await response.json();
+    return data.results.map((char: any) => ({
+      label: char.name,
+      value: char.id,
+      image: char.image,
+    }));
   };
 
   return (
-    <QuerySelect<Currency>
-      label="Currency"
-      mode="single"
-      value={selected}
-      onChange={setSelected}
+    <QuerySelect
+      mode="multiple"
+      selectionLayout="inline"
+      value={value}
+      onChange={(value, option) => {
+        setValue(value);
+        console.log({ option });
+      }}
       onSearch={handleSearch}
-      placeholder="Search currency..."
+      label="Select Characters"
     />
   );
 }
-```
-
-### Selection Display Modes
-
-Control where selected items are shown with the `selectionDisplay` prop.
-
-```tsx
-{
-  /* Selected items shown above the input (default) */
-}
-<QuerySelect
-  mode="multiple"
-  selectionDisplay="card"
-  value={selected}
-  onChange={setSelected}
-  onSearch={handleSearch}
-/>;
-
-{
-  /* Selected items shown as tags inside the input */
-}
-<QuerySelect
-  mode="multiple"
-  selectionDisplay="inline"
-  value={selected}
-  onChange={setSelected}
-  onSearch={handleSearch}
-/>;
 ```
 
 ### With Formik
 
+The `QuerySelect` component supports both manual state updates and standard Formik event handlers.
+
+#### Option 1: Manual update via `setFieldValue`
+
+Ideal when you need custom logic. Do **not** pass the `name` prop in this mode.
+
 ```tsx
-import { useFormik } from "formik";
-import { QuerySelect, QuerySelectOption } from "@bearlab/query-select";
-
-type Currency = QuerySelectOption;
-
-export const CreateBalanceForm = () => {
-  const { values, setFieldValue, handleSubmit } = useFormik({
-    initialValues: { currency: null as Currency | null },
-    onSubmit: (values) => console.log(values),
-  });
-
-  const handleSearch = async (query: string): Promise<Currency[]> => {
-    // fetch from API...
-    return [];
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <QuerySelect<Currency>
-        label="Currency"
-        mode="single"
-        value={values.currency}
-        onChange={(value) => setFieldValue("currency", value)}
-        onSearch={handleSearch}
-        placeholder="Search currency..."
-      />
-    </form>
-  );
-};
+<QuerySelect
+  onSearch={handleSearch}
+  placeholder="Search State"
+  onChange={(value) => setFieldValue("region", value)}
+  value={values.region}
+  label="Region"
+/>
 ```
+
+#### Option 2: Standard update via `handleChange`
+
+The `name` prop is **required** here — the component emits a synthetic change event compatible with Formik's `handleChange`.
+
+```tsx
+<QuerySelect
+  name="currency"
+  onSearch={handleSearch}
+  value={values.currency}
+  onChange={handleChange}
+  label="Currency"
+  placeholder="Search Currency"
+  mode="multiple"
+/>
+```
+
+> [!IMPORTANT]
+> When using `setFieldValue` (Option 1), do **not** provide the `name` prop. If `name` is present, the component will emit a synthetic change event which may conflict with your manual `setFieldValue` call.
 
 ### With React Hook Form
 
@@ -198,7 +171,7 @@ import { Controller, useForm } from "react-hook-form";
 import { QuerySelect, QuerySelectOption } from "@bearlab/query-select";
 
 type Tag = QuerySelectOption;
-type FormValues = { tags: Tag[] };
+type FormValues = { tags: Tag["value"][] };
 
 export default function RHFExample() {
   const { control, handleSubmit } = useForm<FormValues>({
@@ -216,7 +189,7 @@ export default function RHFExample() {
         name="tags"
         control={control}
         render={({ field, fieldState }) => (
-          <QuerySelect<Tag>
+          <QuerySelect<Tag, "multiple">
             label="Tags"
             mode="multiple"
             value={field.value}
@@ -236,48 +209,50 @@ export default function RHFExample() {
 
 ## Props
 
-| Prop               | Type                                                   | Default                         | Required | Description                                                                |
-| ------------------ | ------------------------------------------------------ | ------------------------------- | -------- | -------------------------------------------------------------------------- |
-| `onSearch`         | `(query: string) => Promise<T[]>`                      | —                               | ✅       | Async function called after debounce to fetch matching options             |
-| `mode`             | `"single" \| "multiple"`                               | `"multiple"`                    | ❌       | Whether one or multiple items can be selected                              |
-| `value`            | `T \| null` (single) or `T[]` (multiple)               | —                               | ❌       | Currently selected value(s)                                                |
-| `onChange`         | `(value: T \| null) => void` or `(value: T[]) => void` | —                               | ❌       | Callback fired when selection changes                                      |
-| `selectionDisplay` | `"card" \| "inline"`                                   | `"card"`                        | ❌       | Where to display selected items: above input (`card`) or inside (`inline`) |
-| `label`            | `string`                                               | —                               | ❌       | Label text for the field                                                   |
-| `error`            | `any`                                                  | —                               | ❌       | Error message or state to display below the input                          |
-| `disabled`         | `boolean`                                              | `false`                         | ❌       | Disables the entire component                                              |
-| `isRequired`       | `boolean`                                              | `false`                         | ❌       | Marks the field as required (shows asterisk)                               |
-| `minLength`        | `number`                                               | `3`                             | ❌       | Minimum characters before triggering search                                |
-| `delayTime`        | `number`                                               | `500`                           | ❌       | Debounce delay in milliseconds                                             |
-| `placeholder`      | `string`                                               | `"Enter at least 3 characters"` | ❌       | Input placeholder text                                                     |
-| `noSelectionText`  | `string`                                               | `"There is no selected choice"` | ❌       | Text shown in card when nothing is selected                                |
-| `notFoundText`     | `string`                                               | `"No result found"`             | ❌       | Text shown when search yields no results                                   |
-| `emptyText`        | `string`                                               | `"There is no options"`         | ❌       | Text shown before user starts typing                                       |
-| `showImage`        | `boolean`                                              | `true`                          | ❌       | Show option images when provided                                           |
-| `showCheckbox`     | `boolean`                                              | `true`                          | ❌       | Show checkboxes next to options                                            |
-| `highlightMatch`   | `boolean`                                              | `true`                          | ❌       | Highlight the matching query inside option labels                          |
-| `optionZIndex`     | `number`                                               | `8888`                          | ❌       | z-index of the options dropdown portal                                     |
-| `className`        | [`QuerySelectClassNames`](#queryselectclassnames)      | —                               | ❌       | Per-slot className overrides                                               |
-| `style`            | [`QuerySelectStyles`](#queryselectstyles)              | —                               | ❌       | Per-slot inline style overrides                                            |
+| Prop              | Type                                              | Default                         | Required | Description                                                                   |
+| ----------------- | ------------------------------------------------- | ------------------------------- | -------- | ----------------------------------------------------------------------------- |
+| `onSearch`        | `(query: string) => Promise<T[]>`                 | —                               | ✅       | Async function called after debounce to fetch matching options                |
+| `value`           | `QuerySelectValue<T, Mode>`                       | —                               | ✅       | Currently selected value(s) — primitive or array of primitives                |
+| `mode`            | `"single" \| "multiple"`                          | `"single"`                      | ❌       | Whether one or multiple items can be selected                                 |
+| `onChange`        | see [TypeScript](#typescript)                     | —                               | ❌       | Callback fired when selection changes                                         |
+| `selectionLayout` | `"card" \| "inline"`                              | `"inline"`                      | ❌       | Where to display selected items: above input (`card`) or inside it (`inline`) |
+| `label`           | `string`                                          | —                               | ❌       | Label text rendered above the input                                           |
+| `name`            | `string`                                          | —                               | ❌       | Form field name (triggers synthetic change event for Formik/RHF)              |
+| `error`           | `any`                                             | —                               | ❌       | Error message displayed below the input                                       |
+| `disabled`        | `boolean`                                         | —                               | ❌       | Disables the entire component                                                 |
+| `isRequired`      | `boolean`                                         | —                               | ❌       | Marks the field as required (appends `*` to label)                            |
+| `minLength`       | `number`                                          | `3`                             | ❌       | Minimum characters required before triggering `onSearch`                      |
+| `delayTime`       | `number`                                          | `500`                           | ❌       | Debounce delay in milliseconds before `onSearch` is called                    |
+| `placeholder`     | `string`                                          | `"Enter at least 3 characters"` | ❌       | Input placeholder text                                                        |
+| `noSelectionText` | `string`                                          | `"There is no selected choice"` | ❌       | Text shown in the card area when nothing is selected (`card` layout only)     |
+| `notFoundText`    | `string`                                          | `"No result found"`             | ❌       | Text shown in dropdown when search returns empty results                      |
+| `emptyText`       | `string`                                          | `"There is no options"`         | ❌       | Text shown in dropdown before the user starts typing                          |
+| `showImage`       | `boolean`                                         | `true`                          | ❌       | Show option avatars/images (requires `image` on the option)                   |
+| `showCheckbox`    | `boolean`                                         | `true`                          | ❌       | Show a checkbox indicator on each option row                                  |
+| `highlightMatch`  | `boolean`                                         | `true`                          | ❌       | Highlight the matching query text inside option labels                        |
+| `optionZIndex`    | `number`                                          | `8888`                          | ❌       | Z-index for the options portal overlay                                        |
+| `className`       | [`QuerySelectClassNames`](#queryselectclassnames) | —                               | ❌       | Per-slot className overrides                                                  |
+| `style`           | [`QuerySelectStyles`](#queryselectstyles)         | —                               | ❌       | Per-slot inline style overrides                                               |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot Pattern** for deep customization without CSS specificity issues. Inject custom styles and classnames directly into child elements via the `className` and `style` objects.
+The component follows the **Slot Pattern** for deep customization without CSS specificity issues. Inject custom styles and classnames directly into child elements via the `className` and `style` props.
 
 ### `QuerySelectClassNames`
 
-| Slot                   | Targets                                                    |
-| ---------------------- | ---------------------------------------------------------- |
-| `root`                 | Outermost container `<div>`                                |
-| `search`               | The search input wrapper element                           |
-| `option`               | Individual option item in the dropdown                     |
-| `options`              | The listbox container rendering all options                |
-| `selectionCardWrapper` | The card container wrapping all selected items (card mode) |
-| `selectionCardItem`    | An individual selected item (card mode)                    |
-| `selectionInlineItems` | The inline wrapper for selected tags (inline mode)         |
-| `selectionInlineItem`  | An individual selected tag (inline mode)                   |
+| Slot                   | Targets                                                        |
+| ---------------------- | -------------------------------------------------------------- |
+| `root`                 | Outermost container `<div>`                                    |
+| `search`               | The search input wrapper element                               |
+| `option`               | Individual option item in the dropdown                         |
+| `options`              | The listbox container rendering all options                    |
+| `selectionCardWrapper` | The card container wrapping all selected items (`card` layout) |
+| `selectionCardItems`   | Inner container for selected item chips (`card` layout)        |
+| `selectionCardItem`    | An individual selected item chip (`card` layout)               |
+| `selectionInlineItems` | The inline wrapper for selected tags (`inline` layout)         |
+| `selectionInlineItem`  | An individual selected tag (`inline` layout)                   |
 
 ```tsx
 <QuerySelect
@@ -287,7 +262,7 @@ The component follows the **Slot Pattern** for deep customization without CSS sp
     search: "my-custom-input",
     options: "my-dropdown-menu",
     option: "my-option-item",
-    selectionCardWrapper: "my-selected-card",
+    selectionCardWrapper: "my-card-wrapper",
     selectionInlineItems: "my-inline-tags",
   }}
 />
@@ -304,7 +279,7 @@ All slots accept inline `React.CSSProperties` via the `style` prop:
     root: { maxWidth: "400px" },
     search: { backgroundColor: "#f5f5f5" },
     options: { maxHeight: "200px" },
-    selectionCardWrapper: { border: "1px solid red" },
+    selectionCardWrapper: { border: "1px solid #e4e7ec" },
   }}
 />
 ```
@@ -313,7 +288,7 @@ All slots accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `QuerySelect` component is fully compatible with both light and dark mode, natively responding to **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `QuerySelect` component is fully compatible with both light and dark mode, natively responding to the **`[data-theme="dark"]`** selector applied at any ancestor element.
 
 ```html
 <html data-theme="dark">
@@ -321,81 +296,141 @@ The `QuerySelect` component is fully compatible with both light and dark mode, n
 </html>
 ```
 
+No additional configuration is required — the component switches all color tokens automatically.
+
 ---
 
 ## Design Tokens (Customization)
 
-Override the component's appearance globally using CSS custom properties with the `--bearlab-query-select-[element]-[property]` format:
+Override the component's appearance globally using CSS custom properties. Variables follow the pattern `--bearlab-query-select-[element]-[property]`.
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
   --bearlab-query-select-search-bg: #ffffff;
-  --bearlab-query-select-search-border-color: #e5e7eb;
-  --bearlab-query-select-selected-item-bg: #ede9fe;
-  --bearlab-query-select-selected-item-color: #6d28d9;
-  --bearlab-query-select-option-bg-hover: #f3f4f6;
+  --bearlab-query-select-search-border-color: #e4e7ec;
+  --bearlab-query-select-search-border-color-focus: #465fff;
+  --bearlab-query-select-selected-item-bg: #ecf3ff;
+  --bearlab-query-select-selected-item-color: #465fff;
+  --bearlab-query-select-option-bg-hover: #e4e7ec;
+  --bearlab-query-select-option-selected-bg: #ecf3ff;
 }
 
+/* Dark theme overrides */
 [data-theme="dark"] {
   --bearlab-query-select-search-bg: #0f1828;
   --bearlab-query-select-search-border-color: #1d2939;
+  --bearlab-query-select-search-border-color-focus: #7592ff;
   --bearlab-query-select-selected-item-bg: color-mix(
     in oklab,
     #465fff 12%,
     transparent
   );
   --bearlab-query-select-selected-item-color: #7592ff;
+  --bearlab-query-select-option-bg-hover: #1d2939;
 }
 ```
+
+**Key available tokens (representative sample):**
+
+| Token                                                          | Default (light) | Description                        |
+| -------------------------------------------------------------- | --------------- | ---------------------------------- |
+| `--bearlab-query-select-search-bg`                             | `#fff`          | Search input background            |
+| `--bearlab-query-select-search-border-color`                   | `#e4e7ec`       | Search input border                |
+| `--bearlab-query-select-search-border-color-focus`             | `#465fff`       | Border color on focus              |
+| `--bearlab-query-select-search-height`                         | `2.75rem`       | Height of the search input (44px)  |
+| `--bearlab-query-select-search-border-radius`                  | `0.5rem`        | Border radius of the input (8px)   |
+| `--bearlab-query-select-label-color`                           | `#1d2939`       | Label text color                   |
+| `--bearlab-query-select-label-font-size`                       | `0.875rem`      | Label font size (14px)             |
+| `--bearlab-query-select-selected-item-bg`                      | `#ecf3ff`       | Selected tag/chip background       |
+| `--bearlab-query-select-selected-item-color`                   | `#465fff`       | Selected tag/chip text color       |
+| `--bearlab-query-select-options-bg`                            | `#f9fafb`       | Dropdown background                |
+| `--bearlab-query-select-options-border-color`                  | `#e4e7ec`       | Dropdown border color              |
+| `--bearlab-query-select-options-max-height`                    | `18.75rem`      | Max height of dropdown (300px)     |
+| `--bearlab-query-select-option-bg-hover`                       | `#e4e7ec`       | Option hover background            |
+| `--bearlab-query-select-option-selected-bg`                    | `#ecf3ff`       | Selected option background         |
+| `--bearlab-query-select-option-height`                         | `2.875rem`      | Option row height (46px)           |
+| `--bearlab-query-select-checkbox-check-color`                  | `#465fff`       | Checkbox checkmark color           |
+| `--bearlab-query-select-selection-card-container-border-color` | `#e4e7ec`       | Card wrapper border color          |
+| `--bearlab-query-select-selection-card-container-max-height`   | `12.5rem`       | Max height of card wrapper (200px) |
+| `--bearlab-query-select-skeleton-bg`                           | `#e4e7ec`       | Loading skeleton background        |
+| `--bearlab-query-select-color-error`                           | `#f00438`       | Error message text color           |
+| `--bearlab-query-select-opacity-disabled`                      | `0.6`           | Opacity when disabled              |
 
 ---
 
 ## Accessibility
 
-This component adheres to **WCAG 2.1 AA** standards:
+This component adheres to **WCAG 2.1 AA** standards and the ARIA combobox pattern:
 
-- **Keyboard Navigation** — Full support for `ArrowDown`, `ArrowUp`, `Enter`, `Escape`, and `Backspace`
 - **`role="combobox"` / `role="listbox"` / `role="option"`** — Fully compliant semantic roles
-- **`aria-expanded` & `aria-controls`** — Dynamic dropdown state communication
-- **`aria-activedescendant`** — Screen readers announce the focused option while native focus stays on the input
-- **`aria-labelledby`** — Input connected to its label via stable `useId()` IDs
-- **Focus Management** — Portal-based dropdown with safe click-outside via `useClickOutside`
+- **`aria-expanded`** — Communicates open/closed dropdown state to assistive technologies
+- **`aria-controls`** — Links the input to its associated listbox
+- **`aria-activedescendant`** — Screen readers announce the keyboard-focused option while native focus stays on the input
+- **`aria-labelledby`** — Input is connected to its label via stable `useId()` IDs
+- **`aria-selected`** — Selected options are correctly flagged
+- **`aria-disabled`** — Disabled options are announced as non-interactive
+- **Keyboard Navigation** — Full support for `ArrowDown`, `ArrowUp`, `Enter`, `Escape`, and `Backspace`
+- **Loading State** — Animated skeleton rows are shown while `onSearch` resolves, keeping the UI responsive
+- **Click Outside** — Dropdown closes correctly when clicking outside the component
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+The `QuerySelect` component is fully generic, where **`T`** represents your option type and **`T` must extend `QuerySelectOption`**.
+
+### Exported Types
+
+All public types are exported from the package:
 
 ```ts
 import type {
-  SelectMode,
-  SelectionDisplay,
   QuerySelectProps,
-  SingleQuerySelectProps,
-  MultipleQuerySelectProps,
-  QuerySelectOption,
   QuerySelectClassNames,
   QuerySelectStyles,
-  QuerySelectSelectionCardItemsProps,
-  QuerySelectSelectionCardItemProps,
-  QuerySelectSelectionInlineItemsProps,
-  QuerySelectSelectionInlineItemProps,
+  QuerySelectOption,
 } from "@bearlab/query-select";
 ```
 
 ### `QuerySelectOption`
 
-Every object returned by `onSearch` or passed to `value` must conform to this interface:
+Every object returned by `onSearch` must conform to this interface:
 
 ```ts
 export interface QuerySelectOption {
   value: string | number; // Unique identifier
-  label: string; // Display text
-  image?: string; // Optional image/avatar URL
-  disabled?: boolean; // Disable this specific option
+  label: string; // Display text shown in the option list
+  image?: string; // Optional: URL for an image/avatar next to the label
+  disabled?: boolean; // Optional: renders the option as non-selectable
 }
+```
+
+### `QuerySelectProps`
+
+The main component prop interface — handles both single and multiple modes via generics:
+
+```ts
+export interface QuerySelectProps<
+  T extends QuerySelectOption,
+  Mode extends QuerySelectMode = "single",
+> extends BaseQuerySelectProps<T> {
+  mode?: Mode;
+  value: QuerySelectValue<T, Mode>;
+  onChange?: (value: QuerySelectValue<T, Mode>, option?: T) => void;
+}
+```
+
+### `QuerySelectValue`
+
+Utility type that resolves the `value` type based on the selected `mode`:
+
+```ts
+type QuerySelectValue<
+  T extends QuerySelectOption,
+  Mode extends QuerySelectMode = "single",
+> = Mode extends "multiple" ? T["value"][] : T["value"] | null;
 ```
 
 ### `QuerySelectClassNames`
@@ -407,6 +442,7 @@ export interface QuerySelectClassNames {
   option?: string;
   options?: string;
   selectionCardWrapper?: string;
+  selectionCardItems?: string;
   selectionCardItem?: string;
   selectionInlineItems?: string;
   selectionInlineItem?: string;
@@ -422,61 +458,10 @@ export interface QuerySelectStyles {
   option?: React.CSSProperties;
   options?: React.CSSProperties;
   selectionCardWrapper?: React.CSSProperties;
+  selectionCardItems?: React.CSSProperties;
   selectionCardItem?: React.CSSProperties;
   selectionInlineItems?: React.CSSProperties;
   selectionInlineItem?: React.CSSProperties;
-}
-```
-
-### `QuerySelectSelectionCardItemsProps`
-
-```ts
-export interface QuerySelectSelectionCardItemsProps<T extends QuerySelectOption> {
-  disabled?: boolean;
-  selectedItems: T[];
-  noSelectionText?: string;
-  style?: QuerySelectStyles;
-  className?: QuerySelectClassNames;
-  onRemoveSelect: (val: T[]) => void;
-}
-```
-
-### `QuerySelectSelectionCardItemProps`
-
-```ts
-export interface QuerySelectSelectionCardItemProps {
-  title: string;
-  disabled?: boolean;
-  value?: string | number;
-  style?: React.CSSProperties;
-  className?: string;
-  onRemove?: (item: string | number) => void;
-}
-```
-
-### `QuerySelectSelectionInlineItemsProps`
-
-```ts
-export interface QuerySelectSelectionInlineItemsProps<T extends QuerySelectOption> {
-  disabled?: boolean;
-  selectedItems: T[];
-  style?: QuerySelectStyles;
-  visibleCount: number;
-  className?: QuerySelectClassNames;
-  setSelectedItems: (val: T[]) => void;
-}
-```
-
-### `QuerySelectSelectionInlineItemProps`
-
-```ts
-export interface QuerySelectSelectionInlineItemProps {
-  title: string;
-  disabled?: boolean;
-  value?: string | number;
-  style?: React.CSSProperties;
-  className?: string;
-  onRemove?: (item: string | number) => void;
 }
 ```
 

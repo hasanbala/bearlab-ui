@@ -5,31 +5,27 @@ import {
   ITEMS_GAP,
   MORE_BADGE_ESTIMATED_WIDTH,
 } from "../constants/select-config";
-import {
-  QuerySelectOption,
-  SelectionDisplay,
-} from "../types/query-select.types";
+import { QuerySelectOption } from "../types/query-select.types";
 
 export const useVisibleItemsCount = <T extends QuerySelectOption>(
   selectedItems: T[],
   containerWidth: number,
   inputWidth: number,
-  selectionDisplay: SelectionDisplay
+  isSelectionCard: boolean
 ) => {
   const selectedItemsRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(selectedItems.length);
   const itemWidthsCache = useRef<Record<string | number, number>>({});
   const [prevSelectedItems, setPrevSelectedItems] = useState(selectedItems);
 
-  if (selectionDisplay === "card") return { selectedItemsRef, visibleCount };
-
-  if (selectedItems !== prevSelectedItems) {
+  if (!isSelectionCard && selectedItems !== prevSelectedItems) {
     setPrevSelectedItems(selectedItems);
     setVisibleCount(selectedItems.length);
   }
 
   useLayoutEffect(() => {
-    if (!selectedItemsRef.current || containerWidth === 0) return;
+    if (isSelectionCard || !selectedItemsRef.current || containerWidth === 0)
+      return;
 
     const itemNodes = Array.from(
       selectedItemsRef.current.querySelectorAll<HTMLElement>(
@@ -70,7 +66,7 @@ export const useVisibleItemsCount = <T extends QuerySelectOption>(
     setVisibleCount((prev) =>
       prev !== newVisibleCount ? newVisibleCount : prev
     );
-  }, [selectedItems, containerWidth, inputWidth]);
+  }, [selectedItems, containerWidth, inputWidth, isSelectionCard]);
 
   return { selectedItemsRef, visibleCount };
 };

@@ -7,12 +7,12 @@ import styles from "../styles/select.module.scss";
 
 export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
   const {
-    mode,
     style,
     query,
     options,
     disabled,
     isLoading,
+    isMultiple,
     listboxId,
     emptyText,
     showImage,
@@ -24,6 +24,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
     highlightMatch,
     onSelect,
   } = props;
+
   const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
           dataIndex={index}
           key={option.value}
           optionId={optionId}
-          name={option.label}
+          label={option.label}
           image={option.image}
           className={className}
           showImage={showImage}
@@ -96,7 +97,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
       aria-label="Options"
       style={style?.options}
       aria-disabled={disabled}
-      aria-multiselectable={mode === "multiple"}
+      aria-multiselectable={isMultiple}
       className={classnames(
         styles.optionsContainer,
         {

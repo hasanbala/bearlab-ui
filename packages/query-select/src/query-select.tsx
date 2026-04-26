@@ -14,17 +14,23 @@ import { useDebounce } from "./hooks/use-debounce";
 import {
   QuerySelectProps,
   QuerySelectOption,
+  QuerySelectValue,
+  QuerySelectMode,
 } from "./types/query-select.types";
 import { OptionsPortal } from "./components/options-portal";
 import { IconErrorTriangle } from "./assets/icons";
 import classnames from "classnames";
 import styles from "./styles/query-select.module.scss";
-import { resolveValue } from "./utils/select-utils";
+import { resolveValue } from "./utils/query-select-utils";
 
-export const QuerySelect = <T extends QuerySelectOption>(
-  props: QuerySelectProps<T>
+export const QuerySelect = <
+  T extends QuerySelectOption,
+  Mode extends QuerySelectMode = "single",
+>(
+  props: QuerySelectProps<T, Mode>
 ) => {
   const {
+    name,
     value,
     label,
     error,
@@ -35,11 +41,11 @@ export const QuerySelect = <T extends QuerySelectOption>(
     minLength = 3,
     delayTime = 500,
     showImage = true,
-    mode = "multiple",
+    mode = "single",
     showCheckbox = true,
     optionZIndex = 8888,
     highlightMatch = true,
-    selectionDisplay = "card",
+    selectionLayout = "inline",
     notFoundText = "No result found",
     emptyText = "There is no options",
     placeholder = "Enter at least 3 characters",
@@ -48,9 +54,9 @@ export const QuerySelect = <T extends QuerySelectOption>(
     onChange,
   } = props;
 
-  const isSingle = mode === "single";
+  const isSingle = mode == "single";
+  const isSelectionCard = selectionLayout == "card";
   const [query, setQuery] = useState("");
-
   const uid = useId();
   const portalRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -58,47 +64,23 @@ export const QuerySelect = <T extends QuerySelectOption>(
   const [options, setOptions] = useState<T[]>([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { debouncedValue } = useDebounce(query, delayTime);
-
-  const inputId = `autocomplete-select-input-${uid}`;
-  const listboxId = `autocomplete-select-listbox-${uid}`;
-  const labelId = `autocomplete-label-${uid}`;
+  const inputId = `query-select-input-${uid}`;
+  const listboxId = `query-select-listbox-${uid}`;
+  const labelId = `query-label-${uid}`;
   const [containerWidth, setContainerWidth] = useState(0);
+  const cachedItemsRef = useRef<T[]>([]);
 
   const shouldSkipSearch = useMemo(
     () =>
-      query.trim() === "" ||
+      query.trim() == "" ||
       debouncedValue !== query ||
       query.trim().length < minLength,
     [query, debouncedValue, minLength]
   );
 
-  const selectedItems = useMemo<T[]>(
-    () => resolveValue(value, options),
-    [value, options]
-  );
-
-  const handleClose = useCallback(() => {
-    setIsDropdownVisible(false);
-    setActiveIndex(-1);
-    if (selectedItems.length === 0) {
-      setQuery("");
-    }
-  }, [selectedItems.length]);
-
-  const { containerRef } = useClickOutside(
-    handleClose,
-    selectionDisplay,
-    setContainerWidth,
-    portalRef
-  );
-
   useEffect(() => {
     const fetchData = async () => {
-      if (shouldSkipSearch) {
-        setOptions([]);
-        return;
-      }
-
+      if (shouldSkipSearch) return;
       setIsLoading(true);
       try {
         const result = await onSearch(debouncedValue);
@@ -106,7 +88,6 @@ export const QuerySelect = <T extends QuerySelectOption>(
         setIsDropdownVisible(true);
       } catch (err) {
         console.warn(err);
-        setOptions([]);
       } finally {
         setIsLoading(false);
       }
@@ -115,41 +96,89 @@ export const QuerySelect = <T extends QuerySelectOption>(
     fetchData();
   }, [query, debouncedValue, shouldSkipSearch, onSearch]);
 
+  const selectedItems = useMemo<T[]>(() => {
+    const nextItems = resolveValue<T>(
+      value as QuerySelectValue<T>,
+      options,
+      cachedItemsRef.current
+    );
+    cachedItemsRef.current = nextItems;
+    return nextItems;
+  }, [value, options]);
+
+  const handleClose = useCallback(() => {
+    setIsDropdownVisible(false);
+    setActiveIndex(-1);
+    if (selectedItems.length == 0) {
+      setQuery("");
+      setOptions([]);
+    }
+  }, [selectedItems.length]);
+
+  const { containerRef } = useClickOutside(
+    handleClose,
+    selectionLayout,
+    setContainerWidth,
+    portalRef
+  );
+
+  const fireOnChange = useCallback(
+    (nextValue: QuerySelectValue<T, Mode>, option?: T | null) => {
+      if (!onChange) return;
+      if (name) {
+        const syntheticEvent = {
+          target: { name: name, value: nextValue, type: "select" },
+          currentTarget: { name: name, value: nextValue, type: "select" },
+        } as unknown as React.ChangeEvent<HTMLElement>;
+        (
+          onChange as unknown as (event: React.ChangeEvent<HTMLElement>) => void
+        )(syntheticEvent);
+      } else {
+        (onChange as (v: typeof nextValue, o?: T) => void)(
+          nextValue,
+          option as T
+        );
+      }
+    },
+    [onChange, name]
+  );
+
   const handleSelect = useCallback(
     (item: T) => {
       if (item.disabled) return;
-
       if (isSingle) {
         const isSame = selectedItems[0]?.value === item.value;
-        const next = isSame ? null : item;
-
-        (onChange as ((v: T | null) => void) | undefined)?.(next);
-        handleClose();
+        const nextValue = isSame ? null : item.value;
+        cachedItemsRef.current = isSame ? [] : [item];
+        fireOnChange(nextValue as QuerySelectValue<T, Mode>, item);
       } else {
         const exists = selectedItems.some((s) => s.value === item.value);
-        const next = exists
+        const nextItems = exists
           ? selectedItems.filter((s) => s.value !== item.value)
           : [...selectedItems, item];
-
-        (onChange as ((v: T[]) => void) | undefined)?.(next);
+        const nextValues = nextItems.map((s) => s.value);
+        cachedItemsRef.current = nextItems;
+        fireOnChange(nextValues as QuerySelectValue<T, Mode>, item);
       }
     },
-    [isSingle, selectedItems, onChange]
+    [isSingle, selectedItems, fireOnChange]
   );
 
   const handleRemove = useCallback(
     (updated: T[]) => {
       if (isSingle) {
-        (onChange as ((v: T | null) => void) | undefined)?.(null);
+        fireOnChange(null as QuerySelectValue<T, Mode>, null);
       } else {
-        (onChange as ((v: T[]) => void) | undefined)?.(updated);
+        const updatedValues = updated.map((s) => s.value);
+        fireOnChange(updatedValues as QuerySelectValue<T, Mode>, null);
       }
     },
-    [isSingle, onChange]
+    [isSingle, fireOnChange]
   );
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (isLoading || disabled) return;
       if (!isDropdownVisible) {
         if (e.key === "ArrowDown" || e.key === "Enter") {
           e.preventDefault();
@@ -157,7 +186,6 @@ export const QuerySelect = <T extends QuerySelectOption>(
         }
         return;
       }
-
       switch (e.key) {
         case "ArrowDown":
           e.preventDefault();
@@ -186,11 +214,13 @@ export const QuerySelect = <T extends QuerySelectOption>(
       }
     },
     [
-      isDropdownVisible,
-      options,
-      activeIndex,
       query,
+      options,
+      disabled,
+      isLoading,
+      activeIndex,
       selectedItems,
+      isDropdownVisible,
       handleSelect,
       handleRemove,
     ]
@@ -224,7 +254,7 @@ export const QuerySelect = <T extends QuerySelectOption>(
           {label} {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
-      {mode === "multiple" && selectionDisplay === "card" && (
+      {isSelectionCard && (
         <SelectionCardItems
           style={style}
           disabled={disabled}
@@ -235,7 +265,7 @@ export const QuerySelect = <T extends QuerySelectOption>(
         />
       )}
       <Search
-        mode={mode}
+        isSingle={isSingle}
         style={style}
         error={error}
         query={query}
@@ -250,7 +280,7 @@ export const QuerySelect = <T extends QuerySelectOption>(
         containerWidth={containerWidth}
         activeOptionId={activeOptionId}
         debouncedValue={debouncedValue}
-        selectionDisplay={selectionDisplay}
+        isSelectionCard={isSelectionCard}
         isDropdownVisible={isDropdownVisible}
         setQuery={setQuery}
         onChange={handleRemove}
@@ -261,10 +291,11 @@ export const QuerySelect = <T extends QuerySelectOption>(
         ref={portalRef}
         anchorRef={containerRef}
         isVisible={isDropdownVisible}
-        disabled={disabled}
         optionZIndex={optionZIndex}
+        isSelectionCard={isSelectionCard}
       >
         <Options
+          isMultiple={mode == "multiple"}
           style={style}
           query={query}
           options={options}

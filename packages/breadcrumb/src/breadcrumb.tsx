@@ -1,13 +1,18 @@
 import { IconArrowRight, IconHome } from "./assets/icons";
 import type {
   BreadcrumbProps,
-  RenderLinkProps,
+  DefaultLinkProps,
 } from "./types/breadcrumb.types";
 import { SEPARATE_TYPE } from "./constants/breadcrumb-config";
 import styles from "./styles/breadcrumb.module.scss";
 import classnames from "classnames";
 
-const DefaultLink = ({ href, className, style, children }: RenderLinkProps) => (
+const DefaultLink = ({
+  href,
+  className,
+  style,
+  children,
+}: DefaultLinkProps) => (
   <a href={href} className={className} style={style}>
     {children}
   </a>

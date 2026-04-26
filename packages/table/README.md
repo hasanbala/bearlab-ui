@@ -14,7 +14,11 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Props](#props)
+- [Column Configuration](#column-configuration)
+- [Row Selection](#row-selection)
+- [Pagination](#pagination)
 - [Slot-based Customization](#slot-based-customization)
+- [Internationalization (i18n)](#internationalization-i18n)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
@@ -25,13 +29,18 @@
 
 ## Features
 
-- ✅ **Rich Functionality** — Sorting, client/server-side pagination, row selection (checkbox & radio)
-- ✅ **Slot-based `className` & `style` API** — Granular styling of table cells, rows, and wrappers without CSS overrides
-- ✅ **Accessible by default** — Built-in `aria-sort`, `aria-describedby`, `aria-label`, and fully navigable pagination
-- ✅ **Responsive Design** — Adjusts naturally to mobile viewports with specialized table controls
-- ✅ **TypeScript-first** — Fully typed columns, records, and configuration options
-- ✅ **Zero layout opinion** — Bring your own layout/wrapper
-- ✅ **Internationalization** — Customizable render props for all data-driven labels (pagination info, record counts)
+- ✅ **Client-side & server-side pagination** — configurable page size, page-size selector, and `maxVisiblePages`
+- ✅ **Row selection** — `checkbox` (multi) and `radio` (single) modes with a "Select all" header checkbox
+- ✅ **Column sorting** — expose `sortDirection` per column and an optional `sorter` comparator function
+- ✅ **Custom cell renderer** — `render(value, record)` per column for rich cell content
+- ✅ **Empty state** — built-in empty UI with customizable title, description, and icon
+- ✅ **Record info bar** — "Showing X to Y of Z entries" with a `renderTotalInfo` override
+- ✅ **Responsive** — pagination controls adapt at `≤768px` (mobile) and `≤540px` (minimized)
+- ✅ **Slot-based `className` & `style` API** — granular styling of every table element
+- ✅ **Dark mode ready** — responds to `[data-theme="dark"]` automatically
+- ✅ **Accessible by default** — `role="region"`, `aria-sort`, `aria-rowcount`, `aria-selected`
+- ✅ **Internationalization** — `renderPageInfo` and `renderTotalInfo` render props for all labels
+- ✅ **TypeScript-first** — fully typed columns, records, and configuration options
 
 ---
 
@@ -54,13 +63,15 @@ pnpm add @bearlab/table
 
 ## Usage
 
+### Basic Table
+
 ```tsx
 import { Table } from "@bearlab/table";
 import type { TableColumn } from "@bearlab/table";
 
 const columns: TableColumn[] = [
-  { title: "Name", dataIndex: "name", key: "name" },
-  { title: "Age", dataIndex: "age", key: "age" },
+  { key: "name", title: "Name", dataIndex: "name" },
+  { key: "age", title: "Age", dataIndex: "age" },
 ];
 
 const data = [
@@ -69,81 +80,169 @@ const data = [
 ];
 
 export default function App() {
-  return (
-    <Table
-      title="Users"
-      columns={columns}
-      dataSource={data}
-      pagination={{ pageSize: 5 }}
-      rowSelection={{
-        type: "checkbox",
-        onChange: (selectedRowKeys) => console.log(selectedRowKeys),
-      }}
-    />
-  );
+  return <Table columns={columns} dataSource={data} />;
 }
+```
+
+### With Pagination & Row Selection
+
+```tsx
+<Table
+  title="Users"
+  columns={columns}
+  dataSource={data}
+  pagination={{ pageSize: 10, showPageNumbers: true }}
+  showPageSizeSelector
+  pageSizeOptions={[10, 20, 50]}
+  rowSelection={{
+    type: "checkbox",
+    onChange: (keys, rows) => console.log(keys, rows),
+  }}
+  onRowClick={(record) => console.log(record)}
+/>
+```
+
+### Server-side Pagination
+
+```tsx
+<Table
+  columns={columns}
+  dataSource={pageData}
+  serverPagination
+  totalCount={500}
+  currentPage={page}
+  pagination={{ pageSize: 20 }}
+  onTableChange={(page, pageSize, isPageSize) => fetchPage(page, pageSize)}
+/>
 ```
 
 ---
 
 ## Props
 
-| Prop                   | Type                                        | Default              | Required | Description                                                                 |
-| ---------------------- | ------------------------------------------- | -------------------- | -------- | --------------------------------------------------------------------------- |
-| `dataSource`           | `Record<string, any>[]`                     | —                    | ✅       | Array of objects representing the table records                             |
-| `columns`              | [`TableColumn[]`](#tablecolumn)             | —                    | ✅       | Array of configuration objects for the table columns                        |
-| `title`                | `string`                                    | —                    | ❌       | Table title heading text                                                    |
-| `rowSelection`         | [`RowSelection`](#rowselection)             | —                    | ❌       | Row selection configuration                                                 |
-| `pagination`           | `boolean \| TablePagination`                | `false`              | ❌       | Enables or customizes client-side pagination                                |
-| `serverPagination`     | `boolean`                                   | `false`              | ❌       | If true, delegates pagination logic to the server (`totalCount` required)   |
-| `totalCount`           | `number`                                    | —                    | ❌       | Total number of available records (used with `serverPagination`)            |
-| `currentPage`          | `number`                                    | `1`                  | ❌       | The current active page index                                               |
-| `pageSizeOptions`      | `number[]`                                  | `[10, 20, 50, 100]`  | ❌       | Allowed page sizes for the size selector                                    |
-| `showPageSizeSelector` | `boolean`                                   | `false`              | ❌       | Whether to render the page size dropdown                                    |
-| `pageSizePlaceholder`  | `string`                                    | `"Select page size"` | ❌       | Label/Placeholder for the page size selector                                |
-| `maxVisiblePages`      | `number`                                    | `6`                  | ❌       | Max number of page indicators to show before truncating                     |
-| `onTableChange`        | `(setPage, page, size, isPageSize) => void` | —                    | ❌       | Callback fired when pagination changes                                      |
-| `onRowClick`           | `(record: Record<string, any>) => void`     | —                    | ❌       | Callback fired when a non-disabled row is clicked                           |
-| `disabled`             | `boolean`                                   | `false`              | ❌       | Disables interactivity within the table (selection, pagination, row clicks) |
-| `className`            | [`TableClassNames`](#tableclassnames)       | —                    | ❌       | Per-slot className overrides                                                |
-| `style`                | [`TableStyles`](#tablestyles)               | —                    | ❌       | Per-slot inline style overrides                                             |
-| `renderPageInfo`       | `(page, total) => React.ReactNode`          | —                    | ❌       | Customize the "Page X of Y" label                                           |
-| `renderTotalInfo`      | `(from, to, total) => React.ReactNode`      | —                                                  | ❌       | Customize the "Showing X to Y of Z entries" label                           |
-| `emptyTitle`           | `string`                                    | `"No records found"`                               | ❌       | Title displayed when the table is empty                                     |
-| `emptyDescription`     | `string`                                    | `"There are no records to display at the moment."` | ❌       | Description displayed below the title when the table is empty               |
+| Prop                   | Type                                           | Default                                            | Required | Description                                                      |
+| ---------------------- | ---------------------------------------------- | -------------------------------------------------- | -------- | ---------------------------------------------------------------- |
+| `dataSource`           | `Record<string, any>[]`                        | —                                                  | ✅       | Array of record objects; each must include a `key` field         |
+| `columns`              | [`TableColumn[]`](#column-configuration)       | —                                                  | ✅       | Column definitions                                               |
+| `title`                | `string`                                       | —                                                  | ❌       | Table title; renders an `<h3>` and sets `aria-labelledby`        |
+| `aria-label`           | `string`                                       | —                                                  | ❌       | Accessible label when `title` is not provided                    |
+| `aria-describedby`     | `string`                                       | —                                                  | ❌       | Links the table region to an external description element        |
+| `disabled`             | `boolean`                                      | `false`                                            | ❌       | Disables row clicks, selection, and pagination                   |
+| `rowSelection`         | [`RowSelection`](#row-selection)               | —                                                  | ❌       | Row selection configuration (checkbox or radio)                  |
+| `pagination`           | `boolean \| TablePagination`                   | `false`                                            | ❌       | Enables client-side pagination; pass an object to configure      |
+| `serverPagination`     | `boolean`                                      | `false`                                            | ❌       | Delegates pagination to the server (`totalCount` is required)    |
+| `totalCount`           | `number`                                       | —                                                  | ❌       | Total record count for server pagination and the record info bar |
+| `currentPage`          | `number`                                       | `1`                                                | ❌       | Controlled current page (used with `serverPagination`)           |
+| `pageSizeOptions`      | `number[]`                                     | `[10, 20, 50, 100]`                                | ❌       | Options rendered in the page-size selector                       |
+| `showPageSizeSelector` | `boolean`                                      | `false`                                            | ❌       | Renders the page-size `<select>` inside the pagination bar       |
+| `pageSizePlaceholder`  | `string`                                       | `"Select page size"`                               | ❌       | Placeholder label for the page-size selector                     |
+| `maxVisiblePages`      | `number`                                       | `6`                                                | ❌       | Maximum page buttons shown before truncating with ellipsis       |
+| `onTableChange`        | `(page, pageSize, isPageSize?) => void`        | —                                                  | ❌       | Fires when the active page or page size changes                  |
+| `onRowClick`           | `(record) => void`                             | —                                                  | ❌       | Fires when a non-disabled row is clicked                         |
+| `renderPageInfo`       | `(currentPage, totalPages) => ReactNode`       | —                                                  | ❌       | Overrides the "Page X of Y" label in the pagination bar          |
+| `renderTotalInfo`      | `(from, to, total) => ReactNode`               | —                                                  | ❌       | Overrides the "Showing X to Y of Z entries" record info bar      |
+| `emptyTitle`           | `string`                                       | `"No records found"`                               | ❌       | Title shown when `dataSource` is empty                           |
+| `emptyDescription`     | `string`                                       | `"There are no records to display at the moment."` | ❌       | Description shown below the empty title                          |
+| `className`            | [`TableClassNames`](#slot-based-customization) | —                                                  | ❌       | Per-slot className overrides                                     |
+| `style`                | [`TableStyles`](#slot-based-customization)     | —                                                  | ❌       | Per-slot inline style overrides                                  |
+
+---
+
+## Column Configuration
+
+Each entry in `columns` must conform to `TableColumn`:
+
+| Field           | Type                                                     | Required | Description                                          |
+| --------------- | -------------------------------------------------------- | -------- | ---------------------------------------------------- |
+| `key`           | `string`                                                 | ✅       | Unique column identifier                             |
+| `title`         | `string`                                                 | ✅       | Column header label                                  |
+| `dataIndex`     | `string`                                                 | ✅       | Key in the record object to read the cell value from |
+| `width`         | `string \| number`                                       | ❌       | Fixed column width (e.g. `"120px"` or `120`)         |
+| `sortDirection` | `"asc" \| "desc" \| "none"`                              | ❌       | Exposes `aria-sort` on the header cell               |
+| `sorter`        | `(a: any, b: any) => number`                             | ❌       | Comparator used for client-side sorting              |
+| `render`        | `(value: any, record: Record<string, any>) => ReactNode` | ❌       | Custom cell renderer                                 |
+
+---
+
+## Row Selection
+
+Pass a `rowSelection` object to enable row selection:
+
+```ts
+interface RowSelection {
+  type: "checkbox" | "radio";
+  onChange?: (
+    selectedRowKeys: string[],
+    selectedRows: Record<string, any>[]
+  ) => void;
+}
+```
+
+- **`"checkbox"`** — renders a "Select all" checkbox in the header and individual checkboxes per row.
+- **`"radio"`** — renders a radio button per row; only one row can be selected at a time.
+
+> Each record object must include a `key` field (string) for selection tracking.
+
+---
+
+## Pagination
+
+Pass `pagination={true}` to enable client-side pagination with defaults, or pass a `TablePagination` object for control:
+
+```ts
+interface TablePagination {
+  pageSize?: number; // Default: 5
+  showPageNumbers?: boolean; // Default: true
+}
+```
+
+Use `serverPagination` together with `totalCount`, `currentPage`, and `onTableChange` for server-driven pagination:
+
+```tsx
+<Table
+  serverPagination
+  totalCount={1000}
+  currentPage={currentPage}
+  pagination={{ pageSize: 20 }}
+  onTableChange={(page, pageSize) => fetchData(page, pageSize)}
+  ...
+/>
+```
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into specific child elements of the table utilizing the `className` and `style` objects.
-
-For example, you can alter the pagination container by modifying `className?.paginationWrapper` or specifically target headers using `style?.headerCell`.
+The component follows the **Slot-Pattern** to enable surgical styling of any element without CSS specificity battles.
 
 ### `TableClassNames`
 
-| Slot                 | Targets                                                  |
-| -------------------- | -------------------------------------------------------- |
-| `root`               | Outermost container `<div>`                              |
-| `header`             | Header wrapper `<div>`                                   |
-| `title`              | Table title `<h3>`                                       |
-| `tableWrapper`       | Wrapper `<div>` for horizontal overflow handling         |
-| `tableContainer`     | Native `<table>` component                               |
-| `tableHeader`        | Native `<thead>` component                               |
-| `headerCell`         | Native `<th>` cell component                             |
-| `tableBody`          | Native `<tbody>` component                               |
-| `bodyRow`            | Native `<tr>` data row component                         |
-| `bodyCell`           | Native `<td>` data cell component                        |
-| `paginationWrapper`  | Wrapper for all pagination controls and selectors        |
-| `paginationControls` | Nav wrapper `<nav>` for page buttons                     |
-| `pageButton`         | Page-change `<button>` components                        |
-| `pageButtonActive`   | Added to the currently active page `<button>`            |
-| `pageButtonInactive` | Added to non-active page `<button>`s                     |
-| `pageInfo`           | Mobile-only page info indicator                          |
-| `pageList`           | Paginator `<ul>` container                               |
-| `ellipsis`           | Pagination truncation `...` icon                         |
-| `pageSizeSelector`   | Used to wrap the page-size selector component            |
-| `recordInfo`         | Bottom indicator text for currently total rows presented |
+| Slot                 | Targets                                        |
+| -------------------- | ---------------------------------------------- |
+| `root`               | Outermost container `<div role="region">`      |
+| `header`             | Title wrapper `<div>`                          |
+| `title`              | Title `<h3>`                                   |
+| `tableWrapper`       | Horizontal-scroll wrapper `<div>`              |
+| `tableContainer`     | Native `<table>` element                       |
+| `tableHeader`        | Native `<thead>` element                       |
+| `headerCell`         | Native `<th>` elements                         |
+| `tableBody`          | Native `<tbody>` element                       |
+| `bodyRow`            | Native `<tr>` data rows                        |
+| `bodyCell`           | Native `<td>` data cells                       |
+| `emptyState`         | Empty state root `<div>`                       |
+| `emptyIcon`          | Empty state icon wrapper                       |
+| `emptyTitle`         | Empty state title element                      |
+| `emptyDescription`   | Empty state description element                |
+| `paginationWrapper`  | Pagination bar outer wrapper                   |
+| `paginationControls` | Pagination `<nav>` wrapping page buttons       |
+| `pageList`           | Pagination `<ul>` containing page number items |
+| `pageButton`         | All page-change `<button>` elements            |
+| `pageButtonActive`   | Active page `<button>`                         |
+| `pageButtonInactive` | Inactive page `<button>` elements              |
+| `pageInfo`           | "Page X of Y" label (mobile)                   |
+| `ellipsis`           | Ellipsis `…` element between page groups       |
+| `pageSizeSelector`   | Native `<select>` for page size                |
+| `recordInfo`         | "Showing X to Y of Z entries" bar              |
 
 ```tsx
 <Table
@@ -151,8 +250,8 @@ For example, you can alter the pagination container by modifying `className?.pag
   dataSource={data}
   className={{
     root: "my-table",
-    headerCell: "my-th-cell",
-    bodyRow: "my-tr-hover-effect",
+    headerCell: "my-th",
+    bodyRow: "my-tr",
     paginationWrapper: "my-paginator",
   }}
 />
@@ -160,15 +259,15 @@ For example, you can alter the pagination container by modifying `className?.pag
 
 ### `TableStyles`
 
-All slots also accept inline `React.CSSProperties` natively via the `style` prop:
+All slots accept inline `React.CSSProperties` via the `style` prop:
 
 ```tsx
 <Table
   columns={columns}
   dataSource={data}
   style={{
-    tableContainer: { borderCollapse: "separate", borderSpacing: "10px" },
     headerCell: { backgroundColor: "#f4f4f4" },
+    bodyCell: { fontSize: "0.875rem" },
   }}
 />
 ```
@@ -177,23 +276,18 @@ All slots also accept inline `React.CSSProperties` natively via the `style` prop
 
 ## Internationalization (i18n)
 
-The `Table` component allows you to customize and localize all hardcoded labels using optional render props. If not provided, it defaults to English.
+Override any hardcoded English label with render props:
 
 ```tsx
 <Table
   dataSource={data}
   columns={columns}
-  // Custom pagination info (e.g. Turkish)
-  renderPageInfo={(current, total) =>
-    `${total} sayfa arasından ${current}. sayfa`
-  }
-  // Custom record info
+  renderPageInfo={(current, total) => `${current}. / ${total} sayfa`}
   renderTotalInfo={(from, to, total) =>
-    `${total} kayıttan ${from}-${to} arasındakiler listeleniyor`
+    `${total} kayıttan ${from}–${to} gösteriliyor`
   }
-  // Custom empty state
   emptyTitle="Kayıt bulunamadı"
-  emptyDescription="Aramanıza uygun herhangi bir veri bulunamamıştır."
+  emptyDescription="Gösterilecek veri yok."
 />
 ```
 
@@ -201,74 +295,98 @@ The `Table` component allows you to customize and localize all hardcoded labels 
 
 ## Theme Management
 
-The `Table` component is fully fully compatible with dark mode contexts, relying on native implementations. It natively aligns with standard design tokens by responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors.
+The `Table` component automatically adapts when a `data-theme="dark"` attribute is present on any ancestor element.
+
+```html
+<html data-theme="dark">
+  ...
+</html>
+```
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can globally overwrite tokens by redefining these CSS variables locally or globally. Using the `--bearlab-table-[element]-[property]` format gives you flexible aesthetic control overriding the initial configuration.
+All visual defaults are scoped CSS custom properties on the component's root container. Override them with `--bearlab-table-*` variables.
 
 ```css
+/* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-table-container-bg: #ffffff;
-  --bearlab-table-header-bg: #f9f9f9;
-  --bearlab-table-header-color: #333333;
-  --bearlab-table-border-color: #e5e5e5;
-  --bearlab-table-row-hover-bg: #f0f0f0;
-  --bearlab-table-cell-padding: 12px 16px;
-  --bearlab-table-border-radius: 8px;
+  --bearlab-table-bg: #ffffff;
+  --bearlab-table-border-color: #e5e7eb;
+  --bearlab-table-header-bg: #f9fafb;
+  --bearlab-table-header-color: #374151;
+  --bearlab-table-body-color: #111827;
+  --bearlab-table-row-bg-hover: #f3f4f6;
+  --bearlab-table-border-radius: 0.5rem;
 }
 
+/* Dark theme overrides */
 [data-theme="dark"] {
-  --bearlab-table-container-bg: #1e1e1e;
-  --bearlab-table-header-bg: #2a2a2a;
-  --bearlab-table-header-color: #e0e0e0;
-  --bearlab-table-border-color: #444444;
-  --bearlab-table-row-hover-bg: #333333;
+  --bearlab-table-bg: #1f2937;
+  --bearlab-table-border-color: #374151;
+  --bearlab-table-header-bg: #111827;
+  --bearlab-table-header-color: #d1d5db;
+  --bearlab-table-body-color: #f9fafb;
+  --bearlab-table-row-bg-hover: #374151;
 }
 ```
+
+**Key spacing & color tokens:**
+
+| Token                                       | Default (light) | Description                          |
+| ------------------------------------------- | --------------- | ------------------------------------ |
+| `--bearlab-table-border-radius`             | `0.5rem`        | Outer container border radius        |
+| `--bearlab-table-border-width`              | `0.0625rem`     | Border width for all dividers        |
+| `--bearlab-table-font-size`                 | `0.875rem`      | Base cell font size                  |
+| `--bearlab-table-cell-padding-block`        | `0.75rem`       | Cell vertical padding                |
+| `--bearlab-table-cell-padding-inline`       | `1rem`          | Cell horizontal padding              |
+| `--bearlab-table-font-weight-header`        | `600`           | Header cell font weight              |
+| `--bearlab-table-page-button-bg-active`     | `#2563eb`       | Active page button background        |
+| `--bearlab-table-page-button-color-active`  | `#ffffff`       | Active page button text color        |
+| `--bearlab-table-page-button-border-radius` | `0.375rem`      | Page button border radius            |
+| `--bearlab-table-page-button-min-width`     | `2rem`          | Minimum page button width            |
+| `--bearlab-table-select-border-color`       | `#e4e7ec`       | Page-size selector border            |
+| `--bearlab-table-select-active-color`       | `#465fff`       | Page-size selector focus/hover color |
+| `--bearlab-table-empty-icon-fill`           | `#6b7280`       | Empty state icon fill color          |
+| `--bearlab-table-empty-title-color`         | `#1f2937`       | Empty state title color              |
 
 ---
 
 ## Accessibility
 
-The Data Table component adheres to broad **WCAG 2.1 AA** standards natively without overhead, featuring:
+The `Table` component adheres to **WCAG 2.1 AA** standards:
 
-- **`role="region"` & `aria-labelledby`**: Ensures screen readers can reliably parse the data boundaries contextualized by `title` usage or `"aria-label"` passing over native overrides.
-- **Native Table semantics (`aria-rowcount`, `aria-rowindex`)**: The grid logic establishes exact tracking numbers, keeping visually unseen values clear to assistive listeners.
-- **`aria-sort` Support**: `headerCell` components dynamically expose stateful sort logic values (`"ascending"`, `"descending"`, `"none"`) via column configuration flags.
-- **`aria-selected` Selection logic**: Dynamically flags rows checked within custom `rowSelection`.
-- **Keyboard operation details**: All selectors (`pageSizeSelector`) and iterators via page boundaries are navigable utilizing `tab`, and properly hide inaccessible variations through semantic `aria-hidden` attributes. Provide intuitive navigation between nested focus targets.
+- **`role="region"` + `aria-labelledby` / `aria-label`** — wraps the table in a landmark region labelled by `title` or `aria-label`.
+- **`aria-rowcount`** — the `<table>` exposes the total number of rows to assistive technologies.
+- **`aria-sort`** — header cells expose `"ascending"`, `"descending"`, or `"none"` based on `sortDirection`.
+- **`aria-selected`** — data rows report their selection state when `rowSelection` is active.
+- **`aria-label` on selection controls** — each checkbox/radio announces the row it selects (e.g. `"Select row 1"`).
+- **`aria-live="polite"` on record info bar** — "Showing X to Y" updates are announced politely on page change.
+- **Pagination keyboard support** — all page buttons are standard `<button>` elements, fully keyboard-navigable.
 
 ---
 
 ## TypeScript
 
-All core and optional interface types properly infer schema exports directly out.
+All types are exported from the package:
 
 ```ts
-import type {
-  TableProps,
-  TableColumn,
-  RowSelection,
-  TableClassNames,
-  TableStyles,
-} from "@bearlab/table";
+import type { TableProps, TableStyles, TableClassNames } from "@bearlab/table";
 ```
 
 ### `TableColumn`
 
 ```ts
 interface TableColumn {
+  key: string;
   title: string;
   dataIndex: string;
-  key: string;
-  render?: (value: any, record: Record<string, any>) => React.ReactNode;
-  sorter?: (a: any, b: any) => number;
-  sortDirection?: "asc" | "desc" | "none";
   width?: string | number;
+  sortDirection?: "asc" | "desc" | "none";
+  sorter?: (a: any, b: any) => number;
+  render?: (value: any, record: Record<string, any>) => React.ReactNode;
 }
 ```
 
@@ -281,6 +399,15 @@ interface RowSelection {
     selectedRowKeys: string[],
     selectedRows: Record<string, any>[]
   ) => void;
+}
+```
+
+### `TablePagination`
+
+```ts
+interface TablePagination {
+  pageSize?: number;
+  showPageNumbers?: boolean;
 }
 ```
 

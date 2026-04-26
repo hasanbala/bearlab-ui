@@ -15,6 +15,7 @@
 - [Usage](#usage)
 - [Props](#props)
 - [Variants](#variants)
+- [Icons](#icons)
 - [Slot-based Customization](#slot-based-customization)
 - [Theme Management](#theme-management)
 - [Design Tokens (Customization)](#design-tokens-customization)
@@ -26,12 +27,14 @@
 
 ## Features
 
-- ✅ **Dynamic Variant & Color Architecture** — decouples variant (`solid`, `outline`) from color (`primary`, `success`) for infinite scalabilty
-- ✅ **Slot-based `className` & `style` API** — granular styling for root and popover layouts
-- ✅ **Accessible by default** — dynamic `aria-label`, `aria-describedby`, `aria-disabled`, `aria-busy`
-- ✅ **Flexible content types** — `justText`, `justIcon`, `iconWithText`
-- ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Built-in loading & icon support** — seamless integration of custom and default icons
+- ✅ **Unified variant system** — a single `variant` prop combines visual style and semantic color (`primary`, `secondary-*`, `light-*`, `solid-*`, `liquid-*`)
+- ✅ **Three layout modes** — `justText`, `justIcon`, `iconWithText` via the required `buttonType` prop
+- ✅ **Built-in icon library** — 18 preset icons selectable via `iconType.default`; custom React elements via `iconType.custom`
+- ✅ **Slot-based `className` & `style` API** — granular per-element overrides for `root` and `popover`
+- ✅ **Accessible by default** — `aria-label`, `aria-describedby`, `aria-disabled`, `aria-busy` wired up automatically
+- ✅ **Dark mode ready** — responds to `html[data-theme="dark"]` out of the box
+- ✅ **Loading & disabled states** — spinner animation, cursor management, and opacity handled internally
+- ✅ **TypeScript-first** — all props, slots, variant unions, and icon names are fully typed
 
 ---
 
@@ -54,148 +57,186 @@ pnpm add @bearlab/button
 
 ## Usage
 
+### Text-only button
+
 ```tsx
 import { Button } from "@bearlab/button";
-import { CustomIcon } from "./customIcon";
 
-export default function App() {
-  return (
-    <>
-      <Button
-        buttonType="justText"
-        variant="solid"
-        color="primary"
-        label="Submit"
-        onClick={() => console.log("Clicked!")}
-      />
-      <Button
-        label=""
-        buttonType={"justIcon"}
-        onClick={() => console.log("Clicked")}
-        iconType={{ default: "delete" }}
-        className={{
-          root: classnames(styles.delete),
-        }}
-      />
-      <Button
-        label="Test"
-        buttonType={"iconWithText"}
-        iconType={{ default: "notify" }}
-        onClick={() => console.log("Clicked")}
-        variant={"outline"}
-        color={"secondary"}
-      />
-      <Button
-        label="Test 2"
-        buttonType={"justText"}
-        onClick={() => console.log("Clicked")}
-        variant={"liquid-holographic"}
-      />
-      <Button
-        label="Test 3"
-        buttonType={"justText"}
-        onClick={() => console.log("Clicked")}
-        variant={"liquid-tinted"}
-      />
-      <Button
-        label="Custom"
-        buttonType={"iconWithText"}
-        iconType={{
-          default: "none",
-          custom: <CustomIcon />,
-        }}
-      />
-    </>
-  );
+<Button
+  buttonType="justText"
+  label="Submit"
+  variant="primary"
+  onClick={() => console.log("clicked")}
+/>;
+```
+
+### Icon-only button (with tooltip popover)
+
+When `buttonType="justIcon"`, the `label` prop is visually hidden but is shown as a hover popover and used as `aria-label`.
+
+```tsx
+<Button
+  buttonType="justIcon"
+  label="Delete item"
+  iconType={{ default: "delete" }}
+  variant="secondary"
+/>
+```
+
+### Icon + text button
+
+```tsx
+<Button
+  buttonType="iconWithText"
+  label="Export"
+  iconType={{ default: "export" }}
+  variant="solid-success"
+/>
+```
+
+### Reversed icon position
+
+```tsx
+{
+  /* Icon appears before the text */
 }
+<Button
+  buttonType="iconWithText"
+  label="Filter"
+  iconType={{ default: "filter" }}
+  variant="secondary"
+  reverseIconText
+/>;
+```
+
+### Custom icon
+
+```tsx
+import { CustomIcon } from "./CustomIcon";
+
+<Button
+  buttonType="iconWithText"
+  label="Custom"
+  iconType={{ default: "none", custom: <CustomIcon /> }}
+  variant="liquid-tinted"
+/>;
+```
+
+### Loading state
+
+```tsx
+<Button buttonType="justText" label="Saving…" isLoading variant="primary" />
 ```
 
 ---
 
 ## Props
 
-| Prop              | Type                                              | Default    | Required | Description                                        |
-| ----------------- | ------------------------------------------------- | ---------- | -------- | -------------------------------------------------- |
-| `label`           | `string \| number`                                | —          | ✅       | Text content or label of the button                |
-| `buttonType`      | `"iconWithText" \| "justIcon" \| "justText"`      | —          | ✅       | Determines the layout structure of the button      |
-| `variant`         | [`ButtonVariant`](#buttonvariant)                 | `"solid"`  | ❌       | Visual styling variant of the button               |
-| `color`           | [`ButtonColor`](#buttoncolor)                     | `"primary"`| ❌       | Semantic color palette of the button               |
-| `htmlType`        | `"button" \| "submit"`                            | `"button"` | ❌       | Native HTML button type attribute                  |
-| `isLoading`       | `boolean`                                         | `false`    | ❌       | Displays a loading spinner and disables the button |
-| `disabled`        | `boolean`                                         | `false`    | ❌       | Disables the button completely                     |
-| `iconType`        | `{ default: ButtonIconTypeValues, custom?: ... }` | `none`     | ❌       | Configures the icon displayed in the button        |
-| `reverseIconText` | `boolean`                                         | `false`    | ❌       | Reverses the order of icon and text                |
-| `onClick`         | `(e: React.MouseEvent) => void`                   | —          | ❌       | Click event handler                                |
-| `className`       | [`ButtonClassNames`](#buttonclassnames)           | —          | ❌       | Per-slot className overrides                       |
-| `style`           | [`ButtonStyles`](#buttonstyles)                   | —          | ❌       | Per-slot inline style overrides                    |
+| Prop              | Type                                                               | Default               | Required | Description                                                                         |
+| ----------------- | ------------------------------------------------------------------ | --------------------- | -------- | ----------------------------------------------------------------------------------- |
+| `label`           | `string \| number`                                                 | —                     | ✅       | Button text. For `justIcon`, used as `aria-label` and popover content.              |
+| `buttonType`      | `"iconWithText" \| "justIcon" \| "justText"`                       | —                     | ✅       | Controls the layout structure of the button.                                        |
+| `variant`         | [`ButtonVariant`](#buttonvariant)                                  | `"primary"`           | ❌       | Visual + semantic styling variant.                                                  |
+| `htmlType`        | `"button" \| "submit"`                                             | `"button"`            | ❌       | Native HTML `type` attribute for the `<button>` element.                            |
+| `isLoading`       | `boolean`                                                          | `false`               | ❌       | Replaces content with a spinner; sets `aria-busy` and blocks interaction.           |
+| `disabled`        | `boolean`                                                          | `false`               | ❌       | Disables the button; applies muted styling via `--bearlab-button-opacity-disabled`. |
+| `iconType`        | `{ default: ButtonIconTypeValues; custom?: ReactElement \| null }` | `{ default: "none" }` | ❌       | Configures the icon. Use `custom` to override with any React element.               |
+| `reverseIconText` | `boolean`                                                          | `false`               | ❌       | Swaps icon and text order; icon renders before the label in `iconWithText`.         |
+| `onClick`         | `(e: React.MouseEvent<HTMLButtonElement>) => void`                 | —                     | ❌       | Click event handler.                                                                |
+| `className`       | [`ButtonClassNames`](#buttonclassnames)                            | —                     | ❌       | Per-slot className overrides.                                                       |
+| `style`           | [`ButtonStyles`](#buttonstyles)                                    | —                     | ❌       | Per-slot inline style overrides (`React.CSSProperties`).                            |
 
 ---
 
-## Variants & Colors
+## Variants
 
-The button uses a **decoupled architecture**, separating structural variants from semantic colors.
+The button uses a **unified variant system** — a single `variant` string combines the visual style and semantic intent.
 
-### Core Variants
-| Variant              | Description                                  |
-| -------------------- | -------------------------------------------- |
-| `solid`              | Main call-to-action buttons (Default)        |
-| `outline`            | Alternative generic actions                  |
-| `ghost`              | Subtle actions without prominent backgrounds |
-| `light`              | Tinted background with colored text          |
-| `liquid-holographic` | High-impact, visually rich actions           |
-| `liquid-tinted`      | Subtle, glassmorphism variations             |
+### Available Variants
 
-### Semantic Colors
-Available for all standard variants: `primary` (Default), `secondary`, `success`, `error`, `warning`, `info`, `dark`, `light`.
+| Group         | Values                                                                                          |
+| ------------- | ----------------------------------------------------------------------------------------------- |
+| **Base**      | `primary`, `secondary`                                                                          |
+| **Secondary** | `secondary-info`, `secondary-dark`, `secondary-error`, `secondary-success`, `secondary-warning` |
+| **Light**     | `light-dark`, `light-info`, `light-error`, `light-light`, `light-warning`, `light-success`      |
+| **Solid**     | `solid-dark`, `solid-info`, `solid-light`, `solid-error`, `solid-warning`, `solid-success`      |
+| **Liquid**    | `liquid-tinted`, `liquid-holographic`                                                           |
+
+> If `variant` is omitted, the component renders as `primary` (blue fill, white text).
 
 ```tsx
-<Button buttonType="justText" variant="solid" color="primary" label="Primary Action" />
-<Button buttonType="justText" variant="outline" color="secondary" label="Secondary Action" />
-<Button buttonType="justText" variant="light" color="success" label="Success Action" />
+<Button buttonType="justText" variant="primary"           label="Primary" />
+<Button buttonType="justText" variant="secondary"          label="Secondary" />
+<Button buttonType="justText" variant="solid-success"      label="Success" />
+<Button buttonType="justText" variant="light-error"        label="Error Light" />
+<Button buttonType="justText" variant="liquid-tinted"      label="Liquid Tinted" />
+<Button buttonType="justText" variant="liquid-holographic" label="Holographic" />
+```
+
+---
+
+## Icons
+
+The `iconType` prop accepts an object with two keys:
+
+| Key       | Type                   | Description                                                         |
+| --------- | ---------------------- | ------------------------------------------------------------------- |
+| `default` | `ButtonIconTypeValues` | Selects a built-in icon from the preset library.                    |
+| `custom`  | `ReactElement \| null` | Overrides the built-in icon with any React element. Takes priority. |
+
+### Built-in icon names (`ButtonIconTypeValues`)
+
+`"add"` · `"arrow"` · `"arrow_down"` · `"arrow_down2"` · `"arrow_right"` · `"close"` · `"copy"` · `"delete"` · `"document"` · `"dots"` · `"export"` · `"filter"` · `"minus"` · `"none"` · `"notify"` · `"plus"` · `"search"` · `"tick"` · `"update"`
+
+> Use `"none"` when you want `iconType.custom` only, or when no icon is needed in `iconWithText` mode.
+
+### Popover on `justIcon`
+
+When `buttonType="justIcon"`, the `label` is rendered as an on-hover **tooltip popover** above the button. The popover is linked via `aria-describedby` for screen reader compatibility.
+
 ```tsx
-<Button buttonType="justText" variant="solid"
-        color="primary" label="Primary Action" />
-<Button buttonType="justText" variant="secondary" label="Secondary Action" />
-<Button buttonType="justText" variant="tertiary" label="Tertiary Action" />
+<Button
+  buttonType="justIcon"
+  label="Add new item"          {/* ← becomes the popover text & aria-label */}
+  iconType={{ default: "add" }}
+/>
 ```
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the inner popover natively using `style?.popover`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component exposes two **slots** (`root` and `popover`) for injecting custom classes or inline styles without fighting CSS specificity.
 
 ### `ButtonClassNames`
 
-| Slot      | Targets                                      |
-| --------- | -------------------------------------------- |
-| `root`    | Outermost button container `<button>`        |
-| `popover` | Popover wrapper for `justIcon` label `<div>` |
+| Slot      | Targets                                                |
+| --------- | ------------------------------------------------------ |
+| `root`    | The outermost `<button>` element                       |
+| `popover` | The tooltip `<div>` shown on hover for `justIcon` mode |
 
 ```tsx
 <Button
   buttonType="justIcon"
-  label="Add New"
-  iconType={{ default: "add" }}
+  label="Settings"
+  iconType={{ default: "dots" }}
   className={{
-    root: "my-btn-root",
-    popover: "my-btn-popover",
+    root: "my-icon-btn",
+    popover: "my-tooltip",
   }}
 />
 ```
 
 ### `ButtonStyles`
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
-
 ```tsx
 <Button
   buttonType="justText"
-  label="Save Changes"
+  label="Save"
+  variant="primary"
   style={{
-    root: { borderRadius: "8px", fontWeight: "bold" },
+    root: { borderRadius: "9999px" },
+    popover: { fontSize: "0.75rem" },
   }}
 />
 ```
@@ -204,49 +245,163 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Button` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The component responds to a `data-theme` attribute on the `<html>` element (or any ancestor). Set it to `"dark"` to activate dark-mode overrides:
+
+```html
+<html data-theme="dark">
+  …
+</html>
+```
+
+Dark-mode token overrides are scoped inside `.container` using the `:global([data-theme="dark"])` SCSS selector. No extra configuration is required — the component adapts automatically.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-button-[element]-[property]` format, you can globally style the component across your application:
+All internal styles are driven by **private CSS variables** (`--_button-*`) that fall back to **public CSS custom properties** (`--bearlab-button-*`). Override the public ones in your own stylesheet to globally restyle the component.
+
+### Layout & Shape
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-button-root-border-radius: 8px;
-  --bearlab-button-root-padding: 0.5rem 1rem;
-  --bearlab-button-primary-bg: #007bff;
-  --bearlab-button-primary-hover: #0056b3;
+:root {
+  --bearlab-button-height: 2.75rem; /* 44px */
+  --bearlab-button-padding-x: 1rem; /* 16px */
+  --bearlab-button-padding-y: 0.75rem; /* 12px */
+  --bearlab-button-border-radius: 0.5rem; /* 8px  */
+  --bearlab-button-font-size: 0.875rem; /* 14px */
+  --bearlab-button-font-weight: 500;
+  --bearlab-button-icon-size: 1.125rem; /* 18px */
+  --bearlab-button-icon-gap: 0.625rem; /* 10px */
+  --bearlab-button-opacity-disabled: 0.6;
 }
 ```
+
+### Icon-only (`justIcon`) Layout
+
+```css
+:root {
+  --bearlab-button-justicon-size: 2.75rem; /* 44px — width & height */
+  --bearlab-button-justicon-icon-size: 1.5rem; /* 24px — inner SVG     */
+  --bearlab-button-justicon-border-radius: 9999px; /* pill shape by default */
+}
+```
+
+### Primary Variant Colors
+
+```css
+:root {
+  --bearlab-button-primary-bg: #465fff;
+  --bearlab-button-primary-bg-hover: #3641f5;
+  --bearlab-button-primary-color: #fff;
+  --bearlab-button-primary-icon-fill: #fff;
+}
+```
+
+### Secondary Variant Colors
+
+```css
+:root {
+  --bearlab-button-secondary-bg: #fff;
+  --bearlab-button-secondary-bg-hover: #f9fafb;
+  --bearlab-button-secondary-color: #374151;
+  --bearlab-button-secondary-border-color: #d1d5db;
+  --bearlab-button-secondary-icon-fill: #667085;
+  --bearlab-button-secondary-icon-fill-hover: #374151;
+}
+```
+
+### Liquid Tinted Colors
+
+```css
+:root {
+  --bearlab-button-tinted-bg: #465fff24;
+  --bearlab-button-tinted-bg-hover: #465fff38;
+  --bearlab-button-tinted-border: #4760ff4d;
+  --bearlab-button-tinted-color: #2d3aad;
+  --bearlab-button-tinted-icon-fill: #465fff;
+}
+```
+
+### Solid Variant Colors
+
+```css
+:root {
+  --bearlab-button-solid-success-bg: #12b76a;
+  --bearlab-button-solid-error-bg: #f04438;
+  --bearlab-button-solid-warning-bg: #f79009;
+  --bearlab-button-solid-info-bg: #0ba5ec;
+  --bearlab-button-solid-dark-bg: #344054;
+  --bearlab-button-solid-light-bg: #98a2b3;
+}
+```
+
+### Light Variant Colors
+
+```css
+:root {
+  --bearlab-button-light-success-bg: #ecfdf3;
+  --bearlab-button-light-success-color: #039855;
+  --bearlab-button-light-error-bg: #fef3f2;
+  --bearlab-button-light-error-color: #d92d20;
+  --bearlab-button-light-warning-bg: #fffaeb;
+  --bearlab-button-light-warning-color: #d36803;
+  --bearlab-button-light-info-bg: #f0f9ff;
+  --bearlab-button-light-info-color: #0ba5ec;
+}
+```
+
+### Popover Tooltip
+
+```css
+:root {
+  --bearlab-button-popover-bg: #fff;
+  --bearlab-button-popover-color: #344054;
+  --bearlab-button-popover-font-size: 0.8125rem; /* 13px */
+  --bearlab-button-popover-font-weight: 500;
+  --bearlab-button-popover-padding: 0.75rem; /* 12px */
+  --bearlab-button-popover-border-radius: 0.5rem; /* 8px  */
+  --bearlab-button-popover-offset-top: -2.8125rem; /* -45px — distance above button */
+}
+```
+
+### Transitions & Shadows
+
+```css
+:root {
+  --bearlab-button-transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --bearlab-button-transition-slow: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --bearlab-button-shadow: 0 1px 2px 0 #1018282e, 0 1px 3px 0 #10182814;
+  --bearlab-button-spinner-size: 1.25rem; /* 20px */
+}
+```
+
+> **Dark mode tokens:** All token groups have dark-mode counterparts that are applied automatically under `[data-theme="dark"]`. Override them the same way — the public variable name stays identical.
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+| ARIA attribute       | When applied                                     | Purpose                                                   |
+| -------------------- | ------------------------------------------------ | --------------------------------------------------------- |
+| `aria-label`         | `buttonType="justIcon"`                          | Provides the accessible name (from `label` prop)          |
+| `aria-describedby`   | `buttonType="justIcon"` with a non-empty `label` | Links the visible popover tooltip to the button           |
+| `aria-disabled`      | `disabled` or `isLoading` is `true`              | Communicates disabled state to assistive technologies     |
+| `aria-busy`          | `isLoading` is `true`                            | Signals that an async operation is in progress            |
+| `aria-hidden="true"` | All icon SVGs and the loading spinner            | Prevents decorative elements from polluting the a11y tree |
+| `focusable="false"`  | All icon SVGs and the loading spinner            | Prevents SVG from receiving focus in older browsers       |
 
-- **`aria-label`** — Provides an accessible name for screen readers when the button is of type `justIcon`.
-- **`aria-describedby`** — Semantically links the tooltip popover (`popoverId` dynamically generated, stable IDs `useId()`) to the button.
-- **`aria-disabled`** — Semantically communicates when a button is disabled, synchronizing state with the native `disabled` attribute.
-- **`aria-busy`** — Indicates the button's transient loading state when `isLoading` is true.
-- **`aria-hidden="true"`** & **`focusable="false"`** — Applied to all decorative icons and loading spinners to prevent redundant or confusing screen reader announcements.
+The `popoverId` is generated with React's `useId()` hook, guaranteeing stable, unique IDs across SSR and client renders.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All types are exported from the package entry point:
 
 ```ts
 import type {
   ButtonProps,
-  ButtonType,
-  ButtonHtmlType,
-  ButtonVariant,
-  ButtonIconTypeValues,
   ButtonClassNames,
   ButtonStyles,
 } from "@bearlab/button";
@@ -257,17 +412,17 @@ import type {
 ```ts
 interface ButtonProps {
   label: string | number;
+  buttonType: ButtonType;
+  variant?: ButtonVariant;
+  htmlType?: ButtonHtmlType;
   isLoading?: boolean;
+  disabled?: boolean;
   iconType?: {
     default: ButtonIconTypeValues;
     custom?: null | React.ReactElement;
   };
-  buttonType: ButtonType;
-  disabled?: boolean;
-  htmlType?: ButtonHtmlType;
-  onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
   reverseIconText?: boolean;
-  variant?: ButtonVariant;
+  onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
   className?: ButtonClassNames;
   style?: ButtonStyles;
 }
@@ -289,59 +444,60 @@ type ButtonHtmlType = "button" | "submit";
 
 ```ts
 type ButtonVariant =
-  | "solid"
-  | "outline"
-  | "ghost"
-  | "light"
-  | "liquid-holographic"
-  | "liquid-tinted";
-```
-
-### `ButtonColor`
-
-```ts
-type ButtonColor =
   | "primary"
   | "secondary"
-  | "success"
-  | "error"
-  | "warning"
-  | "info"
-  | "dark"
-  | "light";
+  | "secondary-info"
+  | "secondary-dark"
+  | "secondary-error"
+  | "secondary-success"
+  | "secondary-warning"
+  | "liquid-tinted"
+  | "liquid-holographic"
+  | "light-dark"
+  | "light-info"
+  | "light-error"
+  | "light-light"
+  | "light-warning"
+  | "light-success"
+  | "solid-dark"
+  | "solid-info"
+  | "solid-light"
+  | "solid-error"
+  | "solid-warning"
+  | "solid-success";
 ```
 
 ### `ButtonIconTypeValues`
 
 ```ts
 type ButtonIconTypeValues =
-  | "none"
-  | "delete"
-  | "arrow"
-  | "export"
   | "add"
-  | "document"
-  | "update"
-  | "search"
-  | "close"
-  | "notify"
+  | "arrow"
   | "arrow_down"
-  | "minus"
-  | "plus"
-  | "filter"
-  | "dots"
   | "arrow_down2"
   | "arrow_right"
+  | "close"
+  | "copy"
+  | "delete"
+  | "document"
+  | "dots"
+  | "export"
+  | "filter"
+  | "minus"
+  | "none"
+  | "notify"
+  | "plus"
+  | "search"
   | "tick"
-  | "copy";
+  | "update";
 ```
 
 ### `ButtonClassNames`
 
 ```ts
 interface ButtonClassNames {
-  root?: string;
-  popover?: string;
+  root?: string; // <button> element
+  popover?: string; // tooltip <div> inside justIcon
 }
 ```
 
@@ -349,8 +505,8 @@ interface ButtonClassNames {
 
 ```ts
 interface ButtonStyles {
-  root?: React.CSSProperties;
-  popover?: React.CSSProperties;
+  root?: React.CSSProperties; // <button> element
+  popover?: React.CSSProperties; // tooltip <div> inside justIcon
 }
 ```
 

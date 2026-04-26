@@ -1,10 +1,10 @@
 import classnames from "classnames";
 import { FaqItemV1 } from "./components/faq-item-v1";
 import styles from "./styles/faq.module.scss";
-import type { FaqProps } from "./types/faq.types";
+import type { FaqV1Props } from "./types/faq.types";
 import { useState } from "react";
 
-export const FaqV1 = (props: FaqProps) => {
+export const FaqV1 = (props: FaqV1Props) => {
   const {
     data,
     className,

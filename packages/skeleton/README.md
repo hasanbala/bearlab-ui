@@ -1,6 +1,6 @@
 # @bearlab/skeleton
 
-> Accessible, fully customizable Skeleton component for React applications. To provide smooth loading states while content is being fetched.
+> Accessible, fully customizable Skeleton loading component for React applications. Provides smooth shimmer placeholders while content is being fetched.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/skeleton)](https://www.npmjs.com/package/@bearlab/skeleton)
 [![license](https://img.shields.io/npm/l/@bearlab/skeleton)](LICENSE)
@@ -26,12 +26,13 @@
 
 ## Features
 
-- ✅ **4 semantic variants** — `default`, `article`, `card`, `list`
-- ✅ **Animated by default** — smooth shimmer effect (`animated` prop)
+- ✅ **8 semantic variants** — `default`, `article`, `card`, `list`, `modal`, `profile`, `table`, `form`
+- ✅ **Shimmer animation** — smooth animated effect enabled via the `animated` prop
+- ✅ **`lines` control** — configure how many content lines each variant renders
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — `aria-busy`, `aria-hidden` considerations
-- ✅ **TypeScript-first** — fully typed props and interfaces
-- ✅ **Zero layout opinion** — drop-in replacement layout/wrapper
+- ✅ **Dark mode support** — responds to `[data-theme="dark"]` automatically
+- ✅ **TypeScript-first** — fully typed props, variant types, and slot interfaces
+- ✅ **Zero layout opinion** — drop-in loading placeholder, no layout assumptions
 
 ---
 
@@ -54,85 +55,118 @@ pnpm add @bearlab/skeleton
 
 ## Usage
 
+### Basic Usage
+
 ```tsx
 import { Skeleton } from "@bearlab/skeleton";
 
 export default function App() {
-  return (
-    <Skeleton
-      variant="article"
-      animated={true}
-      lines={4}
-    />
-  );
+  return <Skeleton variant="article" lines={4} />;
 }
+```
+
+### Conditional Loading
+
+```tsx
+import { Skeleton } from "@bearlab/skeleton";
+
+export default function UserCard({ isLoading, user }) {
+  if (isLoading) {
+    return <Skeleton variant="card" animated={true} />;
+  }
+
+  return <div>{user.name}</div>;
+}
+```
+
+### Static (Non-animated) Skeleton
+
+```tsx
+<Skeleton variant="list" animated={false} lines={5} />
 ```
 
 ---
 
 ## Props
 
-| Prop | Type | Default | Required | Description |
-| ---- | ---- | ------- | -------- | ----------- |
-| `variant` | `"default" \| "article" \| "card" \| "list"` | `"default"` | ❌ | Visual and semantic layout variant of the skeleton |
-| `lines` | `number` | `4` | ❌ | Number of content lines to render (for default variant) |
-| `animated` | `boolean` | `true` | ❌ | Enable/disable shimmer animation |
-| `className` | `string \| SkeletonClassNames` | — | ❌ | Additional CSS class names or per-slot overrides |
-| `style` | `React.CSSProperties \| SkeletonStyles` | — | ❌ | Inline style or per-slot inline style overrides |
+| Prop        | Type                 | Default     | Required | Description                                          |
+| ----------- | -------------------- | ----------- | -------- | ---------------------------------------------------- |
+| `variant`   | `SkeletonVariant`    | `"default"` | ❌       | Visual and structural layout variant of the skeleton |
+| `lines`     | `number`             | `4`         | ❌       | Number of content lines to render inside the variant |
+| `animated`  | `boolean`            | `true`      | ❌       | Enables or disables the shimmer animation            |
+| `className` | `SkeletonClassNames` | —           | ❌       | Per-slot CSS class names for internal elements       |
+| `style`     | `SkeletonStyles`     | —           | ❌       | Per-slot inline style objects for internal elements  |
 
 ---
 
 ## Variants
 
-| Variant | Use case |
-| ------- | -------- |
-| `default` | General text content, fluid lines |
-| `article` | Blog posts, news articles with avatar and titles |
-| `card` | Product cards, image galleries, media items |
-| `list` | User lists, comments, repeating content |
+The `variant` prop determines both the visual structure and the semantic layout of the skeleton. Each variant is implemented as a dedicated sub-component internally.
+
+| Variant   | Sub-component     | Use case                                           |
+| --------- | ----------------- | -------------------------------------------------- |
+| `default` | `SkeletonDefault` | Generic two-column grid of text lines              |
+| `article` | `SkeletonArticle` | Blog posts, news articles with avatar and title    |
+| `card`    | `SkeletonCard`    | Product cards, image galleries, media items        |
+| `list`    | `SkeletonList`    | User lists, comments, repeating row content        |
+| `modal`   | `SkeletonModal`   | Loading states inside dialogs and modal windows    |
+| `profile` | `SkeletonProfile` | User profile summaries with avatar and stats grid  |
+| `table`   | `SkeletonTable`   | Data tables with header row and body rows          |
+| `form`    | `SkeletonForm`    | Input fields, labels, and action buttons in a form |
 
 ```tsx
 <Skeleton variant="default" lines={6} />
 <Skeleton variant="article" />
 <Skeleton variant="card" />
-<Skeleton variant="list" />
+<Skeleton variant="list" lines={5} />
+<Skeleton variant="modal" />
+<Skeleton variant="profile" />
+<Skeleton variant="table" lines={4} />
+<Skeleton variant="form" lines={3} />
 ```
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. Both `className` and `style` accept an object whose keys correspond to specific internal DOM elements.
 
-For example, you can target the root container utilizing `className?.root` or style the inner content natively using `style?.content`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+> **Note:** Not every slot is used by every variant. For example, `avatar` is used by `article` and `profile`; `row` and `cell` are used by `table`; `label` and `input` are used by `form`.
 
-### `SkeletonClassNames`
+### `SkeletonClassNames` & `SkeletonStyles`
 
-| Slot | Targets |
-| ---- | ------- |
-| `root` | Outermost container `<div>` |
-| `content` | Inner content wrapper / lines `<div>` |
+| Slot          | Targets                                                  |
+| ------------- | -------------------------------------------------------- |
+| `root`        | Outermost container `<div>` (receives variant class too) |
+| `content`     | Inner content card wrapper                               |
+| `header`      | Header section (article, modal)                          |
+| `body`        | Main content area (article, modal)                       |
+| `footer`      | Footer section (modal)                                   |
+| `avatar`      | Circular avatar placeholder (article, profile)           |
+| `title`       | Main title line                                          |
+| `subtitle`    | Secondary/subtitle line                                  |
+| `description` | Description text block                                   |
+| `line`        | Individual text line (default, article, card, modal)     |
+| `image`       | Large image/media placeholder (card)                     |
+| `item`        | Repeating list item wrapper (list)                       |
+| `label`       | Form label placeholder (form)                            |
+| `input`       | Input field placeholder (form)                           |
+| `button`      | Action button placeholder (form, modal)                  |
+| `row`         | Table row (table)                                        |
+| `cell`        | Table cell (table)                                       |
 
 ```tsx
 <Skeleton
-  variant="default"
+  variant="article"
   className={{
     root: "my-skeleton-root",
-    content: "my-skeleton-content",
+    avatar: "my-avatar-placeholder",
+    title: "my-title-placeholder",
+    line: "my-line-placeholder",
   }}
-/>
-```
-
-### `SkeletonStyles`
-
-All slots also accept inline `React.CSSProperties` via the `style` prop:
-
-```tsx
-<Skeleton
-  variant="card"
   style={{
-    root: { borderRadius: "12px" },
-    content: { height: "200px" },
+    line: { height: "0.75rem", marginBottom: "0.5rem" },
+    avatar: { width: "3rem", height: "3rem" },
   }}
 />
 ```
@@ -141,20 +175,44 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Skeleton` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Skeleton` component features a robust theme architecture. It natively responds to **`[data-theme="dark"]`** selectors applied at any ancestor level, automatically switching shimmer colors, background colors, and surface backgrounds for dark mode. No additional configuration or JavaScript is required.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-skeleton-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component leverages scoped CSS variables for a global design token system. You can override the default appearance by redefining these variables in your own stylesheet. All tokens follow the `--bearlab-skeleton-*` naming convention.
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-skeleton-root-bg: #e0e0e0;
-  --bearlab-skeleton-content-shimmer-color: #f5f5f5;
-  --bearlab-skeleton-root-border-radius: 8px;
+/* Override examples — only set what you need */
+:root {
+  /* Base skeleton tile color */
+  --bearlab-skeleton-bg: #e4e7ec;
+
+  /* Shimmer gradient overlay */
+  --bearlab-skeleton-shimmer: linear-gradient(
+    90deg,
+    transparent,
+    rgba(70, 95, 255, 0.15),
+    transparent
+  );
+
+  /* Animation speed */
+  --bearlab-skeleton-shimmer-duration: 2s;
+
+  /* Content card surface */
+  --bearlab-skeleton-surface-bg: #fff;
+
+  /* Border and shadow */
+  --bearlab-skeleton-border: #e4e7ec;
+  --bearlab-skeleton-border-radius: 0.5rem;
+
+  /* Accent color (hover state) */
+  --bearlab-skeleton-accent: color-mix(in oklab, #465fff 8%, transparent);
+
+  /* Spacing */
+  --bearlab-skeleton-content-padding: 1.5rem;
+  --bearlab-skeleton-line-height: 1rem;
 }
 ```
 
@@ -162,11 +220,25 @@ Beyond slots, the component leverages CSS variables for a global design token sy
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+The `Skeleton` component follows best practices for accessible loading states:
 
-- **`aria-busy="true"`** — Informs assistive technologies that the content is currently loading or updating.
-- **`aria-hidden="true"`** — Applied to decorative loading elements to prevent screen readers from reading meaningless or confusing visual placeholders.
-- Provides fallback descriptive text or labels to ensure screen readers inform users that content will populate shortly.
+- **Visual-only placeholders** — All skeleton tiles are purely presentational. They carry no meaningful content for screen readers.
+- **`aria-hidden="true"`** — Should be applied to the skeleton wrapper when rendered conditionally alongside real content, preventing screen readers from announcing empty placeholder shapes.
+- **`aria-busy="true"`** — Recommended on the closest meaningful ancestor element (e.g., a section or region) while content is loading, informing assistive technologies that the area is updating.
+- **Fallback text** — For critical loading regions, consider adding a visually hidden `<span>` (e.g., `"Loading content..."`) inside the skeleton wrapper for screen reader announcements.
+
+```tsx
+{
+  /* Best practice usage for accessible loading states */
+}
+<section aria-busy={isLoading} aria-label="User profile">
+  {isLoading ? (
+    <Skeleton variant="profile" aria-hidden="true" />
+  ) : (
+    <UserProfile data={user} />
+  )}
+</section>;
+```
 
 ---
 
@@ -177,14 +249,83 @@ All types are exported from the package:
 ```ts
 import type {
   SkeletonProps,
-  SkeletonVariant,
+  SkeletonClassNames,
+  SkeletonStyles,
 } from "@bearlab/skeleton";
 ```
 
 ### `SkeletonVariant`
 
 ```ts
-type SkeletonVariant = "default" | "article" | "card" | "list";
+type SkeletonVariant =
+  | "default"
+  | "article"
+  | "card"
+  | "list"
+  | "modal"
+  | "profile"
+  | "table"
+  | "form";
+```
+
+### `SkeletonProps`
+
+```ts
+interface SkeletonProps {
+  variant?: SkeletonVariant;
+  lines?: number;
+  animated?: boolean;
+  className?: SkeletonClassNames;
+  style?: SkeletonStyles;
+}
+```
+
+### `SkeletonClassNames`
+
+```ts
+interface SkeletonClassNames {
+  root?: string;
+  content?: string;
+  header?: string;
+  body?: string;
+  footer?: string;
+  avatar?: string;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  line?: string;
+  image?: string;
+  item?: string;
+  label?: string;
+  input?: string;
+  button?: string;
+  row?: string;
+  cell?: string;
+}
+```
+
+### `SkeletonStyles`
+
+```ts
+interface SkeletonStyles {
+  root?: React.CSSProperties;
+  content?: React.CSSProperties;
+  header?: React.CSSProperties;
+  body?: React.CSSProperties;
+  footer?: React.CSSProperties;
+  avatar?: React.CSSProperties;
+  title?: React.CSSProperties;
+  subtitle?: React.CSSProperties;
+  description?: React.CSSProperties;
+  line?: React.CSSProperties;
+  image?: React.CSSProperties;
+  item?: React.CSSProperties;
+  label?: React.CSSProperties;
+  input?: React.CSSProperties;
+  button?: React.CSSProperties;
+  row?: React.CSSProperties;
+  cell?: React.CSSProperties;
+}
 ```
 
 ---

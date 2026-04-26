@@ -3,6 +3,7 @@ import type { OtpInputProps } from "../types/otp-form.types";
 
 export const OtpInput = (props: OtpInputProps) => {
   const {
+    name,
     index,
     style,
     value,
@@ -20,7 +21,7 @@ export const OtpInput = (props: OtpInputProps) => {
       ref={inputRef}
       type="text"
       inputMode="numeric"
-      name={`otp-${index}`}
+      name={name}
       autoComplete="one-time-code"
       maxLength={1}
       disabled={disabled}

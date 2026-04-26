@@ -2,9 +2,9 @@ import { useState } from "react";
 import classnames from "classnames";
 import { FaqItemV2 } from "./components/faq-item-v2";
 import styles from "./styles/faq.module.scss";
-import type { FaqProps } from "./types/faq.types";
+import type { FaqV2Props } from "./types/faq.types";
 
-export const FaqV2 = (props: FaqProps) => {
+export const FaqV2 = (props: FaqV2Props) => {
   const { data, className, style } = props;
 
   const [openIndexFirstGroup, setOpenIndexFirstGroup] = useState<number | null>(

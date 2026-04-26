@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SelectedItems } from "./selected-items";
 import { IconChevronDown, IconLoaderCircle } from "../assets/icons";
 import { SearchProps, SelectOption } from "../types/select.types";
@@ -31,21 +31,25 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const ghostRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
+  const isSingle = mode == "single";
+
+  const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
+    selectedItems,
+    containerWidth,
+    inputWidth
+  );
 
   useLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
   }, [query]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value.trim()) return;
-    setQuery(e.target.value);
-  };
-
-  const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
-    selectedItems,
-    containerWidth,
-    inputWidth
+  const inputStyle = useMemo(
+    () => ({
+      width: inputWidth || undefined,
+      maxWidth: containerWidth - 100,
+    }),
+    [inputWidth, containerWidth]
   );
 
   return (
@@ -59,25 +63,25 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
         className?.search
       )}
       onMouseDown={(e) => {
+        if (isLoading) return;
         if (e.target === inputRef.current) return;
         e.preventDefault();
         inputRef.current?.focus();
       }}
       onClick={() => {
+        if (isLoading) return;
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
-      {mode === "multiple" && (
-        <SelectedItems
-          style={style}
-          disabled={disabled}
-          className={className}
-          visibleCount={visibleCount}
-          selectedItems={selectedItems}
-          ref={selectedItemsRef}
-          setSelectedItems={onChange ?? (() => {})}
-        />
-      )}
+      <SelectedItems
+        style={style}
+        disabled={disabled}
+        className={className}
+        visibleCount={visibleCount}
+        selectedItems={selectedItems}
+        ref={selectedItemsRef}
+        setSelectedItems={onChange ?? (() => {})}
+      />
       <div data-value={query || placeholder} className={styles.inputWrapper}>
         <span ref={ghostRef} className={styles.inputGhost} aria-hidden="true">
           {query || placeholder || " "}
@@ -92,24 +96,21 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
           id={inputId}
           value={query}
           ref={inputRef}
-          disabled={disabled}
+          disabled={disabled || isLoading}
           aria-label={placeholder}
-          aria-disabled={disabled}
-          placeholder={placeholder}
+          aria-disabled={disabled || isLoading}
+          placeholder={isSingle && !!selectedItems.length ? "" : placeholder}
           aria-controls={listboxId}
           aria-expanded={isDropdownVisible}
           aria-activedescendant={activeOptionId}
           onKeyDown={onKeyDown}
-          onChange={handleInputChange}
-          style={{
-            width: inputWidth || undefined,
-            maxWidth: containerWidth - 100,
-          }}
+          onChange={(e) => setQuery(e.target.value)}
+          style={inputStyle}
         />
       </div>
       <div
-        className={classnames(styles.arrowIcon, {
-          [styles.activeArrowIcon]: isDropdownVisible && !isLoading,
+        className={classnames(styles.inputDropdownIcon, {
+          [styles.activeInputDropdownIcon]: isDropdownVisible && !isLoading,
         })}
         aria-hidden="true"
       >

@@ -1,8 +1,6 @@
 export { OTPForm } from "./otp-form";
 export type {
   OTPFormProps,
-  OTPFormSubComponentProps,
-  OTPFormSubComponentStyles,
-  OtpInputListProps,
-  OtpInputProps,
+  OTPFormClassNamesProps,
+  OTPFormStylesProps,
 } from "./types/otp-form.types";

@@ -1,17 +1,17 @@
 export type CarouselItem =
   | {
-      type: "video";
       src: string;
+      type: "video";
+      title?: string;
       poster?: string;
       description?: string;
-      title?: string;
     }
   | {
-      type: "image";
       src: string;
       alt?: string;
-      description?: string;
+      type: "image";
       title?: string;
+      description?: string;
     };
 
 export interface CarouselProps {
@@ -19,8 +19,8 @@ export interface CarouselProps {
   sliderTime?: number;
   slideHeight?: number;
   items: CarouselItem[];
-  containerWidth?: number;
   style?: CarouselStyles;
+  containerWidth?: number;
   showNavigation?: boolean;
   loop?: "infinite" | "wrap";
   transitionDuration?: number;
@@ -75,11 +75,11 @@ export interface UseDragProps {
 export interface UseDragReturn {
   isDragging: boolean;
   handlers: {
-    onPointerDown: (e: React.PointerEvent) => void;
-    onPointerMove: (e: React.PointerEvent) => void;
     onPointerUp: (e: React.PointerEvent) => void;
-    onPointerCancel: (e: React.PointerEvent) => void;
     onClickCapture: (e: React.MouseEvent) => void;
+    onPointerMove: (e: React.PointerEvent) => void;
+    onPointerDown: (e: React.PointerEvent) => void;
+    onPointerCancel: (e: React.PointerEvent) => void;
   };
 }
 
@@ -105,8 +105,8 @@ export interface VideoSlideProps {
 
 export interface CarouselStyles {
   dots?: React.CSSProperties;
-  track?: React.CSSProperties;
   root?: React.CSSProperties;
+  track?: React.CSSProperties;
   navigation?: React.CSSProperties;
   videoSlide?: React.CSSProperties;
   promptOverlay?: React.CSSProperties;
@@ -124,10 +124,10 @@ export interface CarouselClassNames {
 export interface DotButtonProps {
   index: number;
   realIndex: number;
-  onClick: (value: number) => void;
   activeDotStyle: {
     animationDuration: string;
   };
+  onClick: (value: number) => void;
 }
 
 export interface SlideItemProps {

@@ -20,6 +20,7 @@ const renderIcon = (icon: IconType) => {
 
 export const Input = (props: InputProps) => {
   const {
+    name,
     label,
     error,
     value,
@@ -150,6 +151,7 @@ export const Input = (props: InputProps) => {
           </button>
         )}
         <input
+          name={name}
           id={inputId}
           value={value ?? ""}
           type={inputType}

@@ -1,43 +1,41 @@
-import type React from "react";
-
 export interface DropdownProps {
-  show: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
   id?: string;
+  show: boolean;
+  className?: string;
   labelledBy?: string;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  onClose: () => void;
 }
 
 export interface DropdownItemProps {
-  tag?: "a" | "button";
   href?: string;
+  className?: string;
+  disabled?: boolean;
+  tag?: "a" | "button";
+  children: React.ReactNode;
+  style?: React.CSSProperties;
   onClick?: () => void;
   onItemClick?: () => void;
-  className?: string;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
-  disabled?: boolean;
 }
 
 export interface DropdownListProps {
+  id?: string;
+  style?: DropdownListStyles;
+  className?: DropdownListClassNames;
   list: {
     dropdownLabel: string;
     options: {
-      label: string;
       href: string;
+      label: string;
       icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
     }[][];
   };
-  className?: DropdownListClassNames;
-  style?: DropdownListStyles;
-  id?: string;
 }
 
 export interface UseClickOutsideOptions {
-  excludeSelector?: string;
   enabled?: boolean;
+  excludeSelector?: string;
 }
 
 export interface UseDropdownReturn {
@@ -47,46 +45,46 @@ export interface UseDropdownReturn {
 }
 
 export interface UseDropdown {
-  buttonId?: string;
   menuId?: string;
+  buttonId?: string;
 }
 
 export interface DropdownOptionsProps {
+  style?: DropdownListStyles;
+  className?: DropdownListClassNames;
   group: {
     href: string;
     label: string;
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | undefined;
   }[];
-  className?: DropdownListClassNames;
-  style?: DropdownListStyles;
 }
 
 export interface DropdownOptionProps {
   href: string;
   label: string;
-  icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | undefined;
-  className?: DropdownListClassNames;
   style?: DropdownListStyles;
+  className?: DropdownListClassNames;
+  icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | undefined;
 }
 
 export interface DropdownListClassNames {
   root?: string;
   dropdown?: string;
-  dropdownButton?: string;
-  dropdownItem?: string;
-  dropdownOptions?: string;
-  dropdownOption?: string;
   dropdownIcon?: string;
+  dropdownItem?: string;
   dropdownLabel?: string;
+  dropdownButton?: string;
+  dropdownOption?: string;
+  dropdownOptions?: string;
 }
 
 export interface DropdownListStyles {
   root?: React.CSSProperties;
   dropdown?: React.CSSProperties;
-  dropdownButton?: React.CSSProperties;
-  dropdownItem?: React.CSSProperties;
-  dropdownOptions?: React.CSSProperties;
-  dropdownOption?: React.CSSProperties;
   dropdownIcon?: React.CSSProperties;
+  dropdownItem?: React.CSSProperties;
   dropdownLabel?: React.CSSProperties;
+  dropdownOption?: React.CSSProperties;
+  dropdownButton?: React.CSSProperties;
+  dropdownOptions?: React.CSSProperties;
 }

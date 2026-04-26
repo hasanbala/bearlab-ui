@@ -1,6 +1,6 @@
 # @bearlab/pricing
 
-> Accessible, fully customizable Pricing component for React applications.
+> Accessible, fully customizable Pricing component for React applications. Supports three distinct layout variants with built-in billing toggle, recommended badges, and per-slot customization.
 
 [![npm version](https://img.shields.io/npm/v/@bearlab/pricing)](https://www.npmjs.com/package/@bearlab/pricing)
 [![license](https://img.shields.io/npm/l/@bearlab/pricing)](LICENSE)
@@ -26,12 +26,13 @@
 
 ## Features
 
-- ✅ **3 distinct layout types** — `"one"`, `"two"`, `"three"`
-- ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Accessible by default** — Keyboard navigation, `aria-hidden`, and semantic structure
-- ✅ **Customizable Icons** — Replace default check/close icons easily
-- ✅ **TypeScript-first** — fully typed props and slot interfaces
-- ✅ **Built-in Billing Switcher** — Supports monthly/annually toggles (Type One)
+- ✅ **3 distinct layout types** — `"one"` (billing toggle), `"two"` (icon cards), `"three"` (recommended badge)
+- ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity issues
+- ✅ **Accessible by default** — keyboard navigation (`Enter`, `Space`), `aria-selected`, `aria-label`, semantic HTML
+- ✅ **Customizable Icons** — replace default check/close icons with any `ReactNode`
+- ✅ **TypeScript-first** — fully typed discriminated union props and slot interfaces
+- ✅ **Dark mode support** — responds to `[data-theme="dark"]` out of the box
+- ✅ **Responsive grid** — 1 column → 2 columns (768px) → 3 columns (1280px)
 
 ---
 
@@ -56,7 +57,7 @@ pnpm add @bearlab/pricing
 
 ### Type One: Billing Toggle Layout
 
-Optimized for layouts featuring a billing cycle switch (e.g., Monthly vs. Annually).
+Features a heading, a monthly/annually switcher, campaign pricing, and original (strikethrough) pricing.
 
 ```tsx
 import { Pricing } from "@bearlab/pricing";
@@ -66,7 +67,7 @@ export default function App() {
     <Pricing
       type="one"
       heading="Find the right plan for you"
-      defaultBilling="monthly"
+      switchLabels={{ monthly: "Monthly", annually: "Annually" }}
       packs={[
         {
           id: 1,
@@ -82,6 +83,7 @@ export default function App() {
             { label: "1 Project", value: true },
             { label: "Basic Analytics", value: true },
             { label: "Community Support", value: true },
+            { label: "Custom Domain", value: false },
           ],
         },
       ]}
@@ -90,12 +92,13 @@ export default function App() {
 }
 ```
 
-### Type Two: Standard Card Layout
+### Type Two: Icon Card Layout
 
-The classic grid layout with customizable icons for each pricing tier.
+Standard grid cards, each with a pack icon component, a fixed price, and a feature list.
 
 ```tsx
 import { Pricing } from "@bearlab/pricing";
+import { StarIcon } from "./icons";
 
 export default function App() {
   return (
@@ -109,11 +112,12 @@ export default function App() {
           price: "$49",
           priceTag: "/ month",
           buttonLabel: "Go Pro",
-          packIcon: () => <svg>...</svg>,
+          packIcon: StarIcon, // React.ComponentType
           features: [
             { label: "Up to 20 Projects", value: true },
             { label: "Advanced Analytics", value: true },
             { label: "Priority Support", value: true },
+            { label: "Dedicated SSO", value: false },
           ],
         },
       ]}
@@ -124,7 +128,7 @@ export default function App() {
 
 ### Type Three: Recommended Badge Layout
 
-A focused layout ideal for highlighting a specific "Recommended" or "Best Value" plan.
+Compact cards designed for comparison tables. Supports an `isRecommended` flag that renders a floating badge on the card.
 
 ```tsx
 import { Pricing } from "@bearlab/pricing";
@@ -137,16 +141,25 @@ export default function App() {
       packs={[
         {
           id: 1,
-          packTitle: "Enterprise",
-          packDescription: "Custom solutions for large organizations.",
-          price: "$99",
-          priceTag: "/ month",
-          buttonLabel: "Contact Sales",
+          packTitle: "Basic",
+          packDescription: "A solid starting point.",
+          buttonLabel: "Choose Basic",
+          features: [
+            { label: "5 Projects", value: true },
+            { label: "Email Support", value: true },
+            { label: "Custom Domain", value: false },
+          ],
+        },
+        {
+          id: 2,
+          packTitle: "Pro",
+          packDescription: "Everything you need to scale.",
+          buttonLabel: "Choose Pro",
           isRecommended: true,
           features: [
             { label: "Unlimited Projects", value: true },
-            { label: "Dedicated SSO", value: true },
-            { label: "24/7 Phone Support", value: true },
+            { label: "Priority Support", value: true },
+            { label: "Custom Domain", value: true },
           ],
         },
       ]}
@@ -159,55 +172,75 @@ export default function App() {
 
 ## Props
 
-| Prop                | Type                                                | Default                                        | Required | Description                                            |
-| ------------------- | --------------------------------------------------- | ---------------------------------------------- | -------- | ------------------------------------------------------ |
-| `type`              | `"one" \| "two" \| "three"`                         | —                                              | ✅       | Visual and structural variant of the pricing layout    |
-| `packs`             | `PackTypeOne[] \| PackTypeTwo[] \| PackTypeThree[]` | —                                              | ✅       | Array of objects defining the pricing tiers            |
-| `heading`           | `string`                                            | —                                              | ❌       | Used only in `type="one"` to display a section heading |
-| `switchLabels`      | `{ monthly: string; annually: string }`             | `{ monthly: "Monthly", annually: "Annually" }` | ❌       | Labels for billing toggle in `type="one"`              |
-| `recommendedLabel`  | `string`                                            | `"Recommended"`                                | ❌       | Label for the recommended badge in `type="three"`      |
-| `defaultBilling`    | `"monthly" \| "annually"`                           | —                                              | ❌       | Default selected billing cycle                         |
-| `defaultActivePack` | `number`                                            | —                                              | ❌       | ID of the pack to be active by default                 |
-| `checkIcon`         | `React.ReactNode`                                   | `<DefaultCheckIcon />`                         | ❌       | Custom icon for included features                      |
-| `closeIcon`         | `React.ReactNode`                                   | `<DefaultCloseIcon />`                         | ❌       | Custom icon for excluded features                      |
-| `className`         | [`PricingClassNames`](#pricingclassnames)           | —                                              | ❌       | Per-slot className overrides                           |
-| `style`             | [`PricingStyles`](#pricingstyles)                   | —                                              | ❌       | Per-slot inline style overrides                        |
+The `Pricing` component uses a **discriminated union** based on the `type` prop. Shared base props are available on all variants.
+
+### Shared (Base) Props
+
+| Prop                | Type                                      | Default                 | Required | Description                                        |
+| ------------------- | ----------------------------------------- | ----------------------- | -------- | -------------------------------------------------- |
+| `type`              | `"one" \| "two" \| "three"`               | —                       | ✅       | Selects the visual and structural variant          |
+| `checkIcon`         | `React.ReactNode`                         | Built-in SVG check icon | ❌       | Custom icon for included features (`value: true`)  |
+| `closeIcon`         | `React.ReactNode`                         | Built-in SVG close icon | ❌       | Custom icon for excluded features (`value: false`) |
+| `defaultActivePack` | `number`                                  | `0` (none active)       | ❌       | ID of the pack to pre-select on mount              |
+| `className`         | [`PricingClassNames`](#pricingclassnames) | `{}`                    | ❌       | Per-slot className overrides                       |
+| `style`             | [`PricingStyles`](#pricingstyles)         | `{}`                    | ❌       | Per-slot inline style overrides                    |
+
+### `type="one"` Additional Props
+
+| Prop             | Type                                    | Default                                        | Required | Description                               |
+| ---------------- | --------------------------------------- | ---------------------------------------------- | -------- | ----------------------------------------- |
+| `heading`        | `string`                                | —                                              | ✅       | Section heading rendered above the toggle |
+| `packs`          | [`PackTypeOne[]`](#packtypeone)         | —                                              | ✅       | Pricing tier data                         |
+| `switchLabels`   | `{ monthly: string; annually: string }` | `{ monthly: "Monthly", annually: "Annually" }` | ❌       | Labels for the billing toggle buttons     |
+| `defaultBilling` | `"monthly" \| "annually"`               | —                                              | ❌       | Pre-selects a billing cycle on mount      |
+
+### `type="two"` Additional Props
+
+| Prop    | Type                            | Default | Required | Description       |
+| ------- | ------------------------------- | ------- | -------- | ----------------- |
+| `packs` | [`PackTypeTwo[]`](#packtypetwo) | —       | ✅       | Pricing tier data |
+
+### `type="three"` Additional Props
+
+| Prop               | Type                                | Default         | Required | Description                                  |
+| ------------------ | ----------------------------------- | --------------- | -------- | -------------------------------------------- |
+| `packs`            | [`PackTypeThree[]`](#packtypethree) | —               | ✅       | Pricing tier data                            |
+| `recommendedLabel` | `string`                            | `"Recommended"` | ❌       | Text shown in the badge on recommended cards |
 
 ---
 
 ## Variants
 
-- **`type="one"`**: A layout featuring a main heading and a toggle switch for monthly vs. annually billing.
-- **`type="two"`**: Standard pricing cards with customizable icons for each pack.
-- **`type="three"`**: Focused layout with support for a recommended badge on specific packs.
+| Variant   | Layout                         | Key Features                                                                                |
+| --------- | ------------------------------ | ------------------------------------------------------------------------------------------- |
+| `"one"`   | Full-width section with header | Heading, monthly/annually billing switcher, campaign price + original (strikethrough) price |
+| `"two"`   | Responsive grid cards          | Per-card icon component, single fixed price                                                 |
+| `"three"` | Compact comparison grid        | Recommended badge, no pricing display (feature-comparison focused)                          |
 
 ---
 
 ## Slot-based Customization
 
-The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. It allows you to inject custom styles and classes directly into child elements via the `className` and `style` objects.
-
-For example, you can target the root container utilizing `className?.root` or style the cards natively using `style?.card`. Each slot targets a specific DOM element, giving you surgical control over the component rendering tree.
+The component follows the **Slot-Pattern** to provide deep customization without CSS specificity issues. You can inject custom styles and classes directly into child elements via the `className` and `style` objects.
 
 ### `PricingClassNames`
 
-| Slot            | Targets                           |
-| --------------- | --------------------------------- |
-| `root`          | Outermost container               |
-| `header`        | Header section                    |
-| `title`         | Title text                        |
-| `switchWrapper` | Wrapper for billing toggle switch |
-| `grid`          | Grid container for cards          |
-| `card`          | Individual pricing card           |
-| `cardActive`    | Active state of a pricing card    |
-| `cardHeader`    | Header block inside the card      |
-| `price`         | Price text element                |
-| `featureList`   | Container for feature items       |
-| `featureItem`   | Individual feature item           |
-| `divider`       | Visual divider inside the card    |
-| `button`        | Action button                     |
-| `buttonActive`  | Active state of the action button |
-| `badge`         | Recommended/Highlight badge       |
+| Slot            | Targets                                | Applies to            |
+| --------------- | -------------------------------------- | --------------------- |
+| `root`          | Outermost container                    | `type="one"`          |
+| `header`        | Header section (`<header>`)            | `type="one"`          |
+| `title`         | Heading text (`<h2>`)                  | `type="one"`          |
+| `switchWrapper` | Billing toggle container               | `type="one"`          |
+| `grid`          | Grid container for cards               | All                   |
+| `card`          | Individual pricing card                | All                   |
+| `cardActive`    | Active state of a pricing card         | All                   |
+| `price`         | Price text element (`<strong>`)        | `type="one"`, `"two"` |
+| `featureList`   | `<ul>` container for feature items     | All                   |
+| `featureItem`   | Individual `<li>` feature item         | All                   |
+| `divider`       | Visual `<div>` divider inside the card | `type="one"`, `"two"` |
+| `button`        | Action button (default state)          | All                   |
+| `buttonActive`  | Action button (active card state)      | All                   |
+| `badge`         | Recommended badge (`<span>`)           | `type="three"`        |
 
 ```tsx
 <Pricing
@@ -215,15 +248,18 @@ For example, you can target the root container utilizing `className?.root` or st
   packs={myPacks}
   className={{
     root: "my-pricing-root",
+    card: "my-card",
     cardActive: "my-active-card",
+    badge: "my-badge",
     button: "my-buy-button",
+    buttonActive: "my-active-button",
   }}
 />
 ```
 
 ### `PricingStyles`
 
-All slots also accept inline `React.CSSProperties` via the `style` prop:
+Inline `React.CSSProperties` overrides via the `style` prop:
 
 ```tsx
 <Pricing
@@ -232,6 +268,9 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
   style={{
     root: { padding: "2rem" },
     card: { borderRadius: "16px" },
+    cardActive: { background: "#1e1b4b" },
+    button: { fontWeight: 700 },
+    buttonActive: { background: "#4f46e5" },
   }}
 />
 ```
@@ -240,61 +279,78 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `Pricing` component features a robust theme architecture. It is fully compatible with both light and dark mode contexts, natively responding to **`[data-theme="light"]`** and **`[data-theme="dark"]`** selectors applied at the root or document level.
+The `Pricing` component has a built-in two-theme architecture. It natively responds to **`[data-theme="dark"]`** applied to any ancestor element, automatically switching card backgrounds, text colors, dividers, switcher indicator, badge colors, and button states. No extra configuration is needed.
 
 ---
 
 ## Design Tokens (Customization)
 
-Beyond slots, the component leverages CSS variables for a global design token system. You can override the default appearance by redefining these CSS variables in your own stylesheets. Using the `--bearlab-pricing-[element]-[property]` format, you can globally style the component across your application:
+Beyond slots, the component exposes CSS custom properties for global theming. Override them using the `--bearlab-pricing-*` namespace:
 
 ```css
-:root,
-[data-theme="light"] {
-  --bearlab-pricing-root-padding: 2rem;
-  --bearlab-pricing-card-bg: #ffffff;
-  --bearlab-pricing-card-border-radius: 12px;
-  --bearlab-pricing-button-bg: #007aff;
+/* Light / global overrides */
+:root {
+  --bearlab-pricing-card-radius: 1.25rem;
+  --bearlab-pricing-card-border-color: #e5e7eb;
+  --bearlab-pricing-card-bg-active: #1e293b;
+  --bearlab-pricing-title-color: #111827;
+  --bearlab-pricing-feature-icon-included-color: #16a34a;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --bearlab-pricing-card-border-color: #1f2937;
+  --bearlab-pricing-title-color: rgba(255, 255, 255, 0.9);
+  --bearlab-pricing-switch-wrapper-bg: #1f2937;
 }
 ```
+
+### Available Tokens (Selection)
+
+| Token                                           | Default (light)                              | Description                                     |
+| ----------------------------------------------- | -------------------------------------------- | ----------------------------------------------- |
+| `--bearlab-pricing-card-radius`                 | `1rem`                                       | Border radius for all cards                     |
+| `--bearlab-pricing-btn-radius`                  | `0.5rem`                                     | Border radius for action buttons                |
+| `--bearlab-pricing-grid-gap`                    | `1.25rem`                                    | Gap between cards (mobile/tablet)               |
+| `--bearlab-pricing-card-padding`                | `1.5rem`                                     | Inner padding of each card                      |
+| `--bearlab-pricing-card-border-color`           | `#e5e7eb`                                    | Default card border color                       |
+| `--bearlab-pricing-card-border-color-hover`     | `#d1d5db`                                    | Card border on hover                            |
+| `--bearlab-pricing-card-bg-active`              | `#1f2937`                                    | Background of the active card (type one)        |
+| `--bearlab-pricing-title-color`                 | `#1d2939`                                    | Section heading text color                      |
+| `--bearlab-pricing-title-font-size`             | `1.875rem`                                   | Section heading font size                       |
+| `--bearlab-pricing-switch-wrapper-bg`           | `#e5e7eb`                                    | Billing toggle track background                 |
+| `--bearlab-pricing-switch-indicator-bg`         | `#fff`                                       | Sliding indicator background                    |
+| `--bearlab-pricing-price-font-size`             | `2.25rem`                                    | Price number font size                          |
+| `--bearlab-pricing-feature-icon-included-color` | `#22c55e`                                    | Color for check icons                           |
+| `--bearlab-pricing-feature-icon-excluded-color` | `#ef4444`                                    | Color for close icons                           |
+| `--bearlab-pricing-badge-bg`                    | `color-mix(in oklab, #fff 20%, transparent)` | Recommended badge background                    |
+| `--bearlab-pricing-transition-speed`            | `200ms`                                      | Transition duration for all animated properties |
 
 ---
 
 ## Accessibility
 
-This component demonstrates **best-practice** accessibility, fully adhering to **WCAG 2.1 AA** standards. By utilizing appropriate ARIA attributes, it guarantees an inclusive experience:
+This component demonstrates **best-practice** accessibility, adhering to **WCAG 2.1 AA** standards:
 
-- **Keyboard Navigation** — Toggles and interactive cards handle key events (`onKeyDown`) correctly for seamless keyboard usability.
-- **`aria-hidden="true"`** — Applied to decorative elements (such as `checkIcon` and `closeIcon`) to prevent redundant or confusing screen reader announcements.
-- **Semantic Structure** — Uses logical HTML tags to appropriately convey the pricing information structure to assistive technologies.
+- **`aria-label` on the card grid** — The `role="list"` container has `aria-label="Pricing plans"` for screen readers.
+- **`aria-label` per card** — Each card announces itself as `"[Plan name] plan"` (or `"[Plan name] plan, recommended"` when applicable).
+- **`aria-selected`** — Cards receive `aria-selected={true}` when active, conveying selection state to assistive technologies.
+- **Keyboard Navigation** — Cards respond to `Enter` and `Space` keys to activate/select a plan. The billing toggle in `type="one"` uses `role="radio"` with `aria-checked`.
+- **`aria-hidden` on decorative elements** — Feature icons (`checkIcon`, `closeIcon`) and the billing switcher's animated indicator are hidden from screen readers. Each feature item uses a text `aria-label` (`"Included"` / `"Not included"`) instead.
+- **Semantic structure** — `type="one"` renders as a `<section>` with an `aria-labelledby` heading. Individual cards render as `<article>` elements.
+- **Focus management** — All interactive elements (cards, buttons, toggle) are reachable via `Tab` and have `focus-visible` outlines.
 
 ---
 
 ## TypeScript
 
-All types are exported from the package:
+All public types are exported from the package:
 
 ```ts
 import type {
   PricingProps,
-  PricingTypeOneProps,
-  PricingTypeTwoProps,
-  PricingTypeThreeProps,
-  PackTypeOne,
-  PackTypeTwo,
-  PackTypeThree,
   PricingClassNames,
   PricingStyles,
-  Billing,
-  SwitchLabels,
-  PackFeature,
-  TypeOneProps,
-  TypeTwoProps,
-  TypeThreeProps,
-  TypeOnePackProps,
-  TypeTwoPackProps,
-  TypeThreePackProps,
-  FeatureListProps,
 } from "@bearlab/pricing";
 ```
 
@@ -302,7 +358,7 @@ import type {
 
 #### `PricingProps`
 
-Primary entry point for the component props.
+Discriminated union — TypeScript will narrow available props based on `type`.
 
 ```ts
 type PricingProps =
@@ -316,8 +372,8 @@ type PricingProps =
 ```ts
 interface PricingTypeOneProps extends PricingBaseProps {
   type: "one";
-  packs: PackTypeOne[];
   heading: string;
+  packs: PackTypeOne[];
   switchLabels?: SwitchLabels;
   defaultBilling?: Billing;
 }
@@ -357,6 +413,8 @@ interface SwitchLabels {
 }
 ```
 
+---
+
 ### Pack Types
 
 #### `PackTypeOne`
@@ -367,12 +425,12 @@ interface PackTypeOne {
   packTitle: string;
   packDescription: string;
   buttonLabel: string;
-  features: PackFeature[];
   priceTag: string;
   campaignPriceByMonthly: string;
   campaignPriceByAnnually: string;
   originalPriceByMonthly: string;
   originalPriceByAnnually: string;
+  features: PackFeature[];
 }
 ```
 
@@ -383,11 +441,11 @@ interface PackTypeTwo {
   id: number;
   packTitle: string;
   packDescription: string;
-  buttonLabel: string;
-  features: PackFeature[];
-  packIcon: React.ComponentType<{ "aria-hidden"?: boolean | "true" | "false" }>;
   price: string;
   priceTag: string;
+  buttonLabel: string;
+  packIcon: React.ComponentType<{ "aria-hidden"?: boolean | "true" | "false" }>;
+  features: PackFeature[];
 }
 ```
 
@@ -396,13 +454,13 @@ interface PackTypeTwo {
 ```ts
 interface PackTypeThree {
   id: number;
-  packTitle: string;
-  packDescription: string;
-  buttonLabel: string;
-  features: PackFeature[];
   price: string;
+  packTitle: string;
   priceTag: string;
+  buttonLabel: string;
+  packDescription: string;
   isRecommended?: boolean;
+  features: PackFeature[];
 }
 ```
 
@@ -410,10 +468,12 @@ interface PackTypeThree {
 
 ```ts
 interface PackFeature {
-  value: boolean;
   label: string;
+  value: boolean;
 }
 ```
+
+---
 
 ### Style Types
 
@@ -422,20 +482,20 @@ interface PackFeature {
 ```ts
 interface PricingClassNames {
   root?: string;
-  header?: string;
-  title?: string;
-  switchWrapper?: string;
-  grid?: string;
   card?: string;
+  grid?: string;
+  price?: string;
+  title?: string;
+  badge?: string;
+  header?: string;
+  button?: string;
+  divider?: string;
   cardActive?: string;
   cardHeader?: string;
-  price?: string;
-  featureList?: string;
   featureItem?: string;
-  divider?: string;
-  button?: string;
+  featureList?: string;
   buttonActive?: string;
-  badge?: string;
+  switchWrapper?: string;
 }
 ```
 
@@ -444,26 +504,28 @@ interface PricingClassNames {
 ```ts
 interface PricingStyles {
   root?: React.CSSProperties;
-  header?: React.CSSProperties;
-  title?: React.CSSProperties;
-  switchWrapper?: React.CSSProperties;
   grid?: React.CSSProperties;
   card?: React.CSSProperties;
-  cardActive?: React.CSSProperties;
-  button?: React.CSSProperties;
-  buttonActive?: React.CSSProperties;
   badge?: React.CSSProperties;
+  title?: React.CSSProperties;
+  button?: React.CSSProperties;
+  header?: React.CSSProperties;
+  cardActive?: React.CSSProperties;
+  buttonActive?: React.CSSProperties;
+  switchWrapper?: React.CSSProperties;
 }
 ```
 
+---
+
 ### Subcomponent Props
 
-#### `TypeOneProps` / `TypeTwoProps` / `TypeThreeProps`
+These are internal component interfaces. They are not exported from the package but documented here for library contributors.
 
-Internal variant-specific props.
+#### `TypeOneProps`
 
 ```ts
-export interface TypeOneProps {
+interface TypeOneProps {
   packs: PackTypeOne[];
   heading: string;
   switchLabels: { monthly: string; annually: string };
@@ -474,24 +536,34 @@ export interface TypeOneProps {
 }
 ```
 
-#### `TypeOnePackProps` / `TypeTwoPackProps` / `TypeThreePackProps`
-
-Props for individual pricing cards within layouts.
+#### `TypeTwoProps`
 
 ```ts
-interface TypeOnePackProps {
-  isActive: boolean;
-  pack: PackTypeOne;
-  cardDescId: string;
-  isMonthly: boolean;
-  style: PricingStyles;
+interface TypeTwoProps {
+  packs: PackTypeTwo[];
   checkIcon: React.ReactNode;
   closeIcon: React.ReactNode;
   className: PricingClassNames;
-  setActivePack: (active: number) => void;
-  handleCardKeyDown: (e: React.KeyboardEvent<HTMLElement>, id: number) => void;
+  style: PricingStyles;
 }
 ```
+
+#### `TypeThreeProps`
+
+```ts
+interface TypeThreeProps {
+  packs: PackTypeThree[];
+  recommendedLabel: string;
+  checkIcon: React.ReactNode;
+  closeIcon: React.ReactNode;
+  className: PricingClassNames;
+  style: PricingStyles;
+}
+```
+
+#### `TypeOnePackProps` / `TypeTwoPackProps` / `TypeThreePackProps`
+
+Props for individual pricing cards rendered within each layout variant. Each pack component receives `isActive`, `cardDescId`, `setActivePack`, and `handleCardKeyDown` in addition to the shared slot props.
 
 #### `FeatureListProps`
 

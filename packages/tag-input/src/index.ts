@@ -1,10 +1,6 @@
 export { TagInput } from "./tag-input";
 export type {
-  TagFormat,
-  TagInputClassNames,
   TagInputProps,
+  TagInputClassNames,
   TagInputStyles,
-  TagItem,
-  TagProps,
-  TagStatus,
 } from "./types/tag-input.types";

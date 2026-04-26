@@ -5,24 +5,29 @@ import {
 
 export const resolveValue = <T extends QuerySelectOption>(
   value: QuerySelectValue<T> | undefined | null,
-  options: T[]
+  options: T[],
+  cachedItems: T[] = []
 ): T[] => {
   if (value == null) return [];
 
   if (Array.isArray(value)) {
     return value.flatMap((v) => {
       if (typeof v === "string" || typeof v === "number") {
-        const found = options.find((o) => o.value === v);
+        const found =
+          options.find((o) => o.value === v) ||
+          cachedItems.find((o) => o.value === v);
         return found ? [found] : [];
       }
-      return [v as T];
+      return [v as unknown as T];
     });
   }
 
   if (typeof value === "string" || typeof value === "number") {
-    const found = options.find((o) => o.value === value);
+    const found =
+      options.find((o) => o.value === value) ||
+      cachedItems.find((o) => o.value === value);
     return found ? [found] : [];
   }
 
-  return [value];
+  return [value as unknown as T];
 };
