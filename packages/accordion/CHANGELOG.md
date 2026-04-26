@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.2.0](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/faq@1.0.2...@bearlab/faq@1.2.0) (2026-04-26)
+# 1.1.0 (2026-04-26)
 
 
 ### Bug Fixes
@@ -15,27 +15,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 * comprehensive component updates and documentation standardization ([eb82d6e](https://github.com/hasanbala/bearlab-ui/commit/eb82d6ef8a938f8bfebd0036e0106e0d2c6e3d70))
 * major refactor and improvements across all ui components ([892975c](https://github.com/hasanbala/bearlab-ui/commit/892975c0858d56672ebab4204dbf27de3953a075))
-
-
-
-
-
-## [1.0.2](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/faq@1.0.1...@bearlab/faq@1.0.2) (2025-11-23)
-
-**Note:** Version bump only for package @bearlab/faq
-
-
-
-
-
-## [1.0.1](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/faq@1.0.9...@bearlab/faq@1.0.1) (2025-09-17)
-
-**Note:** Version bump only for package @bearlab/faq
-
-
-
-
-
-## 1.0.9 (2025-09-16)
-
-**Note:** Version bump only for package @bearlab/faq

@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/tag-input",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Bearlab UI Tag Input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

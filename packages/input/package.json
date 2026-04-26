@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/input",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Bearlab UI Input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
