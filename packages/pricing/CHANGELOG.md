@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/pricing@1.1.0...@bearlab/pricing@1.1.1) (2026-04-27)
+
+
+### Bug Fixes
+
+* **pricing:** add missing dependencies and prepare for release ([9739894](https://github.com/hasanbala/bearlab-ui/commit/97398940e5b776210da7e0026f6c33fc8fbcf733))
+
+
+
+
+
 # 1.1.0 (2026-04-26)
 
 

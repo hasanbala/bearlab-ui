@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/table",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Bearlab UI Table Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@bearlab/button": "^1.2.0",
-    "@bearlab/checkbox": "^1.2.0",
+    "@bearlab/checkbox": "^1.2.1",
     "@bearlab/input": "^1.2.0",
     "@bearlab/radio": "^1.2.0",
     "classnames": "^2.3.2"

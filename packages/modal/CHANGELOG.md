@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/modal@1.1.0...@bearlab/modal@1.1.2) (2026-04-27)
+
+
+### Bug Fixes
+
+* **modal:** add missing dependencies and prepare for release ([3ece55b](https://github.com/hasanbala/bearlab-ui/commit/3ece55b7a36057e3222ff02232ea9f6d80047bec))
+* **modal:** add missing export file, updated readme.md and prepare for release ([48cbdd1](https://github.com/hasanbala/bearlab-ui/commit/48cbdd176ad32f48948d71e133d984b3290cb4fd))
+
+
+
+
+
 # 1.1.0 (2026-04-26)
 
 
