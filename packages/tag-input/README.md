@@ -327,6 +327,7 @@ All types are exported from the package:
 
 ```ts
 import type {
+  TagItem,
   TagInputProps,
   TagInputClassNames,
   TagInputStyles,

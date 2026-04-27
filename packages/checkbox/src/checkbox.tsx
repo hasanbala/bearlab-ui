@@ -32,8 +32,8 @@ export const Checkbox = (props: CheckboxProps) => {
     <label
       className={classnames(
         styles.container,
-        disabled && styles.disabled,
-        className?.root
+        className?.root,
+        disabled && styles.disabled
       )}
       style={style?.root}
     >
@@ -58,7 +58,7 @@ export const Checkbox = (props: CheckboxProps) => {
           aria-required={isRequired ? "true" : undefined}
           {...rest}
         />
-        {checked && !disabled && (
+        {checked && (
           <IconChecked
             className={classnames(styles.iconChecked, className?.iconChecked)}
             style={style?.iconChecked}
@@ -86,8 +86,7 @@ export const Checkbox = (props: CheckboxProps) => {
         )}
       </div>
       {label && (
-        <label
-          htmlFor={id}
+        <span
           style={style?.label}
           className={classnames(styles.checkboxLabel, className?.label)}
         >
@@ -97,7 +96,7 @@ export const Checkbox = (props: CheckboxProps) => {
               *
             </span>
           )}
-        </label>
+        </span>
       )}
       {error && (
         <div

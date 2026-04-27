@@ -16,6 +16,7 @@ export const ViewCode = (props: ViewCodeProps) => {
     language = "javascript",
     copyText = "Copy",
     copiedText = "Copied",
+    theme = "dark",
   } = props;
 
   const [copied, setCopied] = useState<boolean>(false);
@@ -48,6 +49,7 @@ export const ViewCode = (props: ViewCodeProps) => {
     <div
       className={classnames(styles.container, className?.container)}
       style={style?.container}
+      data-theme={theme}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft}>

@@ -136,20 +136,24 @@
   );
   --_select-checkbox-size: var(
     --bearlab-select-checkbox-size,
-    1.125rem
-  ); /* 18px */
+    1.25rem
+  ); /* 20px */
   --_select-checkbox-border-width: var(
     --bearlab-select-checkbox-border-width,
-    0.09375rem
-  ); /* 1.5px */
+    0.0625rem
+  ); /* 1px */
   --_select-checkbox-border-radius: var(
     --bearlab-select-checkbox-border-radius,
-    0.25rem
-  ); /* 4px */
+    0.375rem
+  ); /* 6px */
   --_select-checkbox-check-size: var(
     --bearlab-select-checkbox-check-size,
-    0.625rem
-  ); /* 10px */
+    0.75rem
+  ); /* 12px */
+  --_select-checkbox-icon-color: var(
+    --bearlab-select-checkbox-icon-color,
+    #fff
+  );
   --_select-option-image-size: var(
     --bearlab-select-option-image-size,
     1.75rem
@@ -276,7 +280,7 @@
   );
   --_select-checkbox-border-color: var(
     --bearlab-select-checkbox-border-color,
-    #677085
+    #d1d5db
   );
   --_select-checkbox-check-color: var(
     --bearlab-select-checkbox-check-color,
@@ -404,11 +408,7 @@
     );
     --_select-checkbox-border-color: var(
       --bearlab-select-checkbox-border-color,
-      #97a1b2
-    );
-    --_select-checkbox-check-color: var(
-      --bearlab-select-checkbox-check-color,
-      #7592ff
+      #374151
     );
     --_select-option-label-color: var(
       --bearlab-select-option-label-color,
@@ -732,35 +732,23 @@
         border: var(--_select-checkbox-border-width) solid
           var(--_select-checkbox-border-color);
         border-radius: var(--_select-checkbox-border-radius);
+        background-color: transparent;
         display: grid;
         place-content: center;
         transition:
           border-color 0.15s ease,
           background-color 0.15s ease;
 
-        &::after {
-          content: "";
+        .iconChecked {
+          color: var(--_select-checkbox-icon-color);
           width: var(--_select-checkbox-check-size);
           height: var(--_select-checkbox-check-size);
-          clip-path: polygon(
-            14% 44%,
-            0 65%,
-            50% 100%,
-            100% 16%,
-            80% 0%,
-            43% 62%
-          );
-          background-color: var(--_select-checkbox-check-color);
-          transform: scale(0);
-          transition: transform 0.1s ease-in-out;
+          pointer-events: none;
         }
 
         &.checked {
-          border-color: var(--_select-checkbox-check-color);
-
-          &::after {
-            transform: scale(1);
-          }
+          border-color: transparent;
+          background-color: var(--_select-checkbox-check-color);
         }
       }
 

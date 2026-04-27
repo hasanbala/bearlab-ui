@@ -52,6 +52,7 @@ export interface QuerySelectSelectionCardItemsProps<
   selectedItems: T[];
   noSelectionText?: string;
   style?: QuerySelectStyles;
+  isDropdownVisible: boolean;
   className?: QuerySelectClassNames;
   onRemoveSelect: (val: T[]) => void;
 }

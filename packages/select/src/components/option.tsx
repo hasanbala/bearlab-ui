@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import { OptionProps } from "../types/select.types";
+import { IconChecked } from "../assets/icons";
 import styles from "../styles/select.module.scss";
 
 export const Option = (props: OptionProps) => {
@@ -78,7 +79,9 @@ export const Option = (props: OptionProps) => {
               [styles.checked]: isSelected,
             })}
             aria-hidden="true"
-          />
+          >
+            {isSelected && <IconChecked className={styles.iconChecked} />}
+          </span>
         )}
         {showImage && image && (
           <img

@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import { QuerySelectOptionProps } from "../types/query-select.types";
+import { IconChecked } from "../assets/icons";
 import styles from "../styles/query-select.module.scss";
 
 export const Option = (props: QuerySelectOptionProps) => {
@@ -78,7 +79,9 @@ export const Option = (props: QuerySelectOptionProps) => {
               [styles.checked]: isSelected,
             })}
             aria-hidden="true"
-          />
+          >
+            {isSelected && <IconChecked className={styles.iconChecked} />}
+          </span>
         )}
         {showImage && image && (
           <img

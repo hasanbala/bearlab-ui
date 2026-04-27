@@ -208,7 +208,8 @@
     #c0c0c0
   );
 
-  :global([data-theme="dark"]) & {
+  :global([data-theme="dark"]) &,
+  &[data-theme="dark"] {
     --_code-block-container-bg: var(--bearlab-code-block-container-bg, #282c34);
     --_code-block-container-border-color: var(
       --bearlab-code-block-container-border-color,

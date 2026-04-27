@@ -32,7 +32,7 @@
 - ✅ **Optional filename badge** — display context with a filename label in the header
 - ✅ **Language badge** — automatically displays a human-readable language label in the header
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
-- ✅ **Light & dark theme** — natively responds to `[data-theme="dark"]` with One Light / One Dark color schemes
+- ✅ **Light & dark theme** — natively responds to `[data-theme="dark"]` globally, or explicitly controlled via the `theme` prop (defaults to `dark`)
 - ✅ **Accessible by default** — `aria-label` on copy button, line numbers hidden from the accessibility tree
 - ✅ **Responsive** — copy button label hides on small screens (`<480px`) to save space
 - ✅ **TypeScript-first** — fully typed props and slot interfaces
@@ -118,6 +118,7 @@ greet("BearLab");`;
 | `copiedText`      | `string`                                    | `"Copied"`     | ❌       | Label for the copy button after a successful copy action         |
 | `className`       | [`ViewCodeClassNames`](#viewcodeclassnames) | —              | ❌       | Per-slot className overrides                                     |
 | `style`           | [`ViewCodeStyles`](#viewcodestyles)         | —              | ❌       | Per-slot inline style overrides                                  |
+| `theme`           | `"dark"` &#124; `"light"`                   | `"dark"`       | ❌       | Explicitly sets the theme, overriding the global `data-theme`    |
 
 ---
 
@@ -195,7 +196,7 @@ All slots also accept inline `React.CSSProperties` via the `style` prop:
 
 ## Theme Management
 
-The `ViewCode` component features a robust theme architecture. It natively responds to the **`[data-theme="dark"]`** selector applied at any ancestor level (including `<html>`).
+The `ViewCode` component features a robust theme architecture. It natively responds to the **`[data-theme="dark"]`** selector applied at any ancestor level (including `<html>`), or can be forced into a specific mode via the `theme` prop.
 
 ```html
 <!-- Apply dark theme globally -->
@@ -203,10 +204,8 @@ The `ViewCode` component features a robust theme architecture. It natively respo
   ...
 </html>
 
-<!-- Or scope to a specific section -->
-<div data-theme="light">
-  <ViewCode code="{snippet}" language="typescript" />
-</div>
+<!-- Or control via prop (React) -->
+<ViewCode code="{snippet}" language="typescript" theme="light" />
 ```
 
 The component automatically adapts its background, text, gutter, header, syntax token colors, and border styles based on the active theme:
@@ -362,6 +361,7 @@ interface ViewCodeProps {
   showLineNumbers?: boolean;
   language?: SupportedLanguage;
   className?: ViewCodeClassNames;
+  theme?: "dark" | "light";
 }
 ```
 

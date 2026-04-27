@@ -262,6 +262,7 @@ export const QuerySelect = <
           selectedItems={selectedItems}
           noSelectionText={noSelectionText}
           onRemoveSelect={handleRemove}
+          isDropdownVisible={isDropdownVisible}
         />
       )}
       <Search

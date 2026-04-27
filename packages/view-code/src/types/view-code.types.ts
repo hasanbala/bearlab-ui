@@ -26,6 +26,7 @@ export interface ViewCodeProps {
   showLineNumbers?: boolean;
   language?: SupportedLanguage;
   className?: ViewCodeClassNames;
+  theme?: "dark" | "light";
 }
 
 export interface TokenRule {
