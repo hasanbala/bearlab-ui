@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/modal@1.1.2...@bearlab/modal@1.1.3) (2026-05-24)
+
+**Note:** Version bump only for package @bearlab/modal
+
+
+
+
+
 ## [1.1.2](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/modal@1.1.0...@bearlab/modal@1.1.2) (2026-04-27)
 
 

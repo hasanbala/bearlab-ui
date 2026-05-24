@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/view-card",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Bearlab UI View-card Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/select@1.2.1...@bearlab/select@1.2.2) (2026-05-24)
+
+**Note:** Version bump only for package @bearlab/select
+
+
+
+
+
 ## [1.2.1](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/select@1.2.0...@bearlab/select@1.2.1) (2026-04-27)
 
 
