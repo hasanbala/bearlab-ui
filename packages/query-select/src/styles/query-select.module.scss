@@ -608,13 +608,6 @@
     height: max-content;
     overflow: auto;
 
-    &.activeCard {
-      transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border-color: var(
-        --_query-select-selection-card-container-border-color-focus
-      );
-    }
-
     .selectionCardItem {
       width: max-content;
       height: var(--_query-select-selected-item-height);

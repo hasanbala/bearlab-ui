@@ -19,7 +19,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -299,12 +298,6 @@ interface OtpInputProps {
   onPaste: (event: React.ClipboardEvent<HTMLInputElement>) => void;
 }
 ```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

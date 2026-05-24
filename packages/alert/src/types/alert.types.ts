@@ -23,6 +23,7 @@ export interface AlertProps {
   message: string;
   linkHref?: string;
   linkText?: string;
+  linkTarget?: React.HTMLAttributeAnchorTarget;
   showLink?: boolean;
   style?: AlertStyles;
   variant: AlertVariant;

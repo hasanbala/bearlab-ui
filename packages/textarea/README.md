@@ -19,7 +19,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -294,12 +293,6 @@ interface TextareaProps
   className?: TextareaClassNames;
 }
 ```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

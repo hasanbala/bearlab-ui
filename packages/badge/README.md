@@ -19,7 +19,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -238,12 +237,6 @@ interface BadgeStyles {
   endIcon?: React.CSSProperties;
 }
 ```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

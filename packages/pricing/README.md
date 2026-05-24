@@ -20,7 +20,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -577,12 +576,6 @@ interface FeatureListProps {
   className: PricingClassNames;
 }
 ```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

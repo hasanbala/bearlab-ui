@@ -113,38 +113,46 @@
   --_growl-title-color: inherit;
   --_growl-message-color: inherit;
 
-  :global([data-theme="dark"]) & {
-    --_growl-item-bg: var(--bearlab-growl-item-bg, #0f1828);
-    --_growl-item-shadow: var(
-      --bearlab-growl-item-shadow,
-      0 4px 20px rgba(0, 0, 0, 0.4),
-      0 1px 4px rgba(0, 0, 0, 0.3)
-    );
-    --_growl-title-color: var(--bearlab-growl-title-color, #f9fafb);
-    --_growl-message-color: var(--bearlab-growl-message-color, #98a2b3);
-    --_growl-border-color-success: var(
-      --bearlab-growl-border-color-success,
-      #12b76a
-    );
-    --_growl-progress-bg-success: var(
-      --bearlab-growl-progress-bg-success,
-      #12b76a
-    );
-    --_growl-border-color-error: var(
-      --bearlab-growl-border-color-error,
-      #f04438
-    );
-    --_growl-border-color-warning: var(
-      --bearlab-growl-border-color-warning,
-      #f79009
-    );
-    --_growl-progress-bg-warning: var(
-      --bearlab-growl-progress-bg-warning,
-      #f79009
-    );
-    --_growl-border-color-info: var(--bearlab-growl-border-color-info, #7592ff);
-    --_growl-progress-bg-info: var(--bearlab-growl-progress-bg-info, #7592ff);
-  }
+  --_growl-dark-item-bg: var(--bearlab-growl-dark-item-bg, #0f1828);
+  --_growl-dark-item-shadow: var(
+    --bearlab-growl-dark-item-shadow,
+    0 4px 20px rgba(0, 0, 0, 0.4),
+    0 1px 4px rgba(0, 0, 0, 0.3)
+  );
+  --_growl-dark-title-color: var(--bearlab-growl-dark-title-color, #f9fafb);
+  --_growl-dark-message-color: var(--bearlab-growl-dark-message-color, #98a2b3);
+  --_growl-dark-border-color-success: var(
+    --bearlab-growl-dark-border-color-success,
+    #12b76a
+  );
+  --_growl-dark-progress-bg-success: var(
+    --bearlab-growl-dark-progress-bg-success,
+    #12b76a
+  );
+  --_growl-dark-border-color-error: var(
+    --bearlab-growl-dark-border-color-error,
+    #f04438
+  );
+  --_growl-dark-progress-bg-error: var(
+    --bearlab-growl-dark-progress-bg-error,
+    #f04438
+  );
+  --_growl-dark-border-color-warning: var(
+    --bearlab-growl-dark-border-color-warning,
+    #f79009
+  );
+  --_growl-dark-progress-bg-warning: var(
+    --bearlab-growl-dark-progress-bg-warning,
+    #f79009
+  );
+  --_growl-dark-border-color-info: var(
+    --bearlab-growl-dark-border-color-info,
+    #7592ff
+  );
+  --_growl-dark-progress-bg-info: var(
+    --bearlab-growl-dark-progress-bg-info,
+    #7592ff
+  );
 
   position: fixed;
   z-index: 10001;
@@ -460,11 +468,11 @@
   }
 
   .themeDark {
-    background: var(--_growl-item-bg);
-    box-shadow: var(--_growl-item-shadow);
+    background: var(--_growl-dark-item-bg);
+    box-shadow: var(--_growl-dark-item-shadow);
 
     &.success {
-      border-color: var(--_growl-border-color-success);
+      border-color: var(--_growl-dark-border-color-success);
 
       svg {
         filter: brightness(0) saturate(100%) invert(60%) sepia(60%)
@@ -473,11 +481,11 @@
     }
 
     &.error {
-      border-color: var(--_growl-border-color-error);
+      border-color: var(--_growl-dark-border-color-error);
     }
 
     &.warning {
-      border-color: var(--_growl-border-color-warning);
+      border-color: var(--_growl-dark-border-color-warning);
 
       svg {
         filter: brightness(0) saturate(100%) invert(77%) sepia(41%)
@@ -486,7 +494,7 @@
     }
 
     &.info {
-      border-color: var(--_growl-border-color-info);
+      border-color: var(--_growl-dark-border-color-info);
 
       svg {
         filter: brightness(0) saturate(100%) invert(60%) sepia(9%)
@@ -495,27 +503,27 @@
     }
 
     .title {
-      color: var(--_growl-title-color);
+      color: var(--_growl-dark-title-color);
     }
 
     .message {
-      color: var(--_growl-message-color);
+      color: var(--_growl-dark-message-color);
     }
 
     &.success .progress {
-      background: var(--_growl-progress-bg-success);
+      background: var(--_growl-dark-progress-bg-success);
     }
 
     &.error .progress {
-      background: var(--_growl-progress-bg-error);
+      background: var(--_growl-dark-progress-bg-error);
     }
 
     &.warning .progress {
-      background: var(--_growl-progress-bg-warning);
+      background: var(--_growl-dark-progress-bg-warning);
     }
 
     &.info .progress {
-      background: var(--_growl-progress-bg-info);
+      background: var(--_growl-dark-progress-bg-info);
     }
   }
 

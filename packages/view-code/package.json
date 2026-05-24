@@ -30,6 +30,7 @@
     "bearlab-ui",
     "code-viewer",
     "code-block",
+    "view-code",
     "syntax-highlight",
     "syntax-highlighting",
     "code-snippet",
@@ -44,7 +45,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/view-code"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/view-code",
   "publishConfig": {
     "access": "public"
   }

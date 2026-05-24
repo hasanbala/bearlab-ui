@@ -3,7 +3,6 @@ import {
   PASTE_SPLIT_REGEX,
 } from "../constants/tag-input.config";
 import { CommitResult, TagFormat, TagItem } from "../types/tag-input.types";
-import { useId } from "react";
 
 export const isValidTag = (
   value: string,
@@ -21,7 +20,7 @@ export const createTagItem = (
   validate?: (value: string) => boolean
 ): TagItem => {
   return {
-    id: useId(),
+    id: crypto.randomUUID(),
     value: value.trim(),
     status: isValidTag(value.trim(), format, validate) ? "valid" : "invalid",
   };

@@ -20,7 +20,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -329,12 +328,6 @@ interface DropzoneStyles {
 ```
 
 > `DropzoneListProps`, `DropzoneItemProps`, `UseDropzone`, and `UseDropzoneReturn` are internal types used by compound sub-components and the `useDropzone` hook. They are not exported from the package.
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

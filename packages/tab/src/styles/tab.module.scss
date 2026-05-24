@@ -89,6 +89,14 @@
     --bearlab-tab-vertical-button-min-height,
     3.125rem
   ); /* 50px */
+  --_tab-vertical-nav-width: var(
+    --bearlab-tab-vertical-nav-width,
+    12.5rem
+  ); /* 200px */
+  --_tab-button-max-width: var(
+    --bearlab-tab-button-max-width,
+    12.5rem
+  ); /* 200px */
 
   --_tab-container-border-color: var(
     --bearlab-tab-container-border-color,
@@ -253,6 +261,9 @@
       transition: var(--_tab-button-transition);
       border: none;
       cursor: pointer;
+      max-width: var(--_tab-button-max-width);
+      min-width: 0;
+      overflow: hidden;
 
       &:focus-visible {
         outline: 0.125rem solid var(--_tab-underline-button-color-active); /* 2px */
@@ -274,7 +285,15 @@
         }
       }
 
-      span {
+      .title {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .notify {
         padding-block: var(--_tab-notify-padding-block);
         padding-inline: var(--_tab-notify-padding-inline);
         text-align: center;
@@ -282,6 +301,7 @@
         color: var(--_tab-notify-color);
         border-radius: var(--_tab-notify-border-radius);
         font-size: var(--_tab-notify-font-size);
+        flex-shrink: 0;
       }
     }
   }
@@ -361,6 +381,8 @@
       .header {
         border: none;
         padding: 0;
+        flex-shrink: 0;
+        width: var(--_tab-vertical-nav-width);
 
         nav {
           flex-direction: column;
@@ -371,6 +393,8 @@
 
           button {
             min-height: var(--_tab-vertical-button-min-height);
+            width: 100%;
+            max-width: none;
           }
         }
       }

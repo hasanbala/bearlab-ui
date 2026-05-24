@@ -116,8 +116,7 @@
   font-weight: var(--_checkbox-font-weight);
   color: var(--_checkbox-color);
 
-  &:hover .popover,
-  &:focus-within .popover {
+  &:hover .popover {
     display: block !important;
   }
 

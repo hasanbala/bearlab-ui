@@ -20,11 +20,11 @@ export const TabButton = (props: TabButtonProps) => {
       style={style?.button}
     >
       {tab.icon && <tab.icon aria-hidden="true" focusable="false" />}
-      {tab.title}
+      <span className={styles.title}>{tab.title}</span>
       {tab.notify !== null && tab.notify !== undefined && (
         <span
           aria-label={`${tab.notify} notification${tab.notify !== 1 ? "s" : ""}`}
-          className={className?.notify}
+          className={classnames(styles.notify, className?.notify)}
           style={style?.notify}
         >
           {tab.notify}

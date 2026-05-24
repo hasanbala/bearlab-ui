@@ -122,7 +122,7 @@ export const Toast = (props: GrowlProps) => {
       <div onClick={remove} className={styles.close}>
         <IconCross />
       </div>
-      {item.autoClose && (
+      {!!item.autoClose && (
         <div
           className={classnames(styles.progress, item?.className?.progress)}
           style={{

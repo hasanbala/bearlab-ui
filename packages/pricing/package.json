@@ -39,7 +39,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/pricing"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/pricing",
   "publishConfig": {
     "access": "public"
   }

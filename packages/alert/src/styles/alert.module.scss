@@ -15,7 +15,7 @@
 
   --_alert-title-color: var(--bearlab-alert-title-color, #1d2939);
   --_alert-desc-color: var(--bearlab-alert-desc-color, #667085);
-  --_alert-link-color: var(--bearlab-alert-link-color, #667085);
+  --_alert-link-color: var(--bearlab-alert-link-color, currentColor);
   --_alert-bg-success: var(--bearlab-alert-bg-success, #ecfdf3);
   --_alert-border-success: var(--bearlab-alert-border-success, #12b76a);
   --_alert-success-icon: var(--bearlab-alert-success-icon, #12b76a);
@@ -32,7 +32,7 @@
   :global([data-theme="dark"]) & {
     --_alert-title-color: var(--bearlab-alert-title-color, #ffffffe6);
     --_alert-desc-color: var(--bearlab-alert-desc-color, #a4aab7);
-    --_alert-link-color: var(--bearlab-alert-link-color, #a4aab7);
+    --_alert-link-color: var(--bearlab-alert-link-color, currentColor);
     --_alert-bg-success: var(--bearlab-alert-bg-success, #12b76a26);
     --_alert-border-success: var(--bearlab-alert-border-success, #12b76a4d);
     --_alert-bg-error: var(--bearlab-alert-bg-error, #f0443826);
@@ -97,6 +97,10 @@
   &.successContainer {
     background-color: var(--_alert-bg-success);
     border-color: var(--_alert-border-success);
+    --_alert-link-color: var(
+      --bearlab-alert-link-color,
+      var(--_alert-success-icon)
+    );
 
     .iconWrapper {
       color: var(--_alert-success-icon);
@@ -106,6 +110,10 @@
   &.errorContainer {
     background-color: var(--_alert-bg-error);
     border-color: var(--_alert-border-error);
+    --_alert-link-color: var(
+      --bearlab-alert-link-color,
+      var(--_alert-error-icon)
+    );
 
     .iconWrapper {
       color: var(--_alert-error-icon);
@@ -115,6 +123,10 @@
   &.warningContainer {
     background-color: var(--_alert-bg-warning);
     border-color: var(--_alert-border-warning);
+    --_alert-link-color: var(
+      --bearlab-alert-link-color,
+      var(--_alert-warning-icon)
+    );
 
     .iconWrapper {
       color: var(--_alert-warning-icon);
@@ -124,6 +136,10 @@
   &.infoContainer {
     background-color: var(--_alert-bg-info);
     border-color: var(--_alert-border-info);
+    --_alert-link-color: var(
+      --bearlab-alert-link-color,
+      var(--_alert-info-icon)
+    );
 
     .iconWrapper {
       color: var(--_alert-info-icon);

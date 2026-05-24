@@ -22,7 +22,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -397,12 +396,6 @@ interface DropdownListStyles {
 ```
 
 > `DropdownOptionsProps` and `DropdownOptionProps` are internal compound component types and are not exported.
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

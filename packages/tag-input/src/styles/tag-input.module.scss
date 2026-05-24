@@ -35,8 +35,8 @@
   ); /* 8px */
   --_tag-input-field-min-height: var(
     --bearlab-tag-input-field-min-height,
-    2.75rem
-  ); /* 44px */
+    3.125rem
+  ); /* 50px */
   --_tag-input-field-padding: var(
     --bearlab-tag-input-field-padding,
     0.25rem 0.625rem
@@ -54,10 +54,7 @@
     0.375rem
   ); /* 6px */
   --_tag-input-tag-gap: var(--bearlab-tag-input-tag-gap, 0.3125rem); /* 5px */
-  --_tag-input-tag-height: var(
-    --bearlab-tag-input-tag-height,
-    1.75rem
-  ); /* 28px */
+  --_tag-input-tag-height: var(--bearlab-tag-input-tag-height, 2rem); /* 32px */
   --_tag-input-tag-padding: var(
     --bearlab-tag-input-tag-padding,
     0 0.5rem 0 0.625rem
@@ -259,7 +256,6 @@
           border-radius: var(--_tag-input-tag-border-radius);
           font-size: var(--_tag-input-tag-font-size);
           font-weight: 600;
-          line-height: 1;
           white-space: nowrap;
           max-width: var(--_tag-input-tag-max-width);
           transition:

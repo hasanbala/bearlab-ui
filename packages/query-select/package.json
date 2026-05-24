@@ -41,7 +41,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/query-select"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/query-select",
   "publishConfig": {
     "access": "public"
   }

@@ -16,7 +16,6 @@ export const SelectionCardItems = <T extends QuerySelectOption>(
     className,
     selectedItems,
     noSelectionText,
-    isDropdownVisible,
     onRemoveSelect,
   } = props;
 
@@ -36,8 +35,7 @@ export const SelectionCardItems = <T extends QuerySelectOption>(
       aria-label={`${selectedItems.length} selected`}
       className={classnames(
         styles.selectionCardWrapper,
-        className?.selectionCardWrapper,
-        { [styles.activeCard]: isDropdownVisible }
+        className?.selectionCardWrapper
       )}
     >
       {selectedItems.length < 1 ? (

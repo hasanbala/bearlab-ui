@@ -20,7 +20,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -168,7 +167,7 @@ The component follows the **Slot-Pattern** to provide deep customization without
   code={snippet}
   language="typescript"
   className={{
-    container: "my-code-block",
+    container: "my-view-code",
     codeArea: "my-code-area",
   }}
 />
@@ -217,70 +216,70 @@ The component automatically adapts its background, text, gutter, header, syntax 
 
 ## Design Tokens (Customization)
 
-The component exposes a rich set of `--bearlab-code-block-*` CSS custom properties. All tokens are scoped to the `.container` element with sensible defaults for both light and dark modes.
+The component exposes a rich set of `--bearlab-view-code-*` CSS custom properties. All tokens are scoped to the `.container` element with sensible defaults for both light and dark modes.
 
 ```css
 /* Light theme overrides */
 :root,
 [data-theme="light"] {
-  --bearlab-code-block-container-bg: #fafafa;
-  --bearlab-code-block-container-border-color: #e0e0e0;
-  --bearlab-code-block-container-radius: 1rem;
-  --bearlab-code-block-header-bg: #f0f0f0;
-  --bearlab-code-block-gutter-bg: #f5f5f5;
-  --bearlab-code-block-text-color: #383a42;
-  --bearlab-code-block-gutter-text-color: #9d9d9f;
-  --bearlab-code-block-tok-keyword-color: #a626a4;
-  --bearlab-code-block-tok-string-color: #50a14f;
-  --bearlab-code-block-tok-function-color: #4078f2;
+  --bearlab-view-code-container-bg: #fafafa;
+  --bearlab-view-code-container-border-color: #e0e0e0;
+  --bearlab-view-code-container-radius: 1rem;
+  --bearlab-view-code-header-bg: #f0f0f0;
+  --bearlab-view-code-gutter-bg: #f5f5f5;
+  --bearlab-view-code-text-color: #383a42;
+  --bearlab-view-code-gutter-text-color: #9d9d9f;
+  --bearlab-view-code-tok-keyword-color: #a626a4;
+  --bearlab-view-code-tok-string-color: #50a14f;
+  --bearlab-view-code-tok-function-color: #4078f2;
 }
 
 /* Dark theme overrides */
 [data-theme="dark"] {
-  --bearlab-code-block-container-bg: #282c34;
-  --bearlab-code-block-container-border-color: #1d2939;
-  --bearlab-code-block-header-bg: #21252b;
-  --bearlab-code-block-gutter-bg: #282c34;
-  --bearlab-code-block-text-color: #abb2bf;
-  --bearlab-code-block-gutter-text-color: #495162;
-  --bearlab-code-block-tok-keyword-color: #c678dd;
-  --bearlab-code-block-tok-string-color: #98c379;
-  --bearlab-code-block-tok-function-color: #61afef;
+  --bearlab-view-code-container-bg: #282c34;
+  --bearlab-view-code-container-border-color: #1d2939;
+  --bearlab-view-code-header-bg: #21252b;
+  --bearlab-view-code-gutter-bg: #282c34;
+  --bearlab-view-code-text-color: #abb2bf;
+  --bearlab-view-code-gutter-text-color: #495162;
+  --bearlab-view-code-tok-keyword-color: #c678dd;
+  --bearlab-view-code-tok-string-color: #98c379;
+  --bearlab-view-code-tok-function-color: #61afef;
 }
 ```
 
 ### Available Tokens (representative subset)
 
-| Token                                         | Default (light) | Description                       |
-| --------------------------------------------- | --------------- | --------------------------------- |
-| `--bearlab-code-block-container-radius`       | `1rem`          | Container corner radius           |
-| `--bearlab-code-block-container-bg`           | `#fafafa`       | Container background              |
-| `--bearlab-code-block-container-border-color` | `#e0e0e0`       | Container border color            |
-| `--bearlab-code-block-header-bg`              | `#f0f0f0`       | Header bar background             |
-| `--bearlab-code-block-header-border-color`    | `#e0e0e0`       | Header bottom border color        |
-| `--bearlab-code-block-gutter-bg`              | `#f5f5f5`       | Line number gutter background     |
-| `--bearlab-code-block-gutter-width`           | `3rem`          | Line number gutter width          |
-| `--bearlab-code-block-text-color`             | `#383a42`       | Default code text color           |
-| `--bearlab-code-block-gutter-text-color`      | `#9d9d9f`       | Line number text color            |
-| `--bearlab-code-block-badge-bg`               | `#e8e8e8`       | Language badge background         |
-| `--bearlab-code-block-badge-text-color`       | `#383a42`       | Language badge text color         |
-| `--bearlab-code-block-copy-btn-bg`            | `#e8e8e8`       | Copy button background            |
-| `--bearlab-code-block-copy-btn-bg-hover`      | `#dcdcdc`       | Copy button background on hover   |
-| `--bearlab-code-block-copy-btn-ok-text-color` | `#50a14f`       | Copy button text color after copy |
-| `--bearlab-code-block-filename-text-color`    | `#696c77`       | Filename text color               |
-| `--bearlab-code-block-scrollbar-color`        | `#c0c0c0`       | Horizontal scrollbar thumb color  |
-| `--bearlab-code-block-tok-keyword-color`      | `#a626a4`       | Keyword token color               |
-| `--bearlab-code-block-tok-string-color`       | `#50a14f`       | String literal token color        |
-| `--bearlab-code-block-tok-comment-color`      | `#a0a1a7`       | Comment token color               |
-| `--bearlab-code-block-tok-number-color`       | `#986801`       | Number literal token color        |
-| `--bearlab-code-block-tok-function-color`     | `#4078f2`       | Function name token color         |
-| `--bearlab-code-block-tok-type-color`         | `#c18401`       | Type / class name token color     |
-| `--bearlab-code-block-tok-property-color`     | `#e45649`       | Property token color              |
-| `--bearlab-code-block-tok-operator-color`     | `#0184bc`       | Operator token color              |
-| `--bearlab-code-block-tok-decorator-color`    | `#4078f2`       | Decorator token color             |
-| `--bearlab-code-block-code-font-size`         | `0.875rem`      | Code text font size               |
-| `--bearlab-code-block-code-line-height`       | `1.25rem`       | Code line height                  |
-| `--bearlab-code-block-code-tab-size`          | `2`             | Tab stop width                    |
+| Token                                        | Default (light) | Description                       |
+| -------------------------------------------- | --------------- | --------------------------------- |
+| `--bearlab-view-code-container-radius`       | `1rem`          | Container corner radius           |
+| `--bearlab-view-code-container-bg`           | `#fafafa`       | Container background              |
+| `--bearlab-view-code-container-border-color` | `#e0e0e0`       | Container border color            |
+| `--bearlab-view-code-header-bg`              | `#f0f0f0`       | Header bar background             |
+| `--bearlab-view-code-header-border-color`    | `#e0e0e0`       | Header bottom border color        |
+| `--bearlab-view-code-gutter-bg`              | `#f5f5f5`       | Line number gutter background     |
+| `--bearlab-view-code-gutter-width`           | `3rem`          | Line number gutter width          |
+| `--bearlab-view-code-text-color`             | `#383a42`       | Default code text color           |
+| `--bearlab-view-code-gutter-text-color`      | `#9d9d9f`       | Line number text color            |
+| `--bearlab-view-code-badge-bg`               | `#e8e8e8`       | Language badge background         |
+| `--bearlab-view-code-badge-text-color`       | `#383a42`       | Language badge text color         |
+| `--bearlab-view-code-copy-btn-bg`            | `#e8e8e8`       | Copy button background            |
+| `--bearlab-view-code-copy-btn-bg-hover`      | `#dcdcdc`       | Copy button background on hover   |
+| `--bearlab-view-code-copy-btn-ok-text-color` | `#50a14f`       | Copy button text color after copy |
+| `--bearlab-view-code-filename-text-color`    | `#696c77`       | Filename text color               |
+| `--bearlab-view-code-scrollbar-color`        | `#c0c0c0`       | Horizontal scrollbar thumb color  |
+| `--bearlab-view-code-tok-keyword-color`      | `#a626a4`       | Keyword token color               |
+| `--bearlab-view-code-tok-string-color`       | `#50a14f`       | String literal token color        |
+| `--bearlab-view-code-tok-comment-color`      | `#a0a1a7`       | Comment token color               |
+| `--bearlab-view-code-tok-number-color`       | `#986801`       | Number literal token color        |
+| `--bearlab-view-code-tok-function-color`     | `#4078f2`       | Function name token color         |
+| `--bearlab-view-code-tok-type-color`         | `#c18401`       | Type / class name token color     |
+| `--bearlab-view-code-tok-property-color`     | `#e45649`       | Property token color              |
+| `--bearlab-view-code-tok-operator-color`     | `#0184bc`       | Operator token color              |
+| `--bearlab-view-code-tok-decorator-color`    | `#4078f2`       | Decorator token color             |
+| `--bearlab-view-code-code-font-size`         | `0.875rem`      | Code text font size               |
+| `--bearlab-view-code-code-line-height`       | `1.25rem`       | Code line height                  |
+| `--bearlab-view-code-code-tab-size`          | `2`             | Tab stop width                    |
 
 ---
 
@@ -364,12 +363,6 @@ interface ViewCodeProps {
   theme?: "dark" | "light";
 }
 ```
-
----
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ---
 

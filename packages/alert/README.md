@@ -20,7 +20,6 @@
 - [Design Tokens (Customization)](#design-tokens-customization)
 - [Accessibility](#accessibility)
 - [TypeScript](#typescript)
-- [Changelog](#changelog)
 
 ---
 
@@ -327,14 +326,6 @@ interface AlertStyles {
 
 ---
 
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for version history.
-
----
-
 ## License
 
 MIT © [hasanbala](https://github.com/hasanbala)
-
-For more UI components, check out the [@bearlab/bearlab-ui](https://github.com/hasanbala/bearlab-ui) repository.

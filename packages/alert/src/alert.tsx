@@ -24,6 +24,7 @@ export const Alert = (props: AlertProps) => {
     showLink = false,
     linkHref = "/",
     linkText = "Learn more",
+    linkTarget,
     className,
     style,
   } = props;
@@ -84,6 +85,8 @@ export const Alert = (props: AlertProps) => {
           {showLink && (
             <a
               href={linkHref}
+              target={linkTarget}
+              rel={linkTarget === "_blank" ? "noopener noreferrer" : undefined}
               className={classnames(styles.link, className?.link)}
               style={style?.link}
             >

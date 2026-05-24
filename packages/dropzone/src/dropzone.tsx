@@ -30,6 +30,7 @@ export const Dropzone = (props: DropzoneProps) => {
     handleInputChange,
     handleKeyDown,
     handleRemoveFile,
+    handleOpenFile,
   } = useDropzone({ isLoading, files, setFiles });
 
   return (
@@ -100,6 +101,7 @@ export const Dropzone = (props: DropzoneProps) => {
         files={files}
         isLoading={isLoading}
         onRemoveFile={handleRemoveFile}
+        onOpenFile={handleOpenFile}
         style={style}
         className={className}
       />

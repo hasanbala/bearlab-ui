@@ -47,7 +47,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/growl"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui#readme",
+  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/growl",
   "publishConfig": {
     "access": "public"
   }

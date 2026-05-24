@@ -57,9 +57,10 @@ export const CSS_RULES: TokenRule[] = [
 
 export const HTML_RULES: TokenRule[] = [
   { re: /(<!--[\s\S]*?-->)/g, cls: "tok-comment" },
-  { re: /(<\/?)([\w-]+)/g, cls: "tok-keyword" },
+  { re: /<\/?[\w-]+/g, cls: "tok-keyword" },
   { re: /\s([\w-]+)(?==)/g, cls: "tok-property" },
   { re: /(["'])(?:\\.|(?!\1)[^\\])*\1/g, cls: "tok-string" },
+  { re: /\/?>|<!DOCTYPE/g, cls: "tok-operator" },
 ];
 
 export const BASH_RULES: TokenRule[] = [
@@ -79,11 +80,32 @@ export const JSON_RULES: TokenRule[] = [
   { re: /\b(\d+\.?\d*)\b/g, cls: "tok-number" },
 ];
 
+export const JSX_RULES: TokenRule[] = [
+  { re: /(\/\/[^\n]*|\/\*[\s\S]*?\*\/)/g, cls: "tok-comment" },
+  { re: /(["'`])(?:\\.|(?!\1)[^\\])*\1/g, cls: "tok-string" },
+  // JSX component tags (uppercase: <MyComp, </MyComp)
+  { re: /<\/?[A-Z][a-zA-Z0-9_.]*/g, cls: "tok-type" },
+  // JSX HTML element tags (lowercase: <div, </span)
+  { re: /<\/?[a-z][\w-]*/g, cls: "tok-keyword" },
+  // JSX closing brackets
+  { re: /\/?>|<>/g, cls: "tok-operator" },
+  // JSX attribute names
+  { re: /\b([\w]+)(?==)/g, cls: "tok-property" },
+  {
+    re: /\b(const|let|var|function|return|if|else|for|while|class|extends|import|export|default|from|async|await|new|typeof|instanceof|null|undefined|true|false|this|super|switch|case|break|continue|throw|try|catch|finally|of|in|yield|static|get|set|type|interface|enum|implements|keyof|infer|never|unknown|any|void)\b/g,
+    cls: "tok-keyword",
+  },
+  { re: /\b([A-Z][a-zA-Z0-9_]*)\b/g, cls: "tok-type" },
+  { re: /\b([a-zA-Z_$][a-zA-Z0-9_$]*)\s*(?=\()/g, cls: "tok-function" },
+  { re: /\b(\d+\.?\d*)\b/g, cls: "tok-number" },
+  { re: /([=><!&|+\-*/%?:;,{}[\]().])/g, cls: "tok-operator" },
+];
+
 export const LANG_TOKEN_RULES: Record<string, TokenRule[]> = {
   javascript: JS_RULES,
   typescript: JS_RULES,
-  jsx: JS_RULES,
-  tsx: JS_RULES,
+  jsx: JSX_RULES,
+  tsx: JSX_RULES,
   python: PYTHON_RULES,
   css: CSS_RULES,
   scss: CSS_RULES,

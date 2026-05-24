@@ -43,6 +43,7 @@ export interface DropzoneListProps {
   className?: DropzoneClassNames;
   files: FileList | File[] | null;
   onRemoveFile: (name: string) => void;
+  onOpenFile: (file: File) => void;
 }
 
 export interface DropzoneItemProps {
@@ -52,6 +53,7 @@ export interface DropzoneItemProps {
   isLoading?: boolean;
   style?: React.CSSProperties;
   onRemove: (name: string) => void;
+  onOpen: (file: File) => void;
 }
 
 export interface UseDropzone {
@@ -64,6 +66,7 @@ export interface UseDropzoneReturn {
   isDragging: boolean;
   inputRef: React.RefObject<HTMLInputElement | null>;
   handleRemoveFile: (name: string) => void;
+  handleOpenFile: (file: File) => void;
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   handleDragLeave: (e: React.DragEvent<HTMLDivElement>) => void;
