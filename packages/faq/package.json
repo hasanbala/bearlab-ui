@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/faq",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Bearlab UI FAQ Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -14,7 +14,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/button": "^1.2.1",
+    "@bearlab/button": "^1.2.2",
     "classnames": "^2.3.2"
   },
   "peerDependencies": {
