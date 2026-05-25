@@ -45,7 +45,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/view-code"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/view-code",
+  "homepage": "https://bearlab-ui.vercel.app/packages/view-code/preview",
   "publishConfig": {
     "access": "public"
   }

@@ -42,7 +42,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/otp-form"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/otp-form",
+  "homepage": "https://bearlab-ui.vercel.app/packages/otp-form/preview",
   "publishConfig": {
     "access": "public"
   },

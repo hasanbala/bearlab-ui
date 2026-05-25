@@ -38,7 +38,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/carousel"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/carousel",
+  "homepage": "https://bearlab-ui.vercel.app/packages/carousel/preview",
   "publishConfig": {
     "access": "public"
   }

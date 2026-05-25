@@ -39,7 +39,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/tab"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/tab",
+  "homepage": "https://bearlab-ui.vercel.app/packages/tab/preview",
   "publishConfig": {
     "access": "public"
   },

@@ -43,7 +43,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/view-card"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/view-card",
+  "homepage": "https://bearlab-ui.vercel.app/packages/view-card/preview",
   "publishConfig": {
     "access": "public"
   },

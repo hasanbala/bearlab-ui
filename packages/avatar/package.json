@@ -37,7 +37,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/avatar"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/avatar",
+  "homepage": "https://bearlab-ui.vercel.app/packages/avatar/preview",
   "publishConfig": {
     "access": "public"
   },

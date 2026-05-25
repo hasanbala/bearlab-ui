@@ -17,7 +17,14 @@ const packagePath = path.resolve(`packages/${packageName}`);
 const corePath = path.resolve("packages/core");
 const rootPath = path.resolve(".");
 
-const externalPackages = ["react", "react-dom", "classnames", /^@bearlab\/.*/];
+const externalPackages = [
+  "react",
+  "react-dom",
+  "react/jsx-runtime",
+  "react/jsx-dev-runtime",
+  "classnames",
+  /^@bearlab\/.*/,
+];
 
 export default [
   {
@@ -39,10 +46,10 @@ export default [
         preventAssignment: true,
         values: {
           "process.env.NODE_ENV": JSON.stringify(
-            process.env.NODE_ENV || "development"
+            process.env.NODE_ENV || "production"
           ),
           "import.meta.env.NODE_ENV": JSON.stringify(
-            process.env.NODE_ENV || "development"
+            process.env.NODE_ENV || "production"
           ),
         },
       }),

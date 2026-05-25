@@ -37,7 +37,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/file-input"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/file-input",
+  "homepage": "https://bearlab-ui.vercel.app/packages/file-input/preview",
   "publishConfig": {
     "access": "public"
   },

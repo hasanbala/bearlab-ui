@@ -41,7 +41,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/dropdown"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/dropdown",
+  "homepage": "https://bearlab-ui.vercel.app/packages/dropdown/preview",
   "publishConfig": {
     "access": "public"
   },

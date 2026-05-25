@@ -35,7 +35,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/button"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/button",
+  "homepage": "https://bearlab-ui.vercel.app/packages/button/preview",
   "publishConfig": {
     "access": "public"
   },

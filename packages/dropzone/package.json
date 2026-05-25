@@ -40,7 +40,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/dropzone"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/dropzone",
+  "homepage": "https://bearlab-ui.vercel.app/packages/dropzone/preview",
   "publishConfig": {
     "access": "public"
   },

@@ -37,7 +37,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/breadcrumb"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/breadcrumb",
+  "homepage": "https://bearlab-ui.vercel.app/packages/breadcrumb/preview",
   "publishConfig": {
     "access": "public"
   }

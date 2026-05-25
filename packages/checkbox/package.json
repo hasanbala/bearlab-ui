@@ -36,7 +36,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/checkbox"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/checkbox",
+  "homepage": "https://bearlab-ui.vercel.app/packages/checkbox/preview",
   "publishConfig": {
     "access": "public"
   },

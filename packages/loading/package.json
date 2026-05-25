@@ -37,7 +37,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/loading"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/loading",
+  "homepage": "https://bearlab-ui.vercel.app/packages/loading/preview",
   "publishConfig": {
     "access": "public"
   },

@@ -44,7 +44,7 @@
     "url": "https://github.com/hasanbala/bearlab-ui.git",
     "directory": "packages/table"
   },
-  "homepage": "https://github.com/hasanbala/bearlab-ui/tree/master/packages/table",
+  "homepage": "https://bearlab-ui.vercel.app/packages/table/preview",
   "publishConfig": {
     "access": "public"
   },
