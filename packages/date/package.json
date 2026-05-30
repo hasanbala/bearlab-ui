@@ -1,6 +1,7 @@
 {
   "name": "@bearlab/date",
   "version": "1.0.0",
+  "private": true,
   "description": "Bearlab UI Date Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
