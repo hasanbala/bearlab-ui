@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/growl@1.1.2...@bearlab/growl@1.1.3) (2026-05-30)
+
+
+### Bug Fixes
+
+* update package styles and configurations ([1768438](https://github.com/hasanbala/bearlab-ui/commit/176843847db82cd3db85c1346a67aed614c7ae70))
+
+
+
+
+
 ## [1.1.2](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/growl@1.1.1...@bearlab/growl@1.1.2) (2026-05-25)
 
 **Note:** Version bump only for package @bearlab/growl

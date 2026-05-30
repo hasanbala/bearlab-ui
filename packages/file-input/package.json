@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/file-input",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Bearlab UI File-input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
