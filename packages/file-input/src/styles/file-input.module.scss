@@ -1,4 +1,5 @@
 .container {
+  // Label
   --_file-input-root-gap: var(
     --bearlab-file-input-root-gap,
     0.625rem
@@ -15,6 +16,8 @@
     --bearlab-file-input-label-margin-bottom,
     0.625rem
   ); /* 10px */
+
+  // Input dimensions
   --_file-input-input-height: var(
     --bearlab-file-input-input-height,
     2.75rem
@@ -31,6 +34,8 @@
     --bearlab-file-input-input-border-width,
     0.125rem
   ); /* 2px */
+
+  // File selector button
   --_file-input-button-padding: var(
     --bearlab-file-input-button-padding,
     0.8125rem 0.75rem 0.8125rem 0.875rem
@@ -51,6 +56,8 @@
     --bearlab-file-input-button-border-radius-bl,
     0.5rem
   ); /* 8px */
+
+  // Error
   --_file-input-font-size-error: var(
     --bearlab-file-input-font-size-error,
     0.875rem
@@ -67,6 +74,8 @@
     --bearlab-file-input-bottom-error-offset,
     -1.25rem
   ); /* -20px */
+
+  // Helper text
   --_file-input-helper-font-size: var(
     --bearlab-file-input-helper-font-size,
     0.75rem
@@ -75,6 +84,8 @@
     --bearlab-file-input-helper-margin-top,
     0.375rem
   ); /* 6px */
+
+  // Focus & interaction
   --_file-input-ring-width-focus: var(
     --bearlab-file-input-ring-width-focus,
     0.1875rem
@@ -113,6 +124,7 @@
     #465fff
   );
 
+  // Light theme colors
   --_file-input-label-color: var(--bearlab-file-input-label-color, #344054);
   --_file-input-required-color: var(
     --bearlab-file-input-required-color,

@@ -1,0 +1,994 @@
+// ─── Shared CSS custom properties for both trigger and portaled calendar ─────
+.container,
+.calendar {
+  // Input trigger dimensions
+  --_date-height: var(--bearlab-date-height, 2.75rem); /* 44px */
+  --_date-border-radius: var(--bearlab-date-border-radius, 0.5rem); /* 8px */
+  --_date-border-width: var(--bearlab-date-border-width, 0.125rem); /* 2px */
+  --_date-padding-x: var(--bearlab-date-padding-x, 1rem); /* 16px */
+  --_date-font-size: var(--bearlab-date-font-size, 0.875rem); /* 14px */
+  --_date-icon-size: var(--bearlab-date-icon-size, 1.25rem); /* 20px */
+
+  // Label
+  --_date-label-font-size: var(--bearlab-date-label-font-size, 0.875rem);
+  --_date-label-font-weight: var(--bearlab-date-label-font-weight, 600);
+  --_date-label-margin-bottom: var(
+    --bearlab-date-label-margin-bottom,
+    0.625rem
+  ); /* 10px */
+
+  // Error
+  --_date-error-font-size: var(--bearlab-date-error-font-size, 0.875rem);
+  --_date-error-bottom: var(--bearlab-date-error-bottom, -1.25rem); /* -20px */
+  --_date-error-icon-size: var(
+    --bearlab-date-error-icon-size,
+    0.75rem
+  ); /* 12px */
+  --_date-error-icon-gap: var(--bearlab-date-error-icon-gap, 0.5rem); /* 8px */
+
+  // Calendar popup layout
+  --_date-calendar-padding: var(
+    --bearlab-date-calendar-padding,
+    1.25rem
+  ); /* 20px */
+  --_date-calendar-border-radius: var(
+    --bearlab-date-calendar-border-radius,
+    0.75rem
+  ); /* 12px */
+  --_date-calendar-width: var(
+    --bearlab-date-calendar-width,
+    18.75rem
+  ); /* 300px */
+
+  // Calendar day cell
+  --_date-day-size: var(--bearlab-date-day-size, 2.25rem); /* 36px */
+  --_date-day-font-size: var(--bearlab-date-day-font-size, 0.875rem); /* 14px */
+  --_date-day-border-radius: var(
+    --bearlab-date-day-border-radius,
+    0.5rem
+  ); /* 8px */
+
+  // Header / weekday typography
+  --_date-header-font-size: var(
+    --bearlab-date-header-font-size,
+    1.125rem
+  ); /* 18px */
+  --_date-weekday-font-size: var(
+    --bearlab-date-weekday-font-size,
+    0.875rem
+  ); /* 14px */
+
+  // Nav button
+  --_date-nav-button-size: var(--bearlab-date-nav-button-size, 2rem); /* 32px */
+  --_date-nav-icon-size: var(--bearlab-date-nav-icon-size, 1.25rem); /* 20px */
+
+  // Picker cells (month/year grids)
+  --_date-picker-cell-height: var(
+    --bearlab-date-picker-cell-height,
+    2.5rem
+  ); /* 40px */
+  --_date-picker-cell-font-size: var(
+    --bearlab-date-picker-cell-font-size,
+    0.875rem
+  );
+  --_date-picker-cell-border-radius: var(
+    --bearlab-date-picker-cell-border-radius,
+    0.5rem
+  );
+
+  // Time picker
+  --_date-time-font-size: var(
+    --bearlab-date-time-font-size,
+    0.8125rem
+  ); /* 13px */
+  --_date-time-select-height: var(
+    --bearlab-date-time-select-height,
+    2rem
+  ); /* 32px */
+  --_date-time-select-width: var(
+    --bearlab-date-time-select-width,
+    3.25rem
+  ); /* 52px */
+
+  // ── Light theme colors ─────────────────────────────────────────────────────
+  --_date-color-error: var(--bearlab-date-color-error, #f00438);
+  --_date-shadow-color-error: var(--bearlab-date-shadow-color-error, #ffa4a4);
+
+  --_date-label-color: var(--bearlab-date-label-color, #344054);
+  --_date-label-required-color: var(
+    --bearlab-date-label-required-color,
+    #f04438
+  );
+
+  --_date-border-color: var(--bearlab-date-border-color, #e4e7ec);
+  --_date-border-color-focus: var(--bearlab-date-border-color-focus, #465fff);
+  --_date-shadow: var(--bearlab-date-shadow, 0 0.0625rem 0.125rem 0 #1018280d);
+  --_date-shadow-focus: var(
+    --bearlab-date-shadow-focus,
+    0 0 0 0.1875rem #465fff21
+  );
+
+  --_date-color: var(--bearlab-date-color, #1f2937);
+  --_date-placeholder-color: var(--bearlab-date-placeholder-color, #98a2b3);
+  --_date-background: var(--bearlab-date-background, transparent);
+  --_date-icon-color: var(--bearlab-date-icon-color, #6b7280);
+
+  // Calendar surface
+  --_date-calendar-bg: var(--bearlab-date-calendar-bg, #ffffff);
+  --_date-calendar-border-color: var(
+    --bearlab-date-calendar-border-color,
+    #e5e7eb
+  );
+  --_date-calendar-shadow: var(
+    --bearlab-date-calendar-shadow,
+    0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1),
+    0 0.25rem 0.375rem -0.25rem rgba(0, 0, 0, 0.1)
+  );
+
+  // Header / weekday colors
+  --_date-header-color: var(--bearlab-date-header-color, #1f2937);
+  --_date-weekday-color: var(--bearlab-date-weekday-color, #6b7280);
+
+  // Clickable month/year header button
+  --_date-header-btn-hover-bg: var(--bearlab-date-header-btn-hover-bg, #f3f4f6);
+  --_date-header-btn-hover-color: var(
+    --bearlab-date-header-btn-hover-color,
+    #465fff
+  );
+
+  // Day colors
+  --_date-day-color: var(--bearlab-date-day-color, #1f2937);
+  --_date-day-other-month-color: var(
+    --bearlab-date-day-other-month-color,
+    #9ca3af
+  );
+  --_date-day-today-color: var(--bearlab-date-day-today-color, #fffaeb);
+  --_date-day-today-bg: var(--bearlab-date-day-today-bg, #f79009);
+  --_date-day-hover-bg: var(--bearlab-date-day-hover-bg, #daebfd);
+
+  --_date-month-today-color: var(--bearlab-date-month-today-color, #fffaeb);
+  --_date-month-today-bg: var(--bearlab-date-month-today-bg, #f79009);
+
+  --_date-year-today-color: var(--bearlab-date-year-today-color, #fffaeb);
+  --_date-year-today-bg: var(--bearlab-date-year-today-bg, #f79009);
+  --_date-day-disabled-color: var(--bearlab-date-day-disabled-color, #d1d5db);
+  --_date-day-disabled-bg: var(--bearlab-date-day-disabled-bg, transparent);
+
+  --_date-day-selected-bg: var(--bearlab-date-day-selected-bg, #465fff);
+  --_date-day-selected-color: var(--bearlab-date-day-selected-color, #ffffff);
+
+  --_date-range-bg: var(--bearlab-date-range-bg, #daebfd);
+
+  // Nav button colors
+  --_date-nav-button-color: var(--bearlab-date-nav-button-color, #374151);
+  --_date-nav-button-hover-bg: var(--bearlab-date-nav-button-hover-bg, #f3f4f6);
+  --_date-nav-button-hover-color: var(
+    --bearlab-date-nav-button-hover-color,
+    #465fff
+  );
+  --_date-nav-button-disabled-color: var(
+    --bearlab-date-nav-button-disabled-color,
+    #d1d5db
+  );
+
+  // Picker cell colors
+  --_date-picker-cell-color: var(--bearlab-date-picker-cell-color, #1f2937);
+  --_date-picker-cell-hover-bg: var(
+    --bearlab-date-picker-cell-hover-bg,
+    #daebfd
+  );
+  --_date-picker-cell-selected-bg: var(
+    --bearlab-date-picker-cell-selected-bg,
+    #465fff
+  );
+  --_date-picker-cell-selected-color: var(
+    --bearlab-date-picker-cell-selected-color,
+    #ffffff
+  );
+  --_date-picker-cell-range-bg: var(
+    --bearlab-date-picker-cell-range-bg,
+    #daebfd
+  );
+  --_date-picker-cell-disabled-color: var(
+    --bearlab-date-picker-cell-disabled-color,
+    #d1d5db
+  );
+
+  // Time picker colors
+  --_date-time-label-color: var(--bearlab-date-time-label-color, #6b7280);
+  --_date-time-select-bg: var(--bearlab-date-time-select-bg, #f9fafb);
+  --_date-time-select-color: var(--bearlab-date-time-select-color, #1f2937);
+  --_date-time-select-border: var(--bearlab-date-time-select-border, #e4e7ec);
+  --_date-time-divider: var(--bearlab-date-time-divider, #f3f4f6);
+
+  // ── Dark theme overrides ───────────────────────────────────────────────────
+  :global([data-theme="dark"]) & {
+    --_date-label-color: var(--bearlab-date-label-color, #98a2b3);
+    --_date-border-color: var(--bearlab-date-border-color, #1d2939);
+    --_date-border-color-focus: var(--bearlab-date-border-color-focus, #7592ff);
+    --_date-shadow-focus: var(
+      --bearlab-date-shadow-focus,
+      0 0 0 0.1875rem #465fff21
+    );
+    --_date-color: var(--bearlab-date-color, rgba(255, 255, 255, 0.9));
+    --_date-placeholder-color: var(
+      --bearlab-date-placeholder-color,
+      rgba(255, 255, 255, 0.3)
+    );
+    --_date-background: var(--bearlab-date-background, #111827);
+    --_date-icon-color: var(--bearlab-date-icon-color, #98a2b3);
+
+    --_date-calendar-bg: var(--bearlab-date-calendar-bg, #1a2231);
+    --_date-calendar-border-color: var(
+      --bearlab-date-calendar-border-color,
+      rgba(255, 255, 255, 0.05)
+    );
+    --_date-calendar-shadow: var(
+      --bearlab-date-calendar-shadow,
+      0 0.625rem 0.9375rem -0.1875rem rgba(15, 23, 42, 0.1),
+      0 0.25rem 0.375rem -0.25rem rgba(15, 23, 42, 0.1)
+    );
+
+    --_date-header-color: var(
+      --bearlab-date-header-color,
+      rgba(255, 255, 255, 0.9)
+    );
+    --_date-weekday-color: var(--bearlab-date-weekday-color, #9ca3af);
+    --_date-header-btn-hover-bg: var(
+      --bearlab-date-header-btn-hover-bg,
+      rgba(255, 255, 255, 0.08)
+    );
+    --_date-header-btn-hover-color: var(
+      --bearlab-date-header-btn-hover-color,
+      #7592ff
+    );
+
+    --_date-day-color: var(--bearlab-date-day-color, rgba(255, 255, 255, 0.9));
+    --_date-day-other-month-color: var(
+      --bearlab-date-day-other-month-color,
+      rgba(255, 255, 255, 0.25)
+    );
+    --_date-day-today-color: var(--bearlab-date-day-today-color, #7592ff);
+    --_date-day-today-bg: var(
+      --bearlab-date-day-today-bg,
+      rgba(70, 95, 255, 0.15)
+    );
+    --_date-day-hover-bg: var(
+      --bearlab-date-day-hover-bg,
+      rgba(255, 255, 255, 0.1)
+    );
+    --_date-day-disabled-color: var(
+      --bearlab-date-day-disabled-color,
+      rgba(255, 255, 255, 0.2)
+    );
+
+    --_date-day-selected-bg: var(--bearlab-date-day-selected-bg, #465fff);
+    --_date-day-selected-color: var(--bearlab-date-day-selected-color, #ffffff);
+
+    --_date-month-today-color: var(--bearlab-date-month-today-color, #7592ff);
+    --_date-month-today-bg: var(
+      --bearlab-date-month-today-bg,
+      rgba(70, 95, 255, 0.15)
+    );
+
+    --_date-year-today-color: var(--bearlab-date-year-today-color, #7592ff);
+    --_date-year-today-bg: var(
+      --bearlab-date-year-today-bg,
+      rgba(70, 95, 255, 0.15)
+    );
+
+    --_date-range-bg: var(--bearlab-date-range-bg, rgba(255, 255, 255, 0.12));
+
+    --_date-nav-button-color: var(
+      --bearlab-date-nav-button-color,
+      rgba(255, 255, 255, 0.9)
+    );
+    --_date-nav-button-hover-bg: var(
+      --bearlab-date-nav-button-hover-bg,
+      rgba(255, 255, 255, 0.1)
+    );
+    --_date-nav-button-hover-color: var(
+      --bearlab-date-nav-button-hover-color,
+      #7592ff
+    );
+    --_date-nav-button-disabled-color: var(
+      --bearlab-date-nav-button-disabled-color,
+      rgba(255, 255, 255, 0.2)
+    );
+
+    --_date-picker-cell-color: var(
+      --bearlab-date-picker-cell-color,
+      rgba(255, 255, 255, 0.9)
+    );
+    --_date-picker-cell-hover-bg: var(
+      --bearlab-date-picker-cell-hover-bg,
+      rgba(255, 255, 255, 0.1)
+    );
+    --_date-picker-cell-selected-bg: var(
+      --bearlab-date-picker-cell-selected-bg,
+      #465fff
+    );
+    --_date-picker-cell-selected-color: var(
+      --bearlab-date-picker-cell-selected-color,
+      #ffffff
+    );
+    --_date-picker-cell-range-bg: var(
+      --bearlab-date-picker-cell-range-bg,
+      rgba(255, 255, 255, 0.12)
+    );
+    --_date-picker-cell-disabled-color: var(
+      --bearlab-date-picker-cell-disabled-color,
+      rgba(255, 255, 255, 0.2)
+    );
+
+    --_date-time-label-color: var(--bearlab-date-time-label-color, #9ca3af);
+    --_date-time-select-bg: var(--bearlab-date-time-select-bg, #111827);
+    --_date-time-select-color: var(
+      --bearlab-date-time-select-color,
+      rgba(255, 255, 255, 0.9)
+    );
+    --_date-time-select-border: var(--bearlab-date-time-select-border, #1d2939);
+    --_date-time-divider: var(
+      --bearlab-date-time-divider,
+      rgba(255, 255, 255, 0.06)
+    );
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.dateLabel {
+  color: var(--_date-label-color);
+  font-size: var(--_date-label-font-size);
+  font-weight: var(--_date-label-font-weight);
+  margin-bottom: var(--_date-label-margin-bottom);
+
+  span {
+    color: var(--_date-label-required-color);
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  transition:
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.focused .input {
+    border-color: var(--_date-border-color-focus);
+    box-shadow: var(--_date-shadow-focus);
+  }
+
+  &.focused .calendarIcon {
+    color: var(--_date-border-color-focus);
+  }
+
+  &.error .input {
+    border-color: var(--_date-color-error) !important;
+    box-shadow: 0 0 0 0.1875rem var(--_date-shadow-color-error) !important; /* 3px */
+  }
+}
+
+.input {
+  width: 100%;
+  height: var(--_date-height);
+  border-radius: var(--_date-border-radius);
+  appearance: none;
+  padding: 0 3rem 0 var(--_date-padding-x);
+  font-size: var(--_date-font-size);
+  background-color: var(--_date-background);
+  color: var(--_date-color);
+  box-shadow: var(--_date-shadow);
+  border: var(--_date-border-width) solid var(--_date-border-color);
+  cursor: pointer;
+  caret-color: transparent;
+  transition:
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::placeholder {
+    color: var(--_date-placeholder-color);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--_date-icon-color);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  pointer-events: all;
+
+  svg {
+    width: var(--_date-icon-size);
+    height: var(--_date-icon-size);
+  }
+}
+
+.viewError {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  bottom: var(--_date-error-bottom);
+  font-size: var(--_date-error-font-size);
+  width: max-content;
+
+  svg {
+    margin-right: var(--_date-error-icon-gap);
+    width: var(--_date-error-icon-size);
+    height: var(--_date-error-icon-size);
+  }
+
+  span {
+    color: var(--_date-color-error);
+  }
+}
+
+.calendar {
+  background-color: var(--_date-calendar-bg);
+  border-radius: var(--_date-calendar-border-radius);
+  padding: var(--_date-calendar-padding);
+  border: 0.0625rem solid var(--_date-calendar-border-color);
+  box-shadow: var(--_date-calendar-shadow);
+  width: var(--_date-calendar-width);
+  user-select: none;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.monthYearButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.monthYearButton {
+  font-size: var(--_date-header-font-size);
+  font-weight: 500;
+  color: var(--_date-header-color);
+  letter-spacing: -0.01em;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.125rem 0.375rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background-color: var(--_date-header-btn-hover-bg);
+    color: var(--_date-header-btn-hover-color);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: 0.0625rem;
+  }
+}
+
+.monthYear {
+  font-size: var(--_date-header-font-size);
+  font-weight: 500;
+  color: var(--_date-header-color);
+  letter-spacing: -0.01em;
+}
+
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_date-nav-button-size);
+  height: var(--_date-nav-button-size);
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--_date-nav-button-color);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--_date-nav-button-hover-bg);
+    color: var(--_date-nav-button-hover-color);
+  }
+
+  &:disabled {
+    color: var(--_date-nav-button-disabled-color);
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: 0.0625rem;
+  }
+
+  svg {
+    width: var(--_date-nav-icon-size);
+    height: var(--_date-nav-icon-size);
+  }
+}
+
+.calendarGrid {
+  margin-top: 0;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.weekday {
+  font-size: var(--_date-weekday-font-size);
+  font-weight: 500;
+  color: var(--_date-weekday-color);
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_date-day-size);
+  width: 100%;
+  font-size: var(--_date-day-font-size);
+  font-weight: 500;
+  color: var(--_date-day-color);
+  border: none;
+  background: transparent;
+  border-radius: var(--_date-day-border-radius);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  padding: 0;
+
+  &:hover:not(:disabled) {
+    background-color: var(--_date-day-hover-bg);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: -0.0625rem;
+  }
+
+  &.dayDisabled {
+    color: var(--_date-day-disabled-color);
+    background-color: var(--_date-day-disabled-bg);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &.dayOtherMonth {
+    color: var(--_date-day-other-month-color);
+
+    &:hover {
+      background-color: var(--_date-day-hover-bg);
+      opacity: 0.7;
+    }
+  }
+
+  &.dayToday {
+    background-color: var(--_date-day-today-bg);
+    color: var(--_date-day-today-color);
+    font-weight: 700;
+
+    &:hover {
+      background-color: var(--_date-day-today-bg);
+    }
+  }
+
+  &.daySelected {
+    background-color: var(--_date-day-selected-bg);
+    color: var(--_date-day-selected-color);
+    border-radius: var(--_date-day-border-radius);
+
+    &:hover {
+      background-color: var(--_date-day-selected-bg);
+    }
+  }
+
+  &.dayRangeStart {
+    background-color: var(--_date-day-selected-bg);
+    color: var(--_date-day-selected-color);
+    border-radius: var(--_date-day-border-radius) 0 0
+      var(--_date-day-border-radius);
+
+    &:hover {
+      background-color: var(--_date-day-selected-bg);
+    }
+  }
+
+  &.dayRangeEnd {
+    background-color: var(--_date-day-selected-bg);
+    color: var(--_date-day-selected-color);
+    border-radius: 0 var(--_date-day-border-radius)
+      var(--_date-day-border-radius) 0;
+
+    &:hover {
+      background-color: var(--_date-day-selected-bg);
+    }
+  }
+
+  &.dayRangeBoth {
+    background-color: var(--_date-day-selected-bg);
+    color: var(--_date-day-selected-color);
+    border-radius: var(--_date-day-border-radius);
+
+    &:hover {
+      background-color: var(--_date-day-selected-bg);
+    }
+  }
+
+  &.dayInRange {
+    background-color: var(--_date-range-bg);
+    color: var(--_date-day-color);
+    border-radius: 0;
+
+    &:hover {
+      background-color: var(--_date-range-bg);
+    }
+  }
+
+  &.dayHoverRange {
+    background-color: var(--_date-range-bg);
+    color: var(--_date-day-color);
+    border-radius: 0;
+    opacity: 0.7;
+  }
+
+  &.dayInRange,
+  &.dayHoverRange {
+    &:nth-child(7n + 1) {
+      border-radius: var(--_date-day-border-radius) 0 0
+        var(--_date-day-border-radius);
+    }
+    &:nth-child(7n) {
+      border-radius: 0 var(--_date-day-border-radius)
+        var(--_date-day-border-radius) 0;
+    }
+  }
+}
+
+.monthPickerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.monthCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_date-picker-cell-height);
+  font-size: var(--_date-picker-cell-font-size);
+  font-weight: 500;
+  color: var(--_date-picker-cell-color);
+  background: transparent;
+  border: none;
+  border-radius: var(--_date-picker-cell-border-radius);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--_date-picker-cell-hover-bg);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: 0.0625rem;
+  }
+
+  &.monthSelected {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+  }
+
+  &.monthRangeStart {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+    border-radius: var(--_date-picker-cell-border-radius) 0 0
+      var(--_date-picker-cell-border-radius);
+  }
+
+  &.monthRangeEnd {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+    border-radius: 0 var(--_date-picker-cell-border-radius)
+      var(--_date-picker-cell-border-radius) 0;
+  }
+
+  &.monthInRange {
+    background-color: var(--_date-picker-cell-range-bg);
+    border-radius: 0;
+  }
+
+  &.monthHoverRange {
+    background-color: var(--_date-picker-cell-range-bg);
+    border-radius: 0;
+    opacity: 0.7;
+  }
+
+  &.monthToday {
+    background-color: var(--_date-month-today-bg);
+    color: var(--_date-month-today-color);
+    font-weight: 700;
+
+    &:hover {
+      background-color: var(--_date-month-today-bg);
+    }
+  }
+
+  &.monthDisabled {
+    color: var(--_date-picker-cell-disabled-color);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.yearPickerGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.yearCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_date-picker-cell-height);
+  font-size: var(--_date-picker-cell-font-size);
+  font-weight: 500;
+  color: var(--_date-picker-cell-color);
+  background: transparent;
+  border: none;
+  border-radius: var(--_date-picker-cell-border-radius);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: var(--_date-picker-cell-hover-bg);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: 0.0625rem;
+  }
+
+  &.yearSelected {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+  }
+
+  &.yearRangeStart {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+    border-radius: var(--_date-picker-cell-border-radius) 0 0
+      var(--_date-picker-cell-border-radius);
+  }
+
+  &.yearRangeEnd {
+    background-color: var(--_date-picker-cell-selected-bg);
+    color: var(--_date-picker-cell-selected-color);
+    border-radius: 0 var(--_date-picker-cell-border-radius)
+      var(--_date-picker-cell-border-radius) 0;
+  }
+
+  &.yearInRange {
+    background-color: var(--_date-picker-cell-range-bg);
+    border-radius: 0;
+  }
+
+  &.yearHoverRange {
+    background-color: var(--_date-picker-cell-range-bg);
+    border-radius: 0;
+    opacity: 0.7;
+  }
+
+  &.yearToday {
+    background-color: var(--_date-year-today-bg);
+    color: var(--_date-year-today-color);
+    font-weight: 700;
+
+    &:hover {
+      background-color: var(--_date-year-today-bg);
+    }
+  }
+
+  &.yearDisabled {
+    color: var(--_date-picker-cell-disabled-color);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.weekdayPickerGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  padding: 0.5rem 0;
+}
+
+.weekdayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_date-day-size);
+  width: 100%;
+  font-size: var(--_date-day-font-size);
+  font-weight: 500;
+  color: var(--_date-day-color);
+  background: transparent;
+  border: none;
+  border-radius: var(--_date-day-border-radius);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    background-color: var(--_date-day-hover-bg);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: -0.0625rem;
+  }
+
+  &.weekdayCellSelected {
+    background-color: var(--_date-day-selected-bg);
+    color: var(--_date-day-selected-color);
+
+    &:hover {
+      background-color: var(--_date-day-selected-bg);
+    }
+  }
+}
+
+.timePicker {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 0.0625rem solid var(--_date-time-divider);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.timeLabel {
+  font-size: var(--_date-time-font-size);
+  font-weight: 500;
+  color: var(--_date-time-label-color);
+}
+
+.timeInputs {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.timeSelectWrapper {
+  position: relative;
+}
+
+.timeSelectBtn {
+  height: var(--_date-time-select-height);
+  min-width: var(--_date-time-select-width);
+  padding: 0 0.5rem;
+  font-size: var(--_date-time-font-size);
+  font-weight: 500;
+  background-color: var(--_date-time-select-bg);
+  color: var(--_date-time-select-color);
+  border: 0.0625rem solid var(--_date-time-select-border);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_date-border-color-focus);
+    outline-offset: 0.0625rem;
+  }
+}
+
+.timeDropdown {
+  position: absolute;
+  bottom: calc(100% + 0.25rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--_date-calendar-bg);
+  border: 0.0625rem solid var(--_date-calendar-border-color);
+  border-radius: 0.5rem;
+  box-shadow: var(--_date-calendar-shadow);
+  max-height: 9rem;
+  overflow-y: auto;
+  z-index: 10;
+  min-width: var(--_date-time-select-width);
+}
+
+.timeOption {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.5rem;
+  font-size: var(--_date-time-font-size);
+  font-weight: 500;
+  text-align: center;
+  color: var(--_date-picker-cell-color);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--_date-picker-cell-hover-bg);
+  }
+}
+
+.timeOptionSelected {
+  background-color: var(--_date-day-selected-bg);
+  color: var(--_date-day-selected-color);
+
+  &:hover {
+    background-color: var(--_date-day-selected-bg);
+  }
+}
+
+.timeSeparator {
+  font-size: var(--_date-time-font-size);
+  font-weight: 700;
+  color: var(--_date-time-label-color);
+}
+
+@media (max-width: 48rem) {
+  .calendar {
+    --_date-calendar-width: var(
+      --bearlab-date-calendar-width,
+      17.5rem
+    ); /* 280px */
+  }
+}

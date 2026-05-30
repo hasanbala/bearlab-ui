@@ -1,4 +1,5 @@
 .container {
+  // Dimensions
   --_checkbox-size: var(--bearlab-checkbox-size, 1.25rem); /* 20px */
   --_checkbox-border-width: var(
     --bearlab-checkbox-border-width,
@@ -15,11 +16,15 @@
     --bearlab-checkbox-check-size,
     0.75rem
   ); /* 12px */
+
+  // Label
   --_checkbox-label-font-size: var(
     --bearlab-checkbox-label-font-size,
     0.875rem
   ); /* 14px */
   --_checkbox-label-font-weight: var(--bearlab-checkbox-label-font-weight, 600);
+
+  // Popover
   --_checkbox-popover-border-radius: var(
     --bearlab-checkbox-popover-border-radius,
     0.5rem
@@ -46,6 +51,8 @@
     0 -0.0625rem 0.0625rem 0.0625rem rgba(196, 205, 222, 0.119) inset,
     0 0 0 0.0625rem rgba(197, 206, 225, 0.383) inset
   );
+
+  // Error
   --_checkbox-font-size-error: var(
     --bearlab-checkbox-font-size-error,
     0.875rem
@@ -63,6 +70,7 @@
     0.75rem
   ); /* 12px */
 
+  // Light theme colors
   --_checkbox-color: var(--bearlab-checkbox-color, #374151);
   --_checkbox-label-color: var(--bearlab-checkbox-label-color, #344054);
   --_checkbox-required-color: var(--bearlab-checkbox-required-color, #f04438);

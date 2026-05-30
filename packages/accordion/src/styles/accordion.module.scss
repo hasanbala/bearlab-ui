@@ -1,12 +1,15 @@
 @use "sass:color";
 
 .container {
+  // Spacing & animation
   --_accordion-gap: var(--bearlab-accordion-gap, 0.75rem); /* 12px */
   --_accordion-duration: var(--bearlab-accordion-duration, 0.28s);
   --_accordion-easing: var(
     --bearlab-accordion-easing,
     cubic-bezier(0.4, 0, 0.2, 1)
   );
+
+  // Item & header layout
   --_accordion-item-radius: var(
     --bearlab-accordion-item-radius,
     1rem
@@ -27,6 +30,8 @@
     --bearlab-accordion-button-min-size,
     3rem
   ); /* 48px */
+
+  // Typography
   --_accordion-title-font-size: var(
     --bearlab-accordion-title-font-size,
     1.125rem
@@ -43,6 +48,8 @@
     --bearlab-accordion-content-line-height,
     1.625rem
   ); /* 26px */
+
+  // Icon
   --_accordion-icon-border-radius: var(
     --bearlab-accordion-icon-border-radius,
     9999px
@@ -57,6 +64,7 @@
     0.0625rem
   ); /* 1px */
 
+  // Light theme colors
   --_accordion-item-border-color: var(
     --bearlab-accordion-item-border-color,
     #e5e7eb

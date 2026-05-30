@@ -1,4 +1,5 @@
 .container {
+  // Layout
   --_badge-container-gap: var(--bearlab-badge-container-gap, 0.25rem); /* 4px */
   --_badge-container-padding: var(
     --bearlab-badge-container-padding,
@@ -12,6 +13,8 @@
     --bearlab-badge-container-font-weight,
     600
   );
+
+  // Icon
   --_badge-start-icon-margin-right: var(
     --bearlab-badge-start-icon-margin-right,
     0.25rem
@@ -28,6 +31,8 @@
     --bearlab-badge-end-icon-width,
     0.75rem
   ); /* 12px */
+
+  // Font sizes
   --_badge-small-font-size: var(
     --bearlab-badge-small-font-size,
     0.75rem
@@ -37,6 +42,7 @@
     0.875rem
   ); /* 14px */
 
+  // Light variant colors
   --_badge-light-primary-bg: var(--bearlab-badge-light-primary-bg, #ecf3ff);
   --_badge-light-primary-color: var(
     --bearlab-badge-light-primary-color,
@@ -60,6 +66,8 @@
   --_badge-light-light-color: var(--bearlab-badge-light-light-color, #344054);
   --_badge-light-dark-bg: var(--bearlab-badge-light-dark-bg, #667085);
   --_badge-light-dark-color: var(--bearlab-badge-light-dark-color, #fff);
+
+  // Solid variant colors
   --_badge-solid-primary-bg: var(--bearlab-badge-solid-primary-bg, #465fff);
   --_badge-solid-primary-color: var(--bearlab-badge-solid-primary-color, #fff);
   --_badge-solid-bg-success: var(--bearlab-badge-solid-bg-success, #12b76a);

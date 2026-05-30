@@ -1,10 +1,13 @@
 .container {
+  // Dimensions
   --_input-height: var(--bearlab-input-height, 2.75rem); /* 44px */
   --_input-border-radius: var(--bearlab-input-border-radius, 0.5rem); /* 8px */
   --_input-border-width: var(--bearlab-input-border-width, 0.125rem); /* 2px */
   --_input-padding-x: var(--bearlab-input-padding-x, 1rem); /* 16px */
   --_input-padding-y: var(--bearlab-input-padding-y, 0.625rem); /* 10px */
   --_input-font-size: var(--bearlab-input-font-size, 0.875rem); /* 14px */
+
+  // Label
   --_input-label-font-size: var(
     --bearlab-input-label-font-size,
     0.875rem
@@ -14,6 +17,8 @@
     --bearlab-input-label-margin-bottom,
     0.625rem
   ); /* 10px */
+
+  // Icon
   --_input-icon-wrapper-width: var(
     --bearlab-input-icon-wrapper-width,
     3.25rem
@@ -27,6 +32,8 @@
     --bearlab-input-search-icon-size,
     1.125rem
   ); /* 18px */
+
+  // Error
   --_input-font-size-error: var(
     --bearlab-input-font-size-error,
     0.875rem
@@ -47,6 +54,7 @@
   --_input-shadow-color-error: var(--bearlab-input-shadow-color-error, #ffa4a4);
   --_input-border-color-focus: var(--bearlab-input-border-color-focus, #465fff);
 
+  // Light theme colors
   --_input-border-color: var(--bearlab-input-border-color, #e4e7ec);
   --_input-border-color-icon: var(--bearlab-input-border-color-icon, #e4e7ec);
   --_input-shadow: var(

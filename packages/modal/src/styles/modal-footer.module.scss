@@ -1,10 +1,12 @@
 .footer {
+  // Layout
   --_modal-footer-margin-top: var(
     --bearlab-modal-footer-margin-top,
     1.875rem
   ); /* 30px */
   --_modal-footer-gap: var(--bearlab-modal-footer-gap, 1.25rem); /* 20px */
 
+  // Alert footer colors
   --_modal-footer-bg-success: var(--bearlab-modal-footer-bg-success, #12b76a);
   --_modal-footer-bg-info: var(--bearlab-modal-footer-bg-info, #0ba5ec);
   --_modal-footer-bg-warning: var(--bearlab-modal-footer-bg-warning, #f79009);

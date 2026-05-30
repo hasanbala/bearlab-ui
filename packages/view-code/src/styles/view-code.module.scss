@@ -1,4 +1,5 @@
 .container {
+  // Container
   --_view-code-container-radius: var(
     --bearlab-view-code-container-radius,
     1rem
@@ -11,6 +12,7 @@
     --bearlab-view-code-gutter-width,
     3rem
   ); /* 48px */
+  // Header
   --_view-code-header-padding-y: var(
     --bearlab-view-code-header-padding-y,
     0.625rem
@@ -31,6 +33,7 @@
     --bearlab-view-code-header-left-gap,
     0.625rem
   ); /* 10px */
+  // Language badge
   --_view-code-badge-padding-y: var(
     --bearlab-view-code-badge-padding-y,
     0.1875rem
@@ -55,6 +58,7 @@
     --bearlab-view-code-filename-font-size,
     0.75rem
   ); /* 12px */
+  // Copy button
   --_view-code-copy-btn-padding-y: var(
     --bearlab-view-code-copy-btn-padding-y,
     0.25rem
@@ -75,6 +79,7 @@
     --bearlab-view-code-copy-btn-gap,
     0.3125rem
   ); /* 5px */
+  // Scrollbar
   --_view-code-scrollbar-height: var(
     --bearlab-view-code-scrollbar-height,
     0.375rem
@@ -83,6 +88,7 @@
     --bearlab-view-code-scrollbar-radius,
     0.1875rem
   ); /* 3px */
+  // Line number gutter
   --_view-code-gutter-padding-y: var(
     --bearlab-view-code-gutter-padding-y,
     0.625rem
@@ -103,6 +109,7 @@
     --bearlab-view-code-line-number-line-height,
     1.25rem
   ); /* 20px */
+  // Code block
   --_view-code-pre-padding-y: var(
     --bearlab-view-code-pre-padding-y,
     0.625rem
@@ -121,6 +128,7 @@
   ); /* 20px */
   --_view-code-code-tab-size: var(--bearlab-view-code-code-tab-size, 2);
 
+  // Light theme colors
   --_view-code-container-bg: var(--bearlab-view-code-container-bg, #fafafa);
   --_view-code-container-border-color: var(
     --bearlab-view-code-container-border-color,
@@ -137,6 +145,8 @@
     #e0e0e0
   );
   --_view-code-text-color: var(--bearlab-view-code-text-color, #383a42);
+
+  // Syntax token colors
   --_view-code-gutter-text-color: var(
     --bearlab-view-code-gutter-text-color,
     #9d9d9f

@@ -1,4 +1,5 @@
 .container {
+  // Content layout
   --_modal-content-padding: var(
     --bearlab-modal-content-padding,
     1.25rem
@@ -19,6 +20,8 @@
   --_modal-size-medium: var(--bearlab-modal-size-medium, 37.5rem); /* 600px */
   --_modal-size-large: var(--bearlab-modal-size-large, 50rem); /* 800px */
   --_modal-size-xlarge: var(--bearlab-modal-size-xlarge, 71.25rem); /* 1140px */
+
+  // Close button
   --_modal-close-button-inset: var(
     --bearlab-modal-close-button-inset,
     0.75rem
@@ -27,6 +30,7 @@
     --bearlab-modal-close-button-transition,
     fill 0.2s ease
   );
+  // Typography
   --_modal-header-margin-bottom: var(
     --bearlab-modal-header-margin-bottom,
     1.875rem
@@ -45,6 +49,8 @@
     --bearlab-modal-subtitle-margin-top,
     0.625rem
   ); /* 10px */
+
+  // Alert modal
   --_modal-alert-wrapper-margin-bottom: var(
     --bearlab-modal-alert-wrapper-margin-bottom,
     1.75rem
@@ -61,6 +67,8 @@
     --bearlab-modal-container-margin-inline,
     0rem
   );
+
+  // Skeleton loader
   --_modal-skeleton-header-padding-bottom: var(
     --bearlab-modal-skeleton-header-padding-bottom,
     1.25rem
@@ -147,6 +155,7 @@
     1.5rem
   ); /* 24px */
 
+  // Light theme colors
   --_modal-close-button-secondary-border-color: var(
     --bearlab-modal-close-button-secondary-border-color,
     #d1d5db

@@ -1,10 +1,13 @@
 .container {
+  // Layout
   --_alert-radius: var(--bearlab-alert-radius, 0.75rem); /* 12px */
   --_alert-padding: var(--bearlab-alert-padding, 1rem); /* 16px */
   --_alert-gap: var(--bearlab-alert-gap, 0.75rem); /* 12px */
   --_alert-border-width: var(--bearlab-alert-border-width, 1px);
   --_alert-icon-size: var(--bearlab-alert-icon-size, 1.5rem); /* 24px */
   --_alert-icon-offset: var(--bearlab-alert-icon-offset, -0.125rem);
+
+  // Typography
   --_alert-title-size: var(--bearlab-alert-title-size, 0.875rem); /* 14px */
   --_alert-title-weight: var(--bearlab-alert-title-weight, 600);
   --_alert-title-mb: var(--bearlab-alert-title-mb, 0.25rem); /* 4px */
@@ -13,6 +16,7 @@
   --_alert-link-weight: var(--bearlab-alert-link-weight, 500);
   --_alert-link-mt: var(--bearlab-alert-link-mt, 0.75rem); /* 12px */
 
+  // Light theme colors
   --_alert-title-color: var(--bearlab-alert-title-color, #1d2939);
   --_alert-desc-color: var(--bearlab-alert-desc-color, #667085);
   --_alert-link-color: var(--bearlab-alert-link-color, currentColor);

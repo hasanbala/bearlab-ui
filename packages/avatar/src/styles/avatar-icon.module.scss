@@ -1,4 +1,5 @@
 .container {
+  // Avatar sizes
   --_avatar-icon-xsmall-size: var(
     --bearlab-avatar-icon-xsmall-size,
     1.5rem
@@ -23,6 +24,8 @@
     --bearlab-avatar-icon-xxlarge-size,
     4rem
   ); /* 64px */
+
+  // Status indicator sizes
   --_avatar-icon-status-xsmall-size: var(
     --bearlab-avatar-icon-status-xsmall-size,
     0.375rem
@@ -51,6 +54,8 @@
     --bearlab-avatar-icon-status-border-width,
     0.09375rem
   ); /* 1.5px */
+
+  // Border radius
   --_avatar-icon-border-radius: var(
     --bearlab-avatar-icon-border-radius,
     9999px
@@ -60,6 +65,7 @@
     9999px
   );
 
+  // Colors
   --_avatar-icon-status-border-color: var(
     --bearlab-avatar-icon-status-border-color,
     #fff

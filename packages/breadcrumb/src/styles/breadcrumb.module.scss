@@ -1,4 +1,5 @@
 .container {
+  // Layout
   --_breadcrumb-container-gap: var(
     --bearlab-breadcrumb-container-gap,
     0.75rem
@@ -7,6 +8,7 @@
     --bearlab-breadcrumb-container-margin-bottom,
     1.5rem
   ); /* 24px */
+  // Typography
   --_breadcrumb-title-font-size: var(
     --bearlab-breadcrumb-title-font-size,
     1.25rem
@@ -29,6 +31,7 @@
   ); /* 4px */
   --_breadcrumb-dot-size: var(--bearlab-breadcrumb-dot-size, 0.25rem); /* 4px */
 
+  // Light theme colors
   --_breadcrumb-title-color: var(--bearlab-breadcrumb-title-color, #1d2939);
   --_breadcrumb-current-color: var(--bearlab-breadcrumb-current-color, #1d2939);
   --_breadcrumb-list-color: var(--bearlab-breadcrumb-list-color, #6b7280);

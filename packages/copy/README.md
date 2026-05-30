@@ -48,7 +48,7 @@ yarn add @bearlab/copy
 pnpm add @bearlab/copy
 ```
 
-> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed.  
+> **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed.  
 > **Internal dependency:** `@bearlab/button` is used internally for the copy trigger button.
 
 ---

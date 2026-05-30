@@ -49,7 +49,8 @@
       "@bearlab/pricing": ["./packages/pricing/src"],
       "@bearlab/view-code": ["./packages/view-code/src"],
       "@bearlab/tag-input": ["./packages/tag-input/src"],
-      "@bearlab/accordion": ["./packages/accordion/src"]
+      "@bearlab/accordion": ["./packages/accordion/src"],
+      "@bearlab/date": ["./packages/date/src"]
     }
   },
   "include": ["src/**/*"],

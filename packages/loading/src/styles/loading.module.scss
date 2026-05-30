@@ -1,4 +1,5 @@
 .container {
+  // Dimensions
   --_loading-container-width: var(
     --bearlab-loading-container-width,
     1.5rem
@@ -8,6 +9,8 @@
     1.5rem
   ); /* 24px */
   --_loading-icon-z-index: var(--bearlab-loading-icon-z-index, 10003);
+
+  // Animation
   --_loading-animation-duration: var(--bearlab-loading-animation-duration, 1s);
 
   top: 50%;

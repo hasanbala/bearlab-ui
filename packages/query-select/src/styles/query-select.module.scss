@@ -1,5 +1,6 @@
 .container,
 .optionsContainer {
+  // Label
   --_query-select-opacity-disabled: var(
     --bearlab-query-select-opacity-disabled,
     0.6
@@ -16,6 +17,7 @@
     --bearlab-query-select-label-font-weight,
     600
   );
+  // Error
   --_query-select-font-size-error: var(
     --bearlab-query-select-font-size-error,
     0.875rem
@@ -32,6 +34,7 @@
     --bearlab-query-select-icon-margin-right-error,
     0.5rem
   ); /* 8px */
+  // Selection card container
   --_query-select-selection-card-container-gap: var(
     --bearlab-query-select-selection-card-container-gap,
     0.5rem
@@ -56,6 +59,7 @@
     --bearlab-query-select-selection-card-container-max-height,
     12.5rem
   ); /* 200px */
+  // Selected items (tags)
   --_query-select-selected-item-height: var(
     --bearlab-query-select-selected-item-height,
     1.75rem
@@ -80,6 +84,7 @@
     --bearlab-query-select-selected-item-title-font-size,
     0.875rem
   ); /* 14px */
+  // Remove (×) button
   --_query-select-remove-btn-padding: var(
     --bearlab-query-select-remove-btn-padding,
     0.25rem
@@ -92,6 +97,7 @@
     --bearlab-query-select-remove-btn-margin-left,
     0.625rem
   ); /* 10px */
+  // Search input
   --_query-select-search-height: var(
     --bearlab-query-select-search-height,
     2.75rem
@@ -112,6 +118,7 @@
     --bearlab-query-select-search-padding-y,
     0.25rem
   ); /* 4px */
+  // Text input
   --_query-select-input-font-size: var(
     --bearlab-query-select-input-font-size,
     0.875rem
@@ -120,6 +127,7 @@
     --bearlab-query-select-input-padding-left,
     0.25rem
   ); /* 4px */
+  // Dropdown arrow
   --_query-select-arrow-size: var(
     --bearlab-query-select-arrow-size,
     1.25rem
@@ -128,6 +136,7 @@
     --bearlab-query-select-arrow-right,
     0.625rem
   ); /* 10px */
+  // Options dropdown panel
   --_query-select-options-border-radius: var(
     --bearlab-query-select-options-border-radius,
     0.5rem
@@ -148,6 +157,7 @@
     --bearlab-query-select-options-border-width,
     0.125rem
   ); /* 2px */
+  // Individual option
   --_query-select-option-padding-x: var(
     --bearlab-query-select-option-padding-x,
     0.625rem
@@ -184,6 +194,7 @@
     --bearlab-query-select-option-opacity-disabled,
     0.45
   );
+  // Checkbox
   --_query-select-checkbox-size: var(
     --bearlab-query-select-checkbox-size,
     1.25rem
@@ -204,6 +215,7 @@
     --bearlab-query-select-checkbox-icon-color,
     #fff
   );
+  // Option avatar image
   --_query-select-option-image-size: var(
     --bearlab-query-select-option-image-size,
     1.75rem
@@ -212,6 +224,7 @@
     --bearlab-query-select-option-image-border-radius,
     0.375rem
   ); /* 6px */
+  // Empty & loading state
   --_query-select-empty-state-gap: var(
     --bearlab-query-select-empty-state-gap,
     0.625rem
@@ -232,6 +245,7 @@
     --bearlab-query-select-loading-animation-duration,
     1s
   );
+  // Skeleton loader
   --_query-select-skeleton-bg: var(--bearlab-query-select-skeleton-bg, #e4e7ec);
   --_query-select-skeleton-shimmer: var(
     --bearlab-query-select-skeleton-shimmer,
@@ -242,6 +256,7 @@
     1.6s
   );
 
+  // Light theme colors
   --_query-select-label-color: var(--bearlab-query-select-label-color, #1d2939);
   --_query-select-label-required-color: var(
     --bearlab-query-select-label-required-color,

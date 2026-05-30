@@ -1,6 +1,8 @@
 .container {
+  // Layout
   --_table-border-radius: var(--bearlab-table-border-radius, 0.5rem); /* 8px */
   --_table-border-width: var(--bearlab-table-border-width, 0.0625rem); /* 1px */
+  // Typography
   --_table-font-size: var(--bearlab-table-font-size, 0.875rem); /* 14px */
   --_table-font-size-title: var(
     --bearlab-table-font-size-title,
@@ -9,6 +11,7 @@
   --_table-font-weight-header: var(--bearlab-table-font-weight-header, 600);
   --_table-font-weight-title: var(--bearlab-table-font-weight-title, 600);
   --_table-line-height: var(--bearlab-table-line-height, 1.5);
+  // Cell padding
   --_table-cell-padding-block: var(
     --bearlab-table-cell-padding-block,
     0.75rem
@@ -17,6 +20,7 @@
     --bearlab-table-cell-padding-inline,
     1rem
   ); /* 16px */
+  // Title section
   --_table-title-margin-block-end: var(
     --bearlab-table-title-margin-block-end,
     0.75rem
@@ -33,6 +37,7 @@
     --bearlab-table-row-transition,
     background-color 0.15s ease
   );
+  // Pagination
   --_table-pagination-gap: var(--bearlab-table-pagination-gap, 1rem); /* 16px */
   --_table-pagination-control-gap: var(
     --bearlab-table-pagination-gap,
@@ -46,6 +51,7 @@
     --bearlab-table-pagination-padding-inline,
     1rem
   ); /* 16px */
+  // Page button
   --_table-page-button-min-width: var(
     --bearlab-table-page-button-min-width,
     2rem
@@ -66,6 +72,7 @@
     --bearlab-table-page-button-font-weight,
     500
   );
+  // Record info
   --_table-record-font-size-info: var(
     --bearlab-table-record-font-size-info,
     0.8125rem
@@ -82,6 +89,7 @@
     --bearlab-table-page-font-size-info,
     0.8125rem
   ); /* 13px */
+  // Page size selector
   --_table-page-size-selector-width: var(
     --bearlab-table-page-size-selector-width,
     fit-content
@@ -112,6 +120,7 @@
     collapse
   );
 
+  // Light theme colors
   --_table-bg: var(--bearlab-table-bg, #ffffff);
   --_table-border-color: var(--bearlab-table-border-color, #e5e7eb);
   --_table-outline-color: var(--bearlab-table-outline-color, #93c5fd);

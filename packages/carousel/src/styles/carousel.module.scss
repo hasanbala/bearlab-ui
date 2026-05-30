@@ -1,4 +1,5 @@
 .container {
+  // Slide dimensions
   --_carousel-slide-width-desktop: var(
     --bearlab-carousel-slide-width-desktop,
     63.75rem
@@ -28,11 +29,15 @@
     --bearlab-carousel-slide-height-mobile,
     20rem
   ); /* 320px */
+
+  // Animation
   --_carousel-transition-dur: var(--bearlab-carousel-transition-dur, 560ms);
   --_carousel-transition-ease: var(
     --bearlab-carousel-transition-ease,
     cubic-bezier(0.45, 0.05, 0.15, 1)
   );
+
+  // Layout
   --_carousel-container-padding: var(
     --bearlab-carousel-container-padding,
     2.5rem 0 3.5rem
@@ -41,6 +46,7 @@
     --bearlab-carousel-track-margin-bottom,
     1.875rem
   ); /* 30px */
+  // Video controls
   --_carousel-controls-inset: var(
     --bearlab-carousel-controls-inset,
     0.875rem
@@ -61,6 +67,8 @@
     --bearlab-carousel-control-icon-size,
     1rem
   ); /* 16px */
+
+  // Prompt overlay
   --_carousel-prompt-inset-x: var(
     --bearlab-carousel-prompt-inset-x,
     0.75rem
@@ -101,6 +109,8 @@
     --bearlab-carousel-scrollbar-size,
     0.375rem
   ); /* 6px */
+
+  // Navigation buttons
   --_carousel-nav-top-offset: var(
     --bearlab-carousel-nav-top-offset,
     3.125rem
@@ -125,6 +135,8 @@
     --bearlab-carousel-nav-icon-size,
     1.25rem
   ); /* 20px */
+
+  // Dots indicator
   --_carousel-dots-gap: var(--bearlab-carousel-dots-gap, 0.625rem); /* 10px */
   --_carousel-dots-padding: var(
     --bearlab-carousel-dots-padding,
@@ -148,6 +160,7 @@
     0.125rem
   ); /* 2px */
 
+  // Light theme colors
   --_carousel-slide-shadow-active: var(
     --bearlab-carousel-slide-shadow-active,
     0 0.25rem 0.625rem rgba(0, 0, 0, 0.55),

@@ -48,7 +48,7 @@ yarn add @bearlab/pricing
 pnpm add @bearlab/pricing
 ```
 
-> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
+> **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
 ---
 

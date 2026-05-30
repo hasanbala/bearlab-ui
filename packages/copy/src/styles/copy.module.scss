@@ -1,4 +1,5 @@
 .container {
+  // Layout
   --_copy-container-gap: var(--bearlab-copy-container-gap, 0.125rem); /* 2px */
   --_copy-button-width: var(--bearlab-copy-button-width, fit-content);
   --_copy-text-font-size: var(
@@ -25,6 +26,7 @@
   ); /* 0 1px 2px */
   --_copy-opacity-disabled: var(--bearlab-copy-opacity-disabled, 0.6);
 
+  // Light theme colors
   --_copy-text-color: var(--bearlab-copy-text-color, #1f2937);
   --_copy-text-bg: var(--bearlab-copy-text-bg, #ffffff);
   --_copy-text-border-color: var(--bearlab-copy-text-border-color, #d1d5db);

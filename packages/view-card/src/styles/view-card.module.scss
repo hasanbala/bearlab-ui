@@ -1,4 +1,5 @@
 .containerWithCard {
+  // Card layout
   --_view-card-border-radius: var(
     --bearlab-view-card-border-radius,
     1rem
@@ -7,6 +8,7 @@
     --bearlab-view-card-margin-bottom,
     1.875rem
   ); /* 30px */
+  // Header
   --_view-card-header-padding-y: var(
     --bearlab-view-card-header-padding-y,
     1.25rem
@@ -31,6 +33,7 @@
     --bearlab-view-card-description-font-size,
     0.875rem
   ); /* 14px */
+  // Content
   --_view-card-content-padding: var(
     --bearlab-view-card-content-padding,
     1rem
@@ -39,6 +42,7 @@
     --bearlab-view-card-content-font-size,
     0.875rem
   ); /* 14px */
+  // Animation
   --_view-card-duration: var(--bearlab-view-card-duration, 0.28s);
   --_view-card-easing: var(
     --bearlab-view-card-easing,
@@ -49,6 +53,7 @@
     1.5rem
   ); /* 24px */
 
+  // Light theme colors
   --_view-card-bg: var(--bearlab-view-card-bg, #fff);
   --_view-card-border-color: var(--bearlab-view-card-border-color, #e5e7eb);
   --_view-card-header-border-color: var(
@@ -162,6 +167,7 @@
 }
 
 .containerWithEmptyCard {
+  // Empty card dimensions
   --_view-card-empty-min-height: var(
     --bearlab-view-card-empty-min-height,
     18.75rem
@@ -207,6 +213,7 @@
     3.75rem
   ); /* 60px */
 
+  // Empty card colors
   --_view-card-empty-bg: var(--bearlab-view-card-empty-bg, #fff);
   --_view-card-empty-border-color: var(
     --bearlab-view-card-empty-border-color,

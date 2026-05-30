@@ -1,12 +1,14 @@
 @use "sass:color";
 
 .containerByFaqOne {
+  // Spacing & animation
   --_faq-one-gap: var(--bearlab-faq-one-gap, 0.75rem); /* 12px */
   --_faq-one-duration: var(--bearlab-faq-one-duration, 0.28s);
   --_faq-one-easing: var(
     --bearlab-faq-one-easing,
     cubic-bezier(0.4, 0, 0.2, 1)
   );
+  // Item & header layout
   --_faq-one-item-radius: var(--bearlab-faq-one-item-radius, 1rem); /* 16px */
   --_faq-one-item-border-width: var(
     --bearlab-faq-one-item-border-width,
@@ -22,6 +24,8 @@
     3rem
   ); /* 48px */
   --_faq-one-icon-size: var(--bearlab-faq-one-icon-size, 1.125rem); /* 18px */
+
+  // Typography
   --_faq-one-title-font-size: var(
     --bearlab-faq-one-title-font-size,
     1.125rem
@@ -39,6 +43,7 @@
     1.625rem
   ); /* 26px */
 
+  // Light theme colors
   --_faq-one-item-border-color: var(
     --bearlab-faq-one-item-border-color,
     #e5e7eb
@@ -215,10 +220,13 @@
 }
 
 .containerByFaqTwo {
+  // Grid layout
   --_faq-two-grid-columns: var(--bearlab-faq-two-grid-columns, 1);
   --_faq-two-column-gap: var(--bearlab-faq-two-column-gap, 2rem); /* 32px */
   --_faq-two-row-gap: var(--bearlab-faq-two-row-gap, 1.25rem); /* 20px */
   --_faq-two-item-gap: var(--bearlab-faq-two-item-gap, 0.75rem); /* 12px */
+
+  // Item & header layout
   --_faq-two-item-border-radius: var(
     --bearlab-faq-two-item-border-radius,
     0.75rem
@@ -252,6 +260,7 @@
     1.625rem
   ); /* 26px */
 
+  // Light theme colors
   --_faq-two-header-title-color-open: var(
     --bearlab-faq-two-header-title-color-open,
     #1f2937
@@ -399,6 +408,7 @@
 }
 
 .containerByFaqThree {
+  // Grid layout
   --_faq-three-grid-gap: var(--bearlab-faq-three-grid-gap, 1rem); /* 16px */
   --_faq-three-grid-min-col-width: var(
     --bearlab-faq-three-grid-min-col-width,
@@ -417,6 +427,8 @@
     --bearlab-faq-three-item-border-width,
     0.0625rem
   ); /* 1px */
+
+  // Icon & typography
   --_faq-three-icon-size: var(
     --bearlab-faq-three-icon-size,
     1.5625rem
@@ -438,6 +450,7 @@
     1.875rem
   ); /* 30px */
 
+  // Light theme colors
   --_faq-three-item-border-color: var(
     --bearlab-faq-three-item-border-color,
     #f3f4f6

@@ -1,0 +1,52 @@
+{
+  "name": "@bearlab/date",
+  "version": "1.0.0",
+  "description": "Bearlab UI Date Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=date rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "date",
+    "date-picker",
+    "calendar",
+    "form",
+    "bearlab",
+    "bearlab-ui"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/date"
+  },
+  "homepage": "https://bearlab-ui.vercel.app/packages/date/preview",
+  "publishConfig": {
+    "access": "public"
+  }
+}

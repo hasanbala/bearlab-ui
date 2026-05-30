@@ -97,6 +97,7 @@ export default [
               path.join(rootPath, "packages/query-select"),
             ],
             "@bearlab/accordion": [path.join(rootPath, "packages/accordion")],
+            "@bearlab/date": [path.join(rootPath, "packages/date")],
           },
         },
       }),

@@ -1,7 +1,9 @@
 .container,
 .gridTwo,
 .gridThree {
+  // Animation
   --_pricing-transition-speed: var(--bearlab-pricing-transition-speed, 200ms);
+  // Border radius
   --_pricing-card-radius: var(--bearlab-pricing-card-radius, 1rem); /* 16px */
   --_pricing-btn-radius: var(--bearlab-pricing-btn-radius, 0.5rem); /* 8px */
   --_pricing-switch-radius: var(
@@ -16,6 +18,7 @@
     --bearlab-pricing-pack-icon-wrapper-radius,
     0.65625rem
   ); /* 10.5px */
+  // Header & title
   --_pricing-header-max-width: var(
     --bearlab-pricing-header-max-width,
     26.25rem
@@ -29,6 +32,8 @@
     --bearlab-pricing-title-margin-bottom,
     1.75rem
   ); /* 28px */
+
+  // Billing period switch
   --_pricing-switch-margin-bottom: var(
     --bearlab-pricing-switch-margin-bottom,
     2.5rem
@@ -61,6 +66,7 @@
     --bearlab-pricing-switch-indicator-width,
     7.5rem
   ); /* 120px */
+  // Grid & card layout
   --_pricing-grid-gap: var(--bearlab-pricing-grid-gap, 1.25rem); /* 20px */
   --_pricing-grid-gap-lg: var(--bearlab-pricing-grid-gap-lg, 1.5rem); /* 24px */
   --_pricing-grid-three-gap: var(
@@ -87,6 +93,7 @@
     --bearlab-pricing-card-active-transform,
     translateY(-0.125rem)
   ); /* -2px */
+  // Typography
   --_pricing-pack-title-font-size: var(
     --bearlab-pricing-pack-title-font-size,
     1.25rem
@@ -99,6 +106,7 @@
     --bearlab-pricing-pack-title-margin-bottom,
     0.75rem
   ); /* 12px */
+  // Price display
   --_pricing-price-font-size: var(
     --bearlab-pricing-price-font-size,
     2.25rem
@@ -156,6 +164,7 @@
     --bearlab-pricing-original-price-font-weight,
     600
   );
+  // Feature list & divider
   --_pricing-divider-height: var(
     --bearlab-pricing-divider-height,
     0.0625rem
@@ -180,6 +189,7 @@
     --bearlab-pricing-feature-item-gap,
     0.75rem
   ); /* 12px */
+  // CTA button
   --_pricing-button-height: var(
     --bearlab-pricing-button-height,
     3rem
@@ -205,6 +215,7 @@
     --bearlab-pricing-card-two-header-margin-bottom,
     0.25rem
   ); /* 4px */
+  // Popular badge
   --_pricing-badge-font-size: var(
     --bearlab-pricing-badge-font-size,
     0.75rem
@@ -257,6 +268,7 @@
     0 0.0625rem 0.125rem #0f172a
   ); /* 1px 2px */
 
+  // Light theme colors
   --_pricing-color-focus: var(--bearlab-pricing-color-focus, #465fff);
   --_pricing-title-color: var(--bearlab-pricing-title-color, #1d2939);
   --_pricing-switch-wrapper-bg: var(

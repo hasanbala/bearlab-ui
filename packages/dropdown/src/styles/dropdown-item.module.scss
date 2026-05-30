@@ -1,4 +1,5 @@
 .dropdownItemContainer {
+  // Layout
   --_dropdown-item-padding-y: var(
     --bearlab-dropdown-item-padding-y,
     0.5rem
@@ -12,6 +13,8 @@
     0.875rem
   ); /* 14px */
   --_dropdown-item-font-weight: var(--bearlab-dropdown-item-font-weight, 500);
+
+  // Focus & states
   --_dropdown-item-border-radius: var(
     --bearlab-dropdown-item-border-radius,
     0.5rem
@@ -29,6 +32,7 @@
     0.5
   );
 
+  // Light theme colors
   --_dropdown-item-color: var(--bearlab-dropdown-item-color, #344054);
   --_dropdown-item-bg: var(--bearlab-dropdown-item-bg, #ffffff);
   --_dropdown-item-color-hover: var(

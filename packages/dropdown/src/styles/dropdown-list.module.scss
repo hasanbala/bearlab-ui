@@ -1,4 +1,5 @@
 .dropdownList {
+  // Layout
   --_dropdown-list-width: var(
     --bearlab-dropdown-list-width,
     16.25rem
@@ -48,6 +49,7 @@
     1px
   );
 
+  // Light theme colors
   --_dropdown-list-divider-color: var(
     --bearlab-dropdown-list-divider-color,
     #e5e7eb

@@ -1,4 +1,5 @@
 .container {
+  // Dimensions
   --_switch-gap: var(--bearlab-switch-gap, 0.75rem); /* 12px */
   --_switch-font-size: var(--bearlab-switch-font-size, 0.875rem); /* 14px */
   --_switch-width: var(--bearlab-switch-width, 2.5rem); /* 40px */
@@ -9,6 +10,8 @@
     0.0625rem
   ); /* 1px */
   --_switch-transition: var(--bearlab-switch-transition, all 0.2s ease);
+
+  // Toggle (thumb) dimensions
   --_switch-toggle-size: var(--bearlab-switch-toggle-size, 1rem); /* 16px */
   --_switch-toggle-active-translate: var(
     --bearlab-switch-toggle-active-translate,
@@ -19,11 +22,15 @@
     0.0625rem
   ); /* 1px */
   --_switch-opacity-disabled: var(--bearlab-switch-opacity-disabled, 0.6);
+
+  // Label
   --_switch-label-font-size: var(
     --bearlab-switch-label-font-size,
     0.875rem
   ); /* 14px */
   --_switch-label-font-weight: var(--bearlab-switch-label-font-weight, 600);
+
+  // Popover
   --_switch-popover-border-radius: var(
     --bearlab-switch-popover-border-radius,
     0.5rem
@@ -45,6 +52,8 @@
     --bearlab-switch-popover-left,
     -0.875rem
   ); /* -14px */
+
+  // Error
   --_switch-font-size-error: var(
     --bearlab-switch-font-size-error,
     0.875rem
@@ -62,6 +71,7 @@
     0.5rem
   ); /* 8px */
 
+  // Light theme colors
   --_switch-container-color: var(--bearlab-switch-container-color, #374151);
   --_switch-bg-checked: var(--bearlab-switch-bg-checked, #465fff);
   --_switch-border-color-checked: var(

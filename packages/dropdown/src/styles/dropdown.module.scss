@@ -1,4 +1,5 @@
 .dropdownContainer {
+  // Layout
   --_dropdown-z-index: var(--bearlab-dropdown-z-index, 40);
   --_dropdown-margin-top: var(--bearlab-dropdown-margin-top, 0.5rem); /* 8px  */
   --_dropdown-border-radius: var(
@@ -13,6 +14,7 @@
     0 4px 6px -2px rgba(0, 0, 0, 0.05)
   );
 
+  // Light theme colors
   --_dropdown-bg: var(--bearlab-dropdown-bg, #ffffff);
   --_dropdown-border-color: var(--bearlab-dropdown-border-color, #e5e7eb);
 

@@ -1,4 +1,5 @@
 .container {
+  // Container layout
   --_growl-container-max-width: var(
     --bearlab-growl-container-max-width,
     25rem
@@ -15,6 +16,8 @@
     --bearlab-growl-container-offset-mobile,
     0.75rem
   ); /* 12px */
+
+  // Item layout
   --_growl-item-padding-block: var(
     --bearlab-growl-item-padding-block,
     0.875rem
@@ -34,6 +37,8 @@
   ); /* 4px */
   --_growl-icon-size: var(--bearlab-growl-icon-size, 1.875rem); /* 30px */
   --_growl-body-gap: var(--bearlab-growl-body-gap, 0.125rem); /* 2px */
+
+  // Typography
   --_growl-title-font-size: var(
     --bearlab-growl-title-font-size,
     0.875rem
@@ -45,6 +50,8 @@
   ); /* 13px */
   --_growl-close-size: var(--bearlab-growl-close-size, 1.5625rem); /* 25px */
   --_growl-close-opacity-hover: var(--bearlab-growl-close-opacity-hover, 0.8);
+
+  // Progress bar
   --_growl-progress-height: var(
     --bearlab-growl-progress-height,
     0.1875rem
@@ -54,6 +61,7 @@
     0 0.125rem 0 0
   ); /* 0 2px 0 0 */
 
+  // Colored theme colors
   --_growl-colored-border-color: var(
     --bearlab-growl-colored-border-color,
     rgba(255, 255, 255, 0.8)
@@ -75,6 +83,7 @@
   --_growl-colored-bg-warning: var(--bearlab-growl-colored-bg-warning, #fd853a);
   --_growl-colored-bg-info: var(--bearlab-growl-colored-bg-info, #465fff);
 
+  // Light theme colors
   --_growl-item-shadow: var(
     --bearlab-growl-item-shadow,
     0 4px 16px rgba(16, 24, 40, 0.1),
@@ -113,6 +122,7 @@
   --_growl-title-color: inherit;
   --_growl-message-color: inherit;
 
+  // Dark theme colors
   --_growl-dark-item-bg: var(--bearlab-growl-dark-item-bg, #0f1828);
   --_growl-dark-item-shadow: var(
     --bearlab-growl-dark-item-shadow,

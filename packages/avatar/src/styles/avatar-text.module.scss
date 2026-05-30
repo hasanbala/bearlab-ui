@@ -1,4 +1,5 @@
 .container {
+  // Layout & typography
   --_avatar-text-size: var(--bearlab-avatar-text-size, 2.5rem); /* 40px */
   --_avatar-text-border-radius: var(
     --bearlab-avatar-text-border-radius,
@@ -13,6 +14,7 @@
     500
   );
 
+  // Color variants (background / foreground pairs)
   --_avatar-text-color0-bg: var(--bearlab-avatar-text-color0-bg, #dde9ff);
   --_avatar-text-color0-fg: var(--bearlab-avatar-text-color0-fg, #3641f5);
   --_avatar-text-color1-bg: var(--bearlab-avatar-text-color1-bg, #fce7f3);

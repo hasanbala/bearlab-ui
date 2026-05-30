@@ -50,7 +50,7 @@ yarn add @bearlab/query-select
 pnpm add @bearlab/query-select
 ```
 
-> **Peer dependencies:** `react >= 16.8.0` and `react-dom >= 16.8.0` must be installed in your project.
+> **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
 ---
 

@@ -1,4 +1,5 @@
 .container {
+  // Dimensions
   --_button-padding-x: var(--bearlab-button-padding-x, 1rem); /* 16px */
   --_button-padding-y: var(--bearlab-button-padding-y, 0.75rem); /* 12px */
   --_button-height: var(--bearlab-button-height, 2.75rem); /* 44px */
@@ -6,9 +7,13 @@
     --bearlab-button-border-radius,
     0.5rem
   ); /* 8px */
+
+  // Typography
   --_button-font-size: var(--bearlab-button-font-size, 0.875rem); /* 14px */
   --_button-font-weight: var(--bearlab-button-font-weight, 500);
   --_button-line-height: var(--bearlab-button-line-height, 1.75rem); /* 28px */
+
+  // Icon
   --_button-icon-size: var(--bearlab-button-icon-size, 1.125rem); /* 18px */
   --_button-icon-gap: var(--bearlab-button-icon-gap, 0.625rem); /* 10px */
   --_button-justicon-border-radius: var(
@@ -28,6 +33,8 @@
     1.25rem
   ); /* 20px */
   --_button-opacity-disabled: var(--bearlab-button-opacity-disabled, 0.6);
+
+  // Popover
   --_button-popover-padding: var(
     --bearlab-button-popover-padding,
     0.75rem
@@ -45,6 +52,8 @@
     --bearlab-button-popover-offset-top,
     -2.8125rem
   ); /* -45px */
+
+  // Transitions
   --_button-transition: var(
     --bearlab-button-transition,
     0.18s cubic-bezier(0.4, 0, 0.2, 1)
@@ -53,6 +62,8 @@
     --bearlab-button-transition-slow,
     0.32s cubic-bezier(0.4, 0, 0.2, 1)
   );
+
+  // Shadow
   --_button-shadow: var(
     --bearlab-button-shadow,
     0 1px 2px 0 #1018282e,
@@ -64,6 +75,8 @@
     0px -1px 1px 1px #c4cdde1e inset,
     0px 0px 0px 1px #c5cee162 inset
   );
+
+  // Holographic effect
   --_button-holographic-gradient: var(
     --bearlab-button-holographic-gradient,
     linear-gradient(
@@ -84,10 +97,13 @@
     blur(14px) saturate(200%)
   );
 
+  // Primary colors
   --_button-primary-bg: var(--bearlab-button-primary-bg, #465fff);
   --_button-primary-bg-hover: var(--bearlab-button-primary-bg-hover, #3641f5);
   --_button-primary-color: var(--bearlab-button-primary-color, #fff);
   --_button-primary-icon-fill: var(--bearlab-button-primary-icon-fill, #fff);
+
+  // Secondary colors
   --_button-secondary-bg: var(--bearlab-button-secondary-bg, #fff);
   --_button-secondary-bg-hover: var(
     --bearlab-button-secondary-bg-hover,
@@ -118,6 +134,8 @@
     --bearlab-button-secondary-spinner-path-stroke,
     #465fff
   );
+
+  // Icon-only (justIcon) colors
   --_button-justicon-bg: var(--bearlab-button-justicon-bg, transparent);
   --_button-justicon-bg-hover: var(--bearlab-button-justicon-bg-hover, #e4e7ec);
   --_button-justicon-icon-fill: var(
@@ -128,8 +146,12 @@
     --bearlab-button-justicon-icon-fill-hover,
     #374151
   );
+
+  // Popover colors
   --_button-popover-bg: var(--bearlab-button-popover-bg, #fff);
   --_button-popover-color: var(--bearlab-button-popover-color, #344054);
+
+  // Disabled & tinted colors
   --_button-bg-disabled: var(--bearlab-button-bg-disabled, #93c5fd);
   --_button-tinted-bg: var(--bearlab-button-tinted-bg, #465fff24);
   --_button-tinted-bg-hover: var(--bearlab-button-tinted-bg-hover, #465fff38);
@@ -199,6 +221,7 @@
     inset 0 -1px 0 #6366f129
   );
 
+  // Semantic colors (light variants)
   --_button-light-success-bg: var(--bearlab-button-light-success-bg, #ecfdf3);
   --_button-light-success-color: var(
     --bearlab-button-light-success-color,
@@ -218,6 +241,7 @@
   --_button-light-dark-bg: var(--bearlab-button-light-dark-bg, #667085);
   --_button-light-dark-color: var(--bearlab-button-light-dark-color, #fff);
 
+  // Semantic colors (solid variants)
   --_button-solid-success-bg: var(--bearlab-button-solid-success-bg, #12b76a);
   --_button-solid-success-color: var(
     --bearlab-button-solid-success-color,
