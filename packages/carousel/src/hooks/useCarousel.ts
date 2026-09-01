@@ -3,7 +3,6 @@ import {
   useRef,
   useState,
   useMemo,
-  useLayoutEffect,
   useEffect,
 } from "react";
 import {
@@ -18,6 +17,7 @@ import {
   UseCarouselProps,
   UseCarouselReturn,
 } from "../types/carousel.types";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 export const useCarousel = ({
   loop,
@@ -188,7 +188,7 @@ export const useCarousel = ({
     if (isReady) scheduleNext();
   }, [isReady]);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (containerWidthOverride !== undefined) return;
     const el = rootRef.current;
     if (!el) return;

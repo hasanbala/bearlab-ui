@@ -1,16 +1,18 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import type { UseTable, UseTableReturn } from "../types/table.types";
-import { resolveRows } from "../utils/resolve-rows";
 
 export const useTable = ({
   dataSource,
   serverPagination,
   rowSelection,
   currentPage = 1,
+  pagination,
+  pageSize,
 }: UseTable): UseTableReturn => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-  const [selectAll, setSelectAll] = useState(false);
   const [initialPage, setInitialPage] = useState(currentPage);
+
+  const selectedRowsRef = useRef(new Map<string, Record<string, any>>());
 
   const filteredData = useMemo(() => dataSource, [dataSource]);
 
@@ -24,59 +26,111 @@ export const useTable = ({
     }
   }, [dataSource, serverPagination]);
 
+  const indexOfLastItem = initialPage * pageSize;
+  const indexOfFirstItem = indexOfLastItem - pageSize;
+
+  const visibleRows = useMemo(() => {
+    if (serverPagination) return dataSource;
+    if (!pagination) return filteredData;
+
+    return filteredData.slice(indexOfFirstItem, indexOfLastItem);
+  }, [
+    serverPagination,
+    dataSource,
+    pagination,
+    filteredData,
+    indexOfFirstItem,
+    indexOfLastItem,
+  ]);
+
+  const visibleRowKeys = useMemo(
+    () => visibleRows.map((record) => record["key"]),
+    [visibleRows]
+  );
+
+  const selectedOnPage = useMemo(
+    () => visibleRowKeys.filter((key) => selectedRowKeys.includes(key)).length,
+    [visibleRowKeys, selectedRowKeys]
+  );
+
+  const selectAll =
+    visibleRowKeys.length > 0 && selectedOnPage === visibleRowKeys.length;
+
+  const isIndeterminate = selectedOnPage > 0 && !selectAll;
+
+  const emitChange = useCallback(
+    (keys: string[]) => {
+      if (!rowSelection?.onChange) return;
+
+      const selectedRows = keys
+        .map((key) => selectedRowsRef.current.get(key))
+        .filter(Boolean) as Record<string, any>[];
+
+      rowSelection.onChange(keys, selectedRows);
+    },
+    [rowSelection]
+  );
+
   const handleSelectAll = useCallback(
     (checked: boolean) => {
-      setSelectAll(checked);
+      const selectedRows = selectedRowsRef.current;
+      let newSelectedRowKeys: string[];
 
-      const dataToSelect = serverPagination ? dataSource : filteredData;
-      const newSelectedRowKeys = checked
-        ? dataToSelect.map((record) => record["key"])
-        : [];
+      if (checked) {
+        visibleRows.forEach((record) =>
+          selectedRows.set(record["key"], record)
+        );
+
+        newSelectedRowKeys = [
+          ...selectedRowKeys,
+          ...visibleRowKeys.filter((key) => !selectedRowKeys.includes(key)),
+        ];
+      } else {
+        visibleRowKeys.forEach((key) => selectedRows.delete(key));
+
+        newSelectedRowKeys = selectedRowKeys.filter(
+          (key) => !visibleRowKeys.includes(key)
+        );
+      }
 
       setSelectedRowKeys(newSelectedRowKeys);
-
-      if (rowSelection?.onChange) {
-        const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
-        rowSelection.onChange(newSelectedRowKeys, selectedRows);
-      }
+      emitChange(newSelectedRowKeys);
     },
-    [serverPagination, dataSource, filteredData, rowSelection]
+    [visibleRows, visibleRowKeys, selectedRowKeys, emitChange]
   );
 
   const handleRowSelect = useCallback(
     (record: Record<string, any>) => {
       const key = record["key"];
+      const selectedRows = selectedRowsRef.current;
+      let newSelectedRowKeys: string[];
 
-      setSelectedRowKeys((prev) => {
-        const newSelectedRowKeys =
-          rowSelection?.type === "radio"
-            ? [key]
-            : prev.includes(key)
-              ? prev.filter((k) => k !== key)
-              : [...prev, key];
+      if (rowSelection?.type === "radio") {
+        selectedRows.clear();
+        selectedRows.set(key, record);
+        newSelectedRowKeys = [key];
+      } else if (selectedRowKeys.includes(key)) {
+        selectedRows.delete(key);
+        newSelectedRowKeys = selectedRowKeys.filter((k) => k !== key);
+      } else {
+        selectedRows.set(key, record);
+        newSelectedRowKeys = [...selectedRowKeys, key];
+      }
 
-        const dataToCheck = serverPagination ? dataSource : filteredData;
-        setSelectAll(
-          newSelectedRowKeys.length === dataToCheck.length &&
-            newSelectedRowKeys.length > 0
-        );
-
-        if (rowSelection?.onChange) {
-          const selectedRows = resolveRows(newSelectedRowKeys, dataSource);
-          rowSelection.onChange(newSelectedRowKeys, selectedRows);
-        }
-
-        return newSelectedRowKeys;
-      });
+      setSelectedRowKeys(newSelectedRowKeys);
+      emitChange(newSelectedRowKeys);
     },
-    [rowSelection, serverPagination, dataSource, filteredData]
+    [rowSelection, selectedRowKeys, emitChange]
   );
 
   return {
     selectedRowKeys,
     selectAll,
+    isIndeterminate,
     filteredData,
+    visibleRows,
     initialPage,
+    indexOfFirstItem,
     setInitialPage,
     handleSelectAll,
     handleRowSelect,

@@ -119,6 +119,40 @@
     --bearlab-main-table-border-collapse,
     collapse
   );
+  // Header cell sort & filter
+  --_table-header-control-gap: var(
+    --bearlab-table-header-control-gap,
+    0.375rem
+  ); /* 6px */
+  --_table-control-size: var(--bearlab-table-control-size, 1.5rem); /* 24px */
+  --_table-control-border-radius: var(
+    --bearlab-table-control-border-radius,
+    0.375rem
+  ); /* 6px */
+  --_table-control-icon-size: var(
+    --bearlab-table-control-icon-size,
+    0.875rem
+  ); /* 14px */
+  --_table-control-transition: var(
+    --bearlab-table-control-transition,
+    0.18s cubic-bezier(0.4, 0, 0.2, 1)
+  );
+  --_table-filter-popover-width: var(
+    --bearlab-table-filter-popover-width,
+    16rem
+  ); /* 256px */
+  --_table-filter-popover-z-index: var(
+    --bearlab-table-filter-popover-z-index,
+    40
+  );
+  --_table-filter-popover-gap: var(
+    --bearlab-table-filter-popover-gap,
+    0.625rem
+  ); /* 10px */
+  --_table-filter-popover-padding: var(
+    --bearlab-table-filter-popover-padding,
+    0.75rem
+  ); /* 12px */
 
   // Light theme colors
   --_table-bg: var(--bearlab-table-bg, #ffffff);
@@ -206,6 +240,62 @@
     #465fff
   );
   --_table-select-text-color: var(--bearlab-table-select-text-color, #1d2939);
+  // Header control colors
+  --_table-control-color: var(--bearlab-table-control-color, #98a2b3);
+  --_table-control-color-hover: var(
+    --bearlab-table-control-color-hover,
+    #475467
+  );
+  --_table-control-bg-hover: var(--bearlab-table-control-bg-hover, #f2f4f7);
+  --_table-control-active-color: var(
+    --bearlab-table-control-active-color,
+    #465fff
+  );
+  --_table-control-outline-color: var(
+    --bearlab-table-control-outline-color,
+    #93c5fd
+  );
+  // Selection column — partially selected page
+  --_table-selection-indeterminate-bg: var(
+    --bearlab-table-selection-indeterminate-bg,
+    var(--bearlab-checkbox-bg-checked, #465fff)
+  );
+  --_table-selection-indeterminate-mark-color: var(
+    --bearlab-table-selection-indeterminate-mark-color,
+    var(--bearlab-checkbox-check-color, #ffffff)
+  );
+  --_table-selection-indeterminate-mark-width: var(
+    --bearlab-table-selection-indeterminate-mark-width,
+    0.625rem
+  ); /* 10px */
+  --_table-selection-indeterminate-mark-height: var(
+    --bearlab-table-selection-indeterminate-mark-height,
+    0.125rem
+  ); /* 2px */
+  --_table-filter-popover-bg: var(--bearlab-table-filter-popover-bg, #ffffff);
+  --_table-filter-popover-border-color: var(
+    --bearlab-table-filter-popover-border-color,
+    #e4e7ec
+  );
+  --_table-filter-popover-shadow: var(
+    --bearlab-table-filter-popover-shadow,
+    0 0.625rem 0.9375rem -0.1875rem rgba(16, 24, 40, 0.1),
+    0 0.25rem 0.375rem -0.125rem rgba(16, 24, 40, 0.05)
+  );
+  --_table-filter-input-bg: var(--bearlab-table-filter-input-bg, #ffffff);
+  --_table-filter-input-color: var(--bearlab-table-filter-input-color, #1d2939);
+  --_table-filter-input-border-color: var(
+    --bearlab-table-filter-input-border-color,
+    #d0d5dd
+  );
+  --_table-filter-input-placeholder-color: var(
+    --bearlab-table-filter-input-placeholder-color,
+    #98a2b3
+  );
+  --_table-filter-input-focus-shadow: var(
+    --bearlab-table-filter-input-focus-shadow,
+    0 0 0 0.1875rem #465fff21
+  );
 
   :global([data-theme="dark"]) & {
     --_table-bg: var(--bearlab-table-bg, #1f2937);
@@ -294,6 +384,42 @@
       --bearlab-table-select-text-color,
       rgba(255, 255, 255, 0.9)
     );
+    --_table-control-color: var(--bearlab-table-control-color, #667085);
+    --_table-control-color-hover: var(
+      --bearlab-table-control-color-hover,
+      #e4e7ec
+    );
+    --_table-control-bg-hover: var(--bearlab-table-control-bg-hover, #374151);
+    --_table-control-active-color: var(
+      --bearlab-table-control-active-color,
+      #7592ff
+    );
+    --_table-control-outline-color: var(
+      --bearlab-table-control-outline-color,
+      #3b82f6
+    );
+    --_table-filter-popover-bg: var(--bearlab-table-filter-popover-bg, #0f1828);
+    --_table-filter-popover-border-color: var(
+      --bearlab-table-filter-popover-border-color,
+      #1d2939
+    );
+    --_table-filter-popover-shadow: var(
+      --bearlab-table-filter-popover-shadow,
+      0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.5)
+    );
+    --_table-filter-input-bg: var(--bearlab-table-filter-input-bg, #1d2939);
+    --_table-filter-input-color: var(
+      --bearlab-table-filter-input-color,
+      rgba(255, 255, 255, 0.9)
+    );
+    --_table-filter-input-border-color: var(
+      --bearlab-table-filter-input-border-color,
+      #374151
+    );
+    --_table-filter-input-placeholder-color: var(
+      --bearlab-table-filter-input-placeholder-color,
+      #667085
+    );
   }
 
   display: flex;
@@ -328,9 +454,63 @@
   color: var(--_table-title-color);
 }
 
+.tableViewport {
+  position: relative;
+  width: 100%;
+}
+
 .tableWrapper {
   width: 100%;
   overflow-x: auto;
+}
+
+.loadingOverlay {
+  --_table-loading-overlay-bg: var(
+    --bearlab-table-loading-overlay-bg,
+    rgba(255, 255, 255, 0.6)
+  );
+  --_table-loading-overlay-z-index: var(
+    --bearlab-table-loading-overlay-z-index,
+    5
+  );
+  --_table-loading-icon-size: var(
+    --bearlab-table-loading-icon-size,
+    2rem
+  ); /* 32px */
+  --_table-loading-icon-color: var(--bearlab-table-loading-icon-color, #465fff);
+
+  /* @bearlab/loading tokens */
+  --bearlab-loading-container-width: var(--_table-loading-icon-size);
+  --bearlab-loading-container-height: var(--_table-loading-icon-size);
+
+  :global([data-theme="dark"]) & {
+    --_table-loading-overlay-bg: var(
+      --bearlab-table-loading-overlay-bg,
+      rgba(31, 41, 55, 0.6)
+    );
+    --_table-loading-icon-color: var(
+      --bearlab-table-loading-icon-color,
+      #7592ff
+    );
+  }
+
+  position: absolute;
+  inset: 0;
+  z-index: var(--_table-loading-overlay-z-index);
+  background-color: var(--_table-loading-overlay-bg);
+  color: var(--_table-loading-icon-color);
+  cursor: progress;
+}
+
+.loadingSkeleton {
+  /* @bearlab/skeleton tokens */
+  --bearlab-skeleton-container-padding-x: 0;
+  --bearlab-skeleton-table-header-bg: transparent;
+  --bearlab-skeleton-table-row-divider: var(--_table-border-color);
+}
+
+.loadingSkeletonHeaderCell {
+  display: none;
 }
 
 .tableContainer {
@@ -351,6 +531,207 @@
   white-space: nowrap;
   border-block-end: var(--_table-border-width) solid
     var(--_table-header-border-color);
+}
+
+.selectionIndeterminate {
+  --bearlab-checkbox-bg-unchecked: var(--_table-selection-indeterminate-bg);
+  --bearlab-checkbox-border-color-unchecked: var(
+    --_table-selection-indeterminate-bg
+  );
+}
+
+.selectionIndeterminateBox {
+  &::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    inline-size: var(--_table-selection-indeterminate-mark-width);
+    block-size: var(--_table-selection-indeterminate-mark-height);
+    border-radius: 62.5rem;
+    background-color: var(--_table-selection-indeterminate-mark-color);
+    pointer-events: none;
+  }
+}
+
+.headerCellInner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_table-header-control-gap);
+}
+
+.headerCellTitle {
+  display: inline-block;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_table-header-control-gap);
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  border-radius: var(--_table-control-border-radius);
+  transition: color var(--_table-control-transition);
+
+  &:hover:not(:disabled) {
+    color: var(--_table-control-color-hover);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_table-control-outline-color); /* 2px */
+    outline-offset: 0.125rem; /* 2px */
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.sortIndicator {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.sortIcon {
+  width: 0.625rem; /* 10px */
+  height: 0.625rem;
+  display: block;
+  color: var(--_table-control-color);
+  transition: color var(--_table-control-transition);
+
+  &:first-child {
+    margin-block-end: -0.1875rem; /* -3px, tighten the stacked arrows */
+  }
+}
+
+.sortIconActive {
+  color: var(--_table-control-active-color);
+}
+
+.filterRoot {
+  position: relative;
+  display: inline-flex;
+}
+
+.filterTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_table-control-size);
+  height: var(--_table-control-size);
+  padding: 0;
+  color: var(--_table-control-color);
+  background: none;
+  border: none;
+  border-radius: var(--_table-control-border-radius);
+  cursor: pointer;
+  transition:
+    color var(--_table-control-transition),
+    background-color var(--_table-control-transition);
+
+  &:hover:not(:disabled) {
+    color: var(--_table-control-color-hover);
+    background-color: var(--_table-control-bg-hover);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--_table-control-outline-color); /* 2px */
+    outline-offset: 0.125rem; /* 2px */
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.filterTriggerActive {
+  color: var(--_table-control-active-color);
+
+  &:hover:not(:disabled) {
+    color: var(--_table-control-active-color);
+  }
+}
+
+.filterIcon {
+  width: var(--_table-control-icon-size);
+  height: var(--_table-control-icon-size);
+  display: block;
+}
+
+.filterPopover {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: calc(100% + 0.375rem); /* 6px */
+  z-index: var(--_table-filter-popover-z-index);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_table-filter-popover-gap);
+  width: var(--_table-filter-popover-width);
+  padding: var(--_table-filter-popover-padding);
+  background-color: var(--_table-filter-popover-bg);
+  border: var(--_table-border-width) solid
+    var(--_table-filter-popover-border-color);
+  border-radius: var(--_table-control-border-radius);
+  box-shadow: var(--_table-filter-popover-shadow);
+  animation: bearlabTableFilterIn 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bearlabTableFilterIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.375rem); /* -6px */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterInput {
+  width: 100%;
+  height: 2.25rem; /* 36px */
+  padding-inline: 0.625rem; /* 10px */
+  font: inherit;
+  font-size: var(--_table-font-size);
+  font-weight: 400;
+  color: var(--_table-filter-input-color);
+  background-color: var(--_table-filter-input-bg);
+  border: var(--_table-border-width) solid
+    var(--_table-filter-input-border-color);
+  border-radius: var(--_table-control-border-radius);
+  outline: none;
+  transition:
+    border-color var(--_table-control-transition),
+    box-shadow var(--_table-control-transition);
+
+  &::placeholder {
+    color: var(--_table-filter-input-placeholder-color);
+    font-weight: 400;
+  }
+
+  &:focus {
+    border-color: var(--_table-control-active-color);
+    box-shadow: var(--_table-filter-input-focus-shadow);
+  }
+}
+
+.filterActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem; /* 8px */
 }
 
 .tableBody {

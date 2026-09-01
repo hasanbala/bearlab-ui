@@ -1,0 +1,414 @@
+.container {
+  // Dimensions
+  --_outline-input-height: var(
+    --bearlab-outline-input-height,
+    3.125rem
+  ); /* 50px */
+  --_outline-input-border-radius: var(
+    --bearlab-outline-input-border-radius,
+    0.5rem
+  ); /* 8px */
+  --_outline-input-border-width: var(
+    --bearlab-outline-input-border-width,
+    0.125rem
+  ); /* 2px */
+  --_outline-input-padding-x: var(
+    --bearlab-outline-input-padding-x,
+    1rem
+  ); /* 16px */
+  --_outline-input-font-size: var(
+    --bearlab-outline-input-font-size,
+    0.875rem
+  ); /* 14px */
+
+  // Floating label
+  --_outline-input-label-font-size: var(
+    --bearlab-outline-input-label-font-size,
+    0.875rem
+  ); /* 14px */
+  --_outline-input-label-font-size-floated: var(
+    --bearlab-outline-input-label-font-size-floated,
+    0.75rem
+  ); /* 12px */
+  --_outline-input-label-padding-x: var(
+    --bearlab-outline-input-label-padding-x,
+    0.25rem
+  ); /* 4px */
+  --_outline-input-label-before-offset: var(
+    --bearlab-outline-input-label-before-offset,
+    3.75rem
+  ); /* 60px */
+
+  // Icon
+  --_outline-input-icon-wrapper-width: var(
+    --bearlab-outline-input-icon-wrapper-width,
+    3.25rem
+  ); /* 52px */
+  --_outline-input-icon-size: var(
+    --bearlab-outline-input-icon-size,
+    1.25rem
+  ); /* 20px */
+  --_outline-input-password-toggle-size: var(
+    --bearlab-outline-input-password-toggle-size,
+    1.375rem
+  ); /* 22px */
+  --_outline-input-search-icon-size: var(
+    --bearlab-outline-input-search-icon-size,
+    1.125rem
+  ); /* 18px */
+
+  // Error
+  --_outline-input-font-size-error: var(
+    --bearlab-outline-input-font-size-error,
+    0.875rem
+  ); /* 14px */
+  --_outline-input-bottom-error: var(
+    --bearlab-outline-input-bottom-error,
+    -1.25rem
+  ); /* -20px */
+  --_outline-input-icon-size-error: var(
+    --bearlab-outline-input-icon-size-error,
+    0.75rem
+  ); /* 12px */
+  --_outline-input-icon-gap-error: var(
+    --bearlab-outline-input-icon-gap-error,
+    0.5rem
+  ); /* 8px */
+  --_outline-input-color-error: var(
+    --bearlab-outline-input-color-error,
+    #f00438
+  );
+  --_outline-input-shadow-color-error: var(
+    --bearlab-outline-input-shadow-color-error,
+    #ffa4a4
+  );
+  --_outline-input-border-color-focus: var(
+    --bearlab-outline-input-border-color-focus,
+    #465fff
+  );
+
+  // Light theme colors
+  --_outline-input-border-color: var(
+    --bearlab-outline-input-border-color,
+    #e4e7ec
+  );
+  --_outline-input-border-color-icon: var(
+    --bearlab-outline-input-border-color-icon,
+    #e4e7ec
+  );
+  --_outline-input-shadow: var(
+    --bearlab-outline-input-shadow,
+    0 0.0625rem 0.125rem 0 #1018280d
+  ); /* 0 1px 2px 0 */
+  --_outline-input-shadow-focus: var(
+    --bearlab-outline-input-shadow-focus,
+    0 0 0 0.1875rem #465fff21
+  ); /* 0 0 0 3px */
+  --_outline-input-color: var(--bearlab-outline-input-color, #1f2937);
+  --_outline-input-background: var(
+    --bearlab-outline-input-background,
+    transparent
+  );
+  --_outline-input-label-color: var(
+    --bearlab-outline-input-label-color,
+    #98a2b3
+  );
+  --_outline-input-label-color-floated: var(
+    --bearlab-outline-input-label-color-floated,
+    #344054
+  );
+  --_outline-input-label-bg: var(--bearlab-outline-input-label-bg, #ffffff);
+  --_outline-input-icon-color: var(
+    --bearlab-outline-input-icon-color,
+    currentColor
+  );
+
+  :global([data-theme="dark"]) & {
+    --_outline-input-border-color: var(
+      --bearlab-outline-input-border-color,
+      #1d2939
+    );
+    --_outline-input-border-color-icon: var(
+      --bearlab-outline-input-border-color-icon,
+      #1d2939
+    );
+    --_outline-input-color: var(--bearlab-outline-input-color, #ffffffe6);
+    --_outline-input-background: var(
+      --bearlab-outline-input-background,
+      #111827
+    );
+    --_outline-input-label-color: var(
+      --bearlab-outline-input-label-color,
+      #ffffff4d
+    );
+    --_outline-input-label-color-floated: var(
+      --bearlab-outline-input-label-color-floated,
+      #98a2b3
+    );
+    --_outline-input-label-bg: var(--bearlab-outline-input-label-bg, #111827);
+    --_outline-input-icon-color: var(
+      --bearlab-outline-input-icon-color,
+      #98a2b3
+    );
+  }
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .inputWrapper {
+    position: relative;
+
+    &:focus-within {
+      .beforeIcon {
+        border-color: var(--_outline-input-border-color-focus);
+      }
+
+      .afterIcon {
+        border-color: var(--_outline-input-border-color-focus);
+      }
+    }
+
+    .input {
+      width: 100%;
+      height: var(--_outline-input-height);
+      border-radius: var(--_outline-input-border-radius);
+      appearance: none;
+      padding: 0 var(--_outline-input-padding-x);
+      font-size: var(--_outline-input-font-size);
+      background-color: var(--_outline-input-background);
+      color: var(--_outline-input-color);
+      box-shadow: var(--_outline-input-shadow);
+      caret-color: var(--_outline-input-border-color-focus);
+      border: var(--_outline-input-border-width) solid
+        var(--_outline-input-border-color);
+      transition:
+        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:focus {
+        border-color: var(--_outline-input-border-color-focus);
+        box-shadow: var(--_outline-input-shadow-focus);
+      }
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: 50%;
+    left: calc(
+      var(--_outline-input-padding-x) - var(--_outline-input-label-padding-x)
+    );
+    padding: 0 var(--_outline-input-label-padding-x);
+    transform: translateY(-50%);
+    transform-origin: left center;
+    max-width: calc(100% - 2 * var(--_outline-input-padding-x));
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: var(--_outline-input-label-font-size);
+    color: var(--_outline-input-label-color);
+    line-height: 1.2;
+    pointer-events: none;
+    cursor: text;
+    transition:
+      transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      font-size 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    span {
+      color: var(--_outline-input-color-error);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-color: transparent;
+    }
+  }
+
+  .labelWithBefore {
+    left: var(--_outline-input-label-before-offset);
+  }
+
+  .inputWrapper:focus-within .label,
+  .label.floated {
+    top: 0;
+    left: calc(
+      var(--_outline-input-padding-x) - var(--_outline-input-label-padding-x)
+    );
+    font-size: var(--_outline-input-label-font-size-floated);
+    color: var(--_outline-input-label-color-floated);
+
+    &::before {
+      background-color: var(--_outline-input-label-bg);
+    }
+  }
+
+  .inputWithSearch {
+    padding-right: 3.125rem !important; /* 50px */
+  }
+
+  .inputWithPassword {
+    padding-right: 3.125rem !important; /* 50px */
+  }
+
+  .inputWithCopy {
+    padding-right: 3.75rem !important; /* 60px */
+  }
+
+  .inputWithCopyAndPassword {
+    padding-right: 5.875rem !important; /* 94px */
+  }
+
+  .inputWithBefore {
+    padding-left: 3.75rem !important; /* 60px */
+  }
+
+  .iconWrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--_outline-input-height);
+    width: var(--_outline-input-icon-wrapper-width);
+    color: var(--_outline-input-icon-color);
+
+    svg {
+      width: var(--_outline-input-icon-size);
+      height: var(--_outline-input-icon-size);
+    }
+  }
+
+  .beforeIcon {
+    left: 0;
+    border-right: var(--_outline-input-border-width) solid
+      var(--_outline-input-border-color-icon);
+    padding: 0 0.0625rem 0 0.1875rem; /* 0 1px 0 3px */
+    transition:
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .afterIcon {
+    right: 0;
+    border-left: var(--_outline-input-border-width) solid
+      var(--_outline-input-border-color-icon);
+    padding: 0 0.125rem; /* 0 2px */
+    transition:
+      border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    ~ .input {
+      padding-right: 3.75rem; /* 60px */
+    }
+  }
+
+  .error {
+    input {
+      border-color: var(--_outline-input-color-error) !important;
+      box-shadow: 0 0 0 0.1875rem var(--_outline-input-shadow-color-error) !important; /* 3px */
+    }
+
+    .beforeIcon {
+      border-right-color: var(--_outline-input-color-error);
+    }
+
+    .afterIcon {
+      border-left-color: var(--_outline-input-color-error);
+    }
+
+    .label,
+    .inputWrapper:focus-within .label,
+    .label.floated {
+      color: var(--_outline-input-color-error);
+    }
+  }
+
+  .passwordToggle {
+    position: absolute;
+    right: 1.25rem; /* 20px */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--_outline-input-password-toggle-size);
+    height: var(--_outline-input-password-toggle-size);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--_outline-input-icon-color);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .passwordToggleWithCopy {
+    right: 3.75rem; /* 60px */
+  }
+
+  .searchButton {
+    position: absolute;
+    right: 1.25rem; /* 20px */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--_outline-input-icon-color);
+
+    svg {
+      width: var(--_outline-input-search-icon-size);
+      height: var(--_outline-input-search-icon-size);
+    }
+  }
+
+  .copyButton {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .viewError {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: var(--_outline-input-bottom-error);
+    font-size: var(--_outline-input-font-size-error);
+    width: max-content;
+
+    svg {
+      margin-right: var(--_outline-input-icon-gap-error);
+      width: var(--_outline-input-icon-size-error);
+      height: var(--_outline-input-icon-size-error);
+    }
+
+    span {
+      color: var(--_outline-input-color-error);
+    }
+  }
+}

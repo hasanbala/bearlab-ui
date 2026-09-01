@@ -8,7 +8,7 @@ export const OptionsPortal = forwardRef<HTMLDivElement, OptionsPortalProps>(
     const { anchorRef, isVisible, children, optionZIndex } = props;
     const coords = useOptionsPortal(isVisible, anchorRef);
 
-    if (!isVisible) return null;
+    if (!isVisible || typeof document === "undefined") return null;
 
     return createPortal(
       <div

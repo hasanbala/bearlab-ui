@@ -1,0 +1,241 @@
+.container {
+  // ── Colors ──────────────────────────────────────────────────────────────
+  --_progress-primary: var(--bearlab-progress-primary, #465fff);
+  --_progress-trail: var(--bearlab-progress-trail, #e4e7ec);
+  --_progress-success: var(--bearlab-progress-success, #12b76a);
+  --_progress-exception: var(--bearlab-progress-exception, #f04438);
+  --_progress-buffer: var(--bearlab-progress-buffer, #c7d0ff);
+  --_progress-text-color: var(--bearlab-progress-text-color, #1f2937);
+
+  // ── Layout / motion ─────────────────────────────────────────────────────
+  --_progress-info-font-size: var(--bearlab-progress-info-font-size, 1rem);
+  --_progress-info-gap: var(--bearlab-progress-info-gap, 0.625rem); /* 10px */
+  --_progress-transition: var(
+    --bearlab-progress-transition,
+    0.3s cubic-bezier(0.4, 0, 0.2, 1)
+  );
+
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  // ── Dark theme overrides ──────────────────────────────────────────────────
+  :global([data-theme="dark"]) & {
+    --_progress-primary: var(--bearlab-progress-primary, #7592ff);
+    --_progress-trail: var(--bearlab-progress-trail, #1d2939);
+    --_progress-buffer: var(--bearlab-progress-buffer, #2a3a66);
+    --_progress-text-color: var(
+      --bearlab-progress-text-color,
+      rgba(255, 255, 255, 0.9)
+    );
+  }
+
+  .rootLine {
+    align-items: center;
+  }
+
+  .rootCircle {
+    display: inline-flex;
+  }
+
+  .lineInner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: var(--_progress-info-gap);
+  }
+
+  .lineTrail {
+    position: relative;
+    flex: 1 1 auto;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--_progress-trail);
+  }
+
+  .lineBuffer {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    background-color: var(--_progress-buffer);
+    transition: width var(--_progress-transition);
+  }
+
+  .lineBar {
+    position: relative;
+    height: 100%;
+    min-width: 0;
+    background: var(--_progress-primary);
+    transition: width var(--_progress-transition);
+  }
+
+  .lineBar_success {
+    background: var(--_progress-success);
+  }
+
+  .lineBar_exception {
+    background: var(--_progress-exception);
+  }
+
+  .lineBar_active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: inherit;
+    animation: progress-active 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+  }
+
+  .lineBarIndeterminate {
+    width: 40% !important;
+    border-radius: 9999px;
+    animation: progress-indeterminate 1.8s cubic-bezier(0.65, 0, 0.35, 1)
+      infinite;
+  }
+
+  .steps {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+  }
+
+  .step {
+    flex: 1 1 auto;
+    border-radius: 9999px;
+    background-color: var(--_progress-trail);
+    transition: background var(--_progress-transition);
+  }
+
+  .stepActive {
+    background: var(--_progress-primary);
+  }
+
+  .step_success {
+    background: var(--_progress-success);
+  }
+
+  .step_exception {
+    background: var(--_progress-exception);
+  }
+
+  .circleInner {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+
+  .circleSvg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .circleTrail {
+    stroke: var(--_progress-trail);
+  }
+
+  .circlePath {
+    stroke: var(--_progress-primary);
+    transition:
+      stroke-dasharray var(--_progress-transition),
+      stroke var(--_progress-transition);
+  }
+
+  .circlePath_success {
+    stroke: var(--_progress-success);
+  }
+
+  .circlePath_exception {
+    stroke: var(--_progress-exception);
+  }
+
+  .circleIndeterminate {
+    animation: progress-circle-rotate 1.4s linear infinite;
+  }
+
+  .circlePathIndeterminate {
+    transition: none;
+  }
+
+  .info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--_progress-text-color);
+    font-size: var(--_progress-info-font-size);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .infoLine {
+    flex: 0 0 auto;
+    min-width: 2.5em;
+    text-align: end;
+    justify-content: flex-end;
+  }
+
+  .infoCircle {
+    position: absolute;
+    inset: 0;
+    font-weight: 600;
+  }
+
+  .info_success {
+    color: var(--_progress-success);
+  }
+
+  .info_exception {
+    color: var(--_progress-exception);
+  }
+
+  .text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 1.25em;
+      height: 1.25em;
+    }
+  }
+
+  @keyframes progress-active {
+    0% {
+      opacity: 0.6;
+      transform: translateX(-100%) scaleX(0);
+    }
+    50% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(0) scaleX(1);
+    }
+  }
+
+  @keyframes progress-indeterminate {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(250%);
+    }
+  }
+
+  @keyframes progress-circle-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

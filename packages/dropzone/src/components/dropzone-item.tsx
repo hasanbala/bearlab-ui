@@ -18,7 +18,7 @@ export const DropzoneItem = (props: DropzoneItemProps) => {
       <div className={styles.itemActions}>
         <Button
           buttonType="justIcon"
-          iconType={{ default: "arrow" }}
+          iconType="arrow"
           onClick={() => onOpen(file)}
           disabled={isLoading}
           label={`Open ${file.name} in new tab`}
@@ -27,7 +27,7 @@ export const DropzoneItem = (props: DropzoneItemProps) => {
         />
         <Button
           buttonType="justIcon"
-          iconType={{ default: "delete" }}
+          iconType="delete"
           onClick={() => onRemove(file.name)}
           disabled={isLoading}
           label={`Remove ${file.name}`}

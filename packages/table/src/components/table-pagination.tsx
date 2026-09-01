@@ -34,14 +34,16 @@ export const TablePagination = React.memo(
       [totalPages, initialPage, maxPages]
     );
 
-    const pageSizeSelectOptions = useMemo(
-      () =>
-        pageSizeOptions.map((size) => ({
-          value: size.toString(),
-          label: `${size} / page`,
-        })),
-      [pageSizeOptions]
-    );
+    const pageSizeSelectOptions = useMemo(() => {
+      const sizes = pageSizeOptions.includes(pageSize)
+        ? pageSizeOptions
+        : [...pageSizeOptions, pageSize].sort((a, b) => a - b);
+
+      return sizes.map((size) => ({
+        value: size.toString(),
+        label: `${size} / page`,
+      }));
+    }, [pageSizeOptions, pageSize]);
 
     return (
       <div
@@ -64,7 +66,7 @@ export const TablePagination = React.memo(
           <Button
             label="Previous page"
             buttonType="justIcon"
-            iconType={{ default: "arrow" }}
+            iconType="arrow"
             onClick={() => goToPage(initialPage - 1)}
             disabled={disabled || initialPage === 1}
             variant="secondary"
@@ -126,7 +128,7 @@ export const TablePagination = React.memo(
           <Button
             label="Next page"
             buttonType="justIcon"
-            iconType={{ default: "arrow" }}
+            iconType="arrow"
             onClick={() => goToPage(initialPage + 1)}
             disabled={disabled || initialPage === totalPages}
             variant="secondary"

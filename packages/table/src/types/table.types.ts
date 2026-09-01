@@ -1,3 +1,5 @@
+import type { LoadingProps } from "@bearlab/loading";
+
 export type FinalColumn = SelectionColumn | TableColumn;
 export type SortDirection = "asc" | "desc" | "none";
 
@@ -19,6 +21,14 @@ export interface TableClassNames {
   pageButton?: string;
   tableHeader?: string;
   tableWrapper?: string;
+  sortButton?: string;
+  sortIcon?: string;
+  filterTrigger?: string;
+  filterIcon?: string;
+  filterPopover?: string;
+  filterInput?: string;
+  filterActions?: string;
+  headerCellInner?: string;
   tableContainer?: string;
   pageButtonActive?: string;
   pageSizeSelector?: string;
@@ -53,6 +63,14 @@ export interface TableStyles {
   paginationWrapper?: React.CSSProperties;
   paginationControls?: React.CSSProperties;
   pageButtonInactive?: React.CSSProperties;
+  sortButton?: React.CSSProperties;
+  sortIcon?: React.CSSProperties;
+  filterTrigger?: React.CSSProperties;
+  filterIcon?: React.CSSProperties;
+  filterPopover?: React.CSSProperties;
+  filterInput?: React.CSSProperties;
+  filterActions?: React.CSSProperties;
+  headerCellInner?: React.CSSProperties;
 }
 
 export interface TableColumn {
@@ -60,10 +78,19 @@ export interface TableColumn {
   title: string;
   dataIndex: string;
   width?: string | number;
-  sortDirection?: SortDirection;
-  sorter?: (a: any, b: any) => number;
+  sortable?: boolean;
+  filterable?: boolean;
+  filterPlaceholder?: string;
   render?: (value: any, record: Record<string, any>) => React.ReactNode;
 }
+
+export interface SortState {
+  columnKey: string;
+  dataIndex: string;
+  direction: "asc" | "desc";
+}
+
+export type FilterState = Record<string, string>;
 
 export interface RowSelection {
   type: "checkbox" | "radio";
@@ -88,6 +115,9 @@ export interface SelectionColumn {
 export interface TableProps {
   title?: string;
   disabled?: boolean;
+  isLoading?: boolean;
+  loadingType?: LoadingProps["type"];
+  loadingIcon?: LoadingProps["icon"];
   totalCount?: number;
   style?: TableStyles;
   emptyTitle?: string;
@@ -105,6 +135,16 @@ export interface TableProps {
   showPageSizeSelector?: boolean;
   dataSource: Record<string, any>[];
   pagination?: boolean | TablePagination;
+  sortState?: SortState | null;
+  defaultSortState?: SortState | null;
+  onSortChange?: (sort: SortState | null) => void;
+  filterState?: FilterState;
+  defaultFilterState?: FilterState;
+  onFilterChange?: (filters: FilterState) => void;
+  filterApplyLabel?: string;
+  filterResetLabel?: string;
+
+  filterLabel?: (columnTitle: string) => string;
   renderTotalInfo?: (
     from: number,
     to: number,
@@ -158,17 +198,22 @@ export interface TableRowProps {
 }
 
 export interface UseTable {
+  pageSize: number;
   currentPage?: number;
   serverPagination?: boolean;
   rowSelection?: RowSelection;
   dataSource: Record<string, any>[];
+  pagination?: boolean | TablePagination;
 }
 
 export interface UseTableReturn {
   selectAll: boolean;
+  isIndeterminate: boolean;
   initialPage: number;
+  indexOfFirstItem: number;
   selectedRowKeys: string[];
   filteredData: Record<string, any>[];
+  visibleRows: Record<string, any>[];
   handleSelectAll: (checked: boolean) => void;
   setInitialPage: React.Dispatch<React.SetStateAction<number>>;
   handleRowSelect: (record: Record<string, any>) => void;
@@ -222,6 +267,63 @@ export interface RecordCellProps {
   cnBodyCell?: string;
   record: Record<string, any>;
   style?: React.CSSProperties;
+}
+
+export interface TableHeaderCellProps {
+  column: FinalColumn;
+  disabled?: boolean;
+  sortState: SortState | null;
+  filterState: FilterState;
+  className?: TableClassNames;
+  style?: TableStyles;
+  filterApplyLabel: string;
+  filterResetLabel: string;
+  filterLabel: (columnTitle: string) => string;
+  toggleSort: (column: TableColumn) => void;
+  setFilter: (columnKey: string, value: string) => void;
+  clearFilter: (columnKey: string) => void;
+}
+
+export interface ColumnFilterProps {
+  columnKey: string;
+  label: string;
+  disabled?: boolean;
+  placeholder?: string;
+  value: string;
+  applyLabel: string;
+  resetLabel: string;
+  className?: TableClassNames;
+  style?: TableStyles;
+  onApply: (value: string) => void;
+  onReset: () => void;
+}
+
+export interface UseClickOutsideOptions {
+  enabled?: boolean;
+  excludeSelector?: string;
+}
+
+export interface UseTableSort {
+  sortState?: SortState | null;
+  defaultSortState?: SortState | null;
+  onSortChange?: (sort: SortState | null) => void;
+}
+
+export interface UseTableSortReturn {
+  sortState: SortState | null;
+  toggleSort: (column: TableColumn) => void;
+}
+
+export interface UseTableFilter {
+  filterState?: FilterState;
+  defaultFilterState?: FilterState;
+  onFilterChange?: (filters: FilterState) => void;
+}
+
+export interface UseTableFilterReturn {
+  filterState: FilterState;
+  setFilter: (columnKey: string, value: string) => void;
+  clearFilter: (columnKey: string) => void;
 }
 
 export interface TablePaginationComponentProps {

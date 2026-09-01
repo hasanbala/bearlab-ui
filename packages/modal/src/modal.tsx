@@ -7,6 +7,7 @@ import { ModalBody } from "./components/modal-body";
 import { ModalHeader } from "./components/modal-header";
 import { useFocusTrap } from "./hooks/use-focus-trap";
 import { useModalAnimation } from "./hooks/use-modal-animation";
+import { useModalRootElement } from "./hooks/use-modal-root";
 import type { ModalAnimationType, ModalProps } from "./types/modal.types";
 import styles from "./styles/modal.module.scss";
 import { IconCross } from "./assets/icons";
@@ -47,10 +48,7 @@ export const Modal = (props: ModalProps) => {
   const descId = useId();
   const containerRef = useFocusTrap(isOpen);
   const { isMounted, handleAnimationEnd } = useModalAnimation(isOpen);
-  const modalRoot =
-    typeof document !== "undefined"
-      ? document.getElementById("modal-root")
-      : null;
+  const { mountNode: modalRoot } = useModalRootElement();
   const originalOverflowRef = useRef<string>("");
 
   useEffect(() => {
@@ -72,14 +70,7 @@ export const Modal = (props: ModalProps) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, handleCancel]);
 
-  if (!modalRoot) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("[Modal]: 'modal-root' element was not found in the DOM.");
-    }
-    return null;
-  }
-
-  if (!isMounted) return null;
+  if (!modalRoot || !isMounted) return null;
 
   const isFullscreen = type === "fullscreen";
   const isAlert = type === "alert";

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- `icon` prop for supplying your own React element, replacing the old
+  `iconType.custom` slot.
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### BREAKING CHANGES
+
+- `iconType` is now a plain string instead of an object.
+  `iconType={{ default: "delete" }}` becomes `iconType="delete"`, and
+  `iconType={{ default: "none", custom: <Icon /> }}` becomes `icon={<Icon />}`.
+  `iconType` is optional and defaults to `"none"`.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/button@1.2.2...@bearlab/button@1.2.3) (2026-05-30)
 
 

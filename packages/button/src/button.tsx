@@ -1,79 +1,29 @@
 import { useId } from "react";
 import classnames from "classnames";
 import type { ButtonProps } from "./types/button.types";
+import { BUTTON_ICONS } from "./constants/button-config";
+import { LoadingSpinner } from "./components/loading-spinner";
 import styles from "./styles/button.module.scss";
-import {
-  IconAdd,
-  IconArrow,
-  IconArrowDown,
-  IconArrowDown2,
-  IconCross,
-  IconDelete,
-  IconExport,
-  IconPing,
-  IconSearch,
-  IconUpdate,
-  IconArrowRight,
-  IconCopy,
-  IconDocument,
-  IconDots,
-  IconFilter,
-  IconMinus,
-  IconPlus,
-  IconTick,
-  IconLoadingSpin,
-} from "./assets/icons";
-
-const BUTTON_ICONS = {
-  add: IconAdd,
-  arrow: IconArrow,
-  delete: IconDelete,
-  export: IconExport,
-  document: IconDocument,
-  update: IconUpdate,
-  search: IconSearch,
-  close: IconCross,
-  notify: IconPing,
-  arrow_down: IconArrowDown,
-  minus: IconMinus,
-  plus: IconPlus,
-  filter: IconFilter,
-  dots: IconDots,
-  arrow_down2: IconArrowDown2,
-  arrow_right: IconArrowRight,
-  tick: IconTick,
-  copy: IconCopy,
-  none: null,
-} as const;
-
-const DEFAULT_ICON_TYPE: ButtonProps["iconType"] = {
-  default: "none",
-  custom: null,
-};
 
 const resolveIconNode = (
-  iconType: NonNullable<ButtonProps["iconType"]>
+  iconType: NonNullable<ButtonProps["iconType"]>,
+  icon: ButtonProps["icon"]
 ): React.ReactNode => {
-  if (iconType.custom) return iconType.custom;
+  if (icon) return icon;
 
-  const Icon = BUTTON_ICONS[iconType.default];
+  const Icon = BUTTON_ICONS[iconType];
   if (!Icon) return null;
 
   return <Icon aria-hidden="true" focusable="false" />;
 };
-
-const LoadingSpinner = () => (
-  <div className={styles.progress} role="status" aria-label={"loading"}>
-    <IconLoadingSpin aria-hidden="true" focusable="false" />
-  </div>
-);
 
 export const Button = (props: ButtonProps) => {
   const {
     label,
     isLoading,
     className,
-    iconType = DEFAULT_ICON_TYPE,
+    iconType = "none",
+    icon,
     htmlType = "button",
     disabled,
     onClick,
@@ -88,7 +38,7 @@ export const Button = (props: ButtonProps) => {
   const isJustIcon = buttonType === "justIcon";
   const isJustText = buttonType === "justText";
   const isBothIconText = buttonType === "iconWithText";
-  const isCustomIcon = Boolean(iconType?.custom);
+  const isCustomIcon = Boolean(icon);
   const popoverId = label ? `button-popover-${uid}` : undefined;
 
   const renderContent = () => {
@@ -97,7 +47,7 @@ export const Button = (props: ButtonProps) => {
     if (isJustIcon) {
       return (
         <>
-          {resolveIconNode(iconType)}
+          {resolveIconNode(iconType, icon)}
           {label && (
             <div
               aria-hidden="true"
@@ -114,7 +64,7 @@ export const Button = (props: ButtonProps) => {
     return (
       <>
         <span>{label}</span>
-        {resolveIconNode(iconType)}
+        {resolveIconNode(iconType, icon)}
       </>
     );
   };

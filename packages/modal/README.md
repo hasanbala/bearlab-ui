@@ -59,26 +59,31 @@ pnpm add @bearlab/modal
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
+
 ---
 
 ## Setup
 
-The `Modal` component renders into a dedicated DOM node via `ReactDOM.createPortal`. To use the [imperative API](#imperative-api-modalstore), add `<div id="modal-root">` to your HTML and optionally mount `<ModalRoot />` in your app root.
+The `Modal` component renders into a dedicated DOM node via `ReactDOM.createPortal`. That node (`<div id="modal-root">`) is **created automatically on mount** if it is not already in the document, so declarative `<Modal>` usage needs no setup at all — in Vite, CRA, or Next.js alike.
 
-### 1. Add the portal target to your HTML
-
-```html
-<!-- index.html -->
-<body>
-  <div id="root"></div>
-  <div id="modal-root"></div>
-</body>
-```
-
-### 2. Mount `<ModalRoot />` in your app root
+### Declarative usage — no setup required
 
 ```tsx
-// app.tsx (or layout.tsx in Next.js)
+import { Modal } from "@bearlab/modal";
+
+<Modal isOpen={isOpen} onCancel={close} title="Hello">
+  …
+</Modal>;
+```
+
+### Imperative API — mount `<ModalRoot />` once
+
+```tsx
+// app.tsx (or app/layout.tsx in Next.js)
 import { ModalRoot } from "@bearlab/modal";
 
 export default function App({ children }: { children: React.ReactNode }) {
@@ -91,7 +96,15 @@ export default function App({ children }: { children: React.ReactNode }) {
 }
 ```
 
-> `<ModalRoot />` is only required if you use the imperative `modalStore` API. For declarative `<Modal>` usage only, it is optional — but `<div id="modal-root">` is always required.
+> `<ModalRoot />` is only required if you use the imperative [`modalStore` API](#imperative-api-modalstore).
+>
+> If you prefer to own the portal target — for example to control its position in the DOM — add `<div id="modal-root"></div>` to your `index.html` or root layout and the component will reuse it instead of creating one.
+
+### Next.js
+
+Nothing extra is needed. The portal target is created inside an effect, so the
+server render emits no modal markup and there is no hydration mismatch. Adding
+`<div id="modal-root">` to your root layout is optional.
 
 ---
 

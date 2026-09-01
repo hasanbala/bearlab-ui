@@ -1,15 +1,15 @@
 {
   "name": "@bearlab/switch",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Bearlab UI Switch Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -35,7 +35,11 @@
     "toggle",
     "form",
     "bearlab",
-    "bearlab-ui"
+    "bearlab-ui",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
   ],
   "author": "hasanbala",
   "license": "MIT",
@@ -47,6 +51,5 @@
   "homepage": "https://bearlab-ui.vercel.app/packages/switch/preview",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "a698cf22a9f3f6b902e59e42737eadb09d07150b"
+  }
 }

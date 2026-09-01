@@ -95,7 +95,6 @@
   .header {
     padding: var(--_view-card-header-padding-y)
       var(--_view-card-header-padding-x);
-    border-bottom: 0.0625rem solid var(--_view-card-header-border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -139,6 +138,7 @@
   .headerToggleable {
     cursor: pointer;
     user-select: none;
+    border-bottom: 0.0625rem solid var(--_view-card-header-border-color);
     transition: background-color var(--_view-card-duration)
       var(--_view-card-easing);
 

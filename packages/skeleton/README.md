@@ -50,6 +50,11 @@ pnpm add @bearlab/skeleton
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
+
 ---
 
 ## Usage

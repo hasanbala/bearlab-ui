@@ -11,7 +11,7 @@ export const OptionsPortal = forwardRef<
     props;
   const coords = useOptionsPortal(isVisible, anchorRef, isSelectionCard);
 
-  if (!isVisible) return null;
+  if (!isVisible || typeof document === "undefined") return null;
 
   return createPortal(
     <div

@@ -1,15 +1,15 @@
 {
   "name": "@bearlab/growl",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Bearlab UI Growl Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -43,7 +43,11 @@
     "react-toastify",
     "push",
     "alert",
-    "snackbar"
+    "snackbar",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
   ],
   "author": "hasanbala",
   "license": "MIT",

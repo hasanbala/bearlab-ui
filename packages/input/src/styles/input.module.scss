@@ -122,6 +122,16 @@
       }
     }
 
+    &.error:focus-within {
+      .beforeIcon {
+        border-color: var(--_input-color-error);
+      }
+
+      .afterIcon {
+        border-color: var(--_input-color-error);
+      }
+    }
+
     .input {
       width: 100%;
       height: var(--_input-height);

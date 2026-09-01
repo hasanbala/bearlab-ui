@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- `FaqV3` gains an `icon` prop for supplying your own React element.
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### BREAKING CHANGES
+
+- `FaqV3`'s `iconType` is now a plain string instead of an object, matching
+  `@bearlab/button` v2. `iconType={{ default: "support" }}` becomes
+  `iconType="support"`, and `iconType={{ default: "none", custom: <Icon /> }}`
+  becomes `icon={<Icon />}`. `iconType` is now optional and defaults to `"none"`.
+- requires `@bearlab/button` v2.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/faq@1.2.2...@bearlab/faq@1.2.3) (2026-05-30)
 
 

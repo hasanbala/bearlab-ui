@@ -1,11 +1,13 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   ARROW_OFFSET,
   DEFAULT_ITEM_WIDTH,
   ITEMS_GAP,
   MORE_BADGE_ESTIMATED_WIDTH,
+  VISIBLE_SELECTED_ITEM_SELECTOR,
 } from "../constants/select-config";
 import { SelectOption } from "../types/select.types";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 export const useVisibleItemsCount = <T extends SelectOption>(
   selectedItems: T[],
@@ -22,12 +24,12 @@ export const useVisibleItemsCount = <T extends SelectOption>(
     setVisibleCount(selectedItems.length);
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!selectedItemsRef.current || containerWidth === 0) return;
 
     const itemNodes = Array.from(
       selectedItemsRef.current.querySelectorAll<HTMLElement>(
-        ".bearlab-select-selected-item:not(.bearlab-select-hidden-selected-item)"
+        VISIBLE_SELECTED_ITEM_SELECTOR
       )
     );
 

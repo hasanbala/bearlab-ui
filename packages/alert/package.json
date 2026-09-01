@@ -1,15 +1,15 @@
 {
   "name": "@bearlab/alert",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Bearlab UI Alert Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -42,7 +42,11 @@
     "react-alert",
     "react-component",
     "bearlab",
-    "bearlab-ui"
+    "bearlab-ui",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
   ],
   "author": "hasanbala",
   "license": "MIT",
@@ -54,6 +58,5 @@
   "homepage": "https://bearlab-ui.vercel.app/packages/alert/preview",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "bf18d441dda23598af125d7a056b4d1ee4adde12"
+  }
 }

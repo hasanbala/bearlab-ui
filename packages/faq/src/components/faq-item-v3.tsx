@@ -27,18 +27,19 @@ const ICONS = {
 } as const;
 
 const resolveIconNode = (
-  iconType: NonNullable<FaqV3ItemProps["iconType"]>
+  iconType: NonNullable<FaqV3ItemProps["iconType"]>,
+  icon: FaqV3ItemProps["icon"]
 ): React.ReactNode => {
-  if (iconType.custom) return iconType.custom;
+  if (icon) return icon;
 
-  const Icon = ICONS[iconType.default];
+  const Icon = ICONS[iconType];
   if (!Icon) return null;
 
   return <Icon aria-hidden="true" focusable="false" />;
 };
 
 export const FaqItemV3 = (props: FaqV3ItemProps) => {
-  const { item, iconType, className, style } = props;
+  const { item, iconType = "none", icon, className, style } = props;
 
   return (
     <div
@@ -49,7 +50,7 @@ export const FaqItemV3 = (props: FaqV3ItemProps) => {
         className={classnames(styles.iconContainer, className?.icon)}
         style={style?.icon}
       >
-        {resolveIconNode(iconType)}
+        {resolveIconNode(iconType, icon)}
       </div>
       <div
         className={classnames(styles.content, className?.content)}

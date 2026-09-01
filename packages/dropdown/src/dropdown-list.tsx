@@ -24,7 +24,7 @@ export const DropdownList = (props: DropdownListProps) => {
       <Button
         label={list.dropdownLabel}
         buttonType={"iconWithText"}
-        iconType={{ default: "arrow_down2" }}
+        iconType="arrow_down2"
         onClick={toggle}
         aria-haspopup="menu"
         aria-expanded={isOpen}

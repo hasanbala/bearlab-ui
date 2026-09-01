@@ -1,4 +1,5 @@
-import { useState, useLayoutEffect } from "react";
+import { useState } from "react";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 export const useOptionsPortal = (
   isVisible: boolean,
@@ -7,13 +8,13 @@ export const useOptionsPortal = (
 ) => {
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
 
-  useLayoutEffect(() => {
-    if (!isVisible || !anchorRef.current) return;
+  useIsomorphicLayoutEffect(() => {
+    const anchor = anchorRef.current;
 
-    const el = anchorRef.current;
+    if (!isVisible || !anchor) return;
 
     const updateCoords = () => {
-      const rect = el.getBoundingClientRect();
+      const rect = anchor.getBoundingClientRect();
       setCoords({
         top: rect.bottom + window.scrollY + 6,
         left: rect.left + window.scrollX,
@@ -22,18 +23,22 @@ export const useOptionsPortal = (
     };
 
     updateCoords();
-    window.addEventListener("scroll", updateCoords, { passive: true });
+
     window.addEventListener("resize", updateCoords, { passive: true });
+    window.addEventListener("scroll", updateCoords, {
+      passive: true,
+      capture: true,
+    });
 
     let resizeObserver: ResizeObserver | null = null;
     if (isSelectionCard) {
       resizeObserver = new ResizeObserver(updateCoords);
-      resizeObserver.observe(el);
+      resizeObserver.observe(anchor);
     }
 
     return () => {
-      window.removeEventListener("scroll", updateCoords);
       window.removeEventListener("resize", updateCoords);
+      window.removeEventListener("scroll", updateCoords, true);
       resizeObserver?.disconnect();
     };
   }, [isVisible, anchorRef, isSelectionCard]);

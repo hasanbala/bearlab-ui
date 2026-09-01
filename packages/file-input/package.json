@@ -1,15 +1,15 @@
 {
   "name": "@bearlab/file-input",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Bearlab UI File-input Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -34,7 +34,11 @@
     "file-input",
     "upload",
     "bearlab",
-    "bearlab-ui"
+    "bearlab-ui",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
   ],
   "author": "hasanbala",
   "license": "MIT",
@@ -46,6 +50,5 @@
   "homepage": "https://bearlab-ui.vercel.app/packages/file-input/preview",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "808c60448876b34e78883c1d96cb7acca014474d"
+  }
 }

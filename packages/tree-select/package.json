@@ -1,0 +1,60 @@
+{
+  "name": "@bearlab/tree-select",
+  "version": "1.0.0",
+  "description": "Bearlab UI TreeSelect Component",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "cd ../../ && PACKAGE_NAME=tree-select rollup -c tools/rollup.config.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "component",
+    "ui-library",
+    "tree",
+    "tree-select",
+    "treeselect",
+    "select",
+    "dropdown",
+    "combobox",
+    "accessible",
+    "react-component",
+    "bearlab",
+    "bearlab-ui",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
+  ],
+  "author": "hasanbala",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hasanbala/bearlab-ui.git",
+    "directory": "packages/tree-select"
+  },
+  "homepage": "https://bearlab-ui.vercel.app/packages/tree-select/preview",
+  "publishConfig": {
+    "access": "public"
+  }
+}

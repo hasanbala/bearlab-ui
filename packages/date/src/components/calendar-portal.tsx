@@ -8,7 +8,7 @@ export const CalendarPortal = forwardRef<HTMLDivElement, CalendarPortalProps>(
     const { anchorRef, isVisible, calendarZIndex, children } = props;
     const coords = useCalendarPortal(isVisible, anchorRef);
 
-    if (!isVisible) return null;
+    if (!isVisible || typeof document === "undefined") return null;
 
     return createPortal(
       <div

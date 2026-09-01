@@ -44,7 +44,7 @@ export const FaqItemV1 = (props: FaqItemV1Props) => {
         <Button
           label=""
           buttonType={"justIcon"}
-          iconType={{ default: "arrow_down" }}
+          iconType="arrow_down"
           style={{ root: style?.icon }}
           className={{
             root: classnames(

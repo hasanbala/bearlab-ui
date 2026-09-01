@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.4
+
+### Features
+
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### BREAKING CHANGES
+
+- requires `@bearlab/button` v2.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/copy@1.2.2...@bearlab/copy@1.2.3) (2026-05-30)
 
 

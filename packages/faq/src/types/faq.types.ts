@@ -99,15 +99,11 @@ export interface FaqV3ItemProps {
   item: FaqData;
   style?: FaqStyles;
   className?: FaqClassNames;
-  iconType: {
-    default: FaqIconTypeStringValues;
-    custom?: null | React.ReactElement;
-  };
+  iconType?: FaqIconTypeStringValues;
+  icon?: React.ReactElement;
 }
 
 export interface FaqV3Props extends FaqV2Props {
-  iconType: {
-    default: FaqIconTypeStringValues;
-    custom?: null | React.ReactElement;
-  };
+  iconType?: FaqIconTypeStringValues;
+  icon?: React.ReactElement;
 }

@@ -81,13 +81,24 @@ export const useCalendar = ({
     const [h, m] = t.split(":").map(Number);
     return `${String(h).padStart(2, "0")}:${snapMinute(m, minuteStep)}`;
   };
-  const [startTime, setStartTime] = useState(() => initTime(raw0));
-  const [endTime, setEndTime] = useState(() => {
+
+  const splitTimeParts = (
+    raw: string
+  ): { start: string; end: string | null } => {
     if (mode === "range") {
-      const parts = raw0.split(" - ");
-      return parts.length === 2 ? initTime(parts[1]) : "00:00";
+      const parts = raw.split(" - ");
+      return { start: parts[0], end: parts.length === 2 ? parts[1] : null };
     }
-    return "00:00";
+    if (mode === "multiple") return { start: raw.split(",")[0], end: null };
+    return { start: raw, end: null };
+  };
+
+  const [startTime, setStartTime] = useState(() =>
+    initTime(splitTimeParts(raw0).start)
+  );
+  const [endTime, setEndTime] = useState(() => {
+    const { end } = splitTimeParts(raw0);
+    return end ? initTime(end) : "00:00";
   });
 
   const initView = useMemo(() => {
@@ -128,13 +139,9 @@ export const useCalendar = ({
       setViewYear(dates[0].getFullYear());
       setViewMonth(dates[0].getMonth());
     }
-    // Always sync time from the incoming value so showTimePicker works correctly
-    // even when the prop is added after initial render.
-    setStartTime(initTime(value));
-    if (mode === "range") {
-      const parts = value.split(" - ");
-      if (parts.length === 2) setEndTime(initTime(parts[1]));
-    }
+    const { start, end } = splitTimeParts(value);
+    setStartTime(initTime(start));
+    if (end) setEndTime(initTime(end));
   }, [value, mode, granularity, showTimePicker]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const goToPrev = useCallback(() => {

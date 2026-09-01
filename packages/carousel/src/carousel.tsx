@@ -6,6 +6,7 @@ import { useCarousel } from "./hooks/useCarousel";
 import { DEFAULT_SLIDE_TIME } from "./constants/carousel-config";
 import { CarouselProps } from "./types/carousel.types";
 import { DotButton } from "./components/dot-button";
+import { useDotsAutoScroll } from "./hooks/useDotsAutoScroll";
 import { SlideItem } from "./components/slide-item";
 import { useCallback, useMemo, useRef } from "react";
 
@@ -53,6 +54,8 @@ export const Carousel = (props: CarouselProps) => {
     containerWidthOverride: containerWidthProp,
     transitionDuration,
   });
+
+  const dotsRef = useDotsAutoScroll(realIndex);
 
   const handleDragMove = useCallback(
     (delta: number) => {
@@ -168,6 +171,7 @@ export const Carousel = (props: CarouselProps) => {
         </div>
       )}
       <div
+        ref={dotsRef}
         role="tablist"
         aria-label="Slides"
         style={style?.dots}

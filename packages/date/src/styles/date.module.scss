@@ -248,11 +248,6 @@
       --bearlab-date-day-other-month-color,
       rgba(255, 255, 255, 0.25)
     );
-    --_date-day-today-color: var(--bearlab-date-day-today-color, #7592ff);
-    --_date-day-today-bg: var(
-      --bearlab-date-day-today-bg,
-      rgba(70, 95, 255, 0.15)
-    );
     --_date-day-hover-bg: var(
       --bearlab-date-day-hover-bg,
       rgba(255, 255, 255, 0.1)
@@ -264,18 +259,6 @@
 
     --_date-day-selected-bg: var(--bearlab-date-day-selected-bg, #465fff);
     --_date-day-selected-color: var(--bearlab-date-day-selected-color, #ffffff);
-
-    --_date-month-today-color: var(--bearlab-date-month-today-color, #7592ff);
-    --_date-month-today-bg: var(
-      --bearlab-date-month-today-bg,
-      rgba(70, 95, 255, 0.15)
-    );
-
-    --_date-year-today-color: var(--bearlab-date-year-today-color, #7592ff);
-    --_date-year-today-bg: var(
-      --bearlab-date-year-today-bg,
-      rgba(70, 95, 255, 0.15)
-    );
 
     --_date-range-bg: var(--bearlab-date-range-bg, rgba(255, 255, 255, 0.12));
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.4
+
+### Bug Fixes
+
+- the chevron and its border now follow `--bearlab-accordion-title-color-open`
+  in the open state, so the icon stays visually tied to the active title colour.
+- raised the default icon border width to `0.125rem` and darkened the default
+  border colour (`#000` light / `#fff` dark) for a legible contrast ratio.
+
+### Features
+
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
 ## [1.1.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/accordion@1.1.2...@bearlab/accordion@1.1.3) (2026-05-30)
 
 

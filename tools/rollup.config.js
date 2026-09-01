@@ -14,8 +14,9 @@ if (!packageName) {
 }
 
 const packagePath = path.resolve(`packages/${packageName}`);
-const corePath = path.resolve("packages/core");
 const rootPath = path.resolve(".");
+
+const useClientBanner = '"use client";';
 
 const externalPackages = [
   "react",
@@ -34,11 +35,13 @@ export default [
         file: path.join(packagePath, "dist/index.js"),
         format: "cjs",
         sourcemap: true,
+        banner: useClientBanner,
       },
       {
         file: path.join(packagePath, "dist/index.esm.js"),
         format: "esm",
         sourcemap: true,
+        banner: useClientBanner,
       },
     ],
     plugins: [
@@ -98,6 +101,18 @@ export default [
             ],
             "@bearlab/accordion": [path.join(rootPath, "packages/accordion")],
             "@bearlab/date": [path.join(rootPath, "packages/date")],
+            "@bearlab/navigation-menu": [
+              path.join(rootPath, "packages/navigation-menu"),
+            ],
+            "@bearlab/outline-input": [
+              path.join(rootPath, "packages/outline-input"),
+            ],
+            "@bearlab/progress": [path.join(rootPath, "packages/progress")],
+            "@bearlab/timeline": [path.join(rootPath, "packages/timeline")],
+            "@bearlab/tree": [path.join(rootPath, "packages/tree")],
+            "@bearlab/tree-select": [
+              path.join(rootPath, "packages/tree-select"),
+            ],
           },
         },
       }),
@@ -109,10 +124,7 @@ export default [
         sourceMap: true,
         sass: {
           silenceDeprecations: ["legacy-js-api"],
-          includePaths: [
-            path.join(corePath, "src/assets/styles"),
-            path.join(packagePath, "src"),
-          ],
+          includePaths: [path.join(packagePath, "src")],
         },
       }),
       svgr({

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- **server-side column sorting** — new `sortable` column option plus
+  `sortState` / `defaultSortState` / `onSortChange` props. Clicking a sortable
+  header cycles `asc → desc → none` and emits the active sort for API-driven
+  sorting.
+- **server-side column filtering** — new `filterable` / `filterPlaceholder`
+  column options plus `filterState` / `defaultFilterState` / `onFilterChange`
+  props. Each filterable header renders an accessible search popover (Apply /
+  Reset) that emits the active filter map for API-driven filtering.
+- new slot classes/styles: `headerCellInner`, `sortButton`, `sortIcon`,
+  `filterTrigger`, `filterIcon`, `filterPopover`, `filterInput`,
+  `filterActions`.
+- exported additional types: `TableColumn`, `SortState`, `SortDirection`,
+  `FilterState`, `RowSelection`, `TablePagination`.
+- `loadingType` / `loadingIcon` props, forwarded to `@bearlab/loading`.
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, so the component can be imported directly from a Server Component.
+
+### BREAKING CHANGES
+
+- removed the legacy `sortDirection` and `sorter` column fields. `sorter` was
+  never invoked (it did not reorder `dataSource`) and `sortDirection` only
+  produced a static `aria-sort` on non-sortable headers. Replace both with
+  `sortable: true` plus an `onSortChange` handler that re-fetches the sorted
+  rows.
+- requires `@bearlab/button` v2 and `@bearlab/loading` v1.3 — see their
+  changelogs for the `iconType` and `type` prop changes.
+
+> Sorting and filtering are server-side only — the component never reorders or
+> filters `dataSource`; it surfaces state through callbacks.
+
 ## [1.2.4](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/table@1.2.3...@bearlab/table@1.2.4) (2026-05-30)
 
 

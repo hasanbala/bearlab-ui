@@ -2,7 +2,11 @@ import { useId, useMemo, useCallback } from "react";
 import classnames from "classnames";
 import { Checkbox } from "@bearlab/checkbox";
 import { Radio } from "@bearlab/radio";
+import { Loading } from "@bearlab/loading";
+import { Skeleton } from "@bearlab/skeleton";
 import { useTable } from "./hooks/use-table";
+import { useTableSort } from "./hooks/use-table-sort";
+import { useTableFilter } from "./hooks/use-table-filter";
 import { useMediaQuery } from "./hooks/use-media-query";
 import type {
   TableProps,
@@ -14,10 +18,15 @@ import { TableHeader } from "./components/table-header";
 import { TableBody } from "./components/table-body";
 import { TableRow } from "./components/table-row";
 import { TableCell } from "./components/table-cell";
+import { TableHeaderCell } from "./components/table-header-cell";
 import { TableEmpty } from "./components/table-empty";
 import { TablePagination } from "./components/table-pagination";
 import styles from "./styles/table.module.scss";
 import { TableRecord } from "./components/table-record";
+
+const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
+
+const defaultFilterLabel = (columnTitle: string) => `Filter by ${columnTitle}`;
 
 export const Table = (props: TableProps) => {
   const {
@@ -29,10 +38,13 @@ export const Table = (props: TableProps) => {
     pagination = false,
     onRowClick,
     disabled,
+    isLoading = false,
+    loadingType,
+    loadingIcon,
     serverPagination = false,
     totalCount,
     currentPage = 1,
-    pageSizeOptions = [10, 20, 50, 100],
+    pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
     showPageSizeSelector,
     pageSizePlaceholder = "Select page size",
     maxVisiblePages = 6,
@@ -41,6 +53,15 @@ export const Table = (props: TableProps) => {
     "aria-describedby": ariaDescribedBy,
     emptyTitle = "No records found",
     emptyDescription = "There are no records to display at the moment.",
+    sortState: sortStateProp,
+    defaultSortState,
+    onSortChange,
+    filterState: filterStateProp,
+    defaultFilterState,
+    onFilterChange,
+    filterApplyLabel = "Apply",
+    filterResetLabel = "Reset",
+    filterLabel = defaultFilterLabel,
     renderPageInfo,
     renderTotalInfo,
     style,
@@ -50,20 +71,42 @@ export const Table = (props: TableProps) => {
   const titleId = useId();
   const paginationId = useId();
 
-  const {
-    selectedRowKeys,
-    selectAll,
-    filteredData,
-    initialPage,
-    setInitialPage,
-    handleSelectAll,
-    handleRowSelect,
-  } = useTable({ dataSource, serverPagination, rowSelection, currentPage });
-
   const pageSize =
     typeof pagination === "object" && pagination.pageSize
       ? pagination.pageSize
-      : 5;
+      : (pageSizeOptions[0] ?? 10);
+
+  const {
+    selectedRowKeys,
+    selectAll,
+    isIndeterminate,
+    filteredData,
+    visibleRows,
+    initialPage,
+    indexOfFirstItem,
+    setInitialPage,
+    handleSelectAll,
+    handleRowSelect,
+  } = useTable({
+    dataSource,
+    serverPagination,
+    rowSelection,
+    currentPage,
+    pagination,
+    pageSize,
+  });
+
+  const { sortState, toggleSort } = useTableSort({
+    sortState: sortStateProp,
+    defaultSortState,
+    onSortChange,
+  });
+
+  const { filterState, setFilter, clearFilter } = useTableFilter({
+    filterState: filterStateProp,
+    defaultFilterState,
+    onFilterChange,
+  });
 
   const showPageNumbers =
     typeof pagination === "object"
@@ -74,23 +117,6 @@ export const Table = (props: TableProps) => {
   const mobileMinimize = useMediaQuery("(max-width: 540px)");
   const maxPages = isMobile ? 3 : maxVisiblePages;
 
-  const indexOfLastItem = initialPage * pageSize;
-  const indexOfFirstItem = indexOfLastItem - pageSize;
-
-  const currentItems = useMemo(
-    () =>
-      serverPagination
-        ? dataSource
-        : filteredData.slice(indexOfFirstItem, indexOfLastItem),
-    [
-      serverPagination,
-      dataSource,
-      filteredData,
-      indexOfFirstItem,
-      indexOfLastItem,
-    ]
-  );
-
   const totalPages = useMemo(
     () =>
       serverPagination
@@ -99,13 +125,13 @@ export const Table = (props: TableProps) => {
     [serverPagination, totalCount, pageSize, filteredData.length]
   );
 
-  const dataToDisplay = useMemo(
-    () =>
-      pagination ? currentItems : serverPagination ? dataSource : filteredData,
-    [pagination, currentItems, serverPagination, dataSource, filteredData]
-  );
+  const dataToDisplay = visibleRows;
 
   const totalRows = serverPagination ? (totalCount ?? 0) : filteredData.length;
+
+  const isBusy = disabled || isLoading;
+  const showSkeleton = isLoading && dataToDisplay.length === 0;
+  const showOverlay = isLoading && dataToDisplay.length > 0;
 
   const onPageChange = useCallback(
     (page: number, isPageSize?: boolean) => {
@@ -117,9 +143,10 @@ export const Table = (props: TableProps) => {
 
   const goToPage = useCallback(
     (page: number) => {
-      if (page >= 1 && page <= totalPages) onPageChange(page, false);
+      if (page < 1 || page > totalPages || page === initialPage) return;
+      onPageChange(page, false);
     },
-    [totalPages, onPageChange]
+    [totalPages, initialPage, onPageChange]
   );
 
   const selectionColumn = useMemo((): SelectionColumn | null => {
@@ -135,8 +162,17 @@ export const Table = (props: TableProps) => {
                 (e.target as unknown as { checked: boolean }).checked
               )
             }
-            disabled={disabled}
-            aria-label="Select all rows"
+            disabled={isBusy}
+            className={
+              isIndeterminate
+                ? {
+                    root: styles.selectionIndeterminate,
+                    checkboxWrapper: styles.selectionIndeterminateBox,
+                  }
+                : undefined
+            }
+            aria-checked={isIndeterminate ? "mixed" : selectAll}
+            aria-label="Select all rows on this page"
           />
         ) : null,
       key: "selection",
@@ -148,7 +184,7 @@ export const Table = (props: TableProps) => {
           <Checkbox
             checked={isSelected}
             onChange={() => handleRowSelect(record)}
-            disabled={disabled}
+            disabled={isBusy}
             aria-label={`Select row ${record["key"]}`}
           />
         ) : (
@@ -157,7 +193,7 @@ export const Table = (props: TableProps) => {
             value={record.key}
             checked={selectedRowKeys[0] === record.key}
             onChange={() => handleRowSelect(record)}
-            disabled={disabled}
+            disabled={isBusy}
             aria-label={`Select row ${record["key"]}`}
           />
         );
@@ -166,8 +202,9 @@ export const Table = (props: TableProps) => {
   }, [
     rowSelection,
     selectAll,
+    isIndeterminate,
     selectedRowKeys,
-    disabled,
+    isBusy,
     tableId,
     handleSelectAll,
     handleRowSelect,
@@ -181,10 +218,10 @@ export const Table = (props: TableProps) => {
 
   const handleRowClick = useCallback(
     (record: Record<string, any>) => {
-      if (disabled) return;
+      if (isBusy) return;
       onRowClick?.(record);
     },
-    [disabled, onRowClick]
+    [isBusy, onRowClick]
   );
 
   return (
@@ -196,6 +233,7 @@ export const Table = (props: TableProps) => {
       aria-labelledby={title ? titleId : undefined}
       aria-label={!title ? ariaLabel : undefined}
       aria-describedby={ariaDescribedBy}
+      aria-busy={isLoading || undefined}
     >
       {title && (
         <div
@@ -211,97 +249,117 @@ export const Table = (props: TableProps) => {
           </h3>
         </div>
       )}
-      <div
-        className={classnames(styles.tableWrapper, className?.tableWrapper)}
-        style={style?.tableWrapper}
-      >
-        <MainTable
-          className={classnames(
-            styles.tableContainer,
-            className?.tableContainer
-          )}
-          aria-labelledby={title ? titleId : undefined}
-          aria-label={!title ? ariaLabel : undefined}
-          aria-rowcount={totalRows}
+      <div className={styles.tableViewport}>
+        <div
+          className={classnames(styles.tableWrapper, className?.tableWrapper)}
+          style={style?.tableWrapper}
         >
-          <TableHeader
-            className={classnames(styles.tableHeader, className?.tableHeader)}
-          >
-            <TableRow>
-              {finalColumns.map((column: any) => (
-                <TableCell
-                  key={column.key}
-                  isHeader
-                  scope="col"
-                  aria-sort={
-                    column.sortDirection === "asc"
-                      ? "ascending"
-                      : column.sortDirection === "desc"
-                        ? "descending"
-                        : column.sorter
-                          ? "none"
-                          : undefined
-                  }
-                  className={classnames(
-                    styles.headerCell,
-                    className?.headerCell
-                  )}
-                  style={{ width: column.width, ...style?.headerCell }}
-                >
-                  {column.title}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody
-            className={classnames(styles.tableBody, className?.tableBody)}
-          >
-            {dataToDisplay.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={finalColumns.length}
-                  className={classnames(styles.bodyCell, className?.bodyCell)}
-                  style={{ padding: 0 }}
-                >
-                  <TableEmpty
-                    title={emptyTitle}
-                    description={emptyDescription}
-                    className={{
-                      root: className?.emptyState,
-                      icon: className?.emptyIcon,
-                      title: className?.emptyTitle,
-                      description: className?.emptyDescription,
-                    }}
-                    style={{
-                      root: style?.emptyState,
-                      icon: style?.emptyIcon,
-                      title: style?.emptyTitle,
-                      description: style?.emptyDescription,
-                    }}
-                  />
-                </TableCell>
-              </TableRow>
-            ) : (
-              dataToDisplay.map((record, index) => (
-                <TableRecord
-                  key={record["key"] ?? index}
-                  record={record}
-                  index={index}
-                  selectedRowKeys={selectedRowKeys}
-                  onRowClick={onRowClick}
-                  disabled={disabled}
-                  rowSelection={rowSelection}
-                  finalColumns={finalColumns}
-                  cnBodyRow={className?.bodyRow}
-                  cnBodyCell={className?.bodyCell}
-                  style={style?.bodyCell}
-                  handleRowClick={handleRowClick}
-                  indexOfFirstItem={indexOfFirstItem}
-                />
-              ))
+          <MainTable
+            className={classnames(
+              styles.tableContainer,
+              className?.tableContainer
             )}
-          </TableBody>
-        </MainTable>
+            aria-labelledby={title ? titleId : undefined}
+            aria-label={!title ? ariaLabel : undefined}
+            aria-rowcount={totalRows}
+          >
+            <TableHeader
+              className={classnames(styles.tableHeader, className?.tableHeader)}
+            >
+              <TableRow>
+                {finalColumns.map((column) =>
+                  column ? (
+                    <TableHeaderCell
+                      key={column.key}
+                      column={column}
+                      disabled={isBusy}
+                      sortState={sortState}
+                      filterState={filterState}
+                      className={className}
+                      style={style}
+                      filterApplyLabel={filterApplyLabel}
+                      filterResetLabel={filterResetLabel}
+                      filterLabel={filterLabel}
+                      toggleSort={toggleSort}
+                      setFilter={setFilter}
+                      clearFilter={clearFilter}
+                    />
+                  ) : null
+                )}
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              className={classnames(styles.tableBody, className?.tableBody)}
+            >
+              {showSkeleton ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={finalColumns.length}
+                    className={classnames(styles.bodyCell, className?.bodyCell)}
+                    style={{ padding: 0 }}
+                  >
+                    <Skeleton
+                      variant="table"
+                      lines={pageSize}
+                      className={{
+                        root: styles.loadingSkeleton,
+                        header: styles.loadingSkeletonHeaderCell,
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : dataToDisplay.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={finalColumns.length}
+                    className={classnames(styles.bodyCell, className?.bodyCell)}
+                    style={{ padding: 0 }}
+                  >
+                    <TableEmpty
+                      title={emptyTitle}
+                      description={emptyDescription}
+                      className={{
+                        root: className?.emptyState,
+                        icon: className?.emptyIcon,
+                        title: className?.emptyTitle,
+                        description: className?.emptyDescription,
+                      }}
+                      style={{
+                        root: style?.emptyState,
+                        icon: style?.emptyIcon,
+                        title: style?.emptyTitle,
+                        description: style?.emptyDescription,
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                dataToDisplay.map((record, index) => (
+                  <TableRecord
+                    key={record["key"] ?? index}
+                    record={record}
+                    index={index}
+                    selectedRowKeys={selectedRowKeys}
+                    onRowClick={onRowClick}
+                    disabled={isBusy}
+                    rowSelection={rowSelection}
+                    finalColumns={finalColumns}
+                    cnBodyRow={className?.bodyRow}
+                    cnBodyCell={className?.bodyCell}
+                    style={style?.bodyCell}
+                    handleRowClick={handleRowClick}
+                    indexOfFirstItem={indexOfFirstItem}
+                  />
+                ))
+              )}
+            </TableBody>
+          </MainTable>
+        </div>
+        {showOverlay && (
+          <div className={styles.loadingOverlay}>
+            <Loading type={loadingType} icon={loadingIcon} />
+          </div>
+        )}
       </div>
       {pagination && totalPages > 1 && (
         <TablePagination
@@ -311,7 +369,7 @@ export const Table = (props: TableProps) => {
           maxPages={maxPages}
           isMobile={isMobile}
           mobileMinimize={mobileMinimize}
-          disabled={disabled}
+          disabled={isBusy}
           showPageNumbers={showPageNumbers}
           showPageSizeSelector={showPageSizeSelector}
           pageSize={pageSize}

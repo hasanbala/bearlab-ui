@@ -4,7 +4,7 @@ import styles from "./styles/faq.module.scss";
 import type { FaqV3Props } from "./types/faq.types";
 
 export const FaqV3 = (props: FaqV3Props) => {
-  const { data, iconType, className, style } = props;
+  const { data, iconType, icon, className, style } = props;
 
   return (
     <div
@@ -16,6 +16,7 @@ export const FaqV3 = (props: FaqV3Props) => {
           key={index}
           item={item}
           iconType={iconType}
+          icon={icon}
           className={className}
           style={style}
         />

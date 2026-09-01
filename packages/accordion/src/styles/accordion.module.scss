@@ -61,8 +61,8 @@
   --_accordion-icon-size: var(--bearlab-accordion-icon-size, 1.5rem); /* 24px */
   --_accordion-icon-border-width: var(
     --bearlab-accordion-icon-border-width,
-    0.0625rem
-  ); /* 1px */
+    0.125rem
+  ); /* 2px */
 
   // Light theme colors
   --_accordion-item-border-color: var(
@@ -93,7 +93,7 @@
   --_accordion-icon-bg-hover: var(--bearlab-accordion-icon-bg-hover, #e4e7ec);
   --_accordion-icon-border-color: var(
     --bearlab-accordion-icon-border-color,
-    #c6cad1
+    #000
   );
   --_accordion-icon-border-color-open: var(
     --bearlab-accordion-icon-border-color-open,
@@ -140,7 +140,7 @@
     );
     --_accordion-icon-border-color: var(
       --bearlab-accordion-icon-border-color,
-      #5b5e62
+      #fff
     );
     --_accordion-icon-border-color-open: var(
       --bearlab-accordion-icon-border-color-open,
@@ -237,10 +237,11 @@
         }
 
         &.iconOpen {
-          border-color: var(--_accordion-icon-border-color-open);
+          border-color: var(--_accordion-title-color-open);
 
           .icon {
             transform: rotate(180deg);
+            color: var(--_accordion-title-color-open);
           }
         }
 

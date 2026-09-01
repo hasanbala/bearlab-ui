@@ -25,6 +25,7 @@
 
 - ✅ **Slot-based `className` & `style` API** — Granular styling without CSS specificity issues.
 - ✅ **Accessible by default** — `role="status"`, `aria-live="polite"`, and a visually-hidden screen reader text.
+- ✅ **9 built-in spinner types** — Pick a ready-made spinner with the `type` prop.
 - ✅ **Replaceable Icon** — Provide any `React.ElementType` (SVG component) as the spinner via the `icon` prop.
 - ✅ **TypeScript-first** — Fully typed props and slot interfaces.
 
@@ -44,6 +45,11 @@ pnpm add @bearlab/loading
 ```
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
+
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
 
 ---
 
@@ -65,9 +71,27 @@ export default function App() {
 
 > **Important:** The `Loading` component is positioned absolutely and centered within its nearest `position: relative` ancestor using `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)`. Always wrap it in a container with `position: relative`.
 
+### Built-in Types
+
+Choose one of the bundled spinner icons with the `type` prop:
+
+```tsx
+import { Loading } from "@bearlab/loading";
+
+export default function App() {
+  return (
+    <div style={{ position: "relative", height: "200px" }}>
+      <Loading type="loader-pinwheel" />
+    </div>
+  );
+}
+```
+
+Available values: `"circle-dashed"`, `"circle-ellipse"`, `"disc"`, `"loader"`, `"loader-badging"`, `"loader-circle"` (default), `"loader-pinwheel"`, `"shell"`, `"square-dashed"`.
+
 ### Custom Icon
 
-Replace the default spinner with any SVG component:
+Replace the default spinner with any SVG component. When `icon` is provided it takes precedence over `type`:
 
 ```tsx
 import { Loading } from "@bearlab/loading";
@@ -107,11 +131,12 @@ export default function App() {
 
 ## Props
 
-| Prop        | Type                                      | Default       | Required | Description                                     |
-| ----------- | ----------------------------------------- | ------------- | -------- | ----------------------------------------------- |
-| `icon`      | `React.ElementType`                       | `IconLoading` | ❌       | Custom SVG icon component to use as the spinner |
-| `className` | [`LoadingClassNames`](#loadingclassnames) | —             | ❌       | Per-slot className overrides                    |
-| `style`     | [`LoadingStyles`](#loadingstyles)         | —             | ❌       | Per-slot inline style overrides                 |
+| Prop        | Type                                      | Default           | Required | Description                                                       |
+| ----------- | ----------------------------------------- | ----------------- | -------- | ----------------------------------------------------------------- |
+| `type`      | [`LoadingType`](#loadingtype)             | `"loader-circle"` | ❌       | One of the built-in spinner icons. Ignored when `icon` is provided |
+| `icon`      | `React.ElementType`                       | —                 | ❌       | Custom SVG icon component to use as the spinner                   |
+| `className` | [`LoadingClassNames`](#loadingclassnames) | —                 | ❌       | Per-slot className overrides                                      |
+| `style`     | [`LoadingStyles`](#loadingstyles)         | —                 | ❌       | Per-slot inline style overrides                                   |
 
 ---
 
@@ -185,6 +210,7 @@ All types are exported from the package:
 ```ts
 import type {
   LoadingProps,
+  LoadingType,
   LoadingClassNames,
   LoadingStyles,
 } from "@bearlab/loading";
@@ -194,10 +220,26 @@ import type {
 
 ```ts
 interface LoadingProps {
+  type?: LoadingType;
   icon?: React.ElementType;
   className?: LoadingClassNames;
   style?: LoadingStyles;
 }
+```
+
+### `LoadingType`
+
+```ts
+type LoadingType =
+  | "circle-dashed"
+  | "circle-ellipse"
+  | "disc"
+  | "loader"
+  | "loader-badging"
+  | "loader-circle"
+  | "loader-pinwheel"
+  | "shell"
+  | "square-dashed";
 ```
 
 ### `LoadingClassNames`

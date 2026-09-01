@@ -1,12 +1,13 @@
 import classnames from "classnames";
-import { IconLoading } from "./assets/icons";
+import { DEFAULT_LOADING_TYPE, ICON_MAP } from "./constants/loading-config";
 import type { LoadingProps } from "./types/loading.types";
 import styles from "./styles/loading.module.scss";
 
 export const Loading = (props: LoadingProps) => {
-  const { className, style, icon: Icon } = props;
+  const { className, style, icon: Icon, type = DEFAULT_LOADING_TYPE } = props;
 
-  const IconComponent = Icon ?? IconLoading;
+  const IconComponent =
+    Icon ?? ICON_MAP[type] ?? ICON_MAP[DEFAULT_LOADING_TYPE];
 
   return (
     <div

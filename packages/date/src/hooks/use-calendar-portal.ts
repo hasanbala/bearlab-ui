@@ -1,4 +1,5 @@
-import { useState, useLayoutEffect } from "react";
+import { useState } from "react";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 export const useCalendarPortal = (
   isVisible: boolean,
@@ -6,7 +7,7 @@ export const useCalendarPortal = (
 ) => {
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!isVisible || !anchorRef.current) return;
 
     const updateCoords = () => {

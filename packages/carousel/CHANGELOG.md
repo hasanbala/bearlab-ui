@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.0
+
+### Features
+
+- the dots strip now scrolls horizontally when there are more dots than fit the
+  available width, and keeps the active dot centred in view. Honours
+  `prefers-reduced-motion` and re-centres on resize.
+- new `--bearlab-carousel-dots-max-width` design token;
+  `--bearlab-carousel-dots-min-width` is now capped at `100%` so it can no
+  longer overflow a narrow container.
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### Bug Fixes
+
+- dragging the dots strip no longer starts a slide drag — `[role="tablist"]` is
+  now treated as an interactive region.
+
 ## [1.1.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/carousel@1.1.2...@bearlab/carousel@1.1.3) (2026-05-30)
 
 

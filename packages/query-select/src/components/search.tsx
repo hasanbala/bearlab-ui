@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import classnames from "classnames";
 import { IconChevronDown, IconLoaderCircle } from "../assets/icons";
 import {
@@ -8,6 +8,7 @@ import {
 import { useVisibleItemsCount } from "../hooks/use-visible-items-count";
 import { SelectionInlineItems } from "./selection-inline-items";
 import styles from "../styles/query-select.module.scss";
+import { useIsomorphicLayoutEffect } from "../hooks/use-isomorphic-layout-effect";
 
 export const Search = <T extends QuerySelectOption>(
   props: QuerySelectSearchProps<T>
@@ -40,7 +41,7 @@ export const Search = <T extends QuerySelectOption>(
   const ghostRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
   }, [query]);

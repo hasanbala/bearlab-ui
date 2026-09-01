@@ -1,0 +1,46 @@
+import {
+  IconAdd,
+  IconArrow,
+  IconArrowDown,
+  IconArrowDown2,
+  IconCross,
+  IconDelete,
+  IconExport,
+  IconPing,
+  IconSearch,
+  IconUpdate,
+  IconArrowRight,
+  IconCopy,
+  IconDocument,
+  IconDots,
+  IconFilter,
+  IconMinus,
+  IconPlus,
+  IconTick,
+} from "../assets/icons";
+import type { ButtonIconTypeValues } from "../types/button.types";
+
+export const BUTTON_ICONS: Record<
+  ButtonIconTypeValues,
+  React.ElementType | null
+> = {
+  add: IconAdd,
+  arrow: IconArrow,
+  delete: IconDelete,
+  export: IconExport,
+  document: IconDocument,
+  update: IconUpdate,
+  search: IconSearch,
+  close: IconCross,
+  notify: IconPing,
+  arrow_down: IconArrowDown,
+  minus: IconMinus,
+  plus: IconPlus,
+  filter: IconFilter,
+  dots: IconDots,
+  arrow_down2: IconArrowDown2,
+  arrow_right: IconArrowRight,
+  tick: IconTick,
+  copy: IconCopy,
+  none: null,
+} as const;

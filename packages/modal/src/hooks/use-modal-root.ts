@@ -1,25 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { MODAL_ROOT_ID } from "../constants/modal-config";
+
+let ownedRefCount = 0;
 
 export const useModalRootElement = (): { mountNode: HTMLElement | null } => {
   const [mountNode, setMountNode] = useState<HTMLElement | null>(null);
-  const isOwner = useRef(false);
 
   useEffect(() => {
     let el = document.getElementById(MODAL_ROOT_ID);
+    let isOwner = false;
 
     if (!el) {
       el = document.createElement("div");
       el.id = MODAL_ROOT_ID;
       document.body.appendChild(el);
-      isOwner.current = true;
+      isOwner = true;
     }
 
+    if (isOwner) ownedRefCount += 1;
     setMountNode(el);
 
     return () => {
-      if (isOwner.current && el?.isConnected) {
-        document.body.removeChild(el);
+      if (!isOwner) return;
+      ownedRefCount -= 1;
+      if (ownedRefCount === 0 && el?.isConnected && !el.firstChild) {
+        el.remove();
       }
     };
   }, []);

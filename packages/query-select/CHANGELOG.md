@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.5
+
+### Bug Fixes
+
+- guarded the options portal and its layout measurement against server
+  rendering, removing React's `useLayoutEffect` SSR warning.
+
+### Features
+
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
 ## [1.1.4](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/query-select@1.1.3...@bearlab/query-select@1.1.4) (2026-05-30)
 
 

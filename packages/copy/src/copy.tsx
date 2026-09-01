@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useState } from "react";
 import classnames from "classnames";
 import { Button } from "@bearlab/button";
+import { copyToClipboard } from "./utils/copy-to-clipboard";
 import styles from "./styles/copy.module.scss";
 import type { CopyProps } from "./types/copy.types";
 
@@ -17,12 +18,16 @@ export const Copy = (props: CopyProps) => {
     return () => clearTimeout(timer);
   }, [isCopy]);
 
-  const copyCode = useCallback(() => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => setIsCopy(true))
-      .catch(() => console.warn("Clipboard write failed"));
-  }, [text]);
+  const copyCode = useCallback(async () => {
+    if (disabled) return;
+
+    try {
+      await copyToClipboard(text ?? "");
+      setIsCopy(true);
+    } catch {
+      console.warn("Clipboard write failed");
+    }
+  }, [text, disabled]);
 
   const displayText = text === "" || text == null ? "-" : text;
   const iconType = isCopy ? "tick" : "copy";
@@ -53,7 +58,7 @@ export const Copy = (props: CopyProps) => {
           buttonType="justIcon"
           label={announceLabel}
           disabled={disabled}
-          iconType={{ default: iconType }}
+          iconType={iconType}
           aria-pressed={isCopy}
           aria-controls={textId}
           onClick={copyCode}

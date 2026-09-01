@@ -50,11 +50,8 @@ export const SelectedItems = forwardRef(
             key={item.value}
             title={item.label}
             disabled={disabled}
-            className={classnames(
-              styles.selectedItem,
-              className?.selectedItem,
-              "bearlab-select-selected-item"
-            )}
+            data-bearlab-select-item="visible"
+            className={classnames(styles.selectedItem, className?.selectedItem)}
             onRemove={handleRemove}
           />
         ))}
@@ -64,11 +61,11 @@ export const SelectedItems = forwardRef(
             disabled={disabled}
             title={`+${hiddenCount}`}
             aria-label={`${hiddenCount} more selected`}
+            data-bearlab-select-item="overflow"
             className={classnames(
               styles.selectedItem,
               styles.hiddenSelectedItem,
-              className?.selectedItem,
-              "bearlab-select-hidden-selected-item"
+              className?.selectedItem
             )}
           />
         )}

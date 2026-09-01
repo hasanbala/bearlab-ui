@@ -68,6 +68,11 @@ pnpm add @bearlab/date
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
+
 ---
 
 ## Usage
@@ -148,7 +153,7 @@ export default function App() {
 
   return (
     <Date
-      label="Ay seç"
+      label="Select Month"
       granularity="month"
       locale="tr"
       mode="single"
@@ -193,7 +198,7 @@ export default function App() {
 
   return (
     <Date
-      label="Çalışma günleri"
+      label="Working Days"
       granularity="weekday"
       mode="multiple"
       locale="tr"
@@ -217,7 +222,7 @@ export default function App() {
 
   return (
     <Date
-      label="Gün seç"
+      label="Select Day"
       granularity="weekday"
       mode="single"
       locale="tr"
@@ -267,7 +272,7 @@ export default function App() {
       minuteStep={5}
       outputFormat="DD MMM YYYY"
       locale="tr"
-      labels={{ time: "Saat", startTime: "Başlangıç", endTime: "Bitiş" }}
+      labels={{ time: "Time", startTime: "Start", endTime: "End" }}
       value={value}
       onDateChange={(_, str) => setValue(str)}
       // "25 May 2026 16:30 - 27 May 2026 20:15"
@@ -288,7 +293,7 @@ export default function App() {
 
   return (
     <Date
-      label="Kayıt tarihi"
+      label="Record Date"
       outputType="iso"
       showTimePicker
       value={value}
@@ -580,7 +585,7 @@ Pass a BCP 47 language tag to `locale`. This affects:
 - Month abbreviations used by `MMM`-containing `outputFormat` values
 
 ```tsx
-<Date locale="tr" />       // Türkçe aylar, günler
+<Date locale="tr" />       // Turkish months, days
 <Date locale="de" />       // Deutsch
 <Date locale="fr-FR" />    // Français
 <Date locale="ja" />       // 日本語
@@ -632,9 +637,9 @@ Add `showTimePicker` to display hour/minute selectors below the calendar. Only a
   showTimePicker
   mode="range"
   labels={{
-    time: "Saat",
-    startTime: "Başlangıç",
-    endTime: "Bitiş",
+    time: "Time",
+    startTime: "Start",
+    endTime: "End",
   }}
 />
 ```

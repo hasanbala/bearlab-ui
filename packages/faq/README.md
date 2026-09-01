@@ -55,6 +55,11 @@ pnpm add @bearlab/faq
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
+
 ---
 
 ## Usage
@@ -159,9 +164,9 @@ export default function App() {
 
 ### FaqV3 — Icon-based Cards
 
-`FaqV3` renders FAQ items as static cards, each decorated with a leading icon. The icon is controlled via the `iconType` prop which accepts a `default` string key (one of the built-in icons) and an optional `custom` ReactElement.
+`FaqV3` renders FAQ items as static cards, each decorated with a leading icon. Pick a built-in icon with the `iconType` string prop, or pass your own element via `icon` — `icon` takes precedence when both are set.
 
-**Available built-in `default` icon types:**
+**Available built-in `iconType` values:**
 
 | Value        | Description              |
 | ------------ | ------------------------ |
@@ -199,7 +204,7 @@ const faqData = [
 
 // Built-in icon
 export default function App() {
-  return <FaqV3 data={faqData} iconType={{ default: "support" }} />;
+  return <FaqV3 data={faqData} iconType="support" />;
 }
 ```
 
@@ -213,16 +218,19 @@ export default function App() {
   return (
     <FaqV3
       data={faqData}
-      iconType={{
-        default: "none",
-        custom: <MyCustomIcon width={24} height={24} />,
-      }}
+      icon={<MyCustomIcon width={24} height={24} />}
       className={{ root: "my-faq-v3-root", icon: "my-faq-v3-icon" }}
       style={{ root: { gap: "1.5rem" }, icon: { color: "#6366f1" } }}
     />
   );
 }
 ```
+
+> **Migrating from the object form (v1.x):** `iconType={{ default: "support" }}`
+> becomes `iconType="support"`, and
+> `iconType={{ default: "none", custom: <Icon /> }}` becomes `icon={<Icon />}`.
+> `iconType` is now optional and defaults to `"none"`. This mirrors the same
+> change in [`@bearlab/button`](https://www.npmjs.com/package/@bearlab/button) v2.
 
 ---
 
@@ -250,12 +258,13 @@ export default function App() {
 
 ### `FaqV3Props` Props
 
-| Prop        | Type                                                                  | Default | Required | Description                      |
-| ----------- | --------------------------------------------------------------------- | ------- | -------- | -------------------------------- |
-| `data`      | `FaqData[]`                                                           | —       | ✅       | Array of FAQ items               |
-| `iconType`  | `{ default: FaqIconTypeStringValues; custom?: null \| ReactElement }` | —       | ✅       | Icon configuration for all items |
-| `className` | `FaqClassNames`                                                       | —       | ❌       | Per-slot className overrides     |
-| `style`     | `FaqStyles`                                                           | —       | ❌       | Per-slot inline style overrides  |
+| Prop        | Type                       | Default  | Required | Description                                             |
+| ----------- | -------------------------- | -------- | -------- | ------------------------------------------------------- |
+| `data`      | `FaqData[]`                | —        | ✅       | Array of FAQ items                                      |
+| `iconType`  | `FaqIconTypeStringValues`  | `"none"` | ❌       | Built-in icon rendered on every card                    |
+| `icon`      | `ReactElement`             | —        | ❌       | Custom icon element; takes precedence over `iconType`   |
+| `className` | `FaqClassNames`            | —        | ❌       | Per-slot className overrides                            |
+| `style`     | `FaqStyles`                | —        | ❌       | Per-slot inline style overrides                         |
 
 ---
 
@@ -444,10 +453,8 @@ interface FaqV2Props {
 
 ```ts
 interface FaqV3Props extends FaqV2Props {
-  iconType: {
-    default: FaqIconTypeStringValues;
-    custom?: null | React.ReactElement;
-  };
+  iconType?: FaqIconTypeStringValues;
+  icon?: React.ReactElement;
 }
 ```
 

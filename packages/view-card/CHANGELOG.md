@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.2.4
+
+### Bug Fixes
+
+- the header bottom rule is now drawn only on a toggleable header, so a static
+  card no longer shows a divider with nothing to collapse.
+
+### Features
+
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/view-card@1.2.2...@bearlab/view-card@1.2.3) (2026-05-30)
 
 

@@ -150,6 +150,7 @@
     --bearlab-carousel-dots-min-width,
     11.25rem
   ); /* 180px */
+  --_carousel-dots-max-width: var(--bearlab-carousel-dots-max-width, 100%);
   --_carousel-dot-size: var(--bearlab-carousel-dot-size, 0.75rem); /* 12px */
   --_carousel-dot-width-active: var(
     --bearlab-carousel-dot-width-active,
@@ -537,17 +538,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    justify-content: safe center;
     gap: var(--_carousel-dots-gap);
     background-color: var(--_carousel-dots-bg);
     padding: var(--_carousel-dots-padding);
     height: var(--_carousel-dots-height);
     width: fit-content;
+    max-width: var(--_carousel-dots-max-width);
     margin: 0 auto;
     border-radius: var(--_carousel-slide-radius);
-    min-width: var(--_carousel-dots-min-width);
+    min-width: min(var(--_carousel-dots-min-width), 100%);
     box-shadow: var(--_carousel-dots-shadow);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .dot {
+      flex: 0 0 auto;
       height: var(--_carousel-dot-size);
       width: var(--_carousel-dot-size);
       border-radius: 9999px;

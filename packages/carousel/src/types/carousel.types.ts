@@ -83,6 +83,8 @@ export interface UseDragReturn {
   };
 }
 
+export type UseDotsAutoScrollReturn = React.RefObject<HTMLDivElement | null>;
+
 export interface UseSlideProps {
   isActive: boolean;
 }

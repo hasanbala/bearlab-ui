@@ -1,0 +1,5 @@
+export const DEFAULT_DELAY_DURATION = 200;
+export const DEFAULT_SKIP_DELAY_DURATION = 300;
+export const DEFAULT_ARIA_LABEL = "Main";
+export const CONTENT_VIEWPORT_MARGIN = 8;
+export const CONTENT_SIDE_OFFSET = 8;

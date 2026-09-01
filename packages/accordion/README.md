@@ -50,6 +50,11 @@ pnpm add @bearlab/accordion
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
+
 ---
 
 ## Usage
@@ -224,7 +229,8 @@ Override tokens in your global stylesheet:
   /* Icon */
   --bearlab-accordion-icon-size: 1.5rem; /* 24px */
   --bearlab-accordion-icon-wrapper-size: 2.75rem; /* 44px */
-  --bearlab-accordion-icon-border-color: #c6cad1;
+  --bearlab-accordion-icon-border-width: 0.125rem; /* 2px */
+  --bearlab-accordion-icon-border-color: #000;
   --bearlab-accordion-icon-border-color-open: #8c93a0;
   --bearlab-accordion-icon-bg-hover: #e4e7ec;
 }
@@ -238,10 +244,16 @@ Override tokens in your global stylesheet:
   --bearlab-accordion-content-color: #9ca3af;
   --bearlab-accordion-header-bg-open: rgba(255, 255, 255, 0.03);
   --bearlab-accordion-icon-bg-hover: rgba(102, 112, 133, 0.24);
-  --bearlab-accordion-icon-border-color: #5b5e62;
+  --bearlab-accordion-icon-border-color: #fff;
   --bearlab-accordion-icon-border-color-open: #fff;
 }
 ```
+
+> **Open state:** when an item is expanded, the chevron and its border both follow
+> `--bearlab-accordion-title-color-open` rather than
+> `--bearlab-accordion-icon-border-color-open`, so the icon stays visually tied to
+> the active title colour. Override `--bearlab-accordion-title-color-open` to
+> restyle the whole open state in one place.
 
 ---
 

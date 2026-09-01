@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.0
+
+### Features
+
+- new `type` prop selecting one of nine bundled spinners: `"circle-dashed"`,
+  `"circle-ellipse"`, `"disc"`, `"loader"`, `"loader-badging"`,
+  `"loader-circle"` (default), `"loader-pinwheel"`, `"shell"`,
+  `"square-dashed"`. A supplied `icon` still takes precedence over `type`.
+- exported the `LoadingType` union.
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### Bug Fixes
+
+- replaced the single `spin-dot` asset, whose hard-coded `#465FFF` fill ignored
+  the surrounding text colour, with icons that inherit `currentColor`.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/loading@1.2.2...@bearlab/loading@1.2.3) (2026-05-30)
 
 

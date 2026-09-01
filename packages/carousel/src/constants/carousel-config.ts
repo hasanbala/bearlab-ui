@@ -5,7 +5,7 @@ export const DEFAULT_SLIDE_TIME = 4;
 export const DRAG_THRESHOLD_PX = 8;
 
 export const INTERACTIVE_SELECTOR =
-  'button, a, input, select, textarea, [role="button"], [role="tab"]';
+  'button, a, input, select, textarea, [role="button"], [role="tab"], [role="tablist"]';
 
 export const getSlideWidth = (containerWidth: number): number => {
   if (containerWidth <= 0) return 0;

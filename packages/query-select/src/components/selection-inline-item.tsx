@@ -3,7 +3,7 @@ import { QuerySelectSelectionInlineItemProps } from "../types/query-select.types
 import styles from "../styles/query-select.module.scss";
 
 export const SelectionInlineItem = (
-  props: QuerySelectSelectionInlineItemProps & { "aria-label"?: string }
+  props: QuerySelectSelectionInlineItemProps
 ) => {
   const {
     value,
@@ -12,6 +12,7 @@ export const SelectionInlineItem = (
     disabled,
     className,
     "aria-label": ariaLabel,
+    "data-bearlab-query-select-item": itemMarker,
     onRemove,
   } = props;
 
@@ -28,7 +29,12 @@ export const SelectionInlineItem = (
   };
 
   return (
-    <div style={style} className={className} aria-label={ariaLabel}>
+    <div
+      style={style}
+      className={className}
+      aria-label={ariaLabel}
+      data-bearlab-query-select-item={itemMarker}
+    >
       <span className={styles.selectionInlineItemTitle}>{title}</span>
       {onRemove && value !== undefined && (
         <button

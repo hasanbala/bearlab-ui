@@ -53,10 +53,10 @@ export const SelectionInlineItems = forwardRef(
             key={item.value}
             title={item.label}
             disabled={disabled}
+            data-bearlab-query-select-item="visible"
             className={classnames(
               styles.selectionInlineItem,
-              className?.selectionInlineItem,
-              "bearlab-query-select-selection-inline-item"
+              className?.selectionInlineItem
             )}
             onRemove={handleRemove}
           />
@@ -67,11 +67,11 @@ export const SelectionInlineItems = forwardRef(
             disabled={disabled}
             title={`+${hiddenCount}`}
             aria-label={`${hiddenCount} more selected`}
+            data-bearlab-query-select-item="overflow"
             className={classnames(
               styles.selectionInlineItem,
               styles.hiddenSelectionInlineItem,
-              className?.selectionInlineItem,
-              "bearlab-query-select-selection-inline-hidden-item"
+              className?.selectionInlineItem
             )}
           />
         )}

@@ -64,9 +64,7 @@ export interface ButtonProps {
   htmlType?: ButtonHtmlType;
   reverseIconText?: boolean;
   className?: ButtonClassNames;
-  iconType?: {
-    default: ButtonIconTypeValues;
-    custom?: null | React.ReactElement;
-  };
+  iconType?: ButtonIconTypeValues;
+  icon?: React.ReactElement;
   onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
 }

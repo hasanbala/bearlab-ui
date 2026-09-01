@@ -35,6 +35,7 @@
 - ✅ **Video controls** — play/pause and mute/unmute buttons appear on hover for video slides
 - ✅ **Optional prev/next navigation buttons** — toggled via `showNavigation`
 - ✅ **Animated dot progress indicator** — gradient fill animates with `sliderTime` duration
+- ✅ **Self-scrolling dots** — when there are more dots than fit the available width, the strip scrolls horizontally (scrollbar hidden) and the active dot is always kept centred in view; honours `prefers-reduced-motion`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Dark Mode** — automatic adaptation via `[data-theme="dark"]` selector
 - ✅ **TypeScript-first** — fully typed props, item types, and slot interfaces
@@ -55,6 +56,11 @@ pnpm add @bearlab/carousel
 ```
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
+
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
 
 ---
 
@@ -246,6 +252,8 @@ Beyond slots, the component leverages scoped CSS variables for a global design t
 
   /* Dots */
   --bearlab-carousel-dots-bg: #f2f4f7;
+  --bearlab-carousel-dots-min-width: 11.25rem; /* 180px */
+  --bearlab-carousel-dots-max-width: 100%; /* strip scrolls past this */
   --bearlab-carousel-dot-size: 0.75rem;
   --bearlab-carousel-dot-width-active: 2.5rem;
   --bearlab-carousel-dot-fill-gradient: linear-gradient(
@@ -263,6 +271,8 @@ Beyond slots, the component leverages scoped CSS variables for a global design t
 ```
 
 > All tokens follow the `--bearlab-carousel-[element]-[property]` naming convention. The full list of available tokens mirrors the CSS variable declarations in `carousel.module.scss`.
+
+> **Sizing the dots strip:** `--bearlab-carousel-dots-min-width` sets the floor (it is capped at `100%` so it can never overflow a narrow container) and `--bearlab-carousel-dots-max-width` sets the ceiling. Once the dots need more room than the ceiling allows, the strip becomes horizontally scrollable and the component keeps the active dot centred.
 
 ---
 

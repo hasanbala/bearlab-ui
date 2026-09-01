@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.0
+
+### Features
+
+- **`maxCharacter` prop** — sets a maximum character count and renders a live
+  `current / max` counter in the bottom-right corner of the field. The limit is
+  enforced for typed text and for pasted text (pasting 600 characters into a
+  `maxCharacter={500}` field inserts only the first 500), and `onChange` always
+  receives the already-truncated value, so controlled state can never exceed the
+  limit. Characters are counted in UTF-16 code units, exactly like the native
+  `maxlength` attribute. The textarea stays unlimited when the prop is omitted.
+- **`characterCount` slot** — added to `TextareaClassNames` and `TextareaStyles`,
+  together with the `--bearlab-textarea-count-*` design tokens (font size, offset,
+  color, limit color).
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
 ## [1.2.3](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/textarea@1.2.2...@bearlab/textarea@1.2.3) (2026-05-30)
 
 

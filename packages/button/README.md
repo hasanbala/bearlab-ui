@@ -28,7 +28,7 @@
 
 - ✅ **Unified variant system** — a single `variant` prop combines visual style and semantic color (`primary`, `secondary-*`, `light-*`, `solid-*`, `liquid-*`)
 - ✅ **Three layout modes** — `justText`, `justIcon`, `iconWithText` via the required `buttonType` prop
-- ✅ **Built-in icon library** — 18 preset icons selectable via `iconType.default`; custom React elements via `iconType.custom`
+- ✅ **Built-in icon library** — 18 preset icons selectable via `iconType`; custom React elements via `icon`
 - ✅ **Slot-based `className` & `style` API** — granular per-element overrides for `root` and `popover`
 - ✅ **Accessible by default** — `aria-label`, `aria-describedby`, `aria-disabled`, `aria-busy` wired up automatically
 - ✅ **Dark mode ready** — responds to `html[data-theme="dark"]` out of the box
@@ -51,6 +51,11 @@ pnpm add @bearlab/button
 ```
 
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
+
+> **Framework support:** Works with React 18/19 and Next.js — both the App Router
+> and the Pages Router. Every component ships with the `"use client"` directive
+> already applied, so you can import it straight into a Server Component without
+> writing a wrapper file. All DOM access is SSR-guarded.
 
 ---
 
@@ -77,7 +82,7 @@ When `buttonType="justIcon"`, the `label` prop is visually hidden but is shown a
 <Button
   buttonType="justIcon"
   label="Delete item"
-  iconType={{ default: "delete" }}
+  iconType="delete"
   variant="secondary"
 />
 ```
@@ -88,7 +93,7 @@ When `buttonType="justIcon"`, the `label` prop is visually hidden but is shown a
 <Button
   buttonType="iconWithText"
   label="Export"
-  iconType={{ default: "export" }}
+  iconType="export"
   variant="solid-success"
 />
 ```
@@ -102,7 +107,7 @@ When `buttonType="justIcon"`, the `label` prop is visually hidden but is shown a
 <Button
   buttonType="iconWithText"
   label="Filter"
-  iconType={{ default: "filter" }}
+  iconType="filter"
   variant="secondary"
   reverseIconText
 />;
@@ -116,7 +121,7 @@ import { CustomIcon } from "./CustomIcon";
 <Button
   buttonType="iconWithText"
   label="Custom"
-  iconType={{ default: "none", custom: <CustomIcon /> }}
+  icon={<CustomIcon />}
   variant="liquid-tinted"
 />;
 ```
@@ -139,7 +144,8 @@ import { CustomIcon } from "./CustomIcon";
 | `htmlType`        | `"button" \| "submit"`                                             | `"button"`            | ❌       | Native HTML `type` attribute for the `<button>` element.                            |
 | `isLoading`       | `boolean`                                                          | `false`               | ❌       | Replaces content with a spinner; sets `aria-busy` and blocks interaction.           |
 | `disabled`        | `boolean`                                                          | `false`               | ❌       | Disables the button; applies muted styling via `--bearlab-button-opacity-disabled`. |
-| `iconType`        | `{ default: ButtonIconTypeValues; custom?: ReactElement \| null }` | `{ default: "none" }` | ❌       | Configures the icon. Use `custom` to override with any React element.               |
+| `iconType`        | [`ButtonIconTypeValues`](#icons)                                  | `"none"`              | ❌       | Selects a built-in icon.                                                            |
+| `icon`            | `ReactElement`                                                    | —                     | ❌       | Custom icon element; takes precedence over `iconType`.                              |
 | `reverseIconText` | `boolean`                                                          | `false`               | ❌       | Swaps icon and text order; icon renders before the label in `iconWithText`.         |
 | `onClick`         | `(e: React.MouseEvent<HTMLButtonElement>) => void`                 | —                     | ❌       | Click event handler.                                                                |
 | `className`       | [`ButtonClassNames`](#buttonclassnames)                            | —                     | ❌       | Per-slot className overrides.                                                       |
@@ -176,18 +182,28 @@ The button uses a **unified variant system** — a single `variant` string combi
 
 ## Icons
 
-The `iconType` prop accepts an object with two keys:
+Icons are configured with two independent, optional props:
 
-| Key       | Type                   | Description                                                         |
-| --------- | ---------------------- | ------------------------------------------------------------------- |
-| `default` | `ButtonIconTypeValues` | Selects a built-in icon from the preset library.                    |
-| `custom`  | `ReactElement \| null` | Overrides the built-in icon with any React element. Takes priority. |
+| Prop       | Type                   | Description                                                        |
+| ---------- | ---------------------- | ------------------------------------------------------------------ |
+| `iconType` | `ButtonIconTypeValues` | Selects a built-in icon from the preset library. Defaults to `"none"`. |
+| `icon`     | `ReactElement`         | Renders your own element instead. Takes priority over `iconType`.  |
+
+```tsx
+<Button buttonType="iconWithText" label="Delete" iconType="delete" />
+<Button buttonType="iconWithText" label="Custom" icon={<StarIcon />} />
+```
+
+> **Migrating from the object form:** `iconType={{ default: "delete" }}` becomes
+> `iconType="delete"`, and `iconType={{ default: "none", custom: <Icon /> }}`
+> becomes `icon={<Icon />}`. Neither prop is required any more, so you no longer
+> have to pass `custom: null` just to pick a built-in icon.
 
 ### Built-in icon names (`ButtonIconTypeValues`)
 
 `"add"` · `"arrow"` · `"arrow_down"` · `"arrow_down2"` · `"arrow_right"` · `"close"` · `"copy"` · `"delete"` · `"document"` · `"dots"` · `"export"` · `"filter"` · `"minus"` · `"none"` · `"notify"` · `"plus"` · `"search"` · `"tick"` · `"update"`
 
-> Use `"none"` when you want `iconType.custom` only, or when no icon is needed in `iconWithText` mode.
+> `"none"` is the default — omit `iconType` entirely when you pass `icon`, or when no icon is needed in `iconWithText` mode.
 
 ### Popover on `justIcon`
 
@@ -197,7 +213,7 @@ When `buttonType="justIcon"`, the `label` is rendered as an on-hover **tooltip p
 <Button
   buttonType="justIcon"
   label="Add new item"          {/* ← becomes the popover text & aria-label */}
-  iconType={{ default: "add" }}
+  iconType="add"
 />
 ```
 
@@ -218,7 +234,7 @@ The component exposes two **slots** (`root` and `popover`) for injecting custom 
 <Button
   buttonType="justIcon"
   label="Settings"
-  iconType={{ default: "dots" }}
+  iconType="dots"
   className={{
     root: "my-icon-btn",
     popover: "my-tooltip",
@@ -416,10 +432,8 @@ interface ButtonProps {
   htmlType?: ButtonHtmlType;
   isLoading?: boolean;
   disabled?: boolean;
-  iconType?: {
-    default: ButtonIconTypeValues;
-    custom?: null | React.ReactElement;
-  };
+  iconType?: ButtonIconTypeValues;
+  icon?: React.ReactElement;
   reverseIconText?: boolean;
   onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
   className?: ButtonClassNames;

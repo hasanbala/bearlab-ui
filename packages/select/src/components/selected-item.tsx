@@ -10,8 +10,9 @@ export const SelectedItem = (props: SelectedItemProps) => {
     disabled,
     className,
     "aria-label": ariaLabel,
+    "data-bearlab-select-item": itemMarker,
     onRemove,
-  } = props as SelectedItemProps & { "aria-label"?: string };
+  } = props;
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -26,7 +27,12 @@ export const SelectedItem = (props: SelectedItemProps) => {
   };
 
   return (
-    <div style={style} className={className} aria-label={ariaLabel}>
+    <div
+      style={style}
+      className={className}
+      aria-label={ariaLabel}
+      data-bearlab-select-item={itemMarker}
+    >
       <span className={styles.selectedItemTitle}>{title}</span>
       {onRemove && value !== undefined && (
         <button

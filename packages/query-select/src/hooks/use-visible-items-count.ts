@@ -1,11 +1,13 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   ARROW_OFFSET,
   DEFAULT_ITEM_WIDTH,
   ITEMS_GAP,
   MORE_BADGE_ESTIMATED_WIDTH,
+  VISIBLE_SELECTION_INLINE_ITEM_SELECTOR,
 } from "../constants/select-config";
 import { QuerySelectOption } from "../types/query-select.types";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 export const useVisibleItemsCount = <T extends QuerySelectOption>(
   selectedItems: T[],
@@ -23,13 +25,13 @@ export const useVisibleItemsCount = <T extends QuerySelectOption>(
     setVisibleCount(selectedItems.length);
   }
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (isSelectionCard || !selectedItemsRef.current || containerWidth === 0)
       return;
 
     const itemNodes = Array.from(
       selectedItemsRef.current.querySelectorAll<HTMLElement>(
-        ".bearlab-query-select-selection-inline-item:not(.bearlab-query-select-selection-inline-hidden-item)"
+        VISIBLE_SELECTION_INLINE_ITEM_SELECTOR
       )
     );
 

@@ -62,6 +62,8 @@ export interface QuerySelectSelectionInlineItemProps {
   value?: string | number;
   style?: React.CSSProperties;
   className?: string;
+  "aria-label"?: string;
+  "data-bearlab-query-select-item"?: "visible" | "overflow";
   onRemove?: (item: string | number) => void;
 }
 

@@ -41,7 +41,7 @@ export const FaqItemV2 = (props: FaqItemProps) => {
         <Button
           label="Toggle accordion"
           buttonType="justIcon"
-          iconType={{ default: isOpen ? "minus" : "plus" }}
+          iconType={isOpen ? "minus" : "plus"}
           className={{
             root: classnames(
               styles.icon,

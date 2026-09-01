@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.1.6
+
+### Bug Fixes
+
+- `<Modal>` no longer reads `#modal-root` during render. The portal target is
+  resolved (and created if absent) inside an effect, which fixes two problems:
+  the modal silently never opening when its host mounted before the root node
+  existed, and the server/client markup mismatch that produced under SSR.
+  Adding `<div id="modal-root">` by hand is now optional — supply one and it is
+  reused, omit it and one is created.
+
+### Features
+
+- **Next.js support** — the published bundle now carries the `"use client"`
+  directive, and the `exports` map lists `types` first so TypeScript resolves
+  the declarations under `moduleResolution: "bundler"` and `"node16"`. The
+  component can now be imported directly from a Server Component.
+
+### BREAKING CHANGES
+
+- requires `@bearlab/button` v2.
+
 ## [1.1.5](https://github.com/hasanbala/bearlab-ui/compare/@bearlab/modal@1.1.4...@bearlab/modal@1.1.5) (2026-05-30)
 
 

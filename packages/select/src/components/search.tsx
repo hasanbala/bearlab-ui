@@ -1,10 +1,11 @@
 import classnames from "classnames";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { SelectedItems } from "./selected-items";
 import { IconChevronDown, IconLoaderCircle } from "../assets/icons";
 import { SearchProps, SelectOption } from "../types/select.types";
 import { useVisibleItemsCount } from "../hooks/use-visible-items-count";
 import styles from "../styles/select.module.scss";
+import { useIsomorphicLayoutEffect } from "../hooks/use-isomorphic-layout-effect";
 
 export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
   const {
@@ -39,7 +40,7 @@ export const Search = <T extends SelectOption>(props: SearchProps<T>) => {
     inputWidth
   );
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
   }, [query]);

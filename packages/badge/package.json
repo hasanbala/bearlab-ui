@@ -1,15 +1,15 @@
 {
   "name": "@bearlab/badge",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Bearlab UI Badge Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -35,7 +35,11 @@
     "tag",
     "chip",
     "bearlab",
-    "bearlab-ui"
+    "bearlab-ui",
+    "nextjs",
+    "next",
+    "ssr",
+    "server-components"
   ],
   "author": "hasanbala",
   "license": "MIT",
@@ -47,6 +51,5 @@
   "homepage": "https://bearlab-ui.vercel.app/packages/badge/preview",
   "publishConfig": {
     "access": "public"
-  },
-  "gitHead": "660f09546969778e7f36acc6bb90ff099f6d0c80"
+  }
 }

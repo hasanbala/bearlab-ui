@@ -114,6 +114,8 @@ export interface SelectedItemProps {
   className?: string;
   value?: number | string;
   style?: React.CSSProperties;
+  "aria-label"?: string;
+  "data-bearlab-select-item"?: "visible" | "overflow";
   onRemove?: (val: number | string) => void;
 }
 
