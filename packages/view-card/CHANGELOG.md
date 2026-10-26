@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.1
+
+### Bug Fixes
+
+- The header bottom rule of a collapsible card is now shown only while the card is open and fades out with the collapse animation. Previously it stayed visible on a closed card, doubled up with the card's own bottom border and poked out past the rounded corners.
+- Removed a reference to a non-existent `collapsible` class on the card root.
+
 ## 2.0.0
 
 ### Features

@@ -25,11 +25,7 @@ export const ViewCardWithContent = (props: ViewCardProps) => {
 
   return (
     <div
-      className={classnames(
-        styles.containerWithCard,
-        collapsible && styles.collapsible,
-        className?.root
-      )}
+      className={classnames(styles.containerWithCard, className?.root)}
       style={style?.root}
       role={title ? "region" : undefined}
       aria-labelledby={title ? titleId : undefined}
