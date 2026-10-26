@@ -5,7 +5,7 @@ import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 import path from "path";
 import replace from "@rollup/plugin-replace";
-import svgr from "@svgr/rollup";
+import { readFileSync } from "fs";
 
 const packageName = process.env.PACKAGE_NAME;
 
@@ -18,12 +18,39 @@ const rootPath = path.resolve(".");
 
 const useClientBanner = '"use client";';
 
+const packageJson = JSON.parse(
+  readFileSync(path.join(packagePath, "package.json"), "utf8")
+);
+
+const bearlabStyleDependencies = Object.keys(packageJson.dependencies || {})
+  .filter((name) => name.startsWith("@bearlab/"))
+  .sort();
+
+const prependDependencyStyles = () => ({
+  name: "prepend-dependency-styles",
+  generateBundle(_options, bundle) {
+    const stylesheet = bundle["styles.css"];
+    if (!stylesheet || stylesheet.type !== "asset") return;
+    if (bearlabStyleDependencies.length === 0) return;
+
+    const imports = bearlabStyleDependencies
+      .map((name) => `@import "${name}/styles.css";`)
+      .join("\n");
+    const source = String(stylesheet.source);
+    if (source.startsWith(imports)) return;
+
+    stylesheet.source = `${imports}\n${source}`;
+  },
+});
+
 const externalPackages = [
   "react",
   "react-dom",
   "react/jsx-runtime",
   "react/jsx-dev-runtime",
   "classnames",
+  "lucide-react",
+  /^lucide-react\/.*/,
   /^@bearlab\/.*/,
 ];
 
@@ -117,8 +144,8 @@ export default [
         },
       }),
       postcss({
-        extract: false,
-        inject: true,
+        extract: "styles.css",
+        inject: false,
         minimize: true,
         modules: true,
         sourceMap: true,
@@ -127,12 +154,7 @@ export default [
           includePaths: [path.join(packagePath, "src")],
         },
       }),
-      svgr({
-        exportType: "named",
-        ref: true,
-        svgo: false,
-        titleProp: true,
-      }),
+      prependDependencyStyles(),
     ],
     external: externalPackages,
   },
@@ -147,19 +169,15 @@ export default [
     plugins: [
       dts(),
       {
-        name: "ignore-svg-and-style-types",
+        name: "ignore-style-types",
         resolveId(id) {
-          if (
-            id.endsWith(".svg") ||
-            id.endsWith(".scss") ||
-            id.endsWith(".css")
-          ) {
+          if (id.endsWith(".scss") || id.endsWith(".css")) {
             return { id: id, external: true };
           }
           return null;
         },
       },
     ],
-    external: [...externalPackages, /\.svg$/, /\.scss$/, /\.css$/],
+    external: [...externalPackages, /\.scss$/, /\.css$/],
   },
 ];

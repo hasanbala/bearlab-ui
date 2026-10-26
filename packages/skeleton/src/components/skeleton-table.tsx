@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import type { SkeletonTableProps } from "../types/skeleton.types";
 import styles from "../styles/skeleton.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 const COLUMN_WIDTHS = [35, 25, 22, 18] as const;
 
@@ -16,7 +17,7 @@ export const SkeletonTable = (props: SkeletonTableProps) => {
         className={classnames(
           styles.tableRow,
           styles.tableHeaderRow,
-          className?.row,
+          className?.row
         )}
         style={style?.row}
       >
@@ -27,7 +28,7 @@ export const SkeletonTable = (props: SkeletonTableProps) => {
               styles.tableHeaderCell,
               styles.skeleton,
               !animated && styles.static,
-              className?.header,
+              className?.header
             )}
             style={{ width: `${width}%`, ...style?.header }}
           />
@@ -51,10 +52,14 @@ export const SkeletonTable = (props: SkeletonTableProps) => {
                   styles.tableCell,
                   styles.skeleton,
                   !animated && styles.static,
-                  className?.cell,
+                  className?.cell
                 )}
                 style={{
-                  width: `${width * (0.65 + Math.random() * 0.35)}%`,
+                  width: getLineWidth(
+                    rowIndex * COLUMN_WIDTHS.length + colIndex,
+                    width * 0.65,
+                    width * 0.35
+                  ),
                   ...style?.cell,
                 }}
               />

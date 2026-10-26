@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { SkeletonLine } from "./skeleton-line";
 import type { SkeletonArticleProps } from "../types/skeleton.types";
 import styles from "../styles/skeleton.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 export const SkeletonArticle = (props: SkeletonArticleProps) => {
   const { animated, lines, className, style } = props;
@@ -20,7 +21,7 @@ export const SkeletonArticle = (props: SkeletonArticleProps) => {
             styles.avatar,
             styles.skeleton,
             !animated && styles.static,
-            className?.avatar,
+            className?.avatar
           )}
           style={style?.avatar}
         />
@@ -30,7 +31,7 @@ export const SkeletonArticle = (props: SkeletonArticleProps) => {
               styles.title,
               styles.skeleton,
               !animated && styles.static,
-              className?.title,
+              className?.title
             )}
             style={style?.title}
           />
@@ -39,7 +40,7 @@ export const SkeletonArticle = (props: SkeletonArticleProps) => {
               styles.subtitle,
               styles.skeleton,
               !animated && styles.static,
-              className?.subtitle,
+              className?.subtitle
             )}
             style={style?.subtitle}
           />
@@ -55,7 +56,7 @@ export const SkeletonArticle = (props: SkeletonArticleProps) => {
             animated={animated}
             className={className?.line}
             style={{
-              width: `${Math.random() * 40 + 40}%`,
+              width: getLineWidth(index, 40, 40),
               ...(index === lines - 1 && { width: "70%" }),
               ...style?.line,
             }}

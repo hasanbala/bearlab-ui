@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { SkeletonLine } from "./skeleton-line";
 import type { SkeletonProfileProps } from "../types/skeleton.types";
 import styles from "../styles/skeleton.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 const PROFILE_STAT_COUNT = 3;
 
@@ -22,7 +23,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
             styles.profileAvatar,
             styles.skeleton,
             !animated && styles.static,
-            className?.avatar,
+            className?.avatar
           )}
           style={style?.avatar}
         />
@@ -31,7 +32,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
             styles.profileName,
             styles.skeleton,
             !animated && styles.static,
-            className?.title,
+            className?.title
           )}
           style={style?.title}
         />
@@ -40,7 +41,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
             styles.profileHandle,
             styles.skeleton,
             !animated && styles.static,
-            className?.subtitle,
+            className?.subtitle
           )}
           style={style?.subtitle}
         />
@@ -56,8 +57,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
             animated={animated}
             className={className?.line}
             style={{
-              width:
-                index === lines - 1 ? "45%" : `${Math.random() * 20 + 70}%`,
+              width: index === lines - 1 ? "45%" : getLineWidth(index, 70, 20),
               ...style?.line,
             }}
           />
@@ -79,7 +79,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
                 styles.profileStatValue,
                 styles.skeleton,
                 !animated && styles.static,
-                className?.title,
+                className?.title
               )}
               style={style?.title}
             />
@@ -88,7 +88,7 @@ export const SkeletonProfile = (props: SkeletonProfileProps) => {
                 styles.profileStatLabel,
                 styles.skeleton,
                 !animated && styles.static,
-                className?.subtitle,
+                className?.subtitle
               )}
               style={style?.subtitle}
             />

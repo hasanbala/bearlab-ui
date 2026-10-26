@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { forwardRef, useId } from "react";
 import classnames from "classnames";
 import type { ButtonProps } from "./types/button.types";
 import { BUTTON_ICONS } from "./constants/button-config";
@@ -17,81 +17,94 @@ const resolveIconNode = (
   return <Icon aria-hidden="true" focusable="false" />;
 };
 
-export const Button = (props: ButtonProps) => {
-  const {
-    label,
-    isLoading,
-    className,
-    iconType = "none",
-    icon,
-    htmlType = "button",
-    disabled,
-    onClick,
-    buttonType,
-    variant,
-    reverseIconText,
-    style,
-  } = props;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => {
+    const {
+      label,
+      isLoading,
+      className,
+      iconType = "none",
+      icon,
+      htmlType = "button",
+      disabled,
+      onClick,
+      buttonType,
+      variant,
+      reverseIconText,
+      style,
+      ...rest
+    } = props;
 
-  const uid = useId();
-  const isDisabled = isLoading || disabled;
-  const isJustIcon = buttonType === "justIcon";
-  const isJustText = buttonType === "justText";
-  const isBothIconText = buttonType === "iconWithText";
-  const isCustomIcon = Boolean(icon);
-  const popoverId = label ? `button-popover-${uid}` : undefined;
+    const uid = useId();
+    const isDisabled = isLoading || disabled;
+    const isJustIcon = buttonType === "justIcon";
+    const isJustText = buttonType === "justText";
+    const isBothIconText = buttonType === "iconWithText";
+    const isCustomIcon = Boolean(icon);
+    const popoverId = label ? `button-popover-${uid}` : undefined;
 
-  const renderContent = () => {
-    if (isLoading) return <LoadingSpinner />;
-    if (isJustText) return <span>{label}</span>;
-    if (isJustIcon) {
+    const renderContent = () => {
+      if (isLoading) return <LoadingSpinner />;
+      if (isJustText) return <span>{label}</span>;
+      if (isJustIcon) {
+        return (
+          <>
+            {resolveIconNode(iconType, icon)}
+            {label && (
+              <div
+                id={popoverId}
+                aria-hidden="true"
+                style={style?.popover}
+                className={classnames(styles.popover, className?.popover)}
+              >
+                {label}
+              </div>
+            )}
+          </>
+        );
+      }
+
       return (
         <>
+          <span>{label}</span>
           {resolveIconNode(iconType, icon)}
-          {label && (
-            <div
-              aria-hidden="true"
-              style={style?.popover}
-              className={classnames(styles.popover, className?.popover)}
-            >
-              {label}
-            </div>
-          )}
         </>
       );
-    }
+    };
 
     return (
-      <>
-        <span>{label}</span>
-        {resolveIconNode(iconType, icon)}
-      </>
+      <button
+        {...rest}
+        ref={ref}
+        disabled={isLoading || disabled}
+        type={htmlType}
+        onClick={onClick}
+        className={classnames(
+          styles.container,
+          isJustIcon && styles.justIcon,
+          isBothIconText && styles.iconWithText,
+          isCustomIcon && styles.customIcon,
+          isLoading && styles.loading,
+          disabled && styles.disabled,
+          variant && styles[variant],
+          reverseIconText && styles.reverseIconText,
+          className?.root
+        )}
+        style={style?.root}
+        aria-label={
+          rest["aria-label"] ?? (isJustIcon ? String(label) : undefined)
+        }
+        aria-describedby={
+          rest["aria-describedby"] ??
+          (isJustIcon && label ? popoverId : undefined)
+        }
+        aria-disabled={isDisabled}
+        aria-busy={isLoading}
+      >
+        {renderContent()}
+      </button>
     );
-  };
+  }
+);
 
-  return (
-    <button
-      disabled={isLoading || disabled}
-      type={htmlType}
-      onClick={onClick}
-      className={classnames(
-        styles.container,
-        isJustIcon && styles.justIcon,
-        isBothIconText && styles.iconWithText,
-        isCustomIcon && styles.customIcon,
-        isLoading && styles.loading,
-        disabled && styles.disabled,
-        variant && styles[variant],
-        reverseIconText && styles.reverseIconText,
-        className?.root
-      )}
-      style={style?.root}
-      aria-label={isJustIcon ? String(label) : undefined}
-      aria-describedby={isJustIcon && label ? popoverId : undefined}
-      aria-disabled={isDisabled}
-      aria-busy={isLoading}
-    >
-      {renderContent()}
-    </button>
-  );
-};
+Button.displayName = "Button";

@@ -495,22 +495,7 @@
     flex-shrink: 0;
     position: relative;
     z-index: 2;
-    fill: currentColor;
-    transition:
-      fill var(--_button-transition),
-      stroke var(--_button-transition);
-
-    g,
-    path,
-    circle,
-    rect,
-    ellipse,
-    polygon,
-    polyline,
-    line,
-    use {
-      fill: inherit;
-    }
+    transition: color var(--_button-transition);
   }
 
   .progress {
@@ -524,12 +509,6 @@
       animation: spin 1s linear infinite;
       width: 100%;
       height: 100%;
-      fill: none;
-
-      circle,
-      path {
-        stroke: currentColor;
-      }
     }
 
     @keyframes spin {

@@ -1,4 +1,5 @@
 import type { TabContentProps } from "../types/tab.types";
+import styles from "../styles/tab.module.scss";
 
 export const TabContent = (props: TabContentProps) => {
   const { tab, isActive, tabId, panelId, className, style } = props;
@@ -15,7 +16,7 @@ export const TabContent = (props: TabContentProps) => {
       style={style?.content}
     >
       <h3>{tab.title}</h3>
-      <p>{tab.content}</p>
+      <div className={styles.text}>{tab.content}</div>
     </div>
   );
 };

@@ -1,5 +1,11 @@
-import { ReactComponent as IconErrorTriangle } from "./icons/error-triangle.svg";
-import { ReactComponent as IconDisabled } from "./icons/disabled.svg";
-import { ReactComponent as IconChecked } from "./icons/checked.svg";
+import { Check, TriangleAlert, type LucideProps } from "lucide-react";
 
-export { IconErrorTriangle, IconChecked, IconDisabled };
+export const IconDisabled = (props: LucideProps) => (
+  <Check size={14} color="#E4E7EC" {...props} />
+);
+
+export const IconChecked = (props: LucideProps) => (
+  <Check size={14} {...props} />
+);
+
+export { TriangleAlert as IconErrorTriangle };

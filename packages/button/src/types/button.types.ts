@@ -54,7 +54,10 @@ export interface ButtonStyles {
   popover?: React.CSSProperties;
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "type" | "className" | "style" | "children" | "onClick"
+> {
   disabled?: boolean;
   isLoading?: boolean;
   style?: ButtonStyles;

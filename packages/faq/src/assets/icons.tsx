@@ -1,21 +1,31 @@
-import { ReactComponent as IconAdd } from "./icons/add.svg";
-import { ReactComponent as IconDocument } from "./icons/document.svg";
-import { ReactComponent as IconExport } from "./icons/export.svg";
-import { ReactComponent as IconDots } from "./icons/dots.svg";
-import { ReactComponent as IconPing } from "./icons/ping.svg";
-import { ReactComponent as IconSearch } from "./icons/search.svg";
-import { ReactComponent as IconTick } from "./icons/tick.svg";
-import { ReactComponent as IconSupport } from "./icons/support.svg";
-import { ReactComponent as IconUpdate } from "./icons/update.svg";
+import {
+  Bell,
+  Check,
+  EllipsisVertical,
+  Files,
+  Info,
+  Pencil,
+  Plus,
+  Search,
+  Upload,
+  type LucideProps,
+} from "lucide-react";
+
+export const IconPing = (props: LucideProps) => <Bell size={20} {...props} />;
+
+export const IconSearch = (props: LucideProps) => (
+  <Search size={20} {...props} />
+);
+
+export const IconUpdate = (props: LucideProps) => (
+  <Pencil size={18} {...props} />
+);
 
 export {
-  IconAdd,
-  IconDocument,
-  IconExport,
-  IconDots,
-  IconTick,
-  IconPing,
-  IconSearch,
-  IconSupport,
-  IconUpdate,
+  Plus as IconAdd,
+  Files as IconDocument,
+  Upload as IconExport,
+  EllipsisVertical as IconDots,
+  Check as IconTick,
+  Info as IconSupport,
 };

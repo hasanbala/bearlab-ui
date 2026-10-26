@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { SkeletonLine } from "./skeleton-line";
 import type { SkeletonModalProps } from "../types/skeleton.types";
 import styles from "../styles/skeleton.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 export const SkeletonModal = (props: SkeletonModalProps) => {
   const { animated, lines, className, style } = props;
@@ -20,7 +21,7 @@ export const SkeletonModal = (props: SkeletonModalProps) => {
             styles.modalTitle,
             styles.skeleton,
             !animated && styles.static,
-            className?.title,
+            className?.title
           )}
           style={style?.title}
         />
@@ -29,7 +30,7 @@ export const SkeletonModal = (props: SkeletonModalProps) => {
             styles.modalClose,
             styles.skeleton,
             !animated && styles.static,
-            className?.button,
+            className?.button
           )}
           style={style?.button}
         />
@@ -44,8 +45,7 @@ export const SkeletonModal = (props: SkeletonModalProps) => {
             animated={animated}
             className={className?.line}
             style={{
-              width:
-                index === lines - 1 ? "55%" : `${Math.random() * 25 + 65}%`,
+              width: index === lines - 1 ? "55%" : getLineWidth(index, 65, 25),
               ...style?.line,
             }}
           />
@@ -60,7 +60,7 @@ export const SkeletonModal = (props: SkeletonModalProps) => {
             styles.modalBtn,
             styles.skeleton,
             !animated && styles.static,
-            className?.button,
+            className?.button
           )}
           style={style?.button}
         />
@@ -70,7 +70,7 @@ export const SkeletonModal = (props: SkeletonModalProps) => {
             styles.modalBtnPrimary,
             styles.skeleton,
             !animated && styles.static,
-            className?.button,
+            className?.button
           )}
           style={style?.button}
         />

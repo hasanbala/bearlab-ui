@@ -1,41 +1,64 @@
-import { ReactComponent as IconAdd } from "./icons/add.svg";
-import { ReactComponent as IconArrow } from "./icons/arrow.svg";
-import { ReactComponent as IconDelete } from "./icons/delete.svg";
-import { ReactComponent as IconExport } from "./icons/export.svg";
-import { ReactComponent as IconUpdate } from "./icons/update.svg";
-import { ReactComponent as IconSearch } from "./icons/search.svg";
-import { ReactComponent as IconCross } from "./icons/close.svg";
-import { ReactComponent as IconPing } from "./icons/ping.svg";
-import { ReactComponent as IconArrowDown } from "./icons/arrow-bottom.svg";
-import { ReactComponent as IconArrowDown2 } from "./icons/arrow-bottom2.svg";
-import { ReactComponent as IconDocument } from "./icons/document.svg";
-import { ReactComponent as IconPlus } from "./icons/plus.svg";
-import { ReactComponent as IconMinus } from "./icons/minus.svg";
-import { ReactComponent as IconFilter } from "./icons/filter.svg";
-import { ReactComponent as IconDots } from "./icons/dots.svg";
-import { ReactComponent as IconArrowRight } from "./icons/arrow-right.svg";
-import { ReactComponent as IconTick } from "./icons/tick.svg";
-import { ReactComponent as IconCopy } from "./icons/copy.svg";
-import { ReactComponent as IconLoadingSpin } from "./icons/spin-line.svg";
+import {
+  ArrowRight,
+  Bell,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  Copy,
+  EllipsisVertical,
+  Files,
+  LoaderCircle,
+  Minus,
+  Pencil,
+  Plus,
+  Search,
+  SlidersHorizontal,
+  Trash2,
+  Upload,
+  X,
+  type LucideProps,
+} from "lucide-react";
+
+export const IconArrow = (props: LucideProps) => (
+  <ArrowRight size={20} {...props} />
+);
+
+export const IconUpdate = (props: LucideProps) => (
+  <Pencil size={18} {...props} />
+);
+
+export const IconSearch = (props: LucideProps) => (
+  <Search size={20} {...props} />
+);
+
+export const IconPing = (props: LucideProps) => <Bell size={20} {...props} />;
+
+export const IconArrowDown2 = (props: LucideProps) => (
+  <ChevronDown size={20} {...props} />
+);
+
+export const IconPlus = (props: LucideProps) => <Plus size={28} {...props} />;
+
+export const IconMinus = (props: LucideProps) => <Minus size={28} {...props} />;
+
+export const IconFilter = (props: LucideProps) => (
+  <SlidersHorizontal size={20} {...props} />
+);
+
+export const IconCopy = (props: LucideProps) => <Copy size={20} {...props} />;
+
+export const IconLoadingSpin = (props: LucideProps) => (
+  <LoaderCircle size={20} {...props} />
+);
 
 export {
-  IconAdd,
-  IconArrow,
-  IconDelete,
-  IconExport,
-  IconUpdate,
-  IconSearch,
-  IconCross,
-  IconPing,
-  IconArrowDown,
-  IconArrowDown2,
-  IconDocument,
-  IconPlus,
-  IconMinus,
-  IconFilter,
-  IconDots,
-  IconArrowRight,
-  IconTick,
-  IconCopy,
-  IconLoadingSpin,
+  Plus as IconAdd,
+  Trash2 as IconDelete,
+  Upload as IconExport,
+  X as IconCross,
+  ChevronDown as IconArrowDown,
+  Files as IconDocument,
+  EllipsisVertical as IconDots,
+  ChevronRight as IconArrowRight,
+  Check as IconTick,
 };

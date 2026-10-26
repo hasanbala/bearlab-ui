@@ -1,6 +1,9 @@
-import { ReactComponent as IconErrorCircle } from "./icons/error-circle.svg";
-import { ReactComponent as IconWarning } from "./icons/warning.svg";
-import { ReactComponent as IconInfo } from "./icons/info.svg";
-import { ReactComponent as IconSuccess } from "./icons/success.svg";
+import { CircleAlert, CircleCheck, Info, type LucideProps } from "lucide-react";
 
-export { IconErrorCircle, IconInfo, IconSuccess, IconWarning };
+export const IconInfo = (props: LucideProps) => <Info size={38} {...props} />;
+
+export const IconSuccess = (props: LucideProps) => (
+  <CircleCheck size={38} {...props} />
+);
+
+export { CircleAlert as IconErrorCircle, CircleAlert as IconWarning };

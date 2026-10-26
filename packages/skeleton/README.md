@@ -27,6 +27,7 @@
 
 - ✅ **8 semantic variants** — `default`, `article`, `card`, `list`, `modal`, `profile`, `table`, `form`
 - ✅ **Shimmer animation** — smooth animated effect enabled via the `animated` prop
+- ✅ **SSR-safe** — line widths are derived deterministically from the line index, so server and client render identical markup (no hydration mismatch)
 - ✅ **`lines` control** — configure how many content lines each variant renders
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Dark mode support** — responds to `[data-theme="dark"]` automatically
@@ -54,6 +55,16 @@ pnpm add @bearlab/skeleton
 > and the Pages Router. Every component ships with the `"use client"` directive
 > already applied, so you can import it straight into a Server Component without
 > writing a wrapper file. All DOM access is SSR-guarded.
+
+### Styles
+
+Import the stylesheet once at your app's entry point — `app/layout.tsx` (Next.js App Router), `pages/_app.tsx` (Pages Router) or `main.tsx` (Vite):
+
+```ts
+import "@bearlab/skeleton/styles.css";
+```
+
+Styles ship as a plain, pre-built CSS file, so they are part of the server-rendered HTML and there is no flash of unstyled content.
 
 ---
 

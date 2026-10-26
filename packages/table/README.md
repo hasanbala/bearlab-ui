@@ -66,6 +66,20 @@ pnpm add @bearlab/table
 > and the Pages Router. Every component ships with the `"use client"` directive
 > already applied, so you can import it straight into a Server Component without
 > writing a wrapper file. All DOM access is SSR-guarded.
+
+### Styles
+
+Import the stylesheet once at your app's entry point — `app/layout.tsx` (Next.js App Router), `pages/_app.tsx` (Pages Router) or `main.tsx` (Vite):
+
+```ts
+import "@bearlab/table/styles.css";
+```
+
+Styles ship as a plain, pre-built CSS file, so they are part of the server-rendered HTML and there is no flash of unstyled content.
+
+The stylesheets of the Bearlab packages this component builds on (`@bearlab/button`, `@bearlab/checkbox`, `@bearlab/loading`, `@bearlab/radio`, `@bearlab/skeleton`) are pulled in automatically through `@import` — you don't need to import them separately.
+
+Icons are rendered with [lucide-react](https://lucide.dev), which is installed automatically as a dependency.
 >
 > `@bearlab/button`, `@bearlab/checkbox`, `@bearlab/radio`, `@bearlab/loading` and `@bearlab/skeleton` are regular dependencies and are installed for you.
 

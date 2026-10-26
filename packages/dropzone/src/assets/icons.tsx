@@ -1,3 +1,5 @@
-import { ReactComponent as IconUpload } from "./icons/upload.svg";
+import { Upload, type LucideProps } from "lucide-react";
 
-export { IconUpload };
+export const IconUpload = (props: LucideProps) => (
+  <Upload size={29} {...props} />
+);

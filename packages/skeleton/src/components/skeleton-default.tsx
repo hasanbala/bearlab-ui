@@ -2,6 +2,7 @@ import classnames from "classnames";
 import { SkeletonLine } from "./skeleton-line";
 import type { SkeletonDefaultProps } from "../types/skeleton.types";
 import styles from "../styles/skeleton.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 export const SkeletonDefault = (props: SkeletonDefaultProps) => {
   const { animated, lines, className, style } = props;
@@ -23,14 +24,14 @@ export const SkeletonDefault = (props: SkeletonDefaultProps) => {
                   animated={animated}
                   className={className?.line}
                   style={{
-                    width: `${Math.random() * 40 + 40}%`,
+                    width: getLineWidth(contentIndex * 10 + lineIndex, 40, 40),
                     ...(lineIndex === (contentIndex === 0 ? 1 : lines - 1) && {
                       width: "70%",
                     }),
                     ...style?.line,
                   }}
                 />
-              ),
+              )
             )}
           </div>
           <div className={styles.section}>
@@ -42,14 +43,14 @@ export const SkeletonDefault = (props: SkeletonDefaultProps) => {
                   animated={animated}
                   className={className?.line}
                   style={{
-                    width: `${Math.random() * 40 + 40}%`,
+                    width: getLineWidth(contentIndex * 10 + lineIndex, 40, 40),
                     ...(lineIndex === (contentIndex === 0 ? 1 : lines - 1) && {
                       width: "70%",
                     }),
                     ...style?.line,
                   }}
                 />
-              ),
+              )
             )}
           </div>
         </div>

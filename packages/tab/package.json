@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/tab",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "description": "Bearlab UI Tab Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,10 +10,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
       "require": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
   ],
   "scripts": {
     "build": "cd ../../ && PACKAGE_NAME=tab rollup -c tools/rollup.config.js",

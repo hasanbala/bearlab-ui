@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/modal",
-  "version": "1.1.6",
+  "version": "2.0.0",
   "description": "Bearlab UI Modal Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,18 +10,24 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
       "require": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
   ],
   "scripts": {
     "build": "cd ../../ && PACKAGE_NAME=modal rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/button": "^2.0.0",
-    "classnames": "^2.5.1"
+    "@bearlab/button": "^3.0.0",
+    "classnames": "^2.5.1",
+    "lucide-react": "^1.61.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

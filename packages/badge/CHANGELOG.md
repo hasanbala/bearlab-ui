@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- Styles now ship as a separate, pre-built `dist/styles.css` (exported as `@bearlab/badge/styles.css`) instead of being injected into `<head>` at runtime. The CSS is part of the server-rendered HTML, which removes the flash of unstyled content in Next.js and other SSR setups and drops the need for `style-src 'unsafe-inline'`.
+- `package.json` declares `"sideEffects": ["**/*.css"]`, so bundlers can tree-shake the JavaScript safely.
+
+### BREAKING CHANGES
+
+- Import the stylesheet once in your app, e.g. in `app/layout.tsx`:
+  `import "@bearlab/badge/styles.css";`
+  Without it the component renders unstyled.
+
 ## 1.2.4
 
 ### Features

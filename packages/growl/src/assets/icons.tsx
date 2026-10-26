@@ -1,7 +1,27 @@
-import { ReactComponent as IconCross } from "./icons/cross.svg";
-import { ReactComponent as IconError2 } from "./icons/error2.svg";
-import { ReactComponent as IconInfo2 } from "./icons/info2.svg";
-import { ReactComponent as IconSuccess } from "./icons/success.svg";
-import { ReactComponent as IconWarning3 } from "./icons/warning3.svg";
+import {
+  CircleCheck,
+  Info,
+  TriangleAlert,
+  X,
+  type LucideProps,
+} from "lucide-react";
 
-export { IconCross, IconError2, IconInfo2, IconSuccess, IconWarning3 };
+export const IconCross = (props: LucideProps) => (
+  <X color="#667085" {...props} />
+);
+
+export const IconError2 = (props: LucideProps) => (
+  <TriangleAlert size={12} color="#ff0000" {...props} />
+);
+
+export const IconInfo2 = (props: LucideProps) => (
+  <Info color="#465fff" {...props} />
+);
+
+export const IconSuccess = (props: LucideProps) => (
+  <CircleCheck size={38} color="#12b76a" {...props} />
+);
+
+export const IconWarning3 = (props: LucideProps) => (
+  <TriangleAlert size={12} color="#fd853a" {...props} />
+);

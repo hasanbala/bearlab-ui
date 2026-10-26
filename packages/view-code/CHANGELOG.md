@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- Styles now ship as a separate, pre-built `dist/styles.css` (exported as `@bearlab/view-code/styles.css`) instead of being injected into `<head>` at runtime. The CSS is part of the server-rendered HTML, which removes the flash of unstyled content in Next.js and other SSR setups and drops the need for `style-src 'unsafe-inline'`.
+- Icons are now rendered with [`lucide-react`](https://lucide.dev) instead of inline SVGs, which cuts the JavaScript bundle size substantially.
+- `package.json` declares `"sideEffects": ["**/*.css"]`, so bundlers can tree-shake the JavaScript safely.
+
+### Bug Fixes
+
+- The header now shows a terminal icon; it previously rendered a check mark by mistake.
+
+### BREAKING CHANGES
+
+- Import the stylesheet once in your app, e.g. in `app/layout.tsx`:
+  `import "@bearlab/view-code/styles.css";`
+  Without it the component renders unstyled.
+- Built-in icons were replaced by their closest Lucide equivalents, so they look slightly different (stroke-based instead of filled).
+
 ## 1.1.5
 
 ### Features

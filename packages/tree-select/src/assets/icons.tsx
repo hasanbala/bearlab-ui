@@ -1,17 +1,26 @@
-import { ReactComponent as IconChevronDown } from "./icons/chevron-down.svg";
-import { ReactComponent as IconChecked } from "./icons/checked.svg";
-import { ReactComponent as IconMinus } from "./icons/minus.svg";
-import { ReactComponent as IconX } from "./icons/x.svg";
-import { ReactComponent as IconBan } from "./icons/ban.svg";
-import { ReactComponent as IconLoaderCircle } from "./icons/loader-circle.svg";
-import { ReactComponent as IconErrorTriangle } from "./icons/error-triangle.svg";
+import {
+  Ban,
+  Check,
+  ChevronDown,
+  LoaderPinwheel,
+  Minus,
+  TriangleAlert,
+  X,
+  type LucideProps,
+} from "lucide-react";
+
+export const IconChecked = (props: LucideProps) => (
+  <Check size={14} color="#fff" {...props} />
+);
+
+export const IconMinus = (props: LucideProps) => (
+  <Minus size={14} color="#fff" {...props} />
+);
 
 export {
-  IconChevronDown,
-  IconChecked,
-  IconMinus,
-  IconX,
-  IconBan,
-  IconLoaderCircle,
-  IconErrorTriangle,
+  ChevronDown as IconChevronDown,
+  X as IconX,
+  Ban as IconBan,
+  LoaderPinwheel as IconLoaderCircle,
+  TriangleAlert as IconErrorTriangle,
 };

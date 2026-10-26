@@ -1,2 +1,8 @@
 export { Tab } from "./tab";
-export type { TabProps, TabStyles, TabClassNames } from "./types/tab.types";
+export type {
+  TabProps,
+  TabItem,
+  TabStyles,
+  TabClassNames,
+  TabActionType,
+} from "./types/tab.types";

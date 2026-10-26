@@ -344,21 +344,9 @@
       }
 
       svg {
-        fill: var(--_modal-close-button-fill);
+        color: var(--_modal-close-button-fill);
         width: var(--_modal-close-button-icon-size);
         height: var(--_modal-close-button-icon-size);
-
-        g,
-        path,
-        circle,
-        rect,
-        ellipse,
-        polygon,
-        polyline,
-        line,
-        use {
-          fill: inherit;
-        }
       }
     }
 
@@ -626,18 +614,19 @@
   .alertBackground {
     width: var(--_modal-alert-background-size);
     height: var(--_modal-alert-background-size);
+    fill: currentColor;
 
     &.success {
-      fill: var(--_modal-alert-fill-success);
+      color: var(--_modal-alert-fill-success);
     }
     &.info {
-      fill: var(--_modal-alert-fill-info);
+      color: var(--_modal-alert-fill-info);
     }
     &.warning {
-      fill: var(--_modal-alert-fill-warning);
+      color: var(--_modal-alert-fill-warning);
     }
     &.error {
-      fill: var(--_modal-alert-fill-error);
+      color: var(--_modal-alert-fill-error);
     }
   }
 

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.0.0
+
+### Features
+
+- Styles now ship as a separate, pre-built `dist/styles.css` (exported as `@bearlab/tab/styles.css`) instead of being injected into `<head>` at runtime. The CSS is part of the server-rendered HTML, which removes the flash of unstyled content in Next.js and other SSR setups and drops the need for `style-src 'unsafe-inline'`.
+- `package.json` declares `"sideEffects": ["**/*.css"]`, so bundlers can tree-shake the JavaScript safely.
+- `title` and `content` accept any `ReactNode`.
+- `TabItem` and `TabActionType` are now exported.
+- `notify` and `icon` are optional on `TabItem`; `icon` accepts any `React.ElementType`.
+
+### Bug Fixes
+
+- Tab and panel IDs are generated with `useId`, so several `Tab` instances on one page no longer produce duplicate IDs.
+
+### BREAKING CHANGES
+
+- Import the stylesheet once in your app, e.g. in `app/layout.tsx`:
+  `import "@bearlab/tab/styles.css";`
+  Without it the component renders unstyled.
+- The panel body is now rendered inside `<div>` (class `text`) instead of `<p>`, so block-level content is valid HTML. Custom CSS that targeted the panel's `p` element must be updated.
+
 ## 1.2.4
 
 ### Features

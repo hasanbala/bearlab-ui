@@ -1,5 +1,9 @@
-import { ReactComponent as IconCheck } from "./icons/check.svg";
-import { ReactComponent as IconCopy } from "./icons/copy.svg";
-import { ReactComponent as IconTerminal } from "./icons/check.svg";
+import { Check, Copy, Terminal, type LucideProps } from "lucide-react";
 
-export { IconCheck, IconCopy, IconTerminal };
+export const IconCheck = (props: LucideProps) => <Check size={14} {...props} />;
+
+export const IconCopy = (props: LucideProps) => <Copy size={14} {...props} />;
+
+export const IconTerminal = (props: LucideProps) => (
+  <Terminal size={13} {...props} />
+);

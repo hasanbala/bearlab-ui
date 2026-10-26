@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/dropdown",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "description": "Bearlab UI Dropdown Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,17 +10,22 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.esm.js",
       "require": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
   ],
   "scripts": {
     "build": "cd ../../ && PACKAGE_NAME=dropdown rollup -c tools/rollup.config.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bearlab/button": "^2.0.0",
+    "@bearlab/button": "^3.0.0",
     "classnames": "^2.5.1"
   },
   "peerDependencies": {

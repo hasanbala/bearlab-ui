@@ -28,7 +28,8 @@
 
 - ✅ **Unified variant system** — a single `variant` prop combines visual style and semantic color (`primary`, `secondary-*`, `light-*`, `solid-*`, `liquid-*`)
 - ✅ **Three layout modes** — `justText`, `justIcon`, `iconWithText` via the required `buttonType` prop
-- ✅ **Built-in icon library** — 18 preset icons selectable via `iconType`; custom React elements via `icon`
+- ✅ **Built-in icon library** — 18 preset [Lucide](https://lucide.dev) icons selectable via `iconType`; custom React elements via `icon`
+- ✅ **Native button props** — forwards `ref` and every standard `<button>` attribute (`aria-*`, `data-*`, `id`, `form`, event handlers…)
 - ✅ **Slot-based `className` & `style` API** — granular per-element overrides for `root` and `popover`
 - ✅ **Accessible by default** — `aria-label`, `aria-describedby`, `aria-disabled`, `aria-busy` wired up automatically
 - ✅ **Dark mode ready** — responds to `html[data-theme="dark"]` out of the box
@@ -56,6 +57,18 @@ pnpm add @bearlab/button
 > and the Pages Router. Every component ships with the `"use client"` directive
 > already applied, so you can import it straight into a Server Component without
 > writing a wrapper file. All DOM access is SSR-guarded.
+
+### Styles
+
+Import the stylesheet once at your app's entry point — `app/layout.tsx` (Next.js App Router), `pages/_app.tsx` (Pages Router) or `main.tsx` (Vite):
+
+```ts
+import "@bearlab/button/styles.css";
+```
+
+Styles ship as a plain, pre-built CSS file, so they are part of the server-rendered HTML and there is no flash of unstyled content.
+
+Icons are rendered with [lucide-react](https://lucide.dev), which is installed automatically as a dependency.
 
 ---
 
@@ -116,15 +129,36 @@ When `buttonType="justIcon"`, the `label` prop is visually hidden but is shown a
 ### Custom icon
 
 ```tsx
-import { CustomIcon } from "./CustomIcon";
+import { Star } from "lucide-react";
 
 <Button
   buttonType="iconWithText"
   label="Custom"
-  icon={<CustomIcon />}
+  icon={<Star />}
   variant="liquid-tinted"
 />;
 ```
+
+### Ref & native attributes
+
+`Button` forwards its `ref` to the underlying `<button>` and passes every other standard button attribute through.
+
+```tsx
+const ref = useRef<HTMLButtonElement>(null);
+
+<Button
+  ref={ref}
+  buttonType="justText"
+  label="Open menu"
+  aria-haspopup="menu"
+  aria-expanded={open}
+  aria-controls="user-menu"
+  data-testid="menu-trigger"
+  onKeyDown={handleKeyDown}
+/>;
+```
+
+An `aria-label` or `aria-describedby` you pass takes precedence over the ones the component generates.
 
 ### Loading state
 
@@ -150,6 +184,8 @@ import { CustomIcon } from "./CustomIcon";
 | `onClick`         | `(e: React.MouseEvent<HTMLButtonElement>) => void`                 | —                     | ❌       | Click event handler.                                                                |
 | `className`       | [`ButtonClassNames`](#buttonclassnames)                            | —                     | ❌       | Per-slot className overrides.                                                       |
 | `style`           | [`ButtonStyles`](#buttonstyles)                                    | —                     | ❌       | Per-slot inline style overrides (`React.CSSProperties`).                            |
+| `ref`             | `React.Ref<HTMLButtonElement>`                                     | —                     | ❌       | Forwarded to the native `<button>` element.                                         |
+| `...rest`         | `React.ButtonHTMLAttributes<HTMLButtonElement>`                    | —                     | ❌       | Any other native button attribute (`aria-*`, `data-*`, `id`, `name`, `form`, …).    |
 
 ---
 
@@ -399,7 +435,7 @@ All internal styles are driven by **private CSS variables** (`--_button-*`) that
 
 | ARIA attribute       | When applied                                     | Purpose                                                   |
 | -------------------- | ------------------------------------------------ | --------------------------------------------------------- |
-| `aria-label`         | `buttonType="justIcon"`                          | Provides the accessible name (from `label` prop)          |
+| `aria-label`         | `buttonType="justIcon"` (unless you pass one)    | Provides the accessible name (from `label` prop)          |
 | `aria-describedby`   | `buttonType="justIcon"` with a non-empty `label` | Links the visible popover tooltip to the button           |
 | `aria-disabled`      | `disabled` or `isLoading` is `true`              | Communicates disabled state to assistive technologies     |
 | `aria-busy`          | `isLoading` is `true`                            | Signals that an async operation is in progress            |
@@ -425,7 +461,11 @@ import type {
 ### `ButtonProps`
 
 ```ts
-interface ButtonProps {
+interface ButtonProps
+  extends Omit<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    "type" | "className" | "style" | "children" | "onClick"
+  > {
   label: string | number;
   buttonType: ButtonType;
   variant?: ButtonVariant;

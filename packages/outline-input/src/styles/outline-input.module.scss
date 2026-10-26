@@ -120,7 +120,7 @@
   --_outline-input-label-bg: var(--bearlab-outline-input-label-bg, #ffffff);
   --_outline-input-icon-color: var(
     --bearlab-outline-input-icon-color,
-    currentColor
+    #667085
   );
 
   :global([data-theme="dark"]) & {

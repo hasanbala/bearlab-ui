@@ -1,4 +1,5 @@
-import { ReactComponent as IconArrowRight } from "./icons/arrow-right.svg";
-import { ReactComponent as IconHome } from "./icons/home.svg";
+import { ChevronRight, House, type LucideProps } from "lucide-react";
 
-export { IconArrowRight, IconHome };
+export const IconHome = (props: LucideProps) => <House size={16} {...props} />;
+
+export { ChevronRight as IconArrowRight };

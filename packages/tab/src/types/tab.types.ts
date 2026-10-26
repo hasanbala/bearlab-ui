@@ -2,10 +2,10 @@ export type TabActionType = "button" | "underline";
 
 export interface TabItem {
   key: number;
-  title: string;
-  content: string;
-  notify: number | null;
-  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | null;
+  title: React.ReactNode;
+  content: React.ReactNode;
+  notify?: number | null;
+  icon?: React.ElementType | null;
 }
 
 export interface TabClassNames {

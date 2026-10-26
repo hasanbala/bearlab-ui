@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import { ModalSkeletonProps } from "../types/modal.types";
 import styles from "../styles/modal.module.scss";
+import { getLineWidth } from "../utils/get-line-width";
 
 export const ModalSkeleton = (props: ModalSkeletonProps) => {
   const { animated = true, lines } = props;
@@ -19,7 +20,7 @@ export const ModalSkeleton = (props: ModalSkeletonProps) => {
               )}
               style={{
                 width:
-                  index === lines - 1 ? "55%" : `${Math.random() * 25 + 65}%`,
+                  index === lines - 1 ? "55%" : getLineWidth(index, 65, 25),
               }}
             />
           ))}

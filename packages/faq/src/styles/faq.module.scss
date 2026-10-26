@@ -161,6 +161,7 @@
       svg {
         width: var(--_faq-one-icon-size);
         height: var(--_faq-one-icon-size);
+        color: #667085;
       }
 
       button {
@@ -363,13 +364,13 @@
         box-shadow: none;
 
         svg {
-          fill: var(--_faq-two-header-icon-svg-fill);
+          color: var(--_faq-two-header-icon-svg-fill);
         }
       }
 
       .iconOpen {
         svg {
-          fill: var(--_faq-two-header-icon-svg-fill-open);
+          color: var(--_faq-two-header-icon-svg-fill-open);
         }
       }
     }

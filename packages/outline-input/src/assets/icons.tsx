@@ -1,15 +1,29 @@
-import { ReactComponent as IconEyesClose } from "./icons/eyes-close.svg";
-import { ReactComponent as IconEyesOpen } from "./icons/eyes-open.svg";
-import { ReactComponent as IconCopy } from "./icons/copy.svg";
-import { ReactComponent as IconTick } from "./icons/tick.svg";
-import { ReactComponent as IconSearch } from "./icons/search.svg";
-import { ReactComponent as IconErrorTriangle } from "./icons/error-triangle.svg";
+import {
+  Check,
+  Copy,
+  Eye,
+  EyeOff,
+  Search,
+  TriangleAlert,
+  type LucideProps,
+} from "lucide-react";
 
-export {
-  IconCopy,
-  IconEyesClose,
-  IconEyesOpen,
-  IconErrorTriangle,
-  IconSearch,
-  IconTick,
-};
+export const IconEyesClose = (props: LucideProps) => (
+  <EyeOff size={20} {...props} />
+);
+
+export const IconEyesOpen = (props: LucideProps) => (
+  <Eye size={20} {...props} />
+);
+
+export const IconCopy = (props: LucideProps) => <Copy size={20} {...props} />;
+
+export const IconTick = (props: LucideProps) => (
+  <Check color="#465fff" {...props} />
+);
+
+export const IconSearch = (props: LucideProps) => (
+  <Search size={20} {...props} />
+);
+
+export { TriangleAlert as IconErrorTriangle };

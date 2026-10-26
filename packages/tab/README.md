@@ -28,7 +28,8 @@
 - ✅ **Two visual variants** — `button` (pill-style) or `underline` tab triggers
 - ✅ **Horizontal & Vertical layouts** — vertical layout activates at `≥768px`
 - ✅ **Notification badge** — optional numeric badge per tab button
-- ✅ **Icon support** — pass any SVG component as `icon` per tab item
+- ✅ **Rich content** — `title` and `content` accept any `ReactNode` (text, JSX, components)
+- ✅ **Icon support** — pass any icon component (e.g. from `lucide-react`) as `icon` per tab item
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS specificity battles
 - ✅ **Dark mode ready** — responds to `[data-theme="dark"]` automatically
 - ✅ **Accessible by default** — `role="tablist"`, `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-controls`, `aria-orientation`
@@ -55,6 +56,16 @@ pnpm add @bearlab/tab
 > and the Pages Router. Every component ships with the `"use client"` directive
 > already applied, so you can import it straight into a Server Component without
 > writing a wrapper file. All DOM access is SSR-guarded.
+
+### Styles
+
+Import the stylesheet once at your app's entry point — `app/layout.tsx` (Next.js App Router), `pages/_app.tsx` (Pages Router) or `main.tsx` (Vite):
+
+```ts
+import "@bearlab/tab/styles.css";
+```
+
+Styles ship as a plain, pre-built CSS file, so they are part of the server-rendered HTML and there is no flash of unstyled content.
 
 ---
 
@@ -95,6 +106,28 @@ export default function App() {
 }
 ```
 
+### Rich Content
+
+`title` and `content` accept any `ReactNode`, so a panel can hold forms, lists or other components:
+
+```tsx
+import { User } from "lucide-react";
+
+const tabs: TabItem[] = [
+  {
+    key: 1,
+    title: "Profile",
+    icon: User,
+    content: (
+      <form>
+        <label htmlFor="name">Name</label>
+        <input id="name" />
+      </form>
+    ),
+  },
+];
+```
+
 ### Underline Variant
 
 ```tsx
@@ -130,10 +163,10 @@ Each object in the `tabs` array must conform to `TabItem`:
 | Field     | Type                                                             | Required | Description                                 |
 | --------- | ---------------------------------------------------------------- | -------- | ------------------------------------------- |
 | `key`     | `number`                                                         | ✅       | Unique identifier for active-tab tracking   |
-| `title`   | `string`                                                         | ✅       | Label rendered inside the tab button        |
-| `content` | `string`                                                         | ✅       | Text rendered inside the tab panel          |
-| `notify`  | `number \| null`                                                 | ✅       | Numeric badge count; `null` hides the badge |
-| `icon`    | `React.FunctionComponent<React.SVGProps<SVGSVGElement>> \| null` | ✅       | SVG icon component; `null` renders no icon  |
+| `title`   | `React.ReactNode`                                                | ✅       | Label rendered inside the tab button and as the panel heading |
+| `content` | `React.ReactNode`                                                | ✅       | Rendered inside the tab panel               |
+| `notify`  | `number \| null`                                                 | ❌       | Numeric badge count; omit or `null` hides the badge |
+| `icon`    | `React.ElementType \| null`                                      | ❌       | Icon component; omit or `null` renders no icon |
 
 ---
 
@@ -261,7 +294,13 @@ The `Tab` component follows the [ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/
 All types are exported from the package:
 
 ```ts
-import type { TabProps, TabStyles, TabClassNames } from "@bearlab/tab";
+import type {
+  TabProps,
+  TabItem,
+  TabStyles,
+  TabClassNames,
+  TabActionType,
+} from "@bearlab/tab";
 ```
 
 ### `TabItem`
@@ -269,10 +308,10 @@ import type { TabProps, TabStyles, TabClassNames } from "@bearlab/tab";
 ```ts
 interface TabItem {
   key: number;
-  title: string;
-  content: string;
-  notify: number | null;
-  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> | null;
+  title: React.ReactNode;
+  content: React.ReactNode;
+  notify?: number | null;
+  icon?: React.ElementType | null;
 }
 ```
 

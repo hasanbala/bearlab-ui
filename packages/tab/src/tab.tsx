@@ -1,3 +1,4 @@
+import { useId } from "react";
 import classnames from "classnames";
 import styles from "./styles/tab.module.scss";
 import type { TabProps } from "./types/tab.types";
@@ -8,6 +9,7 @@ import { TabContent } from "./components/tab-content";
 export const Tab = (props: TabProps) => {
   const { tabs, actionType, isVertical, className, style } = props;
   const { activeTab, setActiveTab } = useTab(tabs[0]?.key ?? 0);
+  const uid = useId();
 
   return (
     <div
@@ -35,8 +37,8 @@ export const Tab = (props: TabProps) => {
               tab={tab}
               isActive={activeTab === tab.key}
               onClick={() => setActiveTab(tab.key)}
-              tabId={`tab-${tab.key}`}
-              panelId={`tabpanel-${tab.key}`}
+              tabId={`${uid}-tab-${tab.key}`}
+              panelId={`${uid}-tabpanel-${tab.key}`}
               className={{
                 button: className?.button,
                 notify: className?.notify,
@@ -55,8 +57,8 @@ export const Tab = (props: TabProps) => {
             key={tab.key}
             tab={tab}
             isActive={activeTab === tab.key}
-            tabId={`tab-${tab.key}`}
-            panelId={`tabpanel-${tab.key}`}
+            tabId={`${uid}-tab-${tab.key}`}
+            panelId={`${uid}-tabpanel-${tab.key}`}
           />
         ))}
       </div>
