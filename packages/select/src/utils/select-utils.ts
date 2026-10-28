@@ -23,3 +23,10 @@ export const resolveValue = <T extends SelectOption>(
 
   return [value as unknown as T];
 };
+
+export const splitByMatch = (label: string, query: string): string[] => {
+  const q = query.trim();
+  if (!q) return [label];
+  const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return label.split(new RegExp(`(${pattern})`, "gi"));
+};

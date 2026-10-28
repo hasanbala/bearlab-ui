@@ -14,7 +14,7 @@ const POSITION_CLASSES: Record<string, string> = {
 };
 
 export const PositionGroup = (props: PositionGroupProps) => {
-  const { position, toasts, onRemove } = props;
+  const { position, toasts, labels, onRemove } = props;
 
   if (toasts.length === 0) return null;
 
@@ -27,7 +27,7 @@ export const PositionGroup = (props: PositionGroupProps) => {
       })}
     >
       {toasts.map((t) => (
-        <Toast key={t.id} item={t} onRemove={onRemove} />
+        <Toast key={t.id} item={t} labels={labels} onRemove={onRemove} />
       ))}
     </div>
   );

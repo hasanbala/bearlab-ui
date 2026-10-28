@@ -8,6 +8,7 @@ export const OtpInputList = (props: OtpInputListProps) => {
     name,
     value,
     length,
+    inputLabel,
     disabled,
     inputsRef,
     className,
@@ -19,9 +20,7 @@ export const OtpInputList = (props: OtpInputListProps) => {
 
   return (
     <div
-      role="group"
       style={style?.inputs}
-      aria-labelledby="otp-title"
       className={classnames(styles.inputs, className?.inputs)}
     >
       {Array.from({ length }, (_, index) => (
@@ -30,6 +29,7 @@ export const OtpInputList = (props: OtpInputListProps) => {
           name={name}
           index={index}
           length={length}
+          label={inputLabel(index, length)}
           value={value[index] ?? ""}
           disabled={disabled}
           inputRef={(el) => {

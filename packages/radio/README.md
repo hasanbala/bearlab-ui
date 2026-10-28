@@ -171,6 +171,9 @@ Extends native `<input>` props (excluding `onChange`, `checked`, `popover`, `cla
 | `aria-labelledby` | `string`                                           | —       | ❌       | ID of an element that labels the group                 |
 | `className`       | [`RadioClassNames`](#radioclassnames)              | —       | ❌       | Per-slot className overrides (passed to each Radio)    |
 | `style`           | [`RadioStyles`](#radiostyles)                      | —       | ❌       | Per-slot inline style overrides (passed to each Radio) |
+| `error` | `string` | — | ❌ | Group-level error message, linked with `aria-describedby` |
+| `isRequired` | `boolean` | `false` | ❌ | Marks the group as required (`aria-required`) |
+| `onBlur` | `(e: FocusEvent) => void` | — | ❌ | Fires when focus leaves the whole group |
 
 ### `RadioOption`
 

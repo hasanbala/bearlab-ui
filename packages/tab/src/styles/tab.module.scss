@@ -289,6 +289,11 @@
         }
       }
 
+      &:disabled {
+        cursor: not-allowed;
+        opacity: var(--bearlab-tab-button-opacity-disabled, 0.5);
+      }
+
       .title {
         overflow: hidden;
         white-space: nowrap;
@@ -408,5 +413,13 @@
         padding: 0;
       }
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

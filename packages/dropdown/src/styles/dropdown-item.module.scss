@@ -87,3 +87,11 @@
     pointer-events: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdownItemContainer,
+  .dropdownItemContainer * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

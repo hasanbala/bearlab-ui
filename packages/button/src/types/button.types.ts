@@ -1,5 +1,5 @@
 export type ButtonType = "iconWithText" | "justIcon" | "justText";
-export type ButtonHtmlType = "button" | "submit";
+export type ButtonHtmlType = "button" | "submit" | "reset";
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -58,6 +58,9 @@ export interface ButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "type" | "className" | "style" | "children" | "onClick"
 > {
+  href?: string;
+  linkComponent?: React.ElementType;
+  loadingLabel?: string;
   disabled?: boolean;
   isLoading?: boolean;
   style?: ButtonStyles;
@@ -70,4 +73,8 @@ export interface ButtonProps extends Omit<
   iconType?: ButtonIconTypeValues;
   icon?: React.ReactElement;
   onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export interface LoadingSpinnerProps {
+  label: string;
 }

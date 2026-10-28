@@ -37,6 +37,7 @@ export interface FaqData {
 }
 
 export interface FaqItemProps {
+  id: string;
   title: string;
   content: string;
   isOpen?: boolean;
@@ -91,6 +92,7 @@ export interface FaqV1Props {
 
 export interface FaqV2Props {
   data: FaqData[];
+  columns?: number;
   style?: FaqStyles;
   className?: FaqClassNames;
 }

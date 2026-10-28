@@ -19,7 +19,9 @@ export interface OTPFormProps {
   length?: number;
   loading?: boolean;
   ariaLabel?: string;
+  autoFocus?: boolean;
   isNumeric?: boolean;
+  inputLabel?: (index: number, length: number) => string;
   style?: OTPFormStylesProps;
   className?: OTPFormClassNamesProps;
   onChange: (value: string[]) => void;
@@ -30,6 +32,7 @@ export interface OtpInputProps {
   index: number;
   value: string;
   length: number;
+  label: string;
   disabled?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -45,6 +48,7 @@ export interface OtpInputProps {
 export interface OtpInputListProps {
   name?: string;
   length: number;
+  inputLabel: (index: number, length: number) => string;
   value: string[];
   disabled?: boolean;
   style?: OTPFormStylesProps;

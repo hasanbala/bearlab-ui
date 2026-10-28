@@ -75,7 +75,21 @@ Icons are rendered with [lucide-react](https://lucide.dev), which is installed a
 
 ### Step 1 — Mount `<GrowlContainer />`
 
-Place `<GrowlContainer />` once at the root of your application (outside any scrollable content). It renders all toast portals and requires no props.
+Place `<GrowlContainer />` once at the root of your application (outside any scrollable content). It renders all toast portals. Its only (optional) prop is `labels`, which localizes the default titles and the close button:
+
+```tsx
+<GrowlContainer
+  labels={{
+    close: "Bildirimi kapat",
+    success: "Başarılı",
+    error: "Hata",
+    warning: "Uyarı",
+    info: "Bilgi",
+  }}
+/>
+```
+
+Error and warning toasts use `role="alert"`; info and success toasts use the polite `role="status"`. The close control is a real `<button>`, and the auto-close timer pauses while a toast is hovered (`pauseOnHover`) or has keyboard focus.
 
 ```tsx
 // app.tsx (or your root layout)

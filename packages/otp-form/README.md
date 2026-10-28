@@ -102,6 +102,8 @@ export default function App() {
 | `ariaLabel` | `string`                                            | `"One-time password input"` | ❌       | Accessible label for the outermost container        |
 | `className` | [`OTPFormClassNamesProps`](#otpformclassnamesprops) | —                           | ❌       | Per-slot className overrides                        |
 | `style`     | [`OTPFormStylesProps`](#otpformstylesprops)         | —                           | ❌       | Per-slot inline style overrides                     |
+| `autoFocus` | `boolean` | `true` | ❌ | Focuses the first input on mount |
+| `inputLabel` | `(index, length) => string` | English default | ❌ | Accessible label for each digit input |
 
 ---
 

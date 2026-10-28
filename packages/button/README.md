@@ -175,7 +175,7 @@ An `aria-label` or `aria-describedby` you pass takes precedence over the ones th
 | `label`           | `string \| number`                                                 | —                     | ✅       | Button text. For `justIcon`, used as `aria-label` and popover content.              |
 | `buttonType`      | `"iconWithText" \| "justIcon" \| "justText"`                       | —                     | ✅       | Controls the layout structure of the button.                                        |
 | `variant`         | [`ButtonVariant`](#buttonvariant)                                  | `"primary"`           | ❌       | Visual + semantic styling variant.                                                  |
-| `htmlType`        | `"button" \| "submit"`                                             | `"button"`            | ❌       | Native HTML `type` attribute for the `<button>` element.                            |
+| `htmlType`        | `"button" \| "submit" \| "reset"`                                          | `"button"`            | ❌       | Native HTML `type` attribute for the `<button>` element.                            |
 | `isLoading`       | `boolean`                                                          | `false`               | ❌       | Replaces content with a spinner; sets `aria-busy` and blocks interaction.           |
 | `disabled`        | `boolean`                                                          | `false`               | ❌       | Disables the button; applies muted styling via `--bearlab-button-opacity-disabled`. |
 | `iconType`        | [`ButtonIconTypeValues`](#icons)                                  | `"none"`              | ❌       | Selects a built-in icon.                                                            |
@@ -186,6 +186,9 @@ An `aria-label` or `aria-describedby` you pass takes precedence over the ones th
 | `style`           | [`ButtonStyles`](#buttonstyles)                                    | —                     | ❌       | Per-slot inline style overrides (`React.CSSProperties`).                            |
 | `ref`             | `React.Ref<HTMLButtonElement>`                                     | —                     | ❌       | Forwarded to the native `<button>` element.                                         |
 | `...rest`         | `React.ButtonHTMLAttributes<HTMLButtonElement>`                    | —                     | ❌       | Any other native button attribute (`aria-*`, `data-*`, `id`, `name`, `form`, …).    |
+| `href` | `string` | — | ❌ | Renders a link instead of a `<button>` |
+| `linkComponent` | `React.ElementType` | `"a"` | ❌ | Component used when `href` is set, e.g. Next.js `Link` |
+| `loadingLabel` | `string` | `"Loading"` | ❌ | Accessible label of the loading spinner |
 
 ---
 

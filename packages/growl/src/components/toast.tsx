@@ -8,11 +8,7 @@ import {
 } from "../types/growl.types";
 import styles from "../styles/growl.module.scss";
 import classnames from "classnames";
-import {
-  DEFAULT_ANIMATION,
-  DEFAULT_THEME,
-  TITLES,
-} from "../constants/growl-config";
+import { DEFAULT_ANIMATION, DEFAULT_THEME } from "../constants/growl-config";
 import {
   IconCross,
   IconError2,
@@ -58,10 +54,11 @@ const ICONS: Record<GrowlType, React.JSX.Element> = {
 };
 
 export const Toast = (props: GrowlProps) => {
-  const { item, onRemove } = props;
+  const { item, labels, onRemove } = props;
 
   const [leaving, setLeaving] = useState(false);
   const [paused, setPaused] = useState(false);
+  const pausedRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const remainingRef = useRef<number>(item.autoClose ?? 0);
   const startTimeRef = useRef<number>(Date.now());
@@ -87,27 +84,51 @@ export const Toast = (props: GrowlProps) => {
     return () => clearTimeout(timerRef.current);
   }, [item.autoClose, startTimer]);
 
-  const handleMouseEnter = useCallback(() => {
-    if (!item.pauseOnHover || !item.autoClose) return;
+  const pause = useCallback(() => {
+    if (!item.autoClose || pausedRef.current) return;
+    pausedRef.current = true;
     clearTimeout(timerRef.current);
     remainingRef.current = Math.max(
       0,
       remainingRef.current - (Date.now() - startTimeRef.current)
     );
     setPaused(true);
-  }, [item.pauseOnHover, item.autoClose]);
+  }, [item.autoClose]);
 
-  const handleMouseLeave = useCallback(() => {
-    if (!item.pauseOnHover || !item.autoClose) return;
+  const resume = useCallback(() => {
+    if (!item.autoClose || !pausedRef.current) return;
+    pausedRef.current = false;
     setPaused(false);
     startTimer(remainingRef.current);
-  }, [item.pauseOnHover, item.autoClose, startTimer]);
+  }, [item.autoClose, startTimer]);
+
+  const handleMouseEnter = () => {
+    if (item.pauseOnHover) pause();
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!item.pauseOnHover) return;
+    if (e.currentTarget.contains(document.activeElement)) return;
+    resume();
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
+    if (item.pauseOnHover && e.currentTarget.matches(":hover")) return;
+    resume();
+  };
+
+  const isUrgent = item.type === "error" || item.type === "warning";
 
   return (
     <div
-      role="alert"
+      role={isUrgent ? "alert" : "status"}
+      aria-live={isUrgent ? "assertive" : "polite"}
+      aria-atomic="true"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={pause}
+      onBlur={handleBlur}
       style={item?.style?.notification}
       className={getNotificationClass(item, leaving)}
     >
@@ -116,12 +137,17 @@ export const Toast = (props: GrowlProps) => {
         style={item?.style?.body}
         className={classnames(styles.body, item?.className?.body)}
       >
-        <span className={styles.title}>{item.title ?? TITLES[item.type]}</span>
+        <span className={styles.title}>{item.title ?? labels[item.type]}</span>
         <span className={styles.message}>{item.message}</span>
       </div>
-      <div onClick={remove} className={styles.close}>
-        <IconCross />
-      </div>
+      <button
+        type="button"
+        onClick={remove}
+        aria-label={labels.close}
+        className={styles.close}
+      >
+        <IconCross aria-hidden="true" />
+      </button>
       {!!item.autoClose && (
         <div
           className={classnames(styles.progress, item?.className?.progress)}

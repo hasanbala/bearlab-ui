@@ -22,8 +22,9 @@ export const TablePagination = React.memo(
       pageSize,
       pageSizeOptions,
       pageSizePlaceholder,
+      labels,
       goToPage,
-      onPageChange,
+      onPageSizeChange,
       renderPageInfo,
       className,
       style,
@@ -41,9 +42,9 @@ export const TablePagination = React.memo(
 
       return sizes.map((size) => ({
         value: size.toString(),
-        label: `${size} / page`,
+        label: labels.pageSizeOption(size),
       }));
-    }, [pageSizeOptions, pageSize]);
+    }, [pageSizeOptions, pageSize, labels]);
 
     return (
       <div
@@ -55,7 +56,7 @@ export const TablePagination = React.memo(
         style={style?.paginationWrapper}
       >
         <nav
-          aria-label="Table pagination"
+          aria-label={labels.pagination}
           className={classnames(
             styles.paginationControls,
             isMobile && styles.tabletControls,
@@ -64,13 +65,13 @@ export const TablePagination = React.memo(
           style={style?.paginationControls}
         >
           <Button
-            label="Previous page"
+            label={labels.previousPage}
             buttonType="justIcon"
             iconType="arrow"
             onClick={() => goToPage(initialPage - 1)}
             disabled={disabled || initialPage === 1}
             variant="secondary"
-            aria-label="Go to previous page"
+            aria-label={labels.previousPage}
             className={{
               root: classnames(styles.prevButton, className?.pageButton),
             }}
@@ -85,7 +86,7 @@ export const TablePagination = React.memo(
             >
               {renderPageInfo
                 ? renderPageInfo(initialPage, totalPages)
-                : `Page ${initialPage} of ${totalPages}`}
+                : labels.pageInfo(initialPage, totalPages)}
             </span>
           )}
           {showPageNumbers && (
@@ -116,6 +117,7 @@ export const TablePagination = React.memo(
                     key={`page-${page}-${idx}`}
                     idx={idx}
                     page={page}
+                    labels={labels}
                     initialPage={initialPage}
                     goToPage={goToPage}
                     disabled={disabled}
@@ -126,13 +128,13 @@ export const TablePagination = React.memo(
             </ul>
           )}
           <Button
-            label="Next page"
+            label={labels.nextPage}
             buttonType="justIcon"
             iconType="arrow"
             onClick={() => goToPage(initialPage + 1)}
             disabled={disabled || initialPage === totalPages}
             variant="secondary"
-            aria-label="Go to next page"
+            aria-label={labels.nextPage}
             className={{
               root: classnames(styles.pageButton, className?.pageButton),
             }}
@@ -141,10 +143,10 @@ export const TablePagination = React.memo(
         {showPageSizeSelector && (
           <div className={styles.pageSizeSelectorWrapper}>
             <select
-              onChange={(e) => onPageChange(Number(e.target.value), true)}
+              onChange={(e) => onPageSizeChange(Number(e.target.value))}
               name="pageSize"
               value={pageSize.toString()}
-              aria-label="Rows per page"
+              aria-label={labels.rowsPerPage}
               className={classnames(
                 styles.pageSizeSelector,
                 className?.pageSizeSelector

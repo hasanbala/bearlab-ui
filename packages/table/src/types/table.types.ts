@@ -112,8 +112,21 @@ export interface SelectionColumn {
   render: (_: any, record: Record<string, any>) => React.ReactNode;
 }
 
+export interface TableLabels {
+  pagination?: string;
+  previousPage?: string;
+  nextPage?: string;
+  goToPage?: (page: number) => string;
+  pageInfo?: (page: number, totalPages: number) => string;
+  rowsPerPage?: string;
+  pageSizeOption?: (size: number) => string;
+  selectAll?: string;
+  selectRow?: (key: string) => string;
+}
+
 export interface TableProps {
   title?: string;
+  labels?: TableLabels;
   disabled?: boolean;
   isLoading?: boolean;
   loadingType?: LoadingProps["type"];
@@ -240,6 +253,7 @@ export interface TableEmptyProps {
 
 export interface PaginationNumberProps {
   idx: number;
+  labels: Required<TableLabels>;
   disabled?: boolean;
   initialPage: number;
   page: number | string;
@@ -342,6 +356,7 @@ export interface TablePaginationComponentProps {
   pageSizePlaceholder?: string;
   showPageSizeSelector?: boolean;
   goToPage: (page: number) => void;
-  onPageChange: (page: number, isPageSize?: boolean) => void;
+  labels: Required<TableLabels>;
+  onPageSizeChange: (pageSize: number) => void;
   renderPageInfo?: (currentPage: number, totalPages: number) => React.ReactNode;
 }

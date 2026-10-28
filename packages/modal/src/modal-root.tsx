@@ -28,6 +28,10 @@ export const ModalRoot = () => {
       title={config.title}
       subTitle={config.subTitle}
       type={config.type}
+      size={config.size}
+      closeLabel={config.closeLabel}
+      closeOnEscape={config.closeOnEscape}
+      closeOnOverlayClick={config.closeOnOverlayClick}
       alertType={config.alertType}
       animation={config.animation}
       zIndex={config.zIndex}

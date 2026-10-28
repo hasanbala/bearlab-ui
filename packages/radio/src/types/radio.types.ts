@@ -47,6 +47,9 @@ export interface RadioGroupProps {
   options: RadioOption[];
   disabled?: boolean;
   name?: string;
+  error?: string;
+  isRequired?: boolean;
+  onBlur?: (e: React.FocusEvent<HTMLDivElement>) => void;
   value: number | string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isVertical?: boolean;

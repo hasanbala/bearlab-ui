@@ -1,4 +1,4 @@
-import { TagFormat } from "../types/tag-input.types";
+import { TagFormat, TagInputLabels } from "../types/tag-input.types";
 
 export const REGEX_EMAIL =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
@@ -16,14 +16,18 @@ export const FORMAT_VALIDATORS: Record<TagFormat, (value: string) => boolean> =
     custom: () => true,
   };
 
-export const DEFAULT_COMMIT_KEYS: string[] = ["Enter", "Space", "Comma", "Tab"];
+export const DEFAULT_COMMIT_KEYS: string[] = ["Enter", " ", ",", "Tab"];
 
 export const PASTE_SPLIT_REGEX = /[\s,;\n\r]+/;
 
-export const ARIA_LIVE_MESSAGES = {
-  added: (value: string) => `${value} added`,
-  removed: (value: string) => `${value} removed`,
-  invalid: (value: string) => `${value} is not a valid entry`,
-  duplicate: (value: string) => `${value} already exisFORMAT_VALIDATORSts`,
-  maxReached: (max: number) => `Maximum of ${max} items reached`,
-} as const;
+export const DEFAULT_TAG_INPUT_LABELS: Required<TagInputLabels> = {
+  added: (value) => `${value} added`,
+  removed: (value) => `${value} removed`,
+  invalid: (value) => `${value} is not valid`,
+  duplicate: (value) => `${value} already exists`,
+  maxReached: (max) => `Maximum of ${max} items reached`,
+  pasted: (count) => `${count} items pasted`,
+  tag: (value, isValid) =>
+    `${value}, ${isValid ? "valid" : "invalid"}. Press delete to remove.`,
+  remove: (value) => `Remove ${value}`,
+};

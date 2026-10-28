@@ -164,7 +164,7 @@ export default function App() {
 | `showPageSizeSelector` | `boolean`                                              | `false`                                            | ❌       | Renders the page-size `<select>` inside the pagination bar       |
 | `pageSizePlaceholder`  | `string`                                               | `"Select page size"`                               | ❌       | Placeholder label for the page-size selector                     |
 | `maxVisiblePages`      | `number`                                               | `6`                                                | ❌       | Maximum page buttons shown before truncating with ellipsis       |
-| `onTableChange`        | `(page, pageSize, isPageSize?) => void`                | —                                                  | ❌       | Fires when the active page or page size changes                  |
+| `onTableChange`        | `(page, pageSize, isPageSize?) => void`                | —                                                  | ❌       | Fires when the active page or page size changes; a page-size change resets to page 1 and passes `isPageSize = true`                  |
 | `onRowClick`           | `(record) => void`                                     | —                                                  | ❌       | Fires when a non-disabled row is clicked                         |
 | `renderPageInfo`       | `(currentPage, totalPages) => ReactNode`               | —                                                  | ❌       | Overrides the "Page X of Y" label in the pagination bar          |
 | `renderTotalInfo`      | `(from, to, total) => ReactNode`                       | —                                                  | ❌       | Overrides the "Showing X to Y of Z entries" record info bar      |
@@ -181,6 +181,7 @@ export default function App() {
 | `filterLabel`          | `(columnTitle: string) => string`                      | ``(c) => `Filter by ${c}` ``                       | ❌       | Accessible name of a column's filter trigger, popover and input  |
 | `className`            | [`TableClassNames`](#slot-based-customization)         | —                                                  | ❌       | Per-slot className overrides                                     |
 | `style`                | [`TableStyles`](#slot-based-customization)             | —                                                  | ❌       | Per-slot inline style overrides                                  |
+| `labels` | `TableLabels` | English defaults | ❌ | Overrides pagination and row-selection texts (`pagination`, `previousPage`, `nextPage`, `goToPage`, `pageInfo`, `rowsPerPage`, `pageSizeOption`, `selectAll`, `selectRow`) |
 
 ---
 

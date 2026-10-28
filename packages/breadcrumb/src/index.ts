@@ -3,4 +3,6 @@ export type {
   BreadcrumbProps,
   BreadcrumbClassNames,
   BreadcrumbStyles,
+  BreadcrumbItem,
+  BreadcrumbHeadingLevel,
 } from "./types/breadcrumb.types";

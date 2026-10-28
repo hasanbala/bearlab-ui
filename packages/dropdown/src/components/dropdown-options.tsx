@@ -2,7 +2,7 @@ import type { DropdownOptionsProps } from "../types/dropdown.types";
 import { DropdownOption } from "./dropdown-option";
 
 export const DropdownOptions = (props: DropdownOptionsProps) => {
-  const { group, className, style } = props;
+  const { group, linkComponent, className, style } = props;
 
   return (
     <ul
@@ -16,6 +16,7 @@ export const DropdownOptions = (props: DropdownOptionsProps) => {
           href={item.href}
           label={item.label}
           icon={item.icon}
+          linkComponent={linkComponent}
           className={className}
           style={style}
         />

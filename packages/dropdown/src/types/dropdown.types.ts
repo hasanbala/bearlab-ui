@@ -1,6 +1,11 @@
+export interface DropdownContextValue {
+  close?: () => void;
+}
+
 export interface DropdownProps {
   id?: string;
   show: boolean;
+  closeOnSelect?: boolean;
   className?: string;
   labelledBy?: string;
   children: React.ReactNode;
@@ -10,6 +15,7 @@ export interface DropdownProps {
 
 export interface DropdownItemProps {
   href?: string;
+  linkComponent?: React.ElementType;
   className?: string;
   disabled?: boolean;
   tag?: "a" | "button";
@@ -21,6 +27,7 @@ export interface DropdownItemProps {
 
 export interface DropdownListProps {
   id?: string;
+  linkComponent?: React.ElementType;
   style?: DropdownListStyles;
   className?: DropdownListClassNames;
   list: {
@@ -46,10 +53,10 @@ export interface UseDropdownReturn {
 
 export interface UseDropdown {
   menuId?: string;
-  buttonId?: string;
 }
 
 export interface DropdownOptionsProps {
+  linkComponent?: React.ElementType;
   style?: DropdownListStyles;
   className?: DropdownListClassNames;
   group: {
@@ -61,6 +68,7 @@ export interface DropdownOptionsProps {
 
 export interface DropdownOptionProps {
   href: string;
+  linkComponent?: React.ElementType;
   label: string;
   style?: DropdownListStyles;
   className?: DropdownListClassNames;

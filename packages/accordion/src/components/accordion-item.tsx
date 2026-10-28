@@ -11,10 +11,13 @@ export const AccordionItem = (props: AccordionItemProps) => {
     isOpen,
     content,
     className,
+    headingLevel,
     onToggle,
     renderTitle,
     renderContent,
   } = props;
+
+  const Heading = `h${headingLevel}` as const;
 
   return (
     <div
@@ -22,27 +25,32 @@ export const AccordionItem = (props: AccordionItemProps) => {
       style={style?.accordionItem}
       className={classnames(styles.accordionItem, className?.accordionItem)}
     >
-      <button
-        type="button"
-        id={`accordion-header-${id}`}
-        aria-expanded={isOpen}
-        aria-controls={`accordion-panel-${id}`}
-        onClick={onToggle}
-        className={styles.header}
-      >
-        <div className={styles.titleWrapper}>
-          {renderTitle ? (
-            renderTitle(title, isOpen)
-          ) : (
-            <h4 className={styles.title}>{title}</h4>
-          )}
-        </div>
-        <div
-          className={classnames(styles.iconWrapper, isOpen && styles.iconOpen)}
+      <Heading className={styles.heading}>
+        <button
+          type="button"
+          id={`accordion-header-${id}`}
+          aria-expanded={isOpen}
+          aria-controls={`accordion-panel-${id}`}
+          onClick={onToggle}
+          className={styles.header}
         >
-          <IconChevronDown aria-hidden="true" className={styles.icon} />
-        </div>
-      </button>
+          <span className={styles.titleWrapper}>
+            {renderTitle ? (
+              renderTitle(title, isOpen)
+            ) : (
+              <span className={styles.title}>{title}</span>
+            )}
+          </span>
+          <span
+            className={classnames(
+              styles.iconWrapper,
+              isOpen && styles.iconOpen
+            )}
+          >
+            <IconChevronDown aria-hidden="true" className={styles.icon} />
+          </span>
+        </button>
+      </Heading>
 
       <div
         id={`accordion-panel-${id}`}

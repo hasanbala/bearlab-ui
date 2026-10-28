@@ -160,6 +160,7 @@ export default function App() {
 | `onError`         | `(value: string) => void`                   | —       | ❌       | Fires when a committed value fails validation               |
 | `className`       | [`TagInputClassNames`](#taginputclassnames) | —       | ❌       | Per-slot className overrides                                |
 | `style`           | [`TagInputStyles`](#taginputstyles)         | —       | ❌       | Per-slot inline style overrides                             |
+| `labels` | `TagInputLabels` | English defaults | ❌ | Overrides live-region and tag texts: `added`, `removed`, `invalid`, `duplicate`, `maxReached`, `pasted`, `tag`, `remove` |
 
 ---
 

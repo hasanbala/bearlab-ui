@@ -4,7 +4,7 @@ import { TagProps } from "../types/tag-input.types";
 import { IconX } from "../assets/icons";
 
 export const Tag = (props: TagProps) => {
-  const { item, onRemove, disabled, className, style } = props;
+  const { item, labels, onRemove, disabled, className, style } = props;
   const isValid = item.status === "valid";
   const tagId = `credential-tag-${item.id}`;
 
@@ -12,7 +12,7 @@ export const Tag = (props: TagProps) => {
     <span
       id={tagId}
       role="listitem"
-      aria-label={`${item.value}, ${isValid ? "valid" : "invalid"}. Press delete to remove.`}
+      aria-label={labels.tag(item.value, isValid)}
       className={classnames(
         styles.tag,
         {
@@ -39,7 +39,7 @@ export const Tag = (props: TagProps) => {
           disabled={disabled}
           aria-disabled={disabled}
           style={style?.tagRemove}
-          aria-label={`Remove ${item.value}`}
+          aria-label={labels.remove(item.value)}
           className={classnames(styles.tagRemove, className?.tagRemove)}
           onClick={(e) => {
             e.stopPropagation();

@@ -10,6 +10,7 @@ export type LoadingType =
   | "square-dashed";
 
 export interface LoadingProps {
+  label?: string;
   type?: LoadingType | undefined;
   style?: LoadingStyles;
   icon?: React.ElementType | null;

@@ -10,8 +10,10 @@ export const Badge = (props: BadgeProps) => {
     startIcon,
     endIcon,
     label,
+    children,
     className,
     style,
+    ...rest
   } = props;
 
   const IconStart = startIcon;
@@ -45,6 +47,7 @@ export const Badge = (props: BadgeProps) => {
 
   return (
     <span
+      {...rest}
       className={classnames(
         styles.container,
         sizeStyles[size],
@@ -60,7 +63,7 @@ export const Badge = (props: BadgeProps) => {
           aria-hidden="true"
         />
       )}
-      {label}
+      {children ?? label}
       {IconEnd && (
         <IconEnd
           className={classnames(styles.endIcon, className?.endIcon)}

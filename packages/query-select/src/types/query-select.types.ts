@@ -1,5 +1,6 @@
 export type QuerySelectMode = "single" | "multiple";
 export type SelectionDisplay = "card" | "inline";
+export type QuerySelectSingleValueDisplay = "text" | "tag";
 export type SingleValue<T extends QuerySelectOption> = T["value"] | null;
 export type MultipleValue<T extends QuerySelectOption> = T["value"][];
 export type QuerySelectValue<
@@ -16,6 +17,14 @@ export interface QuerySelectProps<
   onChange?: (value: QuerySelectValue<T, Mode>, option?: T) => void;
 }
 
+export interface QuerySelectLabels {
+  options?: string;
+  loading?: string;
+  selected?: (count: number) => string;
+  moreSelected?: (count: number) => string;
+  remove?: (label: string) => string;
+}
+
 export interface QuerySelectOption {
   label: string;
   image?: string;
@@ -27,6 +36,7 @@ export interface BaseQuerySelectProps<T extends QuerySelectOption> {
   error?: any;
   name?: string;
   label?: string;
+  labels?: QuerySelectLabels;
   disabled?: boolean;
   delayTime?: number;
   emptyText?: string;
@@ -42,17 +52,21 @@ export interface BaseQuerySelectProps<T extends QuerySelectOption> {
   style?: QuerySelectStyles;
   className?: QuerySelectClassNames;
   selectionLayout?: SelectionDisplay;
-  onSearch: (query: string) => Promise<T[]>;
+  singleValueDisplay?: QuerySelectSingleValueDisplay;
+  onSearch: (query: string, signal: AbortSignal) => Promise<T[]>;
+  onBlur?: (event: React.FocusEvent<HTMLElement>) => void;
 }
 
 export interface QuerySelectSelectionCardItemsProps<
   T extends QuerySelectOption,
 > {
   disabled?: boolean;
+  isRemovable: boolean;
   selectedItems: T[];
   noSelectionText?: string;
   style?: QuerySelectStyles;
   className?: QuerySelectClassNames;
+  labels: Required<QuerySelectLabels>;
   onRemoveSelect: (val: T[]) => void;
 }
 
@@ -63,6 +77,7 @@ export interface QuerySelectSelectionInlineItemProps {
   style?: React.CSSProperties;
   className?: string;
   "aria-label"?: string;
+  removeLabel?: string;
   "data-bearlab-query-select-item"?: "visible" | "overflow";
   onRemove?: (item: string | number) => void;
 }
@@ -71,6 +86,10 @@ export interface QuerySelectSearchProps<T extends QuerySelectOption> {
   error?: any;
   query: string;
   inputId: string;
+  labelId?: string;
+  errorId?: string;
+  isRequired?: boolean;
+  labels: Required<QuerySelectLabels>;
   listboxId: string;
   isSingle: boolean;
   isLoading: boolean;
@@ -78,6 +97,7 @@ export interface QuerySelectSearchProps<T extends QuerySelectOption> {
   selectedItems: T[];
   disabled?: boolean;
   placeholder: string;
+  isSingleText: boolean;
   debouncedValue: string;
   containerWidth: number;
   isSelectionCard: boolean;
@@ -109,6 +129,7 @@ export interface QuerySelectOptionsProps<T extends QuerySelectOption> {
   style?: QuerySelectStyles;
   isDropdownVisible: boolean;
   className?: QuerySelectClassNames;
+  labels: Required<QuerySelectLabels>;
   onSelect: (item: T) => void;
 }
 
@@ -145,6 +166,7 @@ export interface QuerySelectSelectionInlineItemsProps<
   visibleCount: number;
   style?: QuerySelectStyles;
   className?: QuerySelectClassNames;
+  labels: Required<QuerySelectLabels>;
   setSelectedItems: (val: T[]) => void;
 }
 
@@ -153,6 +175,7 @@ export interface QuerySelectClassNames {
   search?: string;
   option?: string;
   options?: string;
+  singleValue?: string;
   selectionCardItem?: string;
   selectionCardItems?: string;
   selectionInlineItem?: string;
@@ -165,6 +188,7 @@ export interface QuerySelectStyles {
   search?: React.CSSProperties;
   option?: React.CSSProperties;
   options?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectionCardItem?: React.CSSProperties;
   selectionCardItems?: React.CSSProperties;
   selectionInlineItem?: React.CSSProperties;
@@ -177,12 +201,14 @@ export interface QuerySelectSelectionCardItemProps {
   disabled?: boolean;
   className?: string;
   value?: string | number;
+  removeLabel?: string;
   style?: React.CSSProperties;
   onRemove?: (item: string | number) => void;
 }
 
 export interface OptionsLoadingSkeletonProps {
   rows: number;
+  label: string;
   showImage: boolean;
   showCheckbox: boolean;
 }

@@ -31,6 +31,7 @@ export interface CheckboxProps extends InputProps {
   label?: string;
   checked?: boolean;
   disabled?: boolean;
+  indeterminate?: boolean;
   isRequired?: boolean;
   style?: CheckboxStyles;
   className?: CheckboxClassNames;

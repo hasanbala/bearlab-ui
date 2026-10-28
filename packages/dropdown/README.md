@@ -173,6 +173,7 @@ import MyIcon from "./icons/my-icon.svg?react";
 | `labelledBy` | `string`              | —       | ❌       | Trigger button ID; linked via `aria-labelledby`   |
 | `className`  | `string`              | —       | ❌       | Class on the menu container                       |
 | `style`      | `React.CSSProperties` | —       | ❌       | Inline style on the menu container                |
+| `closeOnSelect` | `boolean` | `true` | ❌ | Closes the menu (calls `onClose`) when a `DropdownItem` is activated |
 
 ### DropdownItem Props
 
@@ -186,6 +187,7 @@ import MyIcon from "./icons/my-icon.svg?react";
 | `disabled`    | `boolean`             | `false`    | ❌       | Disables item (`aria-disabled`, `tabIndex=-1`, `pointer-events: none`) |
 | `className`   | `string`              | —          | ❌       | Class on the item element                                              |
 | `style`       | `React.CSSProperties` | —          | ❌       | Inline style on the item element                                       |
+| `linkComponent` | `React.ElementType` | `"a"` | ❌ | Component used for `tag="a"` items, e.g. Next.js `Link` |
 
 ### DropdownList Props
 
@@ -195,6 +197,7 @@ import MyIcon from "./icons/my-icon.svg?react";
 | `id`        | `string`                                | auto-generated | ❌       | Custom ID for the trigger; menu ID is derived from it |
 | `className` | [`DropdownListClassNames`](#typescript) | —              | ❌       | Slot-based CSS classes for component parts            |
 | `style`     | [`DropdownListStyles`](#typescript)     | —              | ❌       | Slot-based inline styles for component parts          |
+| `linkComponent` | `React.ElementType` | `"a"` | ❌ | Component used to render option links, e.g. Next.js `Link` |
 
 #### `list` data shape
 

@@ -135,3 +135,11 @@
     }
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdownList,
+  .dropdownList * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

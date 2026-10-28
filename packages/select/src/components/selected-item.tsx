@@ -9,6 +9,7 @@ export const SelectedItem = (props: SelectedItemProps) => {
     style,
     disabled,
     className,
+    removeLabel,
     "aria-label": ariaLabel,
     "data-bearlab-select-item": itemMarker,
     onRemove,
@@ -40,7 +41,7 @@ export const SelectedItem = (props: SelectedItemProps) => {
           type="button"
           disabled={disabled}
           aria-disabled={disabled}
-          aria-label={`Remove ${title}`}
+          aria-label={removeLabel ?? title}
           className={styles.remove}
           onClick={handleRemove}
           onKeyDown={handleRemoveKeyDown}

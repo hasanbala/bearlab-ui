@@ -9,6 +9,7 @@ export const TreeOptions = (props: TreeOptionsProps) => {
   const {
     treeId,
     query,
+    labels,
     mode,
     treeData,
     listboxId,
@@ -52,7 +53,7 @@ export const TreeOptions = (props: TreeOptionsProps) => {
           className={styles.centeredState}
           role="status"
           aria-live="polite"
-          aria-label="Loading options"
+          aria-label={labels.loading}
         >
           <IconLoaderCircle className={styles.loadingIcon} aria-hidden="true" />
         </div>
@@ -100,7 +101,7 @@ export const TreeOptions = (props: TreeOptionsProps) => {
       ref={listRef}
       role="tree"
       id={listboxId}
-      aria-label="Options"
+      aria-label={labels.options}
       style={style?.options}
       aria-disabled={disabled}
       aria-multiselectable={mode === "multiple"}

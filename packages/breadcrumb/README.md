@@ -50,9 +50,9 @@ pnpm add @bearlab/breadcrumb
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
 > **Framework support:** Works with React 18/19 and Next.js — both the App Router
-> and the Pages Router. Every component ships with the `"use client"` directive
-> already applied, so you can import it straight into a Server Component without
-> writing a wrapper file. All DOM access is SSR-guarded.
+> and the Pages Router. This package has no client-side state or effects, so it
+> ships **without** a `"use client"` directive and renders as a React Server
+> Component — no JavaScript is sent to the browser for it.
 
 ### Styles
 
@@ -125,6 +125,10 @@ export default function App() {
 | `renderLink`       | `(props: DefaultLinkProps) => React.ReactNode`  | Native `<a>`  | ❌       | Custom render function for the link element                                     |
 | `className`        | [`BreadcrumbClassNames`](#breadcrumbclassnames) | —             | ❌       | Per-slot className overrides                                                    |
 | `style`            | [`BreadcrumbStyles`](#breadcrumbstyles)         | —             | ❌       | Per-slot inline style overrides                                                 |
+| `items` | `{ href: string; title: ReactNode }[]` | — | ❌ | Full trail before the current page; replaces `fromPageUrl` / `fromPageTitle` |
+| `headingLevel` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `2` | ❌ | Heading level of the page title |
+| `showTitle` | `boolean` | `true` | ❌ | Renders the page title heading above the trail |
+| `navLabel` | `string` | `"Breadcrumb"` | ❌ | Accessible label of the `<nav>` landmark |
 
 ---
 

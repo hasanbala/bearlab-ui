@@ -21,12 +21,16 @@ export interface BadgeStyles {
   startIcon?: React.CSSProperties;
 }
 
-export interface BadgeProps {
+export interface BadgeProps extends Omit<
+  React.HTMLAttributes<HTMLSpanElement>,
+  "className" | "style" | "color"
+> {
   size?: BadgeSize;
   color?: BadgeColor;
   style?: BadgeStyles;
   variant?: BadgeVariant;
-  label: string | number;
+  label?: string | number;
+  children?: React.ReactNode;
   className?: BadgeClassNames;
   startIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   endIcon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;

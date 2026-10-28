@@ -18,7 +18,18 @@ export interface BreadcrumbStyles {
   fromLink?: React.CSSProperties;
 }
 
+export type BreadcrumbHeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
+export interface BreadcrumbItem {
+  href: string;
+  title: React.ReactNode;
+}
+
 export interface BreadcrumbProps {
+  items?: BreadcrumbItem[];
+  navLabel?: string;
+  showTitle?: boolean;
+  headingLevel?: BreadcrumbHeadingLevel;
   fromPageUrl?: string;
   fromPageTitle?: string;
   showHomeIcon?: boolean;

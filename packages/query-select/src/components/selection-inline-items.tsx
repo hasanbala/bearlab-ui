@@ -14,6 +14,7 @@ export const SelectionInlineItems = forwardRef(
   ) => {
     const {
       style,
+      labels,
       disabled,
       className,
       visibleCount,
@@ -40,7 +41,7 @@ export const SelectionInlineItems = forwardRef(
         ref={ref}
         aria-disabled={disabled}
         style={style?.selectionInlineItems}
-        aria-label={`${selectedItems.length} selected`}
+        aria-label={labels.selected(selectedItems.length)}
         className={classnames(
           styles.selectionInlineWrapper,
           className?.selectionInlineItems
@@ -52,6 +53,7 @@ export const SelectionInlineItems = forwardRef(
             value={item.value}
             key={item.value}
             title={item.label}
+            removeLabel={labels.remove(item.label)}
             disabled={disabled}
             data-bearlab-query-select-item="visible"
             className={classnames(
@@ -66,7 +68,7 @@ export const SelectionInlineItems = forwardRef(
             style={style?.selectionInlineItem}
             disabled={disabled}
             title={`+${hiddenCount}`}
-            aria-label={`${hiddenCount} more selected`}
+            aria-label={labels.moreSelected(hiddenCount)}
             data-bearlab-query-select-item="overflow"
             className={classnames(
               styles.selectionInlineItem,

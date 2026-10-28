@@ -1,6 +1,11 @@
-import { useId } from "react";
+import { useEffect, useId, useRef } from "react";
 import classnames from "classnames";
-import { IconChecked, IconDisabled, IconErrorTriangle } from "./assets/icons";
+import {
+  IconChecked,
+  IconDisabled,
+  IconErrorTriangle,
+  IconIndeterminate,
+} from "./assets/icons";
 import type { CheckboxProps } from "./types/checkbox.types";
 import styles from "./styles/checkbox.module.scss";
 
@@ -14,19 +19,29 @@ export const Checkbox = (props: CheckboxProps) => {
     error,
     isRequired,
     popover,
+    indeterminate = false,
     id: userId,
+    "aria-describedby": ariaDescribedBy,
     onChange,
     ...rest
   } = props;
 
   const generatedId = useId();
   const id = userId || generatedId;
-  const errorId = `${id}-error`;
-  const popoverId = `${id}-popover`;
+  const labelId = `${generatedId}-label`;
+  const errorId = `${generatedId}-error`;
+  const popoverId = `${generatedId}-popover`;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const isIndeterminate = indeterminate && !checked;
+
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.indeterminate = isIndeterminate;
+  }, [isIndeterminate]);
 
   const describedBy =
-    [error && errorId, popover && popoverId].filter(Boolean).join(" ") ||
-    undefined;
+    [ariaDescribedBy, error && errorId, popover && popoverId]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   return (
     <label
@@ -45,19 +60,27 @@ export const Checkbox = (props: CheckboxProps) => {
         style={style?.checkboxWrapper}
       >
         <input
+          {...rest}
+          ref={inputRef}
           id={id}
           type="checkbox"
           checked={checked}
           disabled={disabled}
           onChange={onChange}
           required={isRequired}
-          aria-checked={checked}
-          aria-disabled={disabled}
+          aria-checked={isIndeterminate ? "mixed" : checked}
+          aria-labelledby={label ? labelId : rest["aria-labelledby"]}
           aria-describedby={describedBy}
           aria-invalid={error ? "true" : undefined}
-          aria-required={isRequired ? "true" : undefined}
-          {...rest}
         />
+        {isIndeterminate && (
+          <IconIndeterminate
+            className={classnames(styles.iconChecked, className?.iconChecked)}
+            style={style?.iconChecked}
+            aria-hidden="true"
+            focusable="false"
+          />
+        )}
         {checked && (
           <IconChecked
             className={classnames(styles.iconChecked, className?.iconChecked)}
@@ -87,15 +110,11 @@ export const Checkbox = (props: CheckboxProps) => {
       </div>
       {label && (
         <span
+          id={labelId}
           style={style?.label}
           className={classnames(styles.checkboxLabel, className?.label)}
         >
-          {label}{" "}
-          {isRequired && (
-            <span aria-label="required field" aria-hidden="true">
-              *
-            </span>
-          )}
+          {label} {isRequired && <span aria-hidden="true">*</span>}
         </span>
       )}
       {error && (

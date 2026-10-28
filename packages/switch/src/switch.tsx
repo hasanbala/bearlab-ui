@@ -1,3 +1,4 @@
+import { useId } from "react";
 import classnames from "classnames";
 import { IconErrorTriangle } from "./assets/icons";
 import type { SwitchProps } from "./types/switch.types";
@@ -14,19 +15,25 @@ export const Switch = (props: SwitchProps) => {
     popover,
     className,
     style,
+    id,
+    "aria-describedby": ariaDescribedBy,
     ...rest
   } = props;
 
-  const errorId = name ? `${name}-error` : undefined;
-  const popoverId = name ? `${name}-popover` : undefined;
+  const uid = useId();
+  const inputId = id ?? uid;
+  const labelId = `${uid}-label`;
+  const errorId = `${uid}-error`;
+  const popoverId = `${uid}-popover`;
 
   const describedBy =
-    [error && errorId, popover && popoverId].filter(Boolean).join(" ") ||
-    undefined;
+    [ariaDescribedBy, error && errorId, popover && popoverId]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   return (
     <label
-      htmlFor={name}
+      htmlFor={inputId}
       className={classnames(
         styles.container,
         className?.root,
@@ -39,17 +46,17 @@ export const Switch = (props: SwitchProps) => {
         style={style?.switchWrapper}
       >
         <input
-          id={name}
+          {...rest}
+          id={inputId}
           name={name}
           type="checkbox"
           role="switch"
           checked={checked}
           disabled={disabled}
-          aria-checked={checked}
-          aria-required={isRequired}
-          aria-disabled={disabled}
+          required={isRequired}
+          aria-labelledby={label ? labelId : rest["aria-labelledby"]}
+          aria-invalid={!!error || undefined}
           aria-describedby={describedBy}
-          {...rest}
         />
         <span
           aria-hidden="true"
@@ -95,6 +102,7 @@ export const Switch = (props: SwitchProps) => {
       </div>
       {label && (
         <span
+          id={labelId}
           className={classnames(styles.switchLabel, className?.label)}
           style={style?.label}
         >

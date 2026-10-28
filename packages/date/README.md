@@ -89,6 +89,11 @@ Icons are rendered with [lucide-react](https://lucide.dev), which is installed a
 
 ## Usage
 
+> The component is also exported as `DatePicker`. Prefer
+> `import { DatePicker } from "@bearlab/date"` — the `Date` name shadows the
+> global `Date` constructor in the importing file. `Date` stays available for
+> backwards compatibility.
+
 ### Basic
 
 ```tsx
@@ -419,7 +424,7 @@ export default function App() {
 | `error`          | `string`                            | —                 | ❌       | Error message displayed below the input                                                                           |
 | `disabled`       | `boolean`                           | `false`           | ❌       | Disables the input and prevents the calendar from opening                                                         |
 | `isRequired`     | `boolean`                           | `false`           | ❌       | Marks the field as required (adds `*` to label and `aria-required`)                                               |
-| `calendarZIndex` | `number`                            | `8888`            | ❌       | Z-index of the portal-rendered calendar                                                                           |
+| `calendarZIndex` | `number`                            | `10100`           | ❌       | Z-index of the portal-rendered calendar                                                                           |
 | `onDateChange`   | Typed per variant — see below       | —                 | ❌       | TypeScript infers the exact callback type from `mode` + `granularity`. No type assertion needed at call site.     |
 | `className`      | [`DateClassNames`](#dateclassnames) | —                 | ❌       | Per-slot className overrides                                                                                      |
 | `style`          | [`DateStyles`](#datestyles)         | —                 | ❌       | Per-slot inline style overrides                                                                                   |

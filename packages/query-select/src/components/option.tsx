@@ -1,6 +1,7 @@
 import classnames from "classnames";
 import { QuerySelectOptionProps } from "../types/query-select.types";
 import { IconChecked } from "../assets/icons";
+import { splitByMatch } from "../utils/query-select-utils";
 import styles from "../styles/query-select.module.scss";
 
 export const Option = (props: QuerySelectOptionProps) => {
@@ -23,16 +24,12 @@ export const Option = (props: QuerySelectOptionProps) => {
 
   const renderLabel = () => {
     if (highlightMatch && emphasizedValue?.trim()) {
-      const escaped = emphasizedValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const html = label.replace(
-        new RegExp(`(${escaped})(?!([^<]+)?<)`, "gi"),
-        "<strong>$1</strong>"
-      );
       return (
-        <span
-          className={styles.labelTitle}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <span className={styles.labelTitle}>
+          {splitByMatch(label, emphasizedValue).map((part, index) =>
+            index % 2 === 1 ? <strong key={index}>{part}</strong> : part
+          )}
+        </span>
       );
     }
     return <span className={styles.labelTitle}>{label}</span>;

@@ -3,4 +3,5 @@ export type {
   TextareaProps,
   TextareaClassNames,
   TextareaStyles,
+  TextareaLabels,
 } from "./types/textarea.types";

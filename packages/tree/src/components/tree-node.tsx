@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { IconChevronDown } from "../assets/icons";
 import { TreeCheckbox } from "./tree-checkbox";
 import { TreeNodeProps } from "../types/tree.types";
-import { highlightLabelHtml, isLeaf } from "../utils/tree-utils";
+import { isLeaf, splitByMatch } from "../utils/tree-utils";
 import { INDENT_PX } from "../constants/tree-config";
 import styles from "../styles/tree.module.scss";
 
@@ -45,10 +45,11 @@ export const TreeNodeItem = (props: TreeNodeProps) => {
         <span
           className={classnames(styles.label, className?.label)}
           style={style?.label}
-          dangerouslySetInnerHTML={{
-            __html: highlightLabelHtml(node.label, query),
-          }}
-        />
+        >
+          {splitByMatch(node.label, query).map((part, index) =>
+            index % 2 === 1 ? <strong key={index}>{part}</strong> : part
+          )}
+        </span>
       );
     }
     return (

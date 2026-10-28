@@ -602,13 +602,25 @@
   }
 
   .close {
+    display: inline-flex;
+    flex-shrink: 0;
     width: var(--_growl-close-size);
     height: var(--_growl-close-size);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    border-radius: 0.25rem;
     transition: opacity 0.15s;
     cursor: pointer;
 
     &:hover {
       opacity: var(--_growl-close-opacity-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
     }
 
     svg {
@@ -989,5 +1001,22 @@
       transform: none;
       align-items: stretch;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container *:not(.progress) {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .container::before,
+  .container::after,
+  .container *::before,
+  .container *::after {
+    animation: none !important;
   }
 }

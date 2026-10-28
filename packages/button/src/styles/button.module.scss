@@ -1,4 +1,5 @@
 .container {
+  text-decoration: none;
   // Dimensions
   --_button-padding-x: var(--bearlab-button-padding-x, 1rem); /* 16px */
   --_button-padding-y: var(--bearlab-button-padding-y, 0.75rem); /* 12px */
@@ -972,5 +973,65 @@ html[data-theme="dark"] .container {
     &:hover:not(.disabled):not(.loading) {
       --_icon-color: var(--_button-justicon-icon-fill-hover);
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container *,
+  .loading,
+  .loading *,
+  .disabled,
+  .disabled *,
+  .secondary,
+  .secondary *,
+  .secondary-success,
+  .secondary-success *,
+  .secondary-error,
+  .secondary-error *,
+  .secondary-warning,
+  .secondary-warning *,
+  .secondary-info,
+  .secondary-info *,
+  .secondary-dark,
+  .secondary-dark *,
+  .liquid-tinted,
+  .liquid-tinted *,
+  .liquid-holographic,
+  .liquid-holographic *,
+  .light-success,
+  .light-success *,
+  .light-error,
+  .light-error *,
+  .light-warning,
+  .light-warning *,
+  .light-info,
+  .light-info *,
+  .light-light,
+  .light-light *,
+  .light-dark,
+  .light-dark *,
+  .solid-success,
+  .solid-success *,
+  .solid-error,
+  .solid-error *,
+  .solid-warning,
+  .solid-warning *,
+  .solid-info,
+  .solid-info *,
+  .solid-light,
+  .solid-light *,
+  .solid-dark,
+  .solid-dark *,
+  .justIcon,
+  .justIcon *,
+  .reverseIconText,
+  .reverseIconText * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .animated {
+    animation: none !important;
   }
 }

@@ -2,11 +2,13 @@ import classnames from "classnames";
 import styles from "../styles/dropdown-item.module.scss";
 import type { DropdownItemProps } from "../types/dropdown.types";
 import { navigateMenuItem } from "../utils/dropdown-utils";
+import { useDropdownContext } from "../context/dropdown-context";
 
 export const DropdownItem = (props: DropdownItemProps) => {
   const {
     tag = "button",
     href,
+    linkComponent,
     onClick,
     onItemClick,
     className,
@@ -15,22 +17,36 @@ export const DropdownItem = (props: DropdownItemProps) => {
     disabled = false,
   } = props;
 
-  const handleClick = (event: React.MouseEvent) => {
-    if (disabled) return;
-    if (tag === "button") event.preventDefault();
+  const { close } = useDropdownContext();
+  const isLink = tag === "a" && !!href;
+
+  const select = () => {
     onClick?.();
     onItemClick?.();
+    close?.();
+  };
+
+  const handleClick = (event: React.MouseEvent) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+    if (!isLink) event.preventDefault();
+    select();
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     switch (event.key) {
       case "Enter":
+        if (isLink && !disabled) break;
+        event.preventDefault();
+        if (!disabled) select();
+        break;
       case " ":
         event.preventDefault();
-        if (!disabled) {
-          onClick?.();
-          onItemClick?.();
-        }
+        if (disabled) break;
+        if (isLink) event.currentTarget.click();
+        else select();
         break;
       case "ArrowDown":
         event.preventDefault();
@@ -55,11 +71,12 @@ export const DropdownItem = (props: DropdownItemProps) => {
     style,
   };
 
-  if (tag === "a" && href) {
+  if (isLink) {
+    const LinkComponent = linkComponent ?? "a";
     return (
-      <a href={disabled ? undefined : href} {...sharedProps}>
+      <LinkComponent href={disabled ? undefined : href} {...sharedProps}>
         {children}
-      </a>
+      </LinkComponent>
     );
   }
 

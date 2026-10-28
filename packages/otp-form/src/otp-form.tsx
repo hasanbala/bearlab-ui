@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import classnames from "classnames";
 import type { OTPFormProps } from "./types/otp-form.types";
 import { useOtpForm } from "./hooks/use-otp-form";
 import { OtpInputList } from "./components/otp-input-list";
 import styles from "./styles/otp-form.module.scss";
+
+const defaultInputLabel = (index: number, length: number) =>
+  `Character ${index + 1} of ${length} digit code`;
 
 export const OTPForm = (props: OTPFormProps) => {
   const {
@@ -16,8 +19,12 @@ export const OTPForm = (props: OTPFormProps) => {
     length = 6,
     className,
     style,
+    autoFocus = true,
     ariaLabel = "One-time password input",
+    inputLabel = defaultInputLabel,
   } = props;
+
+  const titleId = useId();
 
   const { inputsRef, handleChange, handleKeyDown, handlePaste } = useOtpForm({
     value,
@@ -27,23 +34,22 @@ export const OTPForm = (props: OTPFormProps) => {
   });
 
   useEffect(() => {
-    if (inputsRef.current[0]) {
-      inputsRef.current[0].focus();
-    }
-  }, []);
+    if (autoFocus) inputsRef.current[0]?.focus();
+  }, [autoFocus, inputsRef]);
 
   return (
     <div
       className={classnames(styles.container, className?.root)}
       style={style?.root}
-      aria-label={ariaLabel}
+      role="group"
+      aria-label={title ? undefined : ariaLabel}
+      aria-labelledby={title ? titleId : undefined}
     >
       {title && (
         <p
-          id="otp-title"
+          id={titleId}
           className={classnames(styles.subHeader, className?.subHeader)}
           style={style?.subHeader}
-          aria-hidden="true"
         >
           {title}
         </p>
@@ -52,7 +58,10 @@ export const OTPForm = (props: OTPFormProps) => {
         name={name}
         value={value}
         length={length}
+        inputLabel={inputLabel}
         disabled={loading}
+        className={className}
+        style={style}
         inputsRef={inputsRef}
         onChange={handleChange}
         onKeyDown={handleKeyDown}

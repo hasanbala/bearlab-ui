@@ -132,6 +132,7 @@ export default function App() {
 | `style`              | [`AccordionStyles`](#accordionstyles)           | —       | ❌       | Per-slot inline style overrides                      |
 | `renderTitle`        | `(title: string, isOpen: boolean) => ReactNode` | —       | ❌       | Custom render function for the accordion title       |
 | `renderContent`      | `(content: string) => ReactNode`                | —       | ❌       | Custom render function for the accordion content     |
+| `headingLevel` | `2 \| 3 \| 4 \| 5 \| 6` | `4` | ❌ | Heading level wrapping each trigger button |
 
 ### `AccordionDataItem`
 

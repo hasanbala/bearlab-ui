@@ -105,6 +105,8 @@ export default function App() {
 | `disabled`  | `boolean`                           | `false`  | ❌       | Hides the copy button and disables the component           |
 | `className` | [`CopyClassNames`](#copyclassnames) | —        | ❌       | Per-slot className overrides                               |
 | `style`     | [`CopyStyles`](#copystyles)         | —        | ❌       | Per-slot inline style overrides                            |
+| `copiedLabel` | `string` | `"Copied to clipboard"` | ❌ | Text announced after a successful copy |
+| `emptyLabel` | `string` | `"Empty"` | ❌ | Accessible text used when `text` is empty |
 
 ---
 

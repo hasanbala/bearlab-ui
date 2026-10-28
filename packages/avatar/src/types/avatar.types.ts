@@ -41,6 +41,7 @@ export interface AvatarTextStyles {
 
 export interface AvatarTextProps {
   name: string;
+  locale?: string;
   style?: AvatarTextStyles;
   className?: AvatarTextClassNames;
 }

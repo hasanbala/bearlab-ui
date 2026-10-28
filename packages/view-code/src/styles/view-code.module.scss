@@ -502,3 +502,31 @@
     display: inline;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container *,
+  .header,
+  .header *,
+  .headerLeft,
+  .headerLeft *,
+  .langBadge,
+  .langBadge *,
+  .filename,
+  .filename *,
+  .copyBtn,
+  .copyBtn *,
+  .codeArea,
+  .codeArea *,
+  .lineNumbers,
+  .lineNumbers *,
+  .lineNumber,
+  .lineNumber *,
+  .pre,
+  .pre *,
+  .code,
+  .code * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

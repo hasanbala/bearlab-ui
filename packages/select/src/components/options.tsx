@@ -9,6 +9,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
   const {
     style,
     query,
+    labels,
     options,
     disabled,
     isLoading,
@@ -46,7 +47,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
           className={styles.centeredState}
           role="status"
           aria-live="polite"
-          aria-label="Loading options"
+          aria-label={labels.loading}
         >
           <IconLoaderCircle className={styles.loadingIcon} aria-hidden="true" />
         </div>
@@ -94,7 +95,7 @@ export const Options = <T extends SelectOption>(props: OptionsProps<T>) => {
       ref={listRef}
       role="listbox"
       id={listboxId}
-      aria-label="Options"
+      aria-label={labels.options}
       style={style?.options}
       aria-disabled={disabled}
       aria-multiselectable={isMultiple}

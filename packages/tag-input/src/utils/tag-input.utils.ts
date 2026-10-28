@@ -2,7 +2,12 @@ import {
   FORMAT_VALIDATORS,
   PASTE_SPLIT_REGEX,
 } from "../constants/tag-input.config";
-import { CommitResult, TagFormat, TagItem } from "../types/tag-input.types";
+import {
+  CommitResult,
+  TagFormat,
+  TagInputLabels,
+  TagItem,
+} from "../types/tag-input.types";
 
 export const isValidTag = (
   value: string,
@@ -14,13 +19,18 @@ export const isValidTag = (
   return FORMAT_VALIDATORS[format](value);
 };
 
+const createId = (): string =>
+  typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+    ? crypto.randomUUID()
+    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
 export const createTagItem = (
   value: string,
   format: TagFormat,
   validate?: (value: string) => boolean
 ): TagItem => {
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     value: value.trim(),
     status: isValidTag(value.trim(), format, validate) ? "valid" : "invalid",
   };
@@ -50,6 +60,7 @@ export const commitValue = (
   rawValue: string,
   currentList: TagItem[],
   format: TagFormat,
+  labels: Required<TagInputLabels>,
   options: {
     validate?: (v: string) => boolean;
     allowDuplicates?: boolean;
@@ -67,7 +78,7 @@ export const commitValue = (
   if (maxItems !== undefined && currentList.length >= maxItems) {
     return {
       nextList: null,
-      announcement: `Maximum of ${maxItems} items reached`,
+      announcement: labels.maxReached(maxItems),
       item: null,
       reason: "max-reached",
     };
@@ -76,7 +87,7 @@ export const commitValue = (
   if (!allowDuplicates && isDuplicate(trimmed, currentList)) {
     return {
       nextList: null,
-      announcement: `${trimmed} already exists`,
+      announcement: labels.duplicate(trimmed),
       item: null,
       reason: "duplicate",
     };
@@ -86,7 +97,9 @@ export const commitValue = (
   return {
     nextList: [...currentList, item],
     announcement:
-      item.status === "valid" ? `${trimmed} added` : `${trimmed} is not valid`,
+      item.status === "valid"
+        ? labels.added(trimmed)
+        : labels.invalid(trimmed),
     item,
     reason: "added",
   };

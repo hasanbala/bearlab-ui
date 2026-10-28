@@ -16,6 +16,7 @@ export const useCredentialInput = (
 ): UseTagInputReturn => {
   const {
     value,
+    labels,
     format,
     maxItems,
     disabled,
@@ -37,7 +38,7 @@ export const useCredentialInput = (
   const tryCommit = (raw: string) => {
     if (disabled) return;
 
-    const result = commitValue(raw, value, format, {
+    const result = commitValue(raw, value, format, labels, {
       validate,
       allowDuplicates,
       maxItems,
@@ -54,20 +55,20 @@ export const useCredentialInput = (
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return;
+    if (disabled || e.nativeEvent.isComposing) return;
 
-    if (DEFAULT_COMMIT_KEYS.includes(e.code)) {
-      if (e.code !== "Tab") e.preventDefault();
+    if (DEFAULT_COMMIT_KEYS.includes(e.key)) {
+      if (e.key !== "Tab") e.preventDefault();
       tryCommit(inputValue);
       return;
     }
 
-    if (e.code === "Backspace" && inputValue === "" && value.length > 0) {
+    if (e.key === "Backspace" && inputValue === "" && value.length > 0) {
       const last = value[value.length - 1];
       const next = removeItemById(value, last.id);
       onChange(next);
       onRemove?.(last);
-      setAnnouncement(`${last.value} removed`);
+      setAnnouncement(labels.removed(last.value));
     }
   };
 
@@ -86,7 +87,7 @@ export const useCredentialInput = (
 
     let nextList = [...value];
     candidates.forEach((candidate) => {
-      const result = commitValue(candidate, nextList, format, {
+      const result = commitValue(candidate, nextList, format, labels, {
         validate,
         allowDuplicates,
         maxItems,
@@ -100,7 +101,7 @@ export const useCredentialInput = (
 
     onChange(nextList);
     onInputChange("");
-    setAnnouncement(`${candidates.length} items pasted`);
+    setAnnouncement(labels.pasted(candidates.length));
   };
 
   const handleRemove = (item: TagItem) => {
@@ -108,7 +109,7 @@ export const useCredentialInput = (
     const next = removeItemById(value, item.id);
     onChange(next);
     onRemove?.(item);
-    setAnnouncement(`${item.value} removed`);
+    setAnnouncement(labels.removed(item.value));
     inputRef.current?.focus();
   };
 

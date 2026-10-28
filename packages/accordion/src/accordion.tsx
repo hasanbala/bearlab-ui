@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import classnames from "classnames";
 import { AccordionItem } from "./components/accordion-item";
 import { AccordionProps } from "./types/accordion.types";
@@ -9,12 +9,14 @@ export const Accordion = (props: AccordionProps) => {
     style,
     items,
     className,
+    headingLevel = 4,
     allowMultiple = false,
     defaultOpenIndexes = [],
     renderTitle,
     renderContent,
   } = props;
 
+  const uid = useId();
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(
     () => new Set(defaultOpenIndexes)
   );
@@ -48,7 +50,8 @@ export const Accordion = (props: AccordionProps) => {
           title={item.title}
           className={className}
           key={item.id ?? index}
-          id={item.id ?? String(index)}
+          id={`${uid}-${index}`}
+          headingLevel={headingLevel}
           content={item.content}
           isOpen={openIndexes.has(index)}
           renderTitle={renderTitle}

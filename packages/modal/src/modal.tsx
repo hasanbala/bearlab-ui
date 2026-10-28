@@ -1,7 +1,10 @@
 import { useEffect, useId, useRef } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
-import { DEFAULT_MODAL_Z_INDEX } from "./constants/modal-config";
+import {
+  DEFAULT_CLOSE_LABEL,
+  DEFAULT_MODAL_Z_INDEX,
+} from "./constants/modal-config";
 import { ModalAlertIcon } from "./components/modal-alert-icon";
 import { ModalBody } from "./components/modal-body";
 import { ModalHeader } from "./components/modal-header";
@@ -41,12 +44,20 @@ export const Modal = (props: ModalProps) => {
     alertType = "info",
     zIndex = DEFAULT_MODAL_Z_INDEX,
     animation = "zoom",
+    closeLabel = DEFAULT_CLOSE_LABEL,
+    closeOnEscape = true,
+    closeOnOverlayClick = true,
+    initialFocusRef,
     onCancel: handleCancel,
   } = props;
 
   const titleId = useId();
   const descId = useId();
-  const containerRef = useFocusTrap(isOpen);
+  const { ref: containerRef, handleKeyDown: handleTrapKeyDown } = useFocusTrap(
+    { isActive: isOpen, initialFocusRef }
+  );
+  const pointerInsideRef = useRef(false);
+  const pressStartedOnOverlayRef = useRef(false);
   const { isMounted, handleAnimationEnd } = useModalAnimation(isOpen);
   const { mountNode: modalRoot } = useModalRootElement();
   const originalOverflowRef = useRef<string>("");
@@ -60,17 +71,34 @@ export const Modal = (props: ModalProps) => {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleCancel();
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, handleCancel]);
-
   if (!modalRoot || !isMounted) return null;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Escape") {
+      if (!isOpen || !closeOnEscape) return;
+      e.stopPropagation();
+      handleCancel();
+      return;
+    }
+    handleTrapKeyDown(e);
+  };
+
+  const handleContainerMouseDown = () => {
+    pressStartedOnOverlayRef.current = !pointerInsideRef.current;
+    pointerInsideRef.current = false;
+  };
+
+  const handleContainerClick = () => {
+    const isOverlayClick =
+      !pointerInsideRef.current && pressStartedOnOverlayRef.current;
+    pointerInsideRef.current = false;
+    pressStartedOnOverlayRef.current = false;
+    if (isOverlayClick && closeOnOverlayClick && isOpen) handleCancel();
+  };
+
+  const markPointerInside = () => {
+    pointerInsideRef.current = true;
+  };
 
   const isFullscreen = type === "fullscreen";
   const isAlert = type === "alert";
@@ -79,7 +107,8 @@ export const Modal = (props: ModalProps) => {
     <div
       className={classnames(styles.container, className.container)}
       style={{ zIndex, ...style.container }}
-      onClick={handleCancel}
+      onMouseDown={handleContainerMouseDown}
+      onClick={handleContainerClick}
     >
       {!isFullscreen && (
         <div
@@ -101,7 +130,10 @@ export const Modal = (props: ModalProps) => {
         aria-modal="true"
         aria-labelledby={titleId}
         aria-describedby={subTitle ? descId : undefined}
-        onClick={(e) => e.stopPropagation()}
+        tabIndex={-1}
+        onKeyDown={handleKeyDown}
+        onMouseDownCapture={markPointerInside}
+        onClickCapture={markPointerInside}
         onAnimationEnd={handleAnimationEnd}
         style={style.content}
         className={classnames(
@@ -117,7 +149,7 @@ export const Modal = (props: ModalProps) => {
       >
         <button
           type="button"
-          aria-label="Close Modal"
+          aria-label={closeLabel}
           onClick={handleCancel}
           className={classnames(styles.closeButton, className.closeButton)}
         >

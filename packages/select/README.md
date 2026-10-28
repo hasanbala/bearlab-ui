@@ -25,7 +25,8 @@
 ## Features
 
 - ✅ **Single & Multiple selection** — toggle via `mode` prop
-- ✅ **Built-in search** — local filtering with optional match highlighting
+- ✅ **Built-in search** — local filtering with optional match highlighting, can be turned off via `showSearch`
+- ✅ **Native-like single value** — plain text by default, or a removable tag via `singleValueDisplay`
 - ✅ **Flexible value** — accepts primitive value or array of primitives, plus `null`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Portal-based dropdown** — options rendered via a portal, respecting `optionZIndex`
@@ -136,6 +137,28 @@ export default function App() {
 }
 ```
 
+### Single value display
+
+In `single` mode the selected option is rendered as plain text by default — just like a native `<select>`. There is no remove button, `Backspace` does not clear it and clicking the selected option again keeps it selected. Set `singleValueDisplay="tag"` to render it as a removable tag instead.
+
+```tsx
+<Select
+  //... required props
+  singleValueDisplay="tag"
+/>
+```
+
+### Disabling search
+
+Search is enabled by default. Pass `showSearch={false}` to turn the input into a read-only trigger: typing is disabled, and the dropdown opens and selects with the mouse or with `Enter`, `Space` and `ArrowDown`.
+
+```tsx
+<Select
+  //... required props
+  showSearch={false}
+/>
+```
+
 ### With Formik
 
 The `Select` component supports both manual state updates and standard Formik event handlers.
@@ -177,27 +200,32 @@ Use this for a cleaner implementation that leverages Formik's internal change ha
 
 ## Props
 
-| Prop             | Type                                    | Default                 | Required | Description                                                                      |
-| ---------------- | --------------------------------------- | ----------------------- | -------- | -------------------------------------------------------------------------------- |
-| `options`        | `T[]`                                   | —                       | ✅       | Array of options to display (where `T` extends [`SelectOption`](#selectoption))  |
-| `value`          | `SelectValue<T, Mode>`                  | —                       | ✅       | Current value — primitive or array of primitives (see [TypeScript](#typescript)) |
-| `mode`           | `"single" \| "multiple"`                | `"single"`              | ❌       | Selection mode                                                                   |
-| `onChange`       | see [TypeScript](#typescript)           | —                       | ❌       | Called when selection changes                                                    |
-| `label`          | `string`                                | —                       | ❌       | Field label rendered above the input                                             |
-| `name`           | `string`                                | —                       | ❌       | Form field name (triggers synthetic change event for Formik/RHF)                 |
-| `disabled`       | `boolean`                               | —                       | ❌       | Disables the select                                                              |
-| `error`          | `any`                                   | —                       | ❌       | Error message displayed below the input                                          |
-| `isRequired`     | `boolean`                               | —                       | ❌       | Marks the field as required (appends `*` to label)                               |
-| `isLoading`      | `boolean`                               | `false`                 | ❌       | Shows a spinning loading indicator inside the dropdown                           |
-| `placeholder`    | `string`                                | `"Select..."`           | ❌       | Placeholder text shown when nothing is selected                                  |
-| `emptyText`      | `string`                                | `"There is no options"` | ❌       | Text shown when the `options` array is empty                                     |
-| `notFoundText`   | `string`                                | `"No result found"`     | ❌       | Text shown when search query yields no results                                   |
-| `showImage`      | `boolean`                               | `false`                 | ❌       | Show option avatars/images (requires `image` on the option)                      |
-| `showCheckbox`   | `boolean`                               | `false`                 | ❌       | Show a checkbox indicator on each option row                                     |
-| `highlightMatch` | `boolean`                               | `true`                  | ❌       | Highlight the matching query text inside option labels                           |
-| `optionZIndex`   | `number`                                | `8888`                  | ❌       | Z-index for the options portal overlay                                           |
-| `className`      | [`SelectClassNames`](#selectclassnames) | —                       | ❌       | Per-slot className overrides                                                     |
-| `style`          | [`SelectStyles`](#selectstyles)         | —                       | ❌       | Per-slot inline style overrides                                                  |
+| Prop                 | Type                                    | Default                 | Required | Description                                                                      |
+| -------------------- | --------------------------------------- | ----------------------- | -------- | -------------------------------------------------------------------------------- |
+| `options`            | `T[]`                                   | —                       | ✅       | Array of options to display (where `T` extends [`SelectOption`](#selectoption))  |
+| `value`              | `SelectValue<T, Mode>`                  | —                       | ✅       | Current value — primitive or array of primitives (see [TypeScript](#typescript)) |
+| `mode`               | `"single" \| "multiple"`                | `"single"`              | ❌       | Selection mode                                                                   |
+| `onChange`           | see [TypeScript](#typescript)           | —                       | ❌       | Called when selection changes                                                    |
+| `label`              | `string`                                | —                       | ❌       | Field label rendered above the input                                             |
+| `name`               | `string`                                | —                       | ❌       | Form field name (triggers synthetic change event for Formik/RHF)                 |
+| `disabled`           | `boolean`                               | —                       | ❌       | Disables the select                                                              |
+| `error`              | `any`                                   | —                       | ❌       | Error message displayed below the input                                          |
+| `isRequired`         | `boolean`                               | —                       | ❌       | Marks the field as required (appends `*` to label)                               |
+| `isLoading`          | `boolean`                               | `false`                 | ❌       | Shows a spinning loading indicator inside the dropdown                           |
+| `placeholder`        | `string`                                | `"Select..."`           | ❌       | Placeholder text shown when nothing is selected                                  |
+| `emptyText`          | `string`                                | `"There is no options"` | ❌       | Text shown when the `options` array is empty                                     |
+| `notFoundText`       | `string`                                | `"No result found"`     | ❌       | Text shown when search query yields no results                                   |
+| `showImage`          | `boolean`                               | `false`                 | ❌       | Show option avatars/images (requires `image` on the option)                      |
+| `showCheckbox`       | `boolean`                               | `false`                 | ❌       | Show a checkbox indicator on each option row                                     |
+| `showSearch`         | `boolean`                               | `true`                  | ❌       | Enable typing in the input to filter options                                     |
+| `singleValueDisplay` | `"text" \| "tag"`                       | `"text"`                | ❌       | How the selected option is shown in `single` mode: plain text or a removable tag |
+| `highlightMatch`     | `boolean`                               | `true`                  | ❌       | Highlight the matching query text inside option labels                           |
+| `optionZIndex`       | `number`                                | `10100`                 | ❌       | Z-index for the options portal overlay                                           |
+| `className`          | [`SelectClassNames`](#selectclassnames) | —                       | ❌       | Per-slot className overrides                                                     |
+| `style`              | [`SelectStyles`](#selectstyles)         | —                       | ❌       | Per-slot inline style overrides                                                  |
+| `labels` | `SelectLabels` | English defaults | ❌ | Overrides screen-reader texts: `options`, `loading`, `selected(n)`, `moreSelected(n)`, `remove(label)` |
+| `locale` | `string` | — | ❌ | BCP 47 locale used for case-insensitive search (e.g. `"tr"` matches `İ`/`ı` correctly) |
+| `onBlur` | `(event: FocusEvent) => void` | — | ❌ | Fires when focus leaves the whole component (input, tags and options list) |
 
 ---
 
@@ -207,14 +235,15 @@ The component follows the **Slot Pattern** to provide deep customization without
 
 ### `SelectClassNames`
 
-| Slot            | Targets                         |
-| --------------- | ------------------------------- |
-| `root`          | Outermost container `<div>`     |
-| `search`        | Inner search input/wrapper      |
-| `options`       | The dropdown list container     |
-| `option`        | Individual option item          |
-| `selectedItems` | Wrapper for chosen item tags    |
-| `selectedItem`  | Individual chosen item tag/chip |
+| Slot            | Targets                                                                |
+| --------------- | ---------------------------------------------------------------------- |
+| `root`          | Outermost container `<div>`                                            |
+| `search`        | Inner search input/wrapper                                             |
+| `options`       | The dropdown list container                                            |
+| `singleValue`   | Plain-text selected value (`single` mode, `singleValueDisplay="text"`) |
+| `option`        | Individual option item                                                 |
+| `selectedItems` | Wrapper for chosen item tags                                           |
+| `selectedItem`  | Individual chosen item tag/chip                                        |
 
 ```tsx
 <Select
@@ -327,7 +356,7 @@ This component adheres to **WCAG 2.1 AA** standards and the ARIA combobox patter
 - **`aria-labelledby`** — Input is connected to its label via stable `useId()` IDs
 - **`aria-selected`** — Selected options are correctly flagged
 - **`aria-disabled`** — Disabled options are announced as non-interactive
-- **Keyboard Navigation** — Full support for `ArrowDown`, `ArrowUp`, `Enter`, `Escape`, and `Backspace` to navigate, select, and manage options
+- **Keyboard Navigation** — Full support for `ArrowDown`, `ArrowUp`, `Enter`, `Escape`, and `Backspace` to navigate, select, and manage options (`Space` also opens and selects when `showSearch` is `false`)
 - **Click Outside** — Dropdown closes correctly when clicking outside the component
 
 ---
@@ -359,6 +388,7 @@ import type {
   SelectProps,
   SelectClassNames,
   SelectStyles,
+  SelectSingleValueDisplay,
 } from "@bearlab/select";
 ```
 
@@ -396,6 +426,7 @@ interface SelectClassNames {
   search?: string;
   option?: string;
   options?: string;
+  singleValue?: string;
   selectedItem?: string;
   selectedItems?: string;
 }
@@ -409,6 +440,7 @@ interface SelectStyles {
   search?: React.CSSProperties;
   option?: React.CSSProperties;
   options?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectedItem?: React.CSSProperties;
   selectedItems?: React.CSSProperties;
 }

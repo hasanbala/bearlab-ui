@@ -8,13 +8,13 @@ import { Dropdown } from "./dropdown";
 import { DropdownOptions } from "./components/dropdown-options";
 
 export const DropdownList = (props: DropdownListProps) => {
-  const { list, className, style, id } = props;
+  const { list, className, style, id, linkComponent } = props;
 
   const uid = useId().replace(/:/g, "");
   const buttonId = id ?? `dropdown-toggle-${uid}`;
   const menuId = `dropdown-menu-${uid}`;
 
-  const { isOpen, toggle, close } = useDropdown({ buttonId, menuId });
+  const { isOpen, toggle, close } = useDropdown({ menuId });
 
   return (
     <div
@@ -52,6 +52,7 @@ export const DropdownList = (props: DropdownListProps) => {
           <DropdownOptions
             key={groupIndex}
             group={group}
+            linkComponent={linkComponent}
             className={className}
             style={style}
           />

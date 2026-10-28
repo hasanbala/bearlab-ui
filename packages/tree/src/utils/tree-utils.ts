@@ -185,29 +185,9 @@ export const filterTree = (
   return { tree: walk(treeData), expandedFromSearch, matched };
 };
 
-const HTML_ENTITIES: Record<string, string> = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&#39;",
-};
-
-const escapeHtml = (text: string): string =>
-  text.replace(/[&<>"']/g, (char) => HTML_ENTITIES[char]);
-
-export const highlightLabelHtml = (label: string, query: string): string => {
+export const splitByMatch = (label: string, query: string): string[] => {
   const q = query.trim();
-  if (!q) return escapeHtml(label);
-
+  if (!q) return [label];
   const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-  return label
-    .split(new RegExp(`(${pattern})`, "gi"))
-    .map((part, index) =>
-      index % 2 === 1
-        ? `<strong>${escapeHtml(part)}</strong>`
-        : escapeHtml(part)
-    )
-    .join("");
+  return label.split(new RegExp(`(${pattern})`, "gi"));
 };

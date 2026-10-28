@@ -153,6 +153,9 @@ const tabs: TabItem[] = [
 | `isVertical` | `boolean`                         | `false` | ❌       | Side-by-side layout for nav + content (activates at ≥768px) |
 | `className`  | [`TabClassNames`](#tabclassnames) | —       | ❌       | Per-slot className overrides                                |
 | `style`      | [`TabStyles`](#tabstyles)         | —       | ❌       | Per-slot inline style overrides                             |
+| `activeKey` | `string \| number` | — | ❌ | Controlled active tab key |
+| `defaultActiveKey` | `string \| number` | first enabled tab | ❌ | Initial active tab in uncontrolled mode |
+| `onChange` | `(key: string \| number) => void` | — | ❌ | Fires when the active tab changes (click or keyboard) |
 
 ---
 
@@ -162,7 +165,7 @@ Each object in the `tabs` array must conform to `TabItem`:
 
 | Field     | Type                                                             | Required | Description                                 |
 | --------- | ---------------------------------------------------------------- | -------- | ------------------------------------------- |
-| `key`     | `number`                                                         | ✅       | Unique identifier for active-tab tracking   |
+| `key`     | `string \| number`                                                       | ✅       | Unique identifier for active-tab tracking   |
 | `title`   | `React.ReactNode`                                                | ✅       | Label rendered inside the tab button and as the panel heading |
 | `content` | `React.ReactNode`                                                | ✅       | Rendered inside the tab panel               |
 | `notify`  | `number \| null`                                                 | ❌       | Numeric badge count; omit or `null` hides the badge |

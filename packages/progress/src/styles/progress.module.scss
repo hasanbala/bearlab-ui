@@ -239,3 +239,11 @@
     }
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

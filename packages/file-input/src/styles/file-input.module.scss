@@ -329,3 +329,11 @@
     margin: var(--_file-input-helper-margin-top) 0 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

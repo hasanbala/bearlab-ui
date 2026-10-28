@@ -4,8 +4,11 @@ export interface AccordionDataItem {
   id?: string | number;
 }
 
+export type AccordionHeadingLevel = 2 | 3 | 4 | 5 | 6;
+
 export interface AccordionItemProps {
   title: string;
+  headingLevel: AccordionHeadingLevel;
   isOpen: boolean;
   content: string;
   id: string | number;
@@ -18,6 +21,7 @@ export interface AccordionItemProps {
 
 export interface AccordionProps {
   style?: AccordionStyles;
+  headingLevel?: AccordionHeadingLevel;
   allowMultiple?: boolean;
   items: AccordionDataItem[];
   defaultOpenIndexes?: number[];

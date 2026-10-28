@@ -279,6 +279,10 @@ modalStore.close();
 | `zIndex`    | `number`                                            | `10001`     | ❌       | `z-index` for the root container                                                      |
 | `className` | [`ModalClassNames`](#modalclassnames)               | —           | ❌       | Per-slot className overrides                                                          |
 | `style`     | [`ModalStyles`](#modalstyles)                       | —           | ❌       | Per-slot inline style overrides                                                       |
+| `closeLabel` | `string` | `"Close modal"` | ❌ | Accessible label of the close button |
+| `closeOnEscape` | `boolean` | `true` | ❌ | Closes on `Escape`. Only the top-most layer reacts, so a Select or nested modal closes first |
+| `closeOnOverlayClick` | `boolean` | `true` | ❌ | Closes when a click both starts and ends on the overlay |
+| `initialFocusRef` | `RefObject<HTMLElement>` | first focusable | ❌ | Element that receives focus when the modal opens |
 
 ---
 
@@ -571,7 +575,7 @@ This component adheres to **WCAG 2.1 AA** standards:
 - **Focus Trap** — A `useFocusTrap` hook confines keyboard focus within the modal while it is open, and restores focus to the triggering element on close.
 - **Body Scroll Lock** — `document.body.style.overflow = "hidden"` is applied while the modal is open and restored on close.
 - **Keyboard Navigation** — Pressing `Escape` fires `onCancel` to close the modal.
-- **Close Button** — Has `aria-label="Close Modal"` for screen reader users.
+- **Close Button** — Has `aria-label="Close modal"` (override with `closeLabel`) for screen reader users.
 
 ---
 

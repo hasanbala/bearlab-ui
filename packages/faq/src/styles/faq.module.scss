@@ -532,3 +532,15 @@
     ); /* 250px */
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .containerByFaqOne,
+  .containerByFaqOne *,
+  .containerByFaqTwo,
+  .containerByFaqTwo *,
+  .containerByFaqThree,
+  .containerByFaqThree * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

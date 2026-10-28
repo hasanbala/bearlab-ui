@@ -161,6 +161,7 @@ const [value, setValue] = useState("");
 | `id`         | `string`                                    | —       | ❌       | Custom id for the textarea; auto-generated via `useId()` if omitted |
 | `className`  | [`TextareaClassNames`](#textareaclassnames) | —       | ❌       | Per-slot className overrides                                        |
 | `style`      | [`TextareaStyles`](#textareastyles)         | —       | ❌       | Per-slot inline style overrides                                     |
+| `labels` | `TextareaLabels` | English defaults | ❌ | Overrides `characterCount(count, limit)` and `limitReached(limit)` texts |
 
 > The component extends `React.TextareaHTMLAttributes<HTMLTextAreaElement>` (excluding `className` and `style`), so all standard textarea props such as `rows`, `maxLength`, `placeholder`, `onChange`, `onBlur`, etc. are also supported.
 

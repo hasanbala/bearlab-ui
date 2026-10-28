@@ -3,15 +3,26 @@ import { AVATAR_TEXT_COLORS } from "./constants/avatar-config";
 import type { AvatarTextProps } from "./types/avatar.types";
 import styles from "./styles/avatar-text.module.scss";
 
+const getFirstGrapheme = (word: string, locale?: string): string => {
+  if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
+    const segmenter = new Intl.Segmenter(locale, { granularity: "grapheme" });
+    const first = segmenter.segment(word)[Symbol.iterator]().next();
+    return first.done ? "" : first.value.segment;
+  }
+  return Array.from(word)[0] ?? "";
+};
+
 export const AvatarText = (props: AvatarTextProps) => {
-  const { name, className, style } = props;
+  const { name, locale, className, style } = props;
 
   const initials = name
-    .split(" ")
-    .map((word) => word[0])
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => getFirstGrapheme(word, locale))
     .join("")
-    .toUpperCase()
-    .slice(0, 2);
+    .toLocaleUpperCase(locale);
 
   const getColorClass = (name: string) => {
     const index = name

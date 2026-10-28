@@ -4,4 +4,6 @@ export type {
   SelectProps,
   SelectClassNames,
   SelectStyles,
+  SelectLabels,
+  SelectSingleValueDisplay,
 } from "./types/select.types";

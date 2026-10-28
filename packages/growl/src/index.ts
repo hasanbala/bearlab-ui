@@ -4,4 +4,6 @@ export type {
   GrowlClassNames,
   GrowlStyles,
   GrowlInterface,
+  GrowlLabels,
+  GrowlContainerProps,
 } from "./types/growl.types";

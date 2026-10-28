@@ -16,7 +16,18 @@ if (!packageName) {
 const packagePath = path.resolve(`packages/${packageName}`);
 const rootPath = path.resolve(".");
 
-const useClientBanner = '"use client";';
+const serverComponentPackages = new Set([
+  "alert",
+  "avatar",
+  "badge",
+  "breadcrumb",
+  "loading",
+  "skeleton",
+]);
+
+const useClientBanner = serverComponentPackages.has(packageName)
+  ? undefined
+  : '"use client";';
 
 const packageJson = JSON.parse(
   readFileSync(path.join(packagePath, "package.json"), "utf8")

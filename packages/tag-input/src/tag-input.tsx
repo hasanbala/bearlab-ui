@@ -1,10 +1,11 @@
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import classnames from "classnames";
 import { useCredentialInput } from "./hooks/use-credential-input";
 import { Tag } from "./components/tag";
 import { TagInputProps } from "./types/tag-input.types";
 import { IconErrorTriangle } from "./assets/icons";
 import styles from "./styles/tag-input.module.scss";
+import { DEFAULT_TAG_INPUT_LABELS } from "./constants/tag-input.config";
 
 export const TagInput = (props: TagInputProps) => {
   const {
@@ -21,6 +22,7 @@ export const TagInput = (props: TagInputProps) => {
     placeholder,
     allowDuplicates,
     formatLabel,
+    labels,
     value: credentialList,
     onAdd,
     onError,
@@ -31,6 +33,10 @@ export const TagInput = (props: TagInputProps) => {
   } = props;
 
   const uid = useId();
+  const text = useMemo(
+    () => ({ ...DEFAULT_TAG_INPUT_LABELS, ...labels }),
+    [labels]
+  );
   const inputId = `credential-input-${uid}`;
   const helperTextId = `${inputId}-helper`;
   const labelId = `${inputId}-label`;
@@ -58,6 +64,7 @@ export const TagInput = (props: TagInputProps) => {
     handleKeyDown,
   } = useCredentialInput({
     value: credentialList,
+    labels: text,
     inputValue,
     onChange,
     onInputChange,
@@ -144,6 +151,7 @@ export const TagInput = (props: TagInputProps) => {
             <li key={item.id} className={styles.tagListItem}>
               <Tag
                 item={item}
+                labels={text}
                 onRemove={handleRemove}
                 disabled={disabled}
                 className={className}
@@ -156,7 +164,6 @@ export const TagInput = (props: TagInputProps) => {
           <input
             ref={inputRef}
             id={inputId}
-            name="search"
             type="text"
             role="combobox"
             aria-expanded={false}

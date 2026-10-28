@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type TreeSelectMode = "single" | "multiple";
+export type TreeSelectSingleValueDisplay = "text" | "tag";
 export type NodeValue = number | string;
 
 export interface TreeSelectOption {
@@ -8,6 +9,14 @@ export interface TreeSelectOption {
   children?: TreeSelectOption[];
   disabled?: boolean;
   icon?: React.ReactNode;
+}
+
+export interface TreeSelectLabels {
+  options?: string;
+  loading?: string;
+  selected?: (count: number) => string;
+  moreSelected?: (count: number) => string;
+  remove?: (label: string) => string;
 }
 
 export type SingleValue = NodeValue | null;
@@ -19,12 +28,15 @@ interface BaseTreeSelectProps {
   treeData: TreeSelectOption[];
   name?: string;
   label?: string;
+  locale?: string;
+  labels?: TreeSelectLabels;
   error?: any;
   disabled?: boolean;
   isRequired?: boolean;
   isLoading?: boolean;
   showIcon?: boolean;
   showLine?: boolean;
+  showSearch?: boolean;
   checkStrictly?: boolean;
   highlightMatch?: boolean;
   placeholder?: string;
@@ -35,8 +47,10 @@ interface BaseTreeSelectProps {
   defaultExpandedValues?: NodeValue[];
   expandedValues?: NodeValue[];
   onExpand?: (expandedValues: NodeValue[], node: TreeSelectOption) => void;
+  singleValueDisplay?: TreeSelectSingleValueDisplay;
   style?: TreeSelectStyles;
   className?: TreeSelectClassNames;
+  onBlur?: (event: React.FocusEvent<HTMLElement>) => void;
 }
 
 export interface TreeSelectProps<
@@ -68,13 +82,19 @@ export interface TreeOptionsProps {
   expandedValues: Set<NodeValue>;
   style?: TreeSelectStyles;
   className?: TreeSelectClassNames;
+  labels: Required<TreeSelectLabels>;
   onToggleExpand: (node: TreeSelectOption) => void;
   onSelect: (node: TreeSelectOption) => void;
 }
 
 export interface TreeOptionProps extends Omit<
   TreeOptionsProps,
-  "treeData" | "listboxId" | "emptyText" | "notFoundText" | "isLoading"
+  | "treeData"
+  | "listboxId"
+  | "emptyText"
+  | "notFoundText"
+  | "isLoading"
+  | "labels"
 > {
   node: TreeSelectOption;
   depth: number;
@@ -84,12 +104,18 @@ export interface SearchProps {
   error?: any;
   query: string;
   inputId: string;
+  labelId?: string;
+  errorId?: string;
+  isRequired?: boolean;
+  labels: Required<TreeSelectLabels>;
   mode: TreeSelectMode;
   listboxId: string;
   selectedItems: TreeSelectOption[];
   disabled?: boolean;
   isLoading?: boolean;
   placeholder: string;
+  showSearch: boolean;
+  isSingleText: boolean;
   style?: TreeSelectStyles;
   containerWidth: number;
   isDropdownVisible: boolean;
@@ -107,6 +133,7 @@ export interface SelectedItemsProps {
   style?: TreeSelectStyles;
   visibleCount: number;
   className?: TreeSelectClassNames;
+  labels: Required<TreeSelectLabels>;
   setSelectedItems: (val: TreeSelectOption[]) => void;
 }
 
@@ -117,6 +144,7 @@ export interface SelectedItemProps {
   value?: NodeValue;
   style?: React.CSSProperties;
   "aria-label"?: string;
+  removeLabel?: string;
   "data-bearlab-tree-select-item"?: "visible" | "overflow";
   onRemove?: (val: NodeValue) => void;
 }
@@ -133,6 +161,7 @@ export interface TreeSelectClassNames {
   search?: string;
   options?: string;
   option?: string;
+  singleValue?: string;
   selectedItem?: string;
   selectedItems?: string;
   checkbox?: string;
@@ -144,6 +173,7 @@ export interface TreeSelectStyles {
   search?: React.CSSProperties;
   options?: React.CSSProperties;
   option?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectedItem?: React.CSSProperties;
   selectedItems?: React.CSSProperties;
   checkbox?: React.CSSProperties;

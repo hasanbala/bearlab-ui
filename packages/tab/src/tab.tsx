@@ -7,9 +7,50 @@ import { TabButton } from "./components/tab-button";
 import { TabContent } from "./components/tab-content";
 
 export const Tab = (props: TabProps) => {
-  const { tabs, actionType, isVertical, className, style } = props;
-  const { activeTab, setActiveTab } = useTab(tabs[0]?.key ?? 0);
+  const {
+    tabs,
+    style,
+    activeKey,
+    className,
+    actionType,
+    isVertical,
+    defaultActiveKey,
+    onChange,
+  } = props;
+  const { activeTab, setActiveTab } = useTab({
+    tabs,
+    activeKey,
+    defaultActiveKey,
+    onChange,
+  });
   const uid = useId();
+  const getTabId = (index: number) => `${uid}-tab-${index}`;
+  const getPanelId = (index: number) => `${uid}-tabpanel-${index}`;
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    const prevKey = isVertical ? "ArrowUp" : "ArrowLeft";
+    const nextKey = isVertical ? "ArrowDown" : "ArrowRight";
+    const enabled = tabs
+      .map((tab, i) => ({ tab, i }))
+      .filter(({ tab }) => !tab.disabled);
+    const position = enabled.findIndex(({ i }) => i === index);
+    if (!enabled.length) return;
+
+    let target: (typeof enabled)[number] | undefined;
+    if (event.key === nextKey) target = enabled[(position + 1) % enabled.length];
+    else if (event.key === prevKey)
+      target = enabled[(position - 1 + enabled.length) % enabled.length];
+    else if (event.key === "Home") target = enabled[0];
+    else if (event.key === "End") target = enabled[enabled.length - 1];
+    if (!target) return;
+
+    event.preventDefault();
+    setActiveTab(target.tab.key);
+    document.getElementById(getTabId(target.i))?.focus();
+  };
 
   return (
     <div
@@ -31,14 +72,15 @@ export const Tab = (props: TabProps) => {
           className={className?.nav}
           style={style?.nav}
         >
-          {tabs.map((tab) => (
+          {tabs.map((tab, index) => (
             <TabButton
               key={tab.key}
               tab={tab}
               isActive={activeTab === tab.key}
               onClick={() => setActiveTab(tab.key)}
-              tabId={`${uid}-tab-${tab.key}`}
-              panelId={`${uid}-tabpanel-${tab.key}`}
+              onKeyDown={(event) => handleKeyDown(event, index)}
+              tabId={getTabId(index)}
+              panelId={getPanelId(index)}
               className={{
                 button: className?.button,
                 notify: className?.notify,
@@ -52,13 +94,13 @@ export const Tab = (props: TabProps) => {
         className={classnames(styles.content, className?.content)}
         style={style?.content}
       >
-        {tabs.map((tab) => (
+        {tabs.map((tab, index) => (
           <TabContent
             key={tab.key}
             tab={tab}
             isActive={activeTab === tab.key}
-            tabId={`${uid}-tab-${tab.key}`}
-            panelId={`${uid}-tabpanel-${tab.key}`}
+            tabId={getTabId(index)}
+            panelId={getPanelId(index)}
           />
         ))}
       </div>

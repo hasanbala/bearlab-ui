@@ -1,4 +1,4 @@
-import { useState, useId } from "react";
+import { forwardRef, useCallback, useId, useRef, useState } from "react";
 import classnames from "classnames";
 import {
   IconEyesClose,
@@ -8,7 +8,7 @@ import {
   IconSearch,
   IconErrorTriangle,
 } from "./assets/icons";
-import type { InputProps, IconType } from "./types/input.types";
+import type { InputProps, IconType, InputLabels } from "./types/input.types";
 import styles from "./styles/input.module.scss";
 import { useCopy } from "./hooks/use-copy";
 
@@ -18,8 +18,17 @@ const renderIcon = (icon: IconType) => {
   return <IconComponent />;
 };
 
-export const Input = (props: InputProps) => {
+const DEFAULT_LABELS: Required<InputLabels> = {
+  showPassword: "Show password",
+  hidePassword: "Hide password",
+  copy: "Copy to clipboard",
+  copied: "Copied",
+  search: "Search",
+};
+
+export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
+    id,
     name,
     label,
     error,
@@ -31,19 +40,43 @@ export const Input = (props: InputProps) => {
     beforeIcon,
     isRequired,
     isExistCopy,
+    labels,
     type = "text",
     onSearch,
+    "aria-describedby": ariaDescribedBy,
     ...rest
   } = props;
 
-  const inputId = useId();
+  const generatedId = useId();
   const errorId = useId();
+  const inputId = id ?? generatedId;
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { isCopy, handleCopy } = useCopy(value, disabled);
+  const { isCopy, handleCopy } = useCopy(
+    () => inputRef.current?.value,
+    disabled
+  );
+  const text = { ...DEFAULT_LABELS, ...labels };
   const hasError = Boolean(error);
-  const inputType =
-    type !== "password" || passwordVisible ? "text" : "password";
-  const hasPassword = type == "password";
+  const hasPassword = type === "password";
+  const inputType = hasPassword
+    ? passwordVisible
+      ? "text"
+      : "password"
+    : type;
+  const describedBy =
+    [ariaDescribedBy, hasError ? errorId : undefined]
+      .filter(Boolean)
+      .join(" ") || undefined;
+
+  const setRefs = useCallback(
+    (node: HTMLInputElement | null) => {
+      inputRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref]
+  );
 
   const togglePassword = () => setPasswordVisible((prev) => !prev);
 
@@ -102,7 +135,7 @@ export const Input = (props: InputProps) => {
         {hasPassword && (
           <button
             type="button"
-            aria-label={passwordVisible ? "Hide password" : "Show password"}
+            aria-label={passwordVisible ? text.hidePassword : text.showPassword}
             onClick={togglePassword}
             className={classnames(
               styles.passwordToggle,
@@ -121,7 +154,7 @@ export const Input = (props: InputProps) => {
         {isExistCopy && (
           <button
             type="button"
-            aria-label={isCopy ? "Copied" : "Copy to clipboard"}
+            aria-label={isCopy ? text.copied : text.copy}
             onClick={handleCopy}
             disabled={disabled}
             className={classnames(
@@ -142,7 +175,7 @@ export const Input = (props: InputProps) => {
         {onSearch && (
           <button
             type="button"
-            aria-label="Search"
+            aria-label={text.search}
             onClick={onSearch}
             className={classnames(styles.searchButton, className?.searchButton)}
             style={style?.searchButton}
@@ -151,14 +184,16 @@ export const Input = (props: InputProps) => {
           </button>
         )}
         <input
+          {...rest}
+          ref={setRefs}
           name={name}
           id={inputId}
-          value={value ?? ""}
+          value={value}
           type={inputType}
           disabled={disabled}
-          aria-invalid={hasError || undefined}
-          aria-required={isRequired || undefined}
-          aria-describedby={hasError ? errorId : undefined}
+          required={isRequired || rest.required}
+          aria-invalid={hasError || rest["aria-invalid"] || undefined}
+          aria-describedby={describedBy}
           className={classnames(
             styles.input,
             onSearch && styles.inputWithSearch,
@@ -168,7 +203,6 @@ export const Input = (props: InputProps) => {
             className?.input
           )}
           style={style?.input}
-          {...rest}
         />
         {hasError && (
           <div
@@ -185,4 +219,6 @@ export const Input = (props: InputProps) => {
       </div>
     </div>
   );
-};
+});
+
+Input.displayName = "Input";

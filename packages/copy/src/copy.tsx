@@ -6,7 +6,15 @@ import styles from "./styles/copy.module.scss";
 import type { CopyProps } from "./types/copy.types";
 
 export const Copy = (props: CopyProps) => {
-  const { text, className, label = "Copy", disabled, style } = props;
+  const {
+    text,
+    className,
+    label = "Copy",
+    copiedLabel = "Copied to clipboard",
+    emptyLabel = "Empty",
+    disabled,
+    style,
+  } = props;
 
   const [isCopy, setIsCopy] = useState(false);
   const generatedId = useId();
@@ -31,7 +39,7 @@ export const Copy = (props: CopyProps) => {
 
   const displayText = text === "" || text == null ? "-" : text;
   const iconType = isCopy ? "tick" : "copy";
-  const announceLabel = isCopy ? "Copied!" : label;
+  const announceLabel = isCopy ? copiedLabel : label;
 
   return (
     <div
@@ -47,7 +55,7 @@ export const Copy = (props: CopyProps) => {
       <div
         id={textId}
         style={style?.text}
-        aria-label={displayText === "-" ? "Empty" : displayText}
+        aria-label={displayText === "-" ? emptyLabel : displayText}
         className={classnames(styles.text, className?.text)}
         title={typeof displayText === "string" ? displayText : undefined}
       >
@@ -62,9 +70,7 @@ export const Copy = (props: CopyProps) => {
           aria-pressed={isCopy}
           aria-controls={textId}
           onClick={copyCode}
-          aria-label={
-            isCopy ? "Copied to clipboard" : `${label}: ${displayText}`
-          }
+          aria-label={isCopy ? copiedLabel : `${label}: ${displayText}`}
         />
       )}
     </div>

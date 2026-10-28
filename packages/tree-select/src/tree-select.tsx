@@ -29,6 +29,7 @@ import {
   toggleChecked,
 } from "./utils/tree-select-utils";
 import styles from "./styles/tree-select.module.scss";
+import { DEFAULT_TREE_SELECT_LABELS } from "./constants/tree-select-config";
 
 export const TreeSelect = <Mode extends TreeSelectMode = "single">(
   props: TreeSelectProps<Mode>
@@ -39,13 +40,16 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
     label,
     error,
     style,
+    labels,
+    locale,
     treeData,
     disabled,
     className,
     isRequired,
     showIcon = false,
     showLine = false,
-    optionZIndex = 8888,
+    showSearch = true,
+    optionZIndex = 10100,
     checkStrictly = false,
     highlightMatch = true,
     placeholder = "Select...",
@@ -53,8 +57,10 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
     emptyText = "There is no options",
     isLoading = false,
     autoExpandParent = true,
+    singleValueDisplay = "text",
     defaultExpandedValues,
     expandedValues,
+    onBlur,
     onExpand,
     onChange,
   } = props;
@@ -62,6 +68,7 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
   const mode: TreeSelectMode = props.mode ?? "single";
   const isSingle = mode === "single";
   const isMultiple = mode === "multiple";
+  const isSingleText = isSingle && singleValueDisplay === "text";
 
   const uid = useId();
   const portalRef = useRef<HTMLDivElement>(null);
@@ -73,6 +80,11 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
   const listboxId = `tree-select-listbox-${uid}`;
   const treeId = `tree-select-${uid}`;
   const labelId = `tree-select-label-${uid}`;
+  const errorId = `tree-select-error-${uid}`;
+  const text = useMemo(
+    () => ({ ...DEFAULT_TREE_SELECT_LABELS, ...labels }),
+    [labels]
+  );
 
   const [internalExpanded, setInternalExpanded] = useState<NodeValue[]>(
     defaultExpandedValues ?? []
@@ -97,7 +109,10 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
     tree: displayTree,
     expandedFromSearch,
     matched,
-  } = useMemo(() => filterTree(treeData, query), [treeData, query]);
+  } = useMemo(
+    () => filterTree(treeData, query, locale),
+    [treeData, query, locale]
+  );
 
   const expandedSet = useMemo(() => {
     const set = new Set(expanded);
@@ -219,10 +234,12 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
     (node: TreeSelectOption) => {
       if (node.disabled || disabled) return;
       const isSame = (value as NodeValue | null) === node.value;
-      fireOnChange(isSame ? null : node.value, node);
+      if (!isSame || !isSingleText) {
+        fireOnChange(isSame ? null : node.value, node);
+      }
       handleClose();
     },
-    [disabled, value, fireOnChange, handleClose]
+    [disabled, value, isSingleText, fireOnChange, handleClose]
   );
 
   const handleCheck = useCallback(
@@ -276,8 +293,9 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isLoading || disabled) return;
+      const isSpaceSelect = !showSearch && e.key === " ";
       if (!isDropdownVisible) {
-        if (e.key === "ArrowDown" || e.key === "Enter") {
+        if (e.key === "ArrowDown" || e.key === "Enter" || isSpaceSelect) {
           e.preventDefault();
           setIsDropdownVisible(true);
         }
@@ -321,16 +339,19 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
           }
           break;
         case "Enter":
+        case " ":
+          if (e.key === " " && !isSpaceSelect) break;
           e.preventDefault();
           if (current) handleActivate(current.node);
           break;
         case "Escape":
           e.preventDefault();
+          e.stopPropagation();
           setIsDropdownVisible(false);
           setActiveIndex(-1);
           break;
         case "Backspace":
-          if (!query && selectedItems.length > 0) {
+          if (!query && !isSingleText && selectedItems.length > 0) {
             handleRemove(selectedItems.slice(0, -1));
           }
           break;
@@ -340,7 +361,9 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
       query,
       disabled,
       isLoading,
+      showSearch,
       activeIndex,
+      isSingleText,
       flat,
       expandedSet,
       nodeIndex,
@@ -359,9 +382,18 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
   const activeOptionId =
     activeValue !== undefined ? `${treeId}-node-${activeValue}` : undefined;
 
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!onBlur) return;
+    const next = e.relatedTarget as Node | null;
+    if (containerRef.current?.contains(next)) return;
+    if (portalRef.current?.contains(next)) return;
+    onBlur(e);
+  };
+
   return (
     <div
       ref={containerRef}
+      onBlur={handleBlur}
       style={style?.root}
       className={classNames(
         styles.container,
@@ -379,17 +411,32 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
           {label} {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
+      {name &&
+        selectedItems.map((item) => (
+          <input
+            key={item.value}
+            type="hidden"
+            name={name}
+            value={item.value}
+          />
+        ))}
       <Search
         mode={mode}
         error={error}
         query={query}
         style={style}
+        labels={text}
         inputId={inputId}
+        errorId={errorId}
+        isRequired={isRequired}
+        labelId={label ? labelId : undefined}
         disabled={disabled}
         isLoading={isLoading}
         listboxId={listboxId}
         className={className}
+        showSearch={showSearch}
         placeholder={placeholder}
+        isSingleText={isSingleText}
         selectedItems={selectedItems}
         containerWidth={containerWidth}
         activeOptionId={activeOptionId}
@@ -410,6 +457,7 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
           mode={mode}
           query={query}
           style={style}
+          labels={text}
           disabled={disabled}
           isLoading={isLoading}
           showIcon={showIcon}
@@ -431,7 +479,7 @@ export const TreeSelect = <Mode extends TreeSelectMode = "single">(
         />
       </OptionsPortal>
       {error && (
-        <div className={styles.viewError}>
+        <div id={errorId} className={styles.viewError}>
           <IconErrorTriangle />
           <span>{error}</span>
         </div>

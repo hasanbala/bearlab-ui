@@ -51,9 +51,9 @@ pnpm add @bearlab/avatar
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
 > **Framework support:** Works with React 18/19 and Next.js — both the App Router
-> and the Pages Router. Every component ships with the `"use client"` directive
-> already applied, so you can import it straight into a Server Component without
-> writing a wrapper file. All DOM access is SSR-guarded.
+> and the Pages Router. This package has no client-side state or effects, so it
+> ships **without** a `"use client"` directive and renders as a React Server
+> Component — no JavaScript is sent to the browser for it.
 
 ### Styles
 
@@ -130,7 +130,7 @@ export default function App() {
 | Prop        | Type                                                                  | Default    | Required | Description                                 |
 | ----------- | --------------------------------------------------------------------- | ---------- | -------- | ------------------------------------------- |
 | `src`       | `string`                                                              | —          | ✅       | URL of the image to display                 |
-| `alt`       | `string`                                                              | `"avatar"` | ❌       | Alternative text for the image              |
+| `alt`       | `string`                                                              | `""`       | ❌       | Alternative text for the image              |
 | `size`      | `"xsmall" \| "small" \| "medium" \| "large" \| "xlarge" \| "xxlarge"` | `"medium"` | ❌       | Size variant of the avatar                  |
 | `status`    | `"online" \| "offline" \| "busy" \| "none"`                           | `"none"`   | ❌       | Presence indicator badge; `"none"` hides it |
 | `className` | [`AvatarIconClassNames`](#avatariconclassnames)                       | —          | ❌       | Per-slot className overrides                |
@@ -154,6 +154,7 @@ export default function App() {
 | `name`      | `string`                                        | —       | ✅       | Full name; up to 2 initials are extracted and displayed |
 | `className` | [`AvatarTextClassNames`](#avatartextclassnames) | —       | ❌       | Per-slot className overrides                            |
 | `style`     | [`AvatarTextStyles`](#avatartextstyles)         | —       | ❌       | Per-slot inline style overrides                         |
+| `locale` | `string` | — | ❌ | `AvatarText` only — locale used to uppercase initials (e.g. `"tr"` turns `i` into `İ`) |
 
 ---
 
@@ -305,7 +306,7 @@ These components adhere to **WCAG 2.1 AA** standards:
 
 **`AvatarIcon`**
 
-- **`alt` attribute** — Provides a meaningful text description of the image for screen readers (defaults to `"avatar"` if not supplied).
+- **`alt` attribute** — Provides a meaningful text description of the image for screen readers (defaults to `""`, which marks the image as decorative — pass the person's name when the image is the only identifier).
 - **`aria-hidden="true"`** on the status badge `<span>` — The presence indicator is decorative; presence state should be communicated via surrounding context if semantically required.
 
 **`AvatarText`**

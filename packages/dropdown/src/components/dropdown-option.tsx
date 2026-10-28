@@ -4,7 +4,7 @@ import styles from "../styles/dropdown-list.module.scss";
 import classnames from "classnames";
 
 export const DropdownOption = (props: DropdownOptionProps) => {
-  const { href, label, icon, className, style } = props;
+  const { href, label, icon, linkComponent, className, style } = props;
 
   const Icon = icon || null;
 
@@ -17,7 +17,7 @@ export const DropdownOption = (props: DropdownOptionProps) => {
       <DropdownItem
         tag="a"
         href={href}
-        onItemClick={close}
+        linkComponent={linkComponent}
         className={classnames(styles.dropdownItem, className?.dropdownItem)}
         style={style?.dropdownItem}
       >

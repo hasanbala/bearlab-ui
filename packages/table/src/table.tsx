@@ -1,4 +1,4 @@
-import { useId, useMemo, useCallback } from "react";
+import { useId, useMemo, useCallback, useState } from "react";
 import classnames from "classnames";
 import { Checkbox } from "@bearlab/checkbox";
 import { Radio } from "@bearlab/radio";
@@ -10,6 +10,7 @@ import { useTableFilter } from "./hooks/use-table-filter";
 import { useMediaQuery } from "./hooks/use-media-query";
 import type {
   TableProps,
+  TableLabels,
   FinalColumn,
   SelectionColumn,
 } from "./types/table.types";
@@ -25,6 +26,18 @@ import styles from "./styles/table.module.scss";
 import { TableRecord } from "./components/table-record";
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
+
+const DEFAULT_LABELS: Required<TableLabels> = {
+  pagination: "Table pagination",
+  previousPage: "Go to previous page",
+  nextPage: "Go to next page",
+  goToPage: (page) => `Go to page ${page}`,
+  pageInfo: (page, totalPages) => `Page ${page} of ${totalPages}`,
+  rowsPerPage: "Rows per page",
+  pageSizeOption: (size) => `${size} / page`,
+  selectAll: "Select all rows on this page",
+  selectRow: (key) => `Select row ${key}`,
+};
 
 const defaultFilterLabel = (columnTitle: string) => `Filter by ${columnTitle}`;
 
@@ -48,6 +61,7 @@ export const Table = (props: TableProps) => {
     showPageSizeSelector,
     pageSizePlaceholder = "Select page size",
     maxVisiblePages = 6,
+    labels,
     onTableChange,
     "aria-label": ariaLabel,
     "aria-describedby": ariaDescribedBy,
@@ -68,13 +82,20 @@ export const Table = (props: TableProps) => {
   } = props;
 
   const tableId = useId();
+  const text = useMemo(() => ({ ...DEFAULT_LABELS, ...labels }), [labels]);
   const titleId = useId();
   const paginationId = useId();
 
-  const pageSize =
+  const pageSizeProp =
     typeof pagination === "object" && pagination.pageSize
       ? pagination.pageSize
       : (pageSizeOptions[0] ?? 10);
+  const [pageSize, setPageSize] = useState(pageSizeProp);
+  const [prevPageSizeProp, setPrevPageSizeProp] = useState(pageSizeProp);
+  if (prevPageSizeProp !== pageSizeProp) {
+    setPrevPageSizeProp(pageSizeProp);
+    setPageSize(pageSizeProp);
+  }
 
   const {
     selectedRowKeys,
@@ -134,9 +155,19 @@ export const Table = (props: TableProps) => {
   const showOverlay = isLoading && dataToDisplay.length > 0;
 
   const onPageChange = useCallback(
-    (page: number, isPageSize?: boolean) => {
+    (page: number) => {
       setInitialPage(page);
-      onTableChange?.(page, pageSize, isPageSize);
+      onTableChange?.(page, pageSize, false);
+    },
+    [onTableChange, setInitialPage, pageSize]
+  );
+
+  const onPageSizeChange = useCallback(
+    (size: number) => {
+      if (size === pageSize) return;
+      setPageSize(size);
+      setInitialPage(1);
+      onTableChange?.(1, size, true);
     },
     [onTableChange, setInitialPage, pageSize]
   );
@@ -144,7 +175,7 @@ export const Table = (props: TableProps) => {
   const goToPage = useCallback(
     (page: number) => {
       if (page < 1 || page > totalPages || page === initialPage) return;
-      onPageChange(page, false);
+      onPageChange(page);
     },
     [totalPages, initialPage, onPageChange]
   );
@@ -172,7 +203,7 @@ export const Table = (props: TableProps) => {
                 : undefined
             }
             aria-checked={isIndeterminate ? "mixed" : selectAll}
-            aria-label="Select all rows on this page"
+            aria-label={text.selectAll}
           />
         ) : null,
       key: "selection",
@@ -185,7 +216,7 @@ export const Table = (props: TableProps) => {
             checked={isSelected}
             onChange={() => handleRowSelect(record)}
             disabled={isBusy}
-            aria-label={`Select row ${record["key"]}`}
+            aria-label={text.selectRow(String(record["key"]))}
           />
         ) : (
           <Radio
@@ -194,7 +225,7 @@ export const Table = (props: TableProps) => {
             checked={selectedRowKeys[0] === record.key}
             onChange={() => handleRowSelect(record)}
             disabled={isBusy}
-            aria-label={`Select row ${record["key"]}`}
+            aria-label={text.selectRow(String(record["key"]))}
           />
         );
       },
@@ -206,6 +237,7 @@ export const Table = (props: TableProps) => {
     selectedRowKeys,
     isBusy,
     tableId,
+    text,
     handleSelectAll,
     handleRowSelect,
   ]);
@@ -376,7 +408,8 @@ export const Table = (props: TableProps) => {
           pageSizeOptions={pageSizeOptions}
           pageSizePlaceholder={pageSizePlaceholder}
           goToPage={goToPage}
-          onPageChange={onPageChange}
+          labels={text}
+          onPageSizeChange={onPageSizeChange}
           renderPageInfo={renderPageInfo}
           className={className}
           style={style}

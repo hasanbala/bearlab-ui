@@ -5,6 +5,7 @@ import type {
 } from "./types/breadcrumb.types";
 import { SEPARATE_TYPE } from "./constants/breadcrumb-config";
 import styles from "./styles/breadcrumb.module.scss";
+import { Fragment } from "react";
 import classnames from "classnames";
 
 const DefaultLink = ({
@@ -20,6 +21,10 @@ const DefaultLink = ({
 
 export const Breadcrumb = (props: BreadcrumbProps) => {
   const {
+    items,
+    navLabel = "Breadcrumb",
+    showTitle = true,
+    headingLevel = 2,
     currentPageTitle,
     fromPageTitle = "Home Page",
     fromPageUrl = "/",
@@ -31,6 +36,8 @@ export const Breadcrumb = (props: BreadcrumbProps) => {
   } = props;
 
   const LinkComponent = renderLink ?? DefaultLink;
+  const Heading = `h${headingLevel}` as const;
+  const trail = items ?? [{ href: fromPageUrl, title: fromPageTitle }];
 
   const separator = {
     [SEPARATE_TYPE.ARROW]: <IconArrowRight aria-hidden="true" />,
@@ -47,33 +54,40 @@ export const Breadcrumb = (props: BreadcrumbProps) => {
       className={classnames(styles.container, className?.root)}
       style={style?.root}
     >
-      <h2
-        className={classnames(styles.title, className?.title)}
-        style={style?.title}
-      >
-        {currentPageTitle}
-      </h2>
+      {showTitle && (
+        <Heading
+          className={classnames(styles.title, className?.title)}
+          style={style?.title}
+        >
+          {currentPageTitle}
+        </Heading>
+      )}
 
       <nav
-        aria-label="breadcrumb"
+        aria-label={navLabel}
         className={classnames(styles.nav, className?.nav)}
         style={style?.nav}
       >
         <ol className={styles.list}>
-          <li className={styles.item}>
-            <LinkComponent
-              href={fromPageUrl}
-              className={classnames(styles.link, className?.fromLink)}
-              style={style?.fromLink}
-            >
-              {showHomeIcon && <IconHome aria-hidden="true" />}
-              {fromPageTitle}
-            </LinkComponent>
-          </li>
-
-          <li aria-hidden="true" className={styles.separator}>
-            {separator[separateType]}
-          </li>
+          {trail.map((item, index) => (
+            <Fragment key={`${item.href}-${index}`}>
+              <li className={styles.item}>
+                <LinkComponent
+                  href={item.href}
+                  className={classnames(styles.link, className?.fromLink)}
+                  style={style?.fromLink}
+                >
+                  {index === 0 && showHomeIcon && (
+                    <IconHome aria-hidden="true" />
+                  )}
+                  {item.title}
+                </LinkComponent>
+              </li>
+              <li aria-hidden="true" className={styles.separator}>
+                {separator[separateType]}
+              </li>
+            </Fragment>
+          ))}
 
           <li className={styles.item}>
             <span

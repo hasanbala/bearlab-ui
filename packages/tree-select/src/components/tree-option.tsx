@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { IconChevronDown } from "../assets/icons";
 import { TreeCheckbox } from "./tree-checkbox";
 import { TreeOptionProps } from "../types/tree-select.types";
-import { highlightLabelHtml, isLeaf } from "../utils/tree-select-utils";
+import { isLeaf, splitByMatch } from "../utils/tree-select-utils";
 import { INDENT_PX } from "../constants/tree-select-config";
 import styles from "../styles/tree-select.module.scss";
 
@@ -42,12 +42,11 @@ export const TreeOption = (props: TreeOptionProps) => {
   const renderLabel = () => {
     if (highlightMatch && query.trim() && matchedValues.has(node.value)) {
       return (
-        <span
-          className={styles.labelTitle}
-          dangerouslySetInnerHTML={{
-            __html: highlightLabelHtml(node.label, query),
-          }}
-        />
+        <span className={styles.labelTitle}>
+          {splitByMatch(node.label, query).map((part, index) =>
+            index % 2 === 1 ? <strong key={index}>{part}</strong> : part
+          )}
+        </span>
       );
     }
     return <span className={styles.labelTitle}>{node.label}</span>;

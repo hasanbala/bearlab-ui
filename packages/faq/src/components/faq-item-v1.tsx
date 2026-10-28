@@ -23,10 +23,7 @@ export const FaqItemV1 = (props: FaqItemV1Props) => {
       className={classnames(styles.accordionItem, className?.accordionItem)}
     >
       <div
-        role="button"
-        aria-expanded={isOpen}
         id={`accordion-header-${id}`}
-        aria-controls={`accordion-panel-${id}`}
         onClick={onToggle}
         style={style?.header}
         className={classnames(styles.header, className?.header)}
@@ -43,6 +40,9 @@ export const FaqItemV1 = (props: FaqItemV1Props) => {
         </div>
         <Button
           label=""
+          aria-label={title}
+          aria-expanded={isOpen}
+          aria-controls={`accordion-panel-${id}`}
           buttonType={"justIcon"}
           iconType="arrow_down"
           style={{ root: style?.icon }}
@@ -56,9 +56,13 @@ export const FaqItemV1 = (props: FaqItemV1Props) => {
         />
       </div>
       <div
+        id={`accordion-panel-${id}`}
+        role="region"
+        aria-labelledby={`accordion-header-${id}`}
         style={style?.contentWrapper}
         className={classnames(styles.contentWrapper, className?.contentWrapper)}
         aria-hidden={!isOpen}
+        inert={!isOpen || undefined}
       >
         <div
           style={style?.contentInner}

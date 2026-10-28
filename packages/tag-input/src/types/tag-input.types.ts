@@ -35,8 +35,20 @@ export interface TagInputStyles {
   errorMessage?: React.CSSProperties;
 }
 
+export interface TagInputLabels {
+  added?: (value: string) => string;
+  removed?: (value: string) => string;
+  invalid?: (value: string) => string;
+  duplicate?: (value: string) => string;
+  maxReached?: (max: number) => string;
+  pasted?: (count: number) => string;
+  tag?: (value: string, isValid: boolean) => string;
+  remove?: (value: string) => string;
+}
+
 export interface TagInputProps {
   label?: string;
+  labels?: TagInputLabels;
   value: TagItem[];
   maxItems?: number;
   format: TagFormat;
@@ -60,6 +72,7 @@ export interface TagInputProps {
 
 export interface UseTagInputProps {
   onBlur?: boolean;
+  labels: Required<TagInputLabels>;
   value: TagItem[];
   format: TagFormat;
   maxItems?: number;
@@ -87,6 +100,7 @@ export interface UseTagInputReturn {
 
 export interface TagProps {
   item: TagItem;
+  labels: Required<TagInputLabels>;
   disabled?: boolean;
   className?: Pick<
     TagInputClassNames,

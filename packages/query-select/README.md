@@ -28,6 +28,7 @@
 - ✅ **Minimum character threshold** — prevents unnecessary API calls via `minLength`
 - ✅ **Single & Multiple selection** — toggle between modes via `mode` prop
 - ✅ **Dual selection display** — show selected items inside the input (`inline`) or above it in a card (`card`) via `selectionLayout`
+- ✅ **Native-like single value** — plain text by default, or a removable tag via `singleValueDisplay`
 - ✅ **Slot-based `className` & `style` API** — granular styling without CSS overrides
 - ✅ **Portal-based dropdown** — respects stacking context via `optionZIndex`
 - ✅ **Accessible by default** — `role="combobox"`, `aria-expanded`, `aria-activedescendant`, full keyboard navigation
@@ -143,6 +144,19 @@ export default function App() {
 }
 ```
 
+### Single value display
+
+In `single` mode the selected option is rendered as plain text by default — just like a native `<select>`. There is no remove button, `Backspace` does not clear it and selecting the same option again keeps it selected; picking an option closes the dropdown and clears the query. In the `card` layout the card item is shown without a remove button. Set `singleValueDisplay="tag"` to get a removable tag instead.
+
+```tsx
+<QuerySelect
+  //... required props
+  singleValueDisplay="tag"
+/>
+```
+
+Search is the core of `QuerySelect` (options come from `onSearch`), so unlike `@bearlab/select` it has no `showSearch` prop.
+
 ### With Formik
 
 The `QuerySelect` component supports both manual state updates and standard Formik event handlers.
@@ -225,30 +239,33 @@ export default function RHFExample() {
 
 ## Props
 
-| Prop              | Type                                              | Default                         | Required | Description                                                                   |
-| ----------------- | ------------------------------------------------- | ------------------------------- | -------- | ----------------------------------------------------------------------------- |
-| `onSearch`        | `(query: string) => Promise<T[]>`                 | —                               | ✅       | Async function called after debounce to fetch matching options                |
-| `value`           | `QuerySelectValue<T, Mode>`                       | —                               | ✅       | Currently selected value(s) — primitive or array of primitives                |
-| `mode`            | `"single" \| "multiple"`                          | `"single"`                      | ❌       | Whether one or multiple items can be selected                                 |
-| `onChange`        | see [TypeScript](#typescript)                     | —                               | ❌       | Callback fired when selection changes                                         |
-| `selectionLayout` | `"card" \| "inline"`                              | `"inline"`                      | ❌       | Where to display selected items: above input (`card`) or inside it (`inline`) |
-| `label`           | `string`                                          | —                               | ❌       | Label text rendered above the input                                           |
-| `name`            | `string`                                          | —                               | ❌       | Form field name (triggers synthetic change event for Formik/RHF)              |
-| `error`           | `any`                                             | —                               | ❌       | Error message displayed below the input                                       |
-| `disabled`        | `boolean`                                         | —                               | ❌       | Disables the entire component                                                 |
-| `isRequired`      | `boolean`                                         | —                               | ❌       | Marks the field as required (appends `*` to label)                            |
-| `minLength`       | `number`                                          | `3`                             | ❌       | Minimum characters required before triggering `onSearch`                      |
-| `delayTime`       | `number`                                          | `500`                           | ❌       | Debounce delay in milliseconds before `onSearch` is called                    |
-| `placeholder`     | `string`                                          | `"Enter at least 3 characters"` | ❌       | Input placeholder text                                                        |
-| `noSelectionText` | `string`                                          | `"There is no selected choice"` | ❌       | Text shown in the card area when nothing is selected (`card` layout only)     |
-| `notFoundText`    | `string`                                          | `"No result found"`             | ❌       | Text shown in dropdown when search returns empty results                      |
-| `emptyText`       | `string`                                          | `"There is no options"`         | ❌       | Text shown in dropdown before the user starts typing                          |
-| `showImage`       | `boolean`                                         | `true`                          | ❌       | Show option avatars/images (requires `image` on the option)                   |
-| `showCheckbox`    | `boolean`                                         | `true`                          | ❌       | Show a checkbox indicator on each option row                                  |
-| `highlightMatch`  | `boolean`                                         | `true`                          | ❌       | Highlight the matching query text inside option labels                        |
-| `optionZIndex`    | `number`                                          | `8888`                          | ❌       | Z-index for the options portal overlay                                        |
-| `className`       | [`QuerySelectClassNames`](#queryselectclassnames) | —                               | ❌       | Per-slot className overrides                                                  |
-| `style`           | [`QuerySelectStyles`](#queryselectstyles)         | —                               | ❌       | Per-slot inline style overrides                                               |
+| Prop                 | Type                                              | Default                         | Required | Description                                                                      |
+| -------------------- | ------------------------------------------------- | ------------------------------- | -------- | -------------------------------------------------------------------------------- |
+| `onSearch`           | `(query: string, signal: AbortSignal) => Promise<T[]>` | —                               | ✅       | Async function called after debounce to fetch matching options                   |
+| `value`              | `QuerySelectValue<T, Mode>`                       | —                               | ✅       | Currently selected value(s) — primitive or array of primitives                   |
+| `mode`               | `"single" \| "multiple"`                          | `"single"`                      | ❌       | Whether one or multiple items can be selected                                    |
+| `onChange`           | see [TypeScript](#typescript)                     | —                               | ❌       | Callback fired when selection changes                                            |
+| `selectionLayout`    | `"card" \| "inline"`                              | `"inline"`                      | ❌       | Where to display selected items: above input (`card`) or inside it (`inline`)    |
+| `singleValueDisplay` | `"text" \| "tag"`                                 | `"text"`                        | ❌       | How the selected option is shown in `single` mode: plain text or a removable tag |
+| `label`              | `string`                                          | —                               | ❌       | Label text rendered above the input                                              |
+| `name`               | `string`                                          | —                               | ❌       | Form field name (triggers synthetic change event for Formik/RHF)                 |
+| `error`              | `any`                                             | —                               | ❌       | Error message displayed below the input                                          |
+| `disabled`           | `boolean`                                         | —                               | ❌       | Disables the entire component                                                    |
+| `isRequired`         | `boolean`                                         | —                               | ❌       | Marks the field as required (appends `*` to label)                               |
+| `minLength`          | `number`                                          | `3`                             | ❌       | Minimum characters required before triggering `onSearch`                         |
+| `delayTime`          | `number`                                          | `500`                           | ❌       | Debounce delay in milliseconds before `onSearch` is called                       |
+| `placeholder`        | `string`                                          | `"Enter at least 3 characters"` | ❌       | Input placeholder text                                                           |
+| `noSelectionText`    | `string`                                          | `"There is no selected choice"` | ❌       | Text shown in the card area when nothing is selected (`card` layout only)        |
+| `notFoundText`       | `string`                                          | `"No result found"`             | ❌       | Text shown in dropdown when search returns empty results                         |
+| `emptyText`          | `string`                                          | `"There is no options"`         | ❌       | Text shown in dropdown before the user starts typing                             |
+| `showImage`          | `boolean`                                         | `true`                          | ❌       | Show option avatars/images (requires `image` on the option)                      |
+| `showCheckbox`       | `boolean`                                         | `true`                          | ❌       | Show a checkbox indicator on each option row                                     |
+| `highlightMatch`     | `boolean`                                         | `true`                          | ❌       | Highlight the matching query text inside option labels                           |
+| `optionZIndex`       | `number`                                          | `10100`                         | ❌       | Z-index for the options portal overlay                                           |
+| `className`          | [`QuerySelectClassNames`](#queryselectclassnames) | —                               | ❌       | Per-slot className overrides                                                     |
+| `style`              | [`QuerySelectStyles`](#queryselectstyles)         | —                               | ❌       | Per-slot inline style overrides                                                  |
+| `labels` | `QuerySelectLabels` | English defaults | ❌ | Overrides screen-reader texts: `options`, `loading`, `selected(n)`, `moreSelected(n)`, `remove(label)` |
+| `onBlur` | `(event: FocusEvent) => void` | — | ❌ | Fires when focus leaves the whole component (input, tags and options list) |
 
 ---
 
@@ -258,17 +275,18 @@ The component follows the **Slot Pattern** for deep customization without CSS sp
 
 ### `QuerySelectClassNames`
 
-| Slot                   | Targets                                                        |
-| ---------------------- | -------------------------------------------------------------- |
-| `root`                 | Outermost container `<div>`                                    |
-| `search`               | The search input wrapper element                               |
-| `option`               | Individual option item in the dropdown                         |
-| `options`              | The listbox container rendering all options                    |
-| `selectionCardWrapper` | The card container wrapping all selected items (`card` layout) |
-| `selectionCardItems`   | Inner container for selected item chips (`card` layout)        |
-| `selectionCardItem`    | An individual selected item chip (`card` layout)               |
-| `selectionInlineItems` | The inline wrapper for selected tags (`inline` layout)         |
-| `selectionInlineItem`  | An individual selected tag (`inline` layout)                   |
+| Slot                   | Targets                                                                                 |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| `root`                 | Outermost container `<div>`                                                             |
+| `search`               | The search input wrapper element                                                        |
+| `option`               | Individual option item in the dropdown                                                  |
+| `options`              | The listbox container rendering all options                                             |
+| `singleValue`          | Plain-text selected value (`single` mode, `inline` layout, `singleValueDisplay="text"`) |
+| `selectionCardWrapper` | The card container wrapping all selected items (`card` layout)                          |
+| `selectionCardItems`   | Inner container for selected item chips (`card` layout)                                 |
+| `selectionCardItem`    | An individual selected item chip (`card` layout)                                        |
+| `selectionInlineItems` | The inline wrapper for selected tags (`inline` layout)                                  |
+| `selectionInlineItem`  | An individual selected tag (`inline` layout)                                            |
 
 ```tsx
 <QuerySelect
@@ -407,6 +425,7 @@ import type {
   QuerySelectClassNames,
   QuerySelectStyles,
   QuerySelectOption,
+  QuerySelectSingleValueDisplay,
 } from "@bearlab/query-select";
 ```
 
@@ -457,6 +476,7 @@ export interface QuerySelectClassNames {
   search?: string;
   option?: string;
   options?: string;
+  singleValue?: string;
   selectionCardWrapper?: string;
   selectionCardItems?: string;
   selectionCardItem?: string;
@@ -473,6 +493,7 @@ export interface QuerySelectStyles {
   search?: React.CSSProperties;
   option?: React.CSSProperties;
   options?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectionCardWrapper?: React.CSSProperties;
   selectionCardItems?: React.CSSProperties;
   selectionCardItem?: React.CSSProperties;

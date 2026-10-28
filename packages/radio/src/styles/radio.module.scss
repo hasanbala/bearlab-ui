@@ -240,11 +240,30 @@
 .radioGroup {
   --_radio-group-gap: var(--bearlab-radio-group-gap, 0.625rem); /* 10px */
 
+  --_radio-font-size-error: var(--bearlab-radio-font-size-error, 0.875rem);
+  --_radio-icon-size-error: var(--bearlab-radio-icon-size-error, 0.75rem);
+  --_radio-color-error: var(--bearlab-radio-color-error, #f00438);
+
   display: flex;
+  flex-wrap: wrap;
   gap: var(--_radio-group-gap);
 
   &.vertical {
     flex-direction: column;
+  }
+
+  .groupError {
+    display: flex;
+    align-items: center;
+    flex-basis: 100%;
+    gap: 0.25rem;
+    font-size: var(--_radio-font-size-error);
+    color: var(--_radio-color-error);
+
+    svg {
+      width: var(--_radio-icon-size-error);
+      height: var(--_radio-icon-size-error);
+    }
   }
 }
 

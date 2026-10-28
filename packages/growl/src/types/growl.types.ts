@@ -23,14 +23,28 @@ export interface GrowlItem {
   className?: GrowlClassNames;
 }
 
+export interface GrowlLabels {
+  close?: string;
+  info?: string;
+  error?: string;
+  success?: string;
+  warning?: string;
+}
+
+export interface GrowlContainerProps {
+  labels?: GrowlLabels;
+}
+
 export interface GrowlProps {
   item: GrowlItem;
+  labels: Required<GrowlLabels>;
   onRemove: (id: number) => void;
 }
 
 export interface PositionGroupProps {
   toasts: GrowlItem[];
   position: GrowlPosition;
+  labels: Required<GrowlLabels>;
   onRemove: (id: number) => void;
 }
 

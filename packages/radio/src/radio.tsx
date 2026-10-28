@@ -1,3 +1,4 @@
+import { useId } from "react";
 import classnames from "classnames";
 import { IconErrorTriangle } from "./assets/icons";
 import type { RadioProps } from "./types/radio.types";
@@ -16,15 +17,20 @@ export const Radio = (props: RadioProps) => {
     value,
     isRequired,
     popover,
+    id,
+    "aria-describedby": ariaDescribedBy,
     ...rest
   } = props;
 
-  const inputId = `radio-${name}-${value}`;
-  const errorId = error ? `radio-error-${name}-${value}` : undefined;
-  const popoverId = popover ? `radio-popover-${name}-${value}` : undefined;
+  const uid = useId();
+  const inputId = id ?? uid;
+  const labelId = `${uid}-label`;
+  const errorId = error ? `${uid}-error` : undefined;
+  const popoverId = popover ? `${uid}-popover` : undefined;
 
   const describedBy =
-    [errorId, popoverId].filter(Boolean).join(" ") || undefined;
+    [ariaDescribedBy, errorId, popoverId].filter(Boolean).join(" ") ||
+    undefined;
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     onChange(e);
@@ -44,6 +50,7 @@ export const Radio = (props: RadioProps) => {
         style={style?.radioWrapper}
       >
         <input
+          {...rest}
           id={inputId}
           name={name}
           type="radio"
@@ -51,11 +58,11 @@ export const Radio = (props: RadioProps) => {
           onChange={handleRadioChange}
           disabled={disabled}
           checked={checked}
-          aria-invalid={!!error}
-          aria-required={isRequired}
+          required={isRequired}
+          aria-invalid={!!error || undefined}
+          aria-labelledby={label ? labelId : rest["aria-labelledby"]}
           aria-describedby={describedBy}
           className={styles.input}
-          {...rest}
         />
         <span
           aria-hidden="true"
@@ -100,6 +107,7 @@ export const Radio = (props: RadioProps) => {
       </div>
       {label && (
         <span
+          id={labelId}
           className={classnames(styles.radioLabel, className?.label)}
           style={style?.label}
         >

@@ -12,8 +12,10 @@ export const SelectionCardItems = <T extends QuerySelectOption>(
 ) => {
   const {
     style,
+    labels,
     disabled,
     className,
+    isRemovable,
     selectedItems,
     noSelectionText,
     onRemoveSelect,
@@ -32,7 +34,7 @@ export const SelectionCardItems = <T extends QuerySelectOption>(
       role="group"
       aria-disabled={disabled}
       style={style?.selectionCardWrapper}
-      aria-label={`${selectedItems.length} selected`}
+      aria-label={labels.selected(selectedItems.length)}
       className={classnames(
         styles.selectionCardWrapper,
         className?.selectionCardWrapper
@@ -46,10 +48,11 @@ export const SelectionCardItems = <T extends QuerySelectOption>(
             key={item.value}
             title={item.label}
             value={item.value}
+            removeLabel={labels.remove(item.label)}
             style={style?.selectionCardItem}
             disabled={disabled}
             className={className?.selectionCardItem}
-            onRemove={handleRemove}
+            onRemove={isRemovable ? handleRemove : undefined}
           />
         ))
       )}

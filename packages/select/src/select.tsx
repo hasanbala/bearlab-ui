@@ -13,6 +13,7 @@ import { OptionsPortal } from "./components/options-portal";
 import classNames from "classnames";
 import styles from "./styles/select.module.scss";
 import { resolveValue } from "./utils/select-utils";
+import { DEFAULT_SELECT_LABELS } from "./constants/select-config";
 
 export const Select = <
   T extends SelectOption,
@@ -26,25 +27,31 @@ export const Select = <
     label,
     error,
     style,
+    labels,
+    locale,
     options,
     disabled,
     className,
     isRequired,
     showImage = false,
+    showSearch = true,
     mode = "single",
     showCheckbox = false,
-    optionZIndex = 8888,
+    optionZIndex = 10100,
     highlightMatch = true,
     placeholder = "Select...",
     notFoundText = "No result found",
     emptyText = "There is no options",
     isLoading = false,
+    singleValueDisplay = "text",
+    onBlur,
     onChange,
   } = props;
 
   const uid = useId();
   const portalRef = useRef<HTMLDivElement>(null);
   const isSingle = mode === "single";
+  const isSingleText = isSingle && singleValueDisplay === "text";
   const [query, setQuery] = useState("");
   const [containerWidth, setContainerWidth] = useState(0);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -52,6 +59,11 @@ export const Select = <
   const inputId = `select-input-${uid}`;
   const listboxId = `select-listbox-${uid}`;
   const labelId = `select-label-${uid}`;
+  const errorId = `select-error-${uid}`;
+  const text = useMemo(
+    () => ({ ...DEFAULT_SELECT_LABELS, ...labels }),
+    [labels]
+  );
 
   const selectedItems = useMemo<T[]>(
     () => resolveValue<T>(value as SelectValue<T>, options),
@@ -60,9 +72,11 @@ export const Select = <
 
   const filteredOptions = useMemo<T[]>(() => {
     if (!query.trim()) return options;
-    const lower = query.toLowerCase();
-    return options.filter((o) => o.label.toLowerCase().includes(lower));
-  }, [options, query]);
+    const lower = query.toLocaleLowerCase(locale);
+    return options.filter((o) =>
+      o.label.toLocaleLowerCase(locale).includes(lower)
+    );
+  }, [options, query, locale]);
 
   const handleClose = useCallback(() => {
     setIsDropdownVisible(false);
@@ -102,8 +116,10 @@ export const Select = <
       if (item.disabled) return;
       if (isSingle) {
         const isSame = selectedItems[0]?.value === item.value;
-        const nextValue = isSame ? null : item.value;
-        fireOnChange(nextValue as SelectValue<T, Mode>, item);
+        if (!isSame || !isSingleText) {
+          const nextValue = isSame ? null : item.value;
+          fireOnChange(nextValue as SelectValue<T, Mode>, item);
+        }
         handleClose();
       } else {
         const exists = selectedItems.some((s) => s.value === item.value);
@@ -114,7 +130,7 @@ export const Select = <
         fireOnChange(nextValues as SelectValue<T, Mode>, item);
       }
     },
-    [isSingle, selectedItems, fireOnChange, handleClose]
+    [isSingle, isSingleText, selectedItems, fireOnChange, handleClose]
   );
 
   const handleRemove = useCallback(
@@ -132,8 +148,9 @@ export const Select = <
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isLoading || disabled) return;
+      const isSpaceSelect = !showSearch && e.key === " ";
       if (!isDropdownVisible) {
-        if (e.key === "ArrowDown" || e.key === "Enter") {
+        if (e.key === "ArrowDown" || e.key === "Enter" || isSpaceSelect) {
           e.preventDefault();
           setIsDropdownVisible(true);
         }
@@ -153,6 +170,8 @@ export const Select = <
           );
           break;
         case "Enter":
+        case " ":
+          if (e.key === " " && !isSpaceSelect) break;
           e.preventDefault();
           if (activeIndex >= 0 && filteredOptions[activeIndex]) {
             handleSelect(filteredOptions[activeIndex]);
@@ -160,11 +179,12 @@ export const Select = <
           break;
         case "Escape":
           e.preventDefault();
+          e.stopPropagation();
           setIsDropdownVisible(false);
           setActiveIndex(-1);
           break;
         case "Backspace":
-          if (!query && selectedItems.length > 0) {
+          if (!query && !isSingleText && selectedItems.length > 0) {
             handleRemove(selectedItems.slice(0, -1));
           }
           break;
@@ -174,7 +194,9 @@ export const Select = <
       query,
       disabled,
       isLoading,
+      showSearch,
       activeIndex,
+      isSingleText,
       selectedItems,
       filteredOptions,
       isDropdownVisible,
@@ -188,9 +210,18 @@ export const Select = <
       ? `${listboxId}-option-${filteredOptions[activeIndex].value}`
       : undefined;
 
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!onBlur) return;
+    const next = e.relatedTarget as Node | null;
+    if (containerRef.current?.contains(next)) return;
+    if (portalRef.current?.contains(next)) return;
+    onBlur(e);
+  };
+
   return (
     <div
       ref={containerRef}
+      onBlur={handleBlur}
       style={style?.root}
       className={classNames(
         styles.container,
@@ -208,17 +239,32 @@ export const Select = <
           {label} {isRequired && <span aria-hidden="true">*</span>}
         </label>
       )}
+      {name &&
+        selectedItems.map((item) => (
+          <input
+            key={item.value}
+            type="hidden"
+            name={name}
+            value={item.value}
+          />
+        ))}
       <Search
         mode={mode}
         error={error}
         query={query}
         style={style}
+        labels={text}
         inputId={inputId}
+        errorId={errorId}
+        isRequired={isRequired}
+        labelId={label ? labelId : undefined}
         disabled={disabled}
         isLoading={isLoading}
         listboxId={listboxId}
         className={className}
+        showSearch={showSearch}
         placeholder={placeholder}
+        isSingleText={isSingleText}
         selectedItems={selectedItems}
         containerWidth={containerWidth}
         activeOptionId={activeOptionId}
@@ -237,6 +283,7 @@ export const Select = <
         <Options
           query={query}
           style={style}
+          labels={text}
           disabled={disabled}
           isLoading={isLoading}
           listboxId={listboxId}
@@ -255,7 +302,7 @@ export const Select = <
         />
       </OptionsPortal>
       {error && (
-        <div className={styles.viewError}>
+        <div id={errorId} className={styles.viewError}>
           <IconErrorTriangle />
           <span>{error}</span>
         </div>

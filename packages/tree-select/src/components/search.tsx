@@ -13,12 +13,18 @@ export const Search = (props: SearchProps) => {
     style,
     error,
     mode,
+    labels,
     inputId,
+    labelId,
+    errorId,
+    isRequired,
     disabled,
     listboxId,
     className,
     isLoading,
+    showSearch,
     placeholder,
+    isSingleText,
     selectedItems,
     containerWidth,
     activeOptionId,
@@ -33,6 +39,9 @@ export const Search = (props: SearchProps) => {
   const ghostRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
   const isSingle = mode == "single";
+  const singleValue = isSingleText && !query ? selectedItems[0] : undefined;
+  const inputPlaceholder =
+    isSingle && !!selectedItems.length ? "" : placeholder;
 
   const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
     selectedItems,
@@ -43,7 +52,7 @@ export const Search = (props: SearchProps) => {
   useIsomorphicLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
-  }, [query]);
+  }, [query, inputPlaceholder]);
 
   const inputStyle = useMemo(
     () => ({
@@ -60,6 +69,7 @@ export const Search = (props: SearchProps) => {
         styles.searchWrapper,
         {
           [styles.error]: error,
+          [styles.readOnly]: !showSearch,
         },
         className?.search
       )}
@@ -74,33 +84,58 @@ export const Search = (props: SearchProps) => {
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
-      <SelectedItems
-        style={style}
-        disabled={disabled}
-        className={className}
-        visibleCount={visibleCount}
-        selectedItems={selectedItems}
-        ref={selectedItemsRef}
-        setSelectedItems={onChange ?? (() => {})}
-      />
-      <div data-value={query || placeholder} className={styles.inputWrapper}>
+      {isSingleText ? (
+        singleValue && (
+          <span
+            style={style?.singleValue}
+            className={classnames(
+              styles.singleValue,
+              {
+                [styles.singleValueMuted]: showSearch && isDropdownVisible,
+              },
+              className?.singleValue
+            )}
+          >
+            {singleValue.label}
+          </span>
+        )
+      ) : (
+        <SelectedItems
+          style={style}
+          labels={labels}
+          disabled={disabled}
+          className={className}
+          visibleCount={visibleCount}
+          selectedItems={selectedItems}
+          ref={selectedItemsRef}
+          setSelectedItems={onChange ?? (() => {})}
+        />
+      )}
+      <div
+        data-value={query || inputPlaceholder}
+        className={styles.inputWrapper}
+      >
         <span ref={ghostRef} className={styles.inputGhost} aria-hidden="true">
-          {query || placeholder || " "}
+          {query || inputPlaceholder || " "}
         </span>
         <input
           type="text"
-          name="search"
           role="combobox"
           autoComplete="off"
           aria-haspopup="tree"
-          aria-autocomplete={"list"}
+          readOnly={!showSearch}
+          aria-autocomplete={showSearch ? "list" : "none"}
           id={inputId}
           value={query}
           ref={inputRef}
           disabled={disabled || isLoading}
-          aria-label={placeholder}
+          aria-labelledby={labelId}
+          aria-label={labelId ? undefined : placeholder}
+          aria-invalid={!!error || undefined}
+          aria-required={isRequired || undefined}
+          aria-describedby={error ? errorId : undefined}
           aria-disabled={disabled || isLoading}
-          placeholder={isSingle && !!selectedItems.length ? "" : placeholder}
+          placeholder={inputPlaceholder}
           aria-controls={listboxId}
           aria-expanded={isDropdownVisible}
           aria-activedescendant={activeOptionId}

@@ -40,7 +40,7 @@ export const Date: DateComponent = (props) => {
     showTimePicker = false,
     minuteStep = 1,
     labels,
-    calendarZIndex = 8888,
+    calendarZIndex = 10100,
     onDateChange,
   } = props as DateProps & {
     value: string | string[] | number[] | number | undefined;
@@ -249,6 +249,8 @@ export const Date: DateComponent = (props) => {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Escape") {
+      if (!isCalendarVisible) return;
+      e.stopPropagation();
       setIsCalendarVisible(false);
     } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();

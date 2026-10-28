@@ -5,7 +5,7 @@ import styles from "./styles/avatar-icon.module.scss";
 export const AvatarIcon = (props: AvatarIconProps) => {
   const {
     src,
-    alt = "avatar",
+    alt = "",
     size = "medium",
     status = "none",
     className,

@@ -258,6 +258,7 @@
   .content {
     position: relative;
     width: 100%;
+    outline: none;
     padding: var(--_modal-content-padding);
     background-color: var(--_modal-content-bg);
     color: var(--_modal-content-color);
@@ -696,5 +697,22 @@
     p {
       font-size: 0.8125rem; /* 13px */
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .container::before,
+  .container::after,
+  .container *::before,
+  .container *::after {
+    animation: none !important;
   }
 }

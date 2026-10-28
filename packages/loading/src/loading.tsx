@@ -4,7 +4,13 @@ import type { LoadingProps } from "./types/loading.types";
 import styles from "./styles/loading.module.scss";
 
 export const Loading = (props: LoadingProps) => {
-  const { className, style, icon: Icon, type = DEFAULT_LOADING_TYPE } = props;
+  const {
+    className,
+    style,
+    icon: Icon,
+    type = DEFAULT_LOADING_TYPE,
+    label = "Loading...",
+  } = props;
 
   const IconComponent =
     Icon ?? ICON_MAP[type] ?? ICON_MAP[DEFAULT_LOADING_TYPE];
@@ -17,12 +23,12 @@ export const Loading = (props: LoadingProps) => {
       className={classnames(styles.container, className?.root)}
     >
       <IconComponent
-        style={style?.root}
+        style={style?.icon}
         aria-hidden="true"
         focusable="false"
         className={classnames(styles.loading, className?.icon)}
       />
-      <span className={styles.srOnly}>Loading...</span>
+      <span className={styles.srOnly}>{label}</span>
     </div>
   );
 };

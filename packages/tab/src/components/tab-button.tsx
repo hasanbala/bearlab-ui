@@ -3,7 +3,16 @@ import styles from "../styles/tab.module.scss";
 import classnames from "classnames";
 
 export const TabButton = (props: TabButtonProps) => {
-  const { tab, isActive, onClick, tabId, panelId, className, style } = props;
+  const {
+    tab,
+    tabId,
+    style,
+    panelId,
+    isActive,
+    className,
+    onClick,
+    onKeyDown,
+  } = props;
 
   return (
     <button
@@ -11,8 +20,11 @@ export const TabButton = (props: TabButtonProps) => {
       role="tab"
       aria-selected={isActive}
       aria-controls={panelId}
+      type="button"
+      disabled={tab.disabled}
       tabIndex={isActive ? 0 : -1}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       className={classnames(
         isActive ? styles.active : styles.inactive,
         className?.button

@@ -4,7 +4,8 @@ import { QuerySelectSelectionCardItemProps } from "../types/query-select.types";
 import styles from "../styles/query-select.module.scss";
 
 export const SelectionCardItem = (props: QuerySelectSelectionCardItemProps) => {
-  const { title, value, style, disabled, className, onRemove } = props;
+  const { title, value, style, disabled, className, removeLabel, onRemove } =
+    props;
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -30,7 +31,7 @@ export const SelectionCardItem = (props: QuerySelectSelectionCardItemProps) => {
           type="button"
           disabled={disabled}
           aria-disabled={disabled}
-          aria-label={`Remove ${title}`}
+          aria-label={removeLabel ?? title}
           className={styles.remove}
           onClick={handleRemove}
           onKeyDown={handleRemoveKeyDown}

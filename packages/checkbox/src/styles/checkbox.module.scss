@@ -145,7 +145,8 @@
       background-color: var(--_checkbox-bg-unchecked);
       margin: 0;
 
-      &:checked {
+      &:checked,
+      &:indeterminate {
         border-color: transparent;
         background-color: var(--_checkbox-bg-checked);
       }

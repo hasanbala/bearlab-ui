@@ -1,4 +1,5 @@
 export type SelectMode = "single" | "multiple";
+export type SelectSingleValueDisplay = "text" | "tag";
 export type SingleValue<T extends SelectOption> = T["value"] | null;
 export type MultipleValue<T extends SelectOption> = T["value"][];
 export type SelectValue<
@@ -15,6 +16,14 @@ export interface SelectProps<
   onChange?: (value: SelectValue<T, Mode>, option?: T) => void;
 }
 
+export interface SelectLabels {
+  options?: string;
+  loading?: string;
+  selected?: (count: number) => string;
+  moreSelected?: (count: number) => string;
+  remove?: (label: string) => string;
+}
+
 export interface SelectOption {
   label: string;
   image?: string;
@@ -27,10 +36,13 @@ interface BaseSelectProps<T extends SelectOption> {
   options: T[];
   name?: string;
   label?: string;
+  locale?: string;
+  labels?: SelectLabels;
   disabled?: boolean;
   emptyText?: string;
   isLoading?: boolean;
   showImage?: boolean;
+  showSearch?: boolean;
   style?: SelectStyles;
   isRequired?: boolean;
   placeholder?: string;
@@ -39,6 +51,8 @@ interface BaseSelectProps<T extends SelectOption> {
   showCheckbox?: boolean;
   highlightMatch?: boolean;
   className?: SelectClassNames;
+  singleValueDisplay?: SelectSingleValueDisplay;
+  onBlur?: (event: React.FocusEvent<HTMLElement>) => void;
 }
 
 export interface OptionProps {
@@ -75,6 +89,7 @@ export interface OptionsProps<T extends SelectOption> {
   highlightMatch?: boolean;
   isDropdownVisible: boolean;
   className?: SelectClassNames;
+  labels: Required<SelectLabels>;
   onSelect: (item: T) => void;
 }
 
@@ -82,12 +97,18 @@ export interface SearchProps<T extends SelectOption> {
   error?: any;
   query: string;
   inputId: string;
+  labelId?: string;
+  errorId?: string;
+  isRequired?: boolean;
+  labels: Required<SelectLabels>;
   mode: SelectMode;
   listboxId: string;
   selectedItems: T[];
   disabled?: boolean;
   isLoading?: boolean;
   placeholder: string;
+  showSearch: boolean;
+  isSingleText: boolean;
   style?: SelectStyles;
   containerWidth: number;
   isDropdownVisible: boolean;
@@ -105,6 +126,7 @@ export interface SelectedItemsProps<T extends SelectOption> {
   style?: SelectStyles;
   visibleCount: number;
   className?: SelectClassNames;
+  labels: Required<SelectLabels>;
   setSelectedItems: (val: T[]) => void;
 }
 
@@ -115,6 +137,7 @@ export interface SelectedItemProps {
   value?: number | string;
   style?: React.CSSProperties;
   "aria-label"?: string;
+  removeLabel?: string;
   "data-bearlab-select-item"?: "visible" | "overflow";
   onRemove?: (val: number | string) => void;
 }
@@ -131,6 +154,7 @@ export interface SelectClassNames {
   search?: string;
   option?: string;
   options?: string;
+  singleValue?: string;
   selectedItem?: string;
   selectedItems?: string;
 }
@@ -140,6 +164,7 @@ export interface SelectStyles {
   search?: React.CSSProperties;
   option?: React.CSSProperties;
   options?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectedItem?: React.CSSProperties;
   selectedItems?: React.CSSProperties;
 }

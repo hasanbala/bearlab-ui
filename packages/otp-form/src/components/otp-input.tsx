@@ -9,7 +9,7 @@ export const OtpInput = (props: OtpInputProps) => {
     value,
     disabled,
     className,
-    length,
+    label,
     inputRef,
     onChange,
     onPaste,
@@ -22,8 +22,8 @@ export const OtpInput = (props: OtpInputProps) => {
       type="text"
       inputMode="numeric"
       name={name}
-      autoComplete="one-time-code"
-      maxLength={1}
+      autoComplete={index === 0 ? "one-time-code" : "off"}
+      maxLength={index === 0 ? length : 1}
       disabled={disabled}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -33,7 +33,7 @@ export const OtpInput = (props: OtpInputProps) => {
       onPaste={onPaste}
       className={className}
       style={style}
-      aria-label={`Character ${index + 1} of ${length} digit code`}
+      aria-label={label}
       aria-required="true"
     />
   );

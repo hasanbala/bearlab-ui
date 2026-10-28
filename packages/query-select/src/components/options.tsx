@@ -14,6 +14,7 @@ export const Options = <T extends QuerySelectOption>(
 ) => {
   const {
     query,
+    labels,
     style,
     options,
     disabled,
@@ -54,6 +55,7 @@ export const Options = <T extends QuerySelectOption>(
       return (
         <OptionsLoadingSkeleton
           rows={6}
+          label={labels.loading}
           showCheckbox={showCheckbox ?? true}
           showImage={showImage ?? true}
         />
@@ -101,7 +103,7 @@ export const Options = <T extends QuerySelectOption>(
       ref={listRef}
       id={listboxId}
       role="listbox"
-      aria-label="Options"
+      aria-label={labels.options}
       aria-multiselectable={isMultiple}
       aria-disabled={disabled}
       style={style?.options}

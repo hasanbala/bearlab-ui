@@ -131,6 +131,7 @@ export default function App() {
 | `className`  | [`CheckboxClassNames`](#checkboxclassnames)        | —         | ❌       | Per-slot className overrides                                               |
 | `style`      | [`CheckboxStyles`](#checkboxstyles)                | —         | ❌       | Per-slot inline style overrides                                            |
 | `...rest`    | `React.InputHTMLAttributes<HTMLInputElement>`      | —         | ❌       | Any standard HTML input attribute (except `popover`, `className`, `style`) |
+| `indeterminate` | `boolean` | `false` | ❌ | Renders the mixed state (`aria-checked="mixed"`); ignored while `checked` is true |
 
 ---
 

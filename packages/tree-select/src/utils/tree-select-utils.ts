@@ -153,9 +153,10 @@ export const flattenVisibleNodes = (
 
 export const filterTree = (
   treeData: TreeSelectOption[],
-  query: string
+  query: string,
+  locale?: string
 ): FilterResult => {
-  const q = query.trim().toLowerCase();
+  const q = query.trim().toLocaleLowerCase(locale);
   if (!q) {
     return { tree: treeData, expandedFromSearch: [], matched: new Set() };
   }
@@ -165,7 +166,8 @@ export const filterTree = (
 
   const markMatches = (nodes: TreeSelectOption[]) => {
     for (const node of nodes) {
-      if (node.label.toLowerCase().includes(q)) matched.add(node.value);
+      if (node.label.toLocaleLowerCase(locale).includes(q))
+        matched.add(node.value);
       if (node.children?.length) markMatches(node.children);
     }
   };
@@ -173,7 +175,7 @@ export const filterTree = (
   const walk = (nodes: TreeSelectOption[]): TreeSelectOption[] => {
     const out: TreeSelectOption[] = [];
     for (const node of nodes) {
-      const selfMatch = node.label.toLowerCase().includes(q);
+      const selfMatch = node.label.toLocaleLowerCase(locale).includes(q);
       if (selfMatch) {
         matched.add(node.value);
         if (node.children?.length) markMatches(node.children);
@@ -192,31 +194,11 @@ export const filterTree = (
   return { tree: walk(treeData), expandedFromSearch, matched };
 };
 
-const HTML_ENTITIES: Record<string, string> = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&#39;",
-};
-
-const escapeHtml = (text: string): string =>
-  text.replace(/[&<>"']/g, (char) => HTML_ENTITIES[char]);
-
-export const highlightLabelHtml = (label: string, query: string): string => {
+export const splitByMatch = (label: string, query: string): string[] => {
   const q = query.trim();
-  if (!q) return escapeHtml(label);
-
+  if (!q) return [label];
   const pattern = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-  return label
-    .split(new RegExp(`(${pattern})`, "gi"))
-    .map((part, index) =>
-      index % 2 === 1
-        ? `<strong>${escapeHtml(part)}</strong>`
-        : escapeHtml(part)
-    )
-    .join("");
+  return label.split(new RegExp(`(${pattern})`, "gi"));
 };
 
 export const resolveValueTree = (

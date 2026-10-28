@@ -50,9 +50,9 @@ pnpm add @bearlab/alert
 > **Peer dependencies:** `react >= 18.0.0` and `react-dom >= 18.0.0` must be installed in your project.
 
 > **Framework support:** Works with React 18/19 and Next.js — both the App Router
-> and the Pages Router. Every component ships with the `"use client"` directive
-> already applied, so you can import it straight into a Server Component without
-> writing a wrapper file. All DOM access is SSR-guarded.
+> and the Pages Router. This package has no client-side state or effects, so it
+> ships **without** a `"use client"` directive and renders as a React Server
+> Component — no JavaScript is sent to the browser for it.
 
 ### Styles
 
@@ -116,12 +116,16 @@ export default function App() {
 | ----------- | --------------------------------------------- | -------------- | -------- | -------------------------------------------------- |
 | `variant`   | `"success" \| "error" \| "warning" \| "info"` | —              | ✅       | Visual and semantic variant of the alert           |
 | `title`     | `string`                                      | —              | ✅       | Bold heading text rendered inside the alert        |
-| `message`   | `string`                                      | —              | ✅       | Descriptive body text of the alert                 |
+| `message`   | `ReactNode`                                    | —              | ❌       | Descriptive body text of the alert                 |
 | `showLink`  | `boolean`                                     | `false`        | ❌       | Whether to render an action link below the message |
 | `linkHref`  | `string`                                      | `"/"`          | ❌       | `href` value for the action link                   |
 | `linkText`  | `string`                                      | `"Learn more"` | ❌       | Visible text for the action link                   |
 | `className` | [`AlertClassNames`](#alertclassnames)         | —              | ❌       | Per-slot className overrides                       |
 | `style`     | [`AlertStyles`](#alertstyles)                 | —              | ❌       | Per-slot inline style overrides                    |
+| `role` | `"alert" \| "status" \| "none"` | `alert` for error/warning, `status` otherwise | ❌ | Live-region role of the alert |
+| `children` | `React.ReactNode` | — | ❌ | Extra content rendered below the message |
+| `headingLevel` | `2 \| 3 \| 4 \| 5 \| 6` | `4` | ❌ | Heading level of the title |
+| `linkComponent` | `React.ElementType` | `"a"` | ❌ | Component used for the link, e.g. Next.js `Link` |
 
 ---
 

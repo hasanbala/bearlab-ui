@@ -12,6 +12,8 @@ export const TITLES: Record<GrowlType, string> = {
   info: "Info",
 };
 
+export const DEFAULT_CLOSE_LABEL = "Close notification";
+
 export const DEFAULT_ANIMATION: GrowlAnimation = "default";
 export const DEFAULT_THEME: GrowlTheme = "light";
 export const DEFAULT_POSITION: GrowlPosition = "top-right";

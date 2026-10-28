@@ -2,7 +2,7 @@ import classnames from "classnames";
 import { FaqItemV1 } from "./components/faq-item-v1";
 import styles from "./styles/faq.module.scss";
 import type { FaqV1Props } from "./types/faq.types";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 export const FaqV1 = (props: FaqV1Props) => {
   const {
@@ -15,6 +15,7 @@ export const FaqV1 = (props: FaqV1Props) => {
     renderContent,
   } = props;
 
+  const uid = useId();
   const [openIndexes, setOpenIndexes] = useState<Set<number>>(
     () => new Set(defaultOpenIndexes)
   );
@@ -48,7 +49,7 @@ export const FaqV1 = (props: FaqV1Props) => {
           title={item.title}
           className={className}
           key={item.id ?? index}
-          id={item.id ?? String(index)}
+          id={`${uid}-${index}`}
           content={item.content}
           isOpen={openIndexes.has(index)}
           renderTitle={renderTitle}

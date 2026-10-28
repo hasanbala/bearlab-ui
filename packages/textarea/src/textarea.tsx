@@ -3,7 +3,12 @@ import classnames from "classnames";
 import { IconErrorTriangle } from "./assets/icons";
 import { useCharacterLimit } from "./hooks/use-character-limit";
 import styles from "./styles/textarea.module.scss";
-import type { TextareaProps } from "./types/textarea.types";
+import type { TextareaLabels, TextareaProps } from "./types/textarea.types";
+
+const DEFAULT_LABELS: Required<TextareaLabels> = {
+  characterCount: (count, limit) => `${count} of ${limit} characters used`,
+  limitReached: (limit) => `Character limit of ${limit} reached`,
+};
 
 export const Textarea = (props: TextareaProps) => {
   const {
@@ -18,9 +23,12 @@ export const Textarea = (props: TextareaProps) => {
     isRequired,
     defaultValue,
     maxCharacter,
+    labels,
     onChange,
     ...rest
   } = props;
+
+  const text = { ...DEFAULT_LABELS, ...labels };
 
   const generatedId = useId();
   const inputId = id || generatedId;
@@ -116,10 +124,10 @@ export const Textarea = (props: TextareaProps) => {
               {characterCount} / {limit}
             </span>
             <span id={countId} className={styles.srOnly}>
-              {characterCount} of {limit} characters used
+              {text.characterCount(characterCount, limit)}
             </span>
             <span role="status" aria-live="polite" className={styles.srOnly}>
-              {isLimitReached ? `Character limit of ${limit} reached` : ""}
+              {isLimitReached ? text.limitReached(limit) : ""}
             </span>
           </div>
         )}

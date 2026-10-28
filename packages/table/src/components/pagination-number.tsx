@@ -5,7 +5,8 @@ import styles from "../styles/table.module.scss";
 import type { PaginationNumberProps } from "../types/table.types";
 
 export const PaginationNumber = React.memo((props: PaginationNumberProps) => {
-  const { className, page, idx, initialPage, goToPage, disabled } = props;
+  const { className, page, idx, labels, initialPage, goToPage, disabled } =
+    props;
 
   return (
     <li key={`page-${page}-${idx}`}>
@@ -14,7 +15,7 @@ export const PaginationNumber = React.memo((props: PaginationNumberProps) => {
         label={String(page)}
         onClick={() => goToPage(page as number)}
         disabled={disabled}
-        aria-label={`Go to page ${page}`}
+        aria-label={labels.goToPage(Number(page))}
         aria-current={initialPage === page ? "page" : undefined}
         className={{
           root: classnames(

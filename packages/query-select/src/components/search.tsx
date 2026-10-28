@@ -17,7 +17,11 @@ export const Search = <T extends QuerySelectOption>(
     query,
     error,
     style,
+    labels,
     inputId,
+    labelId,
+    errorId,
+    isRequired,
     isSingle,
     disabled,
     className,
@@ -25,6 +29,7 @@ export const Search = <T extends QuerySelectOption>(
     minLength,
     isLoading,
     placeholder,
+    isSingleText,
     selectedItems,
     activeOptionId,
     debouncedValue,
@@ -40,11 +45,15 @@ export const Search = <T extends QuerySelectOption>(
   const inputRef = useRef<HTMLInputElement>(null);
   const ghostRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
+  const singleValue =
+    isSingleText && !isSelectionCard && !query ? selectedItems[0] : undefined;
+  const inputPlaceholder =
+    isSingle && !!selectedItems.length && !isSelectionCard ? "" : placeholder;
 
   useIsomorphicLayoutEffect(() => {
     if (!ghostRef.current) return;
     setInputWidth(ghostRef.current.offsetWidth);
-  }, [query]);
+  }, [query, inputPlaceholder]);
 
   const { selectedItemsRef, visibleCount } = useVisibleItemsCount(
     selectedItems,
@@ -86,9 +95,22 @@ export const Search = <T extends QuerySelectOption>(
         if (!isDropdownVisible) setIsDropdownVisible(true);
       }}
     >
-      {!isSelectionCard && (
+      {singleValue && (
+        <span
+          style={style?.singleValue}
+          className={classnames(
+            styles.singleValue,
+            { [styles.singleValueMuted]: isDropdownVisible },
+            className?.singleValue
+          )}
+        >
+          {singleValue.label}
+        </span>
+      )}
+      {!isSelectionCard && !isSingleText && (
         <SelectionInlineItems
           style={style}
+          labels={labels}
           disabled={disabled}
           className={className}
           visibleCount={visibleCount}
@@ -97,13 +119,15 @@ export const Search = <T extends QuerySelectOption>(
           setSelectedItems={onChange ?? (() => {})}
         />
       )}
-      <div data-value={query || placeholder} className={styles.inputWrapper}>
+      <div
+        data-value={query || inputPlaceholder}
+        className={styles.inputWrapper}
+      >
         <span ref={ghostRef} className={styles.inputGhost} aria-hidden="true">
-          {query || placeholder || " "}
+          {query || inputPlaceholder || " "}
         </span>
         <input
           type="text"
-          name="search"
           role="combobox"
           autoComplete="off"
           aria-haspopup="listbox"
@@ -112,13 +136,13 @@ export const Search = <T extends QuerySelectOption>(
           value={query}
           ref={inputRef}
           disabled={disabled || isLoading}
-          aria-label={placeholder}
+          aria-labelledby={labelId}
+          aria-label={labelId ? undefined : placeholder}
+          aria-invalid={!!error || undefined}
+          aria-required={isRequired || undefined}
+          aria-describedby={error ? errorId : undefined}
           aria-disabled={disabled || isLoading}
-          placeholder={
-            isSingle && !!selectedItems.length && !isSelectionCard
-              ? ""
-              : placeholder
-          }
+          placeholder={inputPlaceholder}
           aria-controls={listboxId}
           aria-expanded={isDropdownVisible}
           aria-activedescendant={activeOptionId}

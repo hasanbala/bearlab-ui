@@ -352,3 +352,13 @@
     ); /* 16px */
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .containerWithCard,
+  .containerWithCard *,
+  .containerWithEmptyCard,
+  .containerWithEmptyCard * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

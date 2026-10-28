@@ -8,6 +8,7 @@ export const SelectedItems = forwardRef(
   (props: SelectedItemsProps, ref: ForwardedRef<HTMLDivElement>) => {
     const {
       style,
+      labels,
       disabled,
       className,
       visibleCount,
@@ -34,7 +35,7 @@ export const SelectedItems = forwardRef(
         ref={ref}
         aria-disabled={disabled}
         style={style?.selectedItems}
-        aria-label={`${selectedItems.length} selected`}
+        aria-label={labels.selected(selectedItems.length)}
         className={classnames(
           styles.selectedItemsWrapper,
           className?.selectedItems
@@ -46,6 +47,7 @@ export const SelectedItems = forwardRef(
             value={item.value}
             key={item.value}
             title={item.label}
+            removeLabel={labels.remove(item.label)}
             disabled={disabled}
             data-bearlab-tree-select-item="visible"
             className={classnames(styles.selectedItem, className?.selectedItem)}
@@ -57,7 +59,7 @@ export const SelectedItems = forwardRef(
             style={style?.selectedItem}
             disabled={disabled}
             title={`+${hiddenCount}`}
-            aria-label={`${hiddenCount} more selected`}
+            aria-label={labels.moreSelected(hiddenCount)}
             data-bearlab-tree-select-item="overflow"
             className={classnames(
               styles.selectedItem,

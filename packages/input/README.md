@@ -185,6 +185,8 @@ export default function App() {
 | `onSearch`    | `() => void`                          | —        | ❌       | Renders a search button and fires this callback on click            |
 | `className`   | [`InputClassNames`](#inputclassnames) | —        | ❌       | Per-slot className overrides                                        |
 | `style`       | [`InputStyles`](#inputstyles)         | —        | ❌       | Per-slot inline style overrides                                     |
+| `labels` | `InputLabels` | English defaults | ❌ | Overrides the built-in accessible texts: `showPassword`, `hidePassword`, `copy`, `copied`, `search` |
+| `ref` | `Ref<HTMLInputElement>` | — | ❌ | Forwarded to the native `<input>` |
 
 > Supports all native `React.InputHTMLAttributes<HTMLInputElement>` attributes (except `className` and `style`, which are replaced by the slot-based API).
 

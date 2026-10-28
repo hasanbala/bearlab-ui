@@ -4,7 +4,9 @@ import styles from "../styles/faq.module.scss";
 import type { FaqItemProps } from "../types/faq.types";
 
 export const FaqItemV2 = (props: FaqItemProps) => {
-  const { title, content, isOpen, toggleAccordion, className, style } = props;
+  const { id, title, content, isOpen, toggleAccordion, className, style } =
+    props;
+  const panelId = `${id}-panel`;
 
   const handleToggle = () => {
     if (toggleAccordion) toggleAccordion();
@@ -40,6 +42,9 @@ export const FaqItemV2 = (props: FaqItemProps) => {
         </h4>
         <Button
           label="Toggle accordion"
+          aria-label={title}
+          aria-expanded={!!isOpen}
+          aria-controls={panelId}
           buttonType="justIcon"
           iconType={isOpen ? "minus" : "plus"}
           className={{
@@ -54,6 +59,7 @@ export const FaqItemV2 = (props: FaqItemProps) => {
       </div>
       {isOpen && (
         <div
+          id={panelId}
           className={classnames(styles.content, className?.content)}
           style={style?.content}
         >

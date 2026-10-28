@@ -21,6 +21,11 @@ export interface TextareaStyles {
   characterCount?: React.CSSProperties;
 }
 
+export interface TextareaLabels {
+  characterCount?: (count: number, limit: number) => string;
+  limitReached?: (limit: number) => string;
+}
+
 export interface TextareaProps extends Omit<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
   "className" | "style"
@@ -29,6 +34,7 @@ export interface TextareaProps extends Omit<
   label?: string;
   isRequired?: boolean;
   maxCharacter?: number;
+  labels?: TextareaLabels;
   style?: TextareaStyles;
   error?: boolean | string;
   className?: TextareaClassNames;

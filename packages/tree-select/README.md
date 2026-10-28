@@ -140,6 +140,28 @@ export default function App() {
 }
 ```
 
+### Single value display
+
+In `single` mode the selected option is rendered as plain text by default — just like a native `<select>`. There is no remove button, `Backspace` does not clear it and clicking the selected option again keeps it selected. Set `singleValueDisplay="tag"` to render it as a removable tag instead.
+
+```tsx
+<TreeSelect
+  //... required props
+  singleValueDisplay="tag"
+/>
+```
+
+### Disabling search
+
+Search is enabled by default. Pass `showSearch={false}` to turn the input into a read-only trigger: typing is disabled, and the dropdown opens and selects with the mouse or with `Enter`, `Space` and `ArrowDown`.
+
+```tsx
+<TreeSelect
+  //... required props
+  showSearch={false}
+/>
+```
+
 ### With Formik
 
 The `TreeSelect` component supports both manual state updates and standard Formik event handlers.
@@ -196,6 +218,8 @@ Use this for a cleaner implementation that leverages Formik's internal change ha
 | `placeholder`           | `string`                                                        | `"Select..."`           | ❌       | Placeholder text shown when nothing is selected                                   |
 | `showIcon`              | `boolean`                                                       | `false`                 | ❌       | Render each node's optional `icon`                                                |
 | `showLine`              | `boolean`                                                       | `false`                 | ❌       | Draw vertical indent guide lines in the dropdown                                  |
+| `showSearch`            | `boolean`                                                       | `true`                  | ❌       | Enable typing in the input to filter nodes                                        |
+| `singleValueDisplay`    | `"text" \| "tag"`                                               | `"text"`                | ❌       | Selected node in `single` mode: plain text or a removable tag                     |
 | `highlightMatch`        | `boolean`                                                       | `true`                  | ❌       | Highlight the matching query text inside node labels                              |
 | `autoExpandParent`      | `boolean`                                                       | `true`                  | ❌       | Auto-expand ancestors of matched nodes during search                             |
 | `defaultExpandedValues` | `NodeValue[]`                                                   | `[]`                    | ❌       | Initially expanded node values (uncontrolled)                                     |
@@ -203,9 +227,12 @@ Use this for a cleaner implementation that leverages Formik's internal change ha
 | `onExpand`              | `(expandedValues: NodeValue[], node: TreeSelectOption) => void` | —                       | ❌       | Called when a node is expanded/collapsed                                          |
 | `emptyText`             | `string`                                                        | `"There is no options"` | ❌       | Text shown when `treeData` is empty                                               |
 | `notFoundText`          | `string`                                                        | `"No result found"`     | ❌       | Text shown when a search query yields no results                                  |
-| `optionZIndex`          | `number`                                                        | `8888`                  | ❌       | Z-index for the options portal overlay                                            |
+| `optionZIndex`          | `number`                                                        | `10100`                 | ❌       | Z-index for the options portal overlay                                            |
 | `className`             | [`TreeSelectClassNames`](#treeselectclassnames)                 | —                       | ❌       | Per-slot className overrides                                                      |
 | `style`                 | [`TreeSelectStyles`](#treeselectstyles)                         | —                       | ❌       | Per-slot inline style overrides                                                   |
+| `labels` | `TreeSelectLabels` | English defaults | ❌ | Overrides screen-reader texts: `options`, `loading`, `selected(n)`, `moreSelected(n)`, `remove(label)` |
+| `locale` | `string` | — | ❌ | BCP 47 locale used for case-insensitive search (e.g. `"tr"` matches `İ`/`ı` correctly) |
+| `onBlur` | `(event: FocusEvent) => void` | — | ❌ | Fires when focus leaves the whole component (input, tags and options list) |
 
 ---
 
@@ -220,6 +247,7 @@ The component follows the **Slot Pattern** to provide deep customization without
 | `root`          | Outermost container `<div>`      |
 | `search`        | Inner search input/wrapper       |
 | `options`       | The dropdown tree container      |
+| `singleValue`   | Plain-text selected value        |
 | `option`        | Individual tree option row       |
 | `selectedItems` | Wrapper for chosen item tags     |
 | `selectedItem`  | Individual chosen item tag/chip  |
@@ -337,7 +365,7 @@ This component adheres to **WCAG 2.1 AA** standards, combining the ARIA combobox
 - **`aria-selected` / `aria-checked`** — Selected/checked nodes are correctly flagged (`"mixed"` for indeterminate)
 - **`aria-level`** — Communicates each node's depth in the hierarchy
 - **`aria-disabled`** — Disabled nodes are announced as non-interactive
-- **Keyboard Navigation** — Full support for `ArrowDown`/`ArrowUp` (move), `ArrowRight` (expand / into child), `ArrowLeft` (collapse / to parent), `Enter` (select or toggle), `Escape` (close), and `Backspace` (remove last tag)
+- **Keyboard Navigation** — Full support for `ArrowDown`/`ArrowUp` (move), `ArrowRight` (expand / into child), `ArrowLeft` (collapse / to parent), `Enter` (select or toggle), `Escape` (close), and `Backspace` (remove last tag); `Space` also opens and selects when `showSearch` is `false`
 - **Click Outside** — Dropdown closes correctly when clicking outside the component
 
 ---
@@ -373,6 +401,7 @@ import type {
   NodeValue,
   TreeSelectClassNames,
   TreeSelectStyles,
+  TreeSelectSingleValueDisplay,
 } from "@bearlab/tree-select";
 ```
 
@@ -409,6 +438,7 @@ interface TreeSelectClassNames {
   search?: string;
   options?: string;
   option?: string;
+  singleValue?: string;
   selectedItem?: string;
   selectedItems?: string;
   checkbox?: string;
@@ -424,6 +454,7 @@ interface TreeSelectStyles {
   search?: React.CSSProperties;
   options?: React.CSSProperties;
   option?: React.CSSProperties;
+  singleValue?: React.CSSProperties;
   selectedItem?: React.CSSProperties;
   selectedItems?: React.CSSProperties;
   checkbox?: React.CSSProperties;

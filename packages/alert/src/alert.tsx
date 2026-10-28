@@ -21,6 +21,10 @@ export const Alert = (props: AlertProps) => {
     variant,
     title,
     message,
+    role,
+    children,
+    headingLevel = 4,
+    linkComponent,
     showLink = false,
     linkHref = "/",
     linkText = "Learn more",
@@ -33,18 +37,18 @@ export const Alert = (props: AlertProps) => {
   const descId = useId();
 
   const AlertComponent = ALERT_ICONS[variant];
-
-  const getAriaLive = () => {
-    if (variant === "error") return "assertive";
-    return "polite";
-  };
+  const Heading = `h${headingLevel}` as const;
+  const LinkComponent = linkComponent ?? "a";
+  const isUrgent = variant === "error" || variant === "warning";
+  const resolvedRole = role ?? (isUrgent ? "alert" : "status");
+  const isLive = resolvedRole !== "none";
 
   return (
     <div
-      role="alert"
-      aria-live={getAriaLive()}
+      role={isLive ? resolvedRole : undefined}
+      aria-live={isLive ? (isUrgent ? "assertive" : "polite") : undefined}
       aria-labelledby={titleId}
-      aria-describedby={descId}
+      aria-describedby={message ? descId : undefined}
       style={style?.root}
       className={classnames(
         styles.container,
@@ -68,22 +72,28 @@ export const Alert = (props: AlertProps) => {
           <AlertComponent />
         </div>
         <div>
-          <h4
+          <Heading
             id={titleId}
             className={classnames(styles.title, className?.title)}
             style={style?.title}
           >
             {title}
-          </h4>
-          <p
-            id={descId}
-            className={classnames(styles.description, className?.description)}
-            style={style?.description}
-          >
-            {message}
-          </p>
+          </Heading>
+          {message && (
+            <p
+              id={descId}
+              className={classnames(
+                styles.description,
+                className?.description
+              )}
+              style={style?.description}
+            >
+              {message}
+            </p>
+          )}
+          {children}
           {showLink && (
-            <a
+            <LinkComponent
               href={linkHref}
               target={linkTarget}
               rel={linkTarget === "_blank" ? "noopener noreferrer" : undefined}
@@ -91,7 +101,7 @@ export const Alert = (props: AlertProps) => {
               style={style?.link}
             >
               {linkText}
-            </a>
+            </LinkComponent>
           )}
         </div>
       </div>

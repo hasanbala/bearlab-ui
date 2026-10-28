@@ -33,13 +33,13 @@ const SkeletonRow = (props: SkeletonRowProps) => {
 };
 
 export const OptionsLoadingSkeleton = (props: OptionsLoadingSkeletonProps) => {
-  const { rows, showCheckbox, showImage } = props;
+  const { rows, label, showCheckbox, showImage } = props;
 
   return (
     <div
       role="status"
       aria-live="polite"
-      aria-label="Loading options"
+      aria-label={label}
       className={styles.skeletonContainer}
     >
       {Array.from({ length: rows }).map((_, i) => (

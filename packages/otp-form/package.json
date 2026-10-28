@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/otp-form",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Bearlab UI Otp-form Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

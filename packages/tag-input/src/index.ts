@@ -4,4 +4,5 @@ export type {
   TagInputProps,
   TagInputClassNames,
   TagInputStyles,
+  TagInputLabels,
 } from "./types/tag-input.types";

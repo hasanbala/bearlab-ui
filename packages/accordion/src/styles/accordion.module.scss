@@ -185,6 +185,11 @@
       }
     }
 
+    .heading {
+      margin: 0;
+      font: inherit;
+    }
+
     .header {
       display: flex;
       align-items: center;
@@ -207,7 +212,9 @@
         min-width: 0;
 
         .title {
+          display: block;
           font-size: var(--_accordion-title-font-size);
+          font-weight: bold;
           color: var(--_accordion-title-color);
           margin: 0;
         }
@@ -276,5 +283,13 @@
         }
       }
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .container * {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

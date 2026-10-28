@@ -1,6 +1,6 @@
 {
   "name": "@bearlab/faq",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Bearlab UI FAQ Component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

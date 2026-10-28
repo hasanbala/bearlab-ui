@@ -261,6 +261,7 @@ export default function App() {
 | `style`              | `FaqItemV1Styles`                               | —       | ❌       | Per-slot inline style overrides                           |
 | `renderTitle`        | `(title: string, isOpen: boolean) => ReactNode` | —       | ❌       | Custom render function for item titles                    |
 | `renderContent`      | `(content: string) => ReactNode`                | —       | ❌       | Custom render function for item content                   |
+| `columns` | `number` | `2` | ❌ | `FaqV2` only — number of columns; items are split evenly so none are dropped |
 
 ### `FaqV2Props` Props
 

@@ -35,6 +35,10 @@ export interface ModalProps {
   alertType?: ModalAlertType;
   className?: ModalClassNames;
   animation?: ModalAnimationType;
+  closeLabel?: string;
+  closeOnEscape?: boolean;
+  closeOnOverlayClick?: boolean;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
   onCancel: () => void;
 }
 
@@ -86,6 +90,9 @@ export interface GlobalModalConfig {
   alertType?: ModalAlertType;
   className?: ModalClassNames;
   animation?: ModalAnimationType;
+  closeLabel?: string;
+  closeOnEscape?: boolean;
+  closeOnOverlayClick?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
 }
@@ -104,7 +111,17 @@ export interface UseModalReturn {
 
 export interface UseModalAnimationReturn {
   isMounted: boolean;
-  handleAnimationEnd: () => void;
+  handleAnimationEnd: (e: React.AnimationEvent<HTMLElement>) => void;
+}
+
+export interface UseFocusTrapProps {
+  isActive: boolean;
+  initialFocusRef?: React.RefObject<HTMLElement | null>;
+}
+
+export interface UseFocusTrapReturn {
+  ref: (node: HTMLDivElement | null) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 export interface ModalSkeletonProps {

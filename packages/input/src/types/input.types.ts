@@ -28,6 +28,14 @@ export interface InputStyles {
   passwordToggle?: React.CSSProperties;
 }
 
+export interface InputLabels {
+  showPassword?: string;
+  hidePassword?: string;
+  copy?: string;
+  copied?: string;
+  search?: string;
+}
+
 export interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "className" | "style" | "name"
@@ -40,6 +48,7 @@ export interface InputProps extends Omit<
   isRequired?: boolean;
   isExistCopy?: boolean;
   beforeIcon?: IconType;
+  labels?: InputLabels;
   className?: InputClassNames;
   onSearch?: () => void;
 }

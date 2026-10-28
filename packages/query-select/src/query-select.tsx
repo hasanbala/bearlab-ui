@@ -22,6 +22,7 @@ import { IconErrorTriangle } from "./assets/icons";
 import classnames from "classnames";
 import styles from "./styles/query-select.module.scss";
 import { resolveValue } from "./utils/query-select-utils";
+import { DEFAULT_QUERY_SELECT_LABELS } from "./constants/select-config";
 
 export const QuerySelect = <
   T extends QuerySelectOption,
@@ -35,6 +36,7 @@ export const QuerySelect = <
     label,
     error,
     style,
+    labels,
     disabled,
     className,
     isRequired,
@@ -43,18 +45,21 @@ export const QuerySelect = <
     showImage = true,
     mode = "single",
     showCheckbox = true,
-    optionZIndex = 8888,
+    optionZIndex = 10100,
     highlightMatch = true,
     selectionLayout = "inline",
+    singleValueDisplay = "text",
     notFoundText = "No result found",
     emptyText = "There is no options",
     placeholder = "Enter at least 3 characters",
     noSelectionText = "There is no selected choice",
+    onBlur,
     onSearch,
     onChange,
   } = props;
 
   const isSingle = mode == "single";
+  const isSingleText = isSingle && singleValueDisplay == "text";
   const isSelectionCard = selectionLayout == "card";
   const [query, setQuery] = useState("");
   const uid = useId();
@@ -67,6 +72,11 @@ export const QuerySelect = <
   const inputId = `query-select-input-${uid}`;
   const listboxId = `query-select-listbox-${uid}`;
   const labelId = `query-label-${uid}`;
+  const errorId = `query-error-${uid}`;
+  const text = useMemo(
+    () => ({ ...DEFAULT_QUERY_SELECT_LABELS, ...labels }),
+    [labels]
+  );
   const [containerWidth, setContainerWidth] = useState(0);
   const cachedItemsRef = useRef<T[]>([]);
 
@@ -79,22 +89,29 @@ export const QuerySelect = <
   );
 
   useEffect(() => {
+    if (shouldSkipSearch) return;
+    const controller = new AbortController();
+
     const fetchData = async () => {
-      if (shouldSkipSearch) return;
       setIsLoading(true);
       try {
-        const result = await onSearch(debouncedValue);
+        const result = await onSearch(debouncedValue, controller.signal);
+        if (controller.signal.aborted) return;
         setOptions(result);
         setIsDropdownVisible(true);
       } catch (err) {
-        console.warn(err);
+        if (!controller.signal.aborted) console.warn(err);
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [query, debouncedValue, shouldSkipSearch, onSearch]);
+    return () => {
+      controller.abort();
+      setIsLoading(false);
+    };
+  }, [debouncedValue, shouldSkipSearch, onSearch]);
 
   const selectedItems = useMemo<T[]>(() => {
     const nextItems = resolveValue<T>(
@@ -112,8 +129,10 @@ export const QuerySelect = <
     if (selectedItems.length == 0) {
       setQuery("");
       setOptions([]);
+    } else if (isSingleText) {
+      setQuery("");
     }
-  }, [selectedItems.length]);
+  }, [selectedItems.length, isSingleText]);
 
   const { containerRef } = useClickOutside(
     handleClose,
@@ -146,7 +165,15 @@ export const QuerySelect = <
   const handleSelect = useCallback(
     (item: T) => {
       if (item.disabled) return;
-      if (isSingle) {
+      if (isSingleText) {
+        if (selectedItems[0]?.value !== item.value) {
+          cachedItemsRef.current = [item];
+          fireOnChange(item.value as QuerySelectValue<T, Mode>, item);
+        }
+        setQuery("");
+        setActiveIndex(-1);
+        setIsDropdownVisible(false);
+      } else if (isSingle) {
         const isSame = selectedItems[0]?.value === item.value;
         const nextValue = isSame ? null : item.value;
         cachedItemsRef.current = isSame ? [] : [item];
@@ -161,7 +188,7 @@ export const QuerySelect = <
         fireOnChange(nextValues as QuerySelectValue<T, Mode>, item);
       }
     },
-    [isSingle, selectedItems, fireOnChange]
+    [isSingle, isSingleText, selectedItems, fireOnChange]
   );
 
   const handleRemove = useCallback(
@@ -203,11 +230,12 @@ export const QuerySelect = <
           break;
         case "Escape":
           e.preventDefault();
+          e.stopPropagation();
           setIsDropdownVisible(false);
           setActiveIndex(-1);
           break;
         case "Backspace":
-          if (!query && selectedItems.length > 0) {
+          if (!query && !isSingleText && selectedItems.length > 0) {
             handleRemove(selectedItems.slice(0, -1));
           }
           break;
@@ -219,6 +247,7 @@ export const QuerySelect = <
       disabled,
       isLoading,
       activeIndex,
+      isSingleText,
       selectedItems,
       isDropdownVisible,
       handleSelect,
@@ -234,9 +263,18 @@ export const QuerySelect = <
     [activeIndex, options, listboxId]
   );
 
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!onBlur) return;
+    const next = e.relatedTarget as Node | null;
+    if (containerRef.current?.contains(next)) return;
+    if (portalRef.current?.contains(next)) return;
+    onBlur(e);
+  };
+
   return (
     <div
       ref={containerRef}
+      onBlur={handleBlur}
       style={style?.root}
       className={classnames(
         styles.container,
@@ -257,25 +295,41 @@ export const QuerySelect = <
       {isSelectionCard && (
         <SelectionCardItems
           style={style}
+          labels={text}
           disabled={disabled}
           className={className}
+          isRemovable={!isSingleText}
           selectedItems={selectedItems}
           noSelectionText={noSelectionText}
           onRemoveSelect={handleRemove}
         />
       )}
+      {name &&
+        selectedItems.map((item) => (
+          <input
+            key={item.value}
+            type="hidden"
+            name={name}
+            value={item.value}
+          />
+        ))}
       <Search
         isSingle={isSingle}
         style={style}
         error={error}
         query={query}
+        labels={text}
         inputId={inputId}
+        errorId={errorId}
+        isRequired={isRequired}
+        labelId={label ? labelId : undefined}
         disabled={disabled}
         isLoading={isLoading}
         className={className}
         listboxId={listboxId}
         minLength={minLength}
         placeholder={placeholder}
+        isSingleText={isSingleText}
         selectedItems={selectedItems}
         containerWidth={containerWidth}
         activeOptionId={activeOptionId}
@@ -298,6 +352,7 @@ export const QuerySelect = <
           isMultiple={mode == "multiple"}
           style={style}
           query={query}
+          labels={text}
           options={options}
           disabled={disabled}
           isLoading={isLoading}
@@ -316,7 +371,7 @@ export const QuerySelect = <
         />
       </OptionsPortal>
       {error && (
-        <div className={styles.viewError}>
+        <div id={errorId} className={styles.viewError}>
           <IconErrorTriangle />
           <span>{error}</span>
         </div>
